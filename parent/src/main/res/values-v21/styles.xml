@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent2">@color/colorAccent2</item>
+        <item name="txt_primary_color">@color/text_white</item>
+        <item name="android:windowBackground">@color/bg_window</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/text_black</item>
+        <item name="android:textColor">@color/text_black</item>
+    </style>
+
+    <style name="AppTheme.ScrollTranslate" parent="AppTheme">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.Translucent" parent="AppTheme">
+        <item name="colorPrimary">@color/colorTransparent</item>
+        <item name="colorPrimaryDark">@color/colorTransparent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="AppToolBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:paddingTop">@dimen/dp_30</item>
+    </style>
+
+</resources>

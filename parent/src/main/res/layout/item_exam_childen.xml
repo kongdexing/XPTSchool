@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llContacts"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true">
+
+    <TextView
+        android:id="@+id/txtScore"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_toRightOf="@+id/txtScoreName"
+        android:padding="@dimen/dp_10"
+        android:text="300.00"
+        android:textColor="@color/color_black_2" />
+
+    <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
+        android:id="@+id/roundCornerProgressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@+id/txtScore"
+        app:rcBackgroundPadding="1dp"
+        app:rcRadius="3dp" />
+
+    <TextView
+        android:id="@+id/txtScoreName"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/dp_10"
+        android:text="方圆"
+        android:textColor="@color/color_black_2" />
+</RelativeLayout>

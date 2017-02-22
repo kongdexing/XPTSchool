@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="txt_primary_color" format="reference"/>
+    <attr name="colorAccent2" format="reference"/>
+
+    <declare-styleable name="HomeItemView">
+        <attr name="src" format="reference"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
+
+</resources>

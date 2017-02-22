@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/mine_item_normal">
+
+        <TextView
+            style="@style/mineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址：" />
+
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RlSchoolTel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/mine_item_normal">
+
+        <TextView
+            style="@style/mineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="联系电话：" />
+
+        <TextView
+            android:id="@+id/txtTel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RlMainLeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/mine_item_normal">
+
+        <TextView
+            android:id="@+id/txtMainTitle"
+            style="@style/mineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="主负责人：" />
+
+        <TextView
+            android:id="@+id/txtMainName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toRightOf="@+id/txtMainTitle"
+            android:text="百度" />
+
+        <TextView
+            android:id="@+id/txtMainPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="192123456789" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RlViceLeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/mine_item_normal">
+
+        <TextView
+            android:id="@+id/txtViceTitle"
+            style="@style/mineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="副负责人：" />
+
+        <TextView
+            android:id="@+id/txtViceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toRightOf="@+id/txtViceTitle"
+            android:text="百度" />
+
+        <TextView
+            android:id="@+id/txtVicePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="192123456789" />
+
+    </RelativeLayout>
+
+</LinearLayout>

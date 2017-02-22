@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xptschool.parent">
+
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <!-- GPS -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:name=".XPTApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="${API_KEY_BAIDU}" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="${UMENG_APPKEY}" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="${UMENG_MESSAGE_SECRET}" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" />
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.main.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.main.LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
+        <activity android:name=".ui.homework.HomeWorkActivity" />
+        <activity
+            android:name=".ui.homework.HomeWorkDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <activity android:name=".ui.album.LocalAlbumDetailActivity" />
+        <activity android:name=".ui.notice.NoticeActivity" />
+        <activity
+            android:name=".ui.notice.NoticeDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.question.QuestionActivity" />
+        <activity android:name=".ui.question.AskQuestionActivity" />
+        <activity android:name=".ui.mine.MyChildActivity" />
+        <activity
+            android:name=".ui.question.QuestionDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.score.ScoreActivity" />
+        <activity android:name=".ui.checkin.CheckinActivity" />
+        <activity android:name=".ui.checkin.ChechinDetailActivity" />
+        <activity android:name=".ui.leave.LeaveActivity" />
+        <activity android:name=".ui.alarm.AlarmActivity" />
+        <activity android:name=".ui.alarm.AlarmMapActivity" />
+        <activity android:name=".ui.course.CourseActivity" />
+        <activity
+            android:name=".ui.contact.ContactsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.mine.AboutActivity" />
+        <activity android:name=".ui.contact.ContactsDetailActivity" />
+        <activity android:name=".ui.leave.LeaveDetailActivity" />
+        <activity
+            android:name=".ui.main.SplashActivity"
+            android:theme="@style/AppTheme.Translucent" />
+        <activity
+            android:name=".ui.mine.MyInfoActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.cardset.CardSetActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.fence.FenceListActivity"
+            android:label="@string/title_activity_fence_list"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.cardset.ReadContractActivity" />
+
+        <!-- 必须配置 -->
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:theme="@android:style/Theme.Translucent" />
+
+        <!-- Android N之后配置 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.xptschool.parent.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        <!-- 必须配置 -->
+
+
+        <!-- <service android:name=".push.UmengNotificationService" /> -->
+        <!-- <service android:name=".push.MyNotificationService" /> -->
+
+        <activity android:name=".ui.fence.FenceDrawActivity" />
+        <activity android:name=".ui.fence.FenceShowActivity" />
+        <activity android:name=".ui.mine.ChangePwdActivity" />
+        <activity android:name=".ui.mine.SettingActivity" />
+        <activity android:name=".ui.main.WebViewActivity" />
+    </application>
+
+</manifest>

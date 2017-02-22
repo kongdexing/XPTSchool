@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent2">@color/colorAccent2</item>
+        <item name="txt_primary_color">@color/text_white</item>
+        <item name="android:windowBackground">@color/colorAccent3</item>
+        <item name="android:textColorSecondary">@color/text_black</item>
+        <item name="android:textColor">@color/text_black</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Translucent" parent="AppTheme">
+        <item name="colorPrimary">@color/colorTransparent</item>
+        <item name="colorPrimaryDark">@color/colorTransparent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppToolBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="mineText">
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:layout_margin">@dimen/dp_10</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="mineVal">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:layout_margin">@dimen/dp_8</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="TextStudent">
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:layout_margin">@dimen/dp_5</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="TextClass">
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:layout_marginTop">@dimen/dp_10</item>
+        <item name="android:layout_marginBottom">@dimen/dp_10</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="TextAlarm">
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:layout_margin">@dimen/dp_3</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="StyledIndicators" parent="AppTheme">
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">#FF555555</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
+        <item name="android:dividerPadding">10dp</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:fadingEdgeLength">8dp</item>
+    </style>
+
+    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorAccent">@color/color_refresh_reload</item>
+    </style>
+
+    <style name="progress_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+</resources>

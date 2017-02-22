@@ -1,0 +1,41 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION"
+        classpath "com.neenbedankt.gradle.plugins:android-apt:$APT_PLUGIN_VERSION"
+        classpath "com.novoda:bintray-release:$BINTRAY_PLUGIN_VERSION"
+        classpath "com.netflix.nebula:gradle-extra-configurations-plugin:$CONFIG_PLUGIN_VERSION"
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0'
+        classpath "com.tencent.bugly:tinker-support:1.0.4"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    appKeyBaiduMap_teacher = 'qstS4X61O56p6ZGN3AUDw30gWHC7mznI'
+    appKeyBaiduMap_parent ='2semRqoILz2QXSEdsKFVp0I3csYM8svG'
+
+    UMENG_APPKEY_teacher = '58215e1a4ad1563bfb002c6f'
+    UMENG_APPKEY_parent = '5857421404e20546ee002512'
+
+    UMENG_MESSAGE_SECRET_teacher = '27c6737e1f3441da6c438bc84cfa08d8'
+    UMENG_MESSAGE_SECRET_parent = '58b1858712521f936a15d2faaccee663'
+}

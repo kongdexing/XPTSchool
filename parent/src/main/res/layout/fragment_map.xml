@@ -1,0 +1,237 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@color/colorWhite">
+
+            <com.android.widget.view.ArrowTextView
+                android:id="@+id/txtSDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/mine_item_selector"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="开始日期"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_5"
+                android:background="@color/text_grey" />
+
+            <com.android.widget.view.ArrowTextView
+                android:id="@+id/txtEDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/mine_item_selector"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="结束日期"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/sp_14" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_5"
+                android:background="@color/text_grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/mine_item_selector"
+                android:gravity="center">
+
+                <com.android.widget.spinner.MaterialSpinner
+                    android:id="@+id/spnStudents"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:ms_dropdown_height="wrap_content"
+                    app:ms_dropdown_max_height="@dimen/dp_350"
+                    app:ms_dropdown_width="match_parent"
+                    app:ms_text_color="@color/text_black"
+                    app:ms_text_size="@dimen/sp_int_14" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.baidu.mapapi.map.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true" />
+
+            <FrameLayout
+                android:id="@+id/flTransparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent_gray"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llMyTools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/llLocation"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/progress"
+                android:layout_toRightOf="@+id/progress"
+                android:background="@drawable/map_item_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_2">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@mipmap/icon_location" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="位置"
+                    android:textSize="@dimen/sp_10" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+        android:id="@+id/llTrack"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/map_item_selector"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_2">
+
+        <ImageView
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:background="@mipmap/icon_track" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="轨迹"
+            android:textSize="@dimen/sp_10" />
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llRailings"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/map_item_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_2">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:background="@mipmap/icon_railings" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="围栏"
+                android:textSize="@dimen/sp_10" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llAlarm"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/map_item_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_2">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:background="@mipmap/icon_alarm" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="警报"
+                android:textSize="@dimen/sp_10" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMyLocation"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/map_item_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_2">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/icon_main_location" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

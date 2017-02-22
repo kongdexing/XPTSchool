@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llCheckInItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:background="@drawable/touch_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtDate"
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2016-10-16" />
+
+        <View
+            android:layout_width="@dimen/dp_0.5"
+            android:layout_height="match_parent"
+            android:background="@color/text_grey" />
+
+        <TextView
+            android:id="@+id/txtInTime"
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:text="入校" />
+
+        <View
+            android:layout_width="@dimen/dp_0.5"
+            android:layout_height="match_parent"
+            android:background="@color/text_grey" />
+
+        <TextView
+            android:id="@+id/txtOutTime"
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:text="出校" />
+
+        <View
+            android:layout_width="@dimen/dp_0.5"
+            android:layout_height="match_parent"
+            android:background="@color/text_grey" />
+
+        <TextView
+            android:id="@+id/txtLeaveTime"
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:text="0" />
+
+    </LinearLayout>
+
+</LinearLayout>

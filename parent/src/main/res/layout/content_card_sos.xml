@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_10"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:id="@+id/txtSOS1"
+        style="@style/mineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="SOS号码1:" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/dp_5"
+        android:layout_toLeftOf="@+id/imgSOS1"
+        android:layout_toRightOf="@+id/txtSOS1">
+
+        <EditText
+            android:id="@+id/edtSOS1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_phone"
+            android:inputType="number"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/transparent_gray"
+            android:textSize="@dimen/sp_16" />
+
+        <ImageView
+            android:id="@+id/imgDel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:padding="10dp"
+            android:src="@mipmap/login_del" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/imgSOS1"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@mipmap/icon_contracts" />
+
+</RelativeLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_chechin_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xptschool.teacher.ui.checkin.ChechinDetailActivity">
+
+    <LinearLayout
+        android:id="@+id/llCheckTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="时间" />
+
+        <View
+            android:layout_width="@dimen/dp_0.5"
+            android:layout_height="match_parent"
+            android:background="@color/text_grey" />
+
+        <TextView
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:text="入校" />
+
+        <View
+            android:layout_width="@dimen/dp_0.5"
+            android:layout_height="match_parent"
+            android:background="@color/text_grey" />
+
+        <TextView
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:text="出校" />
+
+        <View
+            android:layout_width="@dimen/dp_0.5"
+            android:layout_height="match_parent"
+            android:background="@color/text_grey" />
+
+        <TextView
+            style="@style/TextStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:text="请假课时" />
+
+    </LinearLayout>
+
+    <com.android.widget.view.PagingRecyclerView
+        android:id="@+id/paging_recycler_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</LinearLayout>

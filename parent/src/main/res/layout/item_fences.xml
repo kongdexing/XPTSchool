@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/llContacts"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/llDel"
+            android:background="@drawable/mine_item_selector"
+            android:clickable="true"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:text="方圆"
+            android:textColor="@color/color_black_2" />
+
+        <LinearLayout
+            android:id="@+id/llDel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorRed"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_10"
+                android:text="删除"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llContent"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/mine_item_selector"
+        android:clickable="true"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:src="@mipmap/fence_add" />
+
+    </LinearLayout>
+
+</RelativeLayout>

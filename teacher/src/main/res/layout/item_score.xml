@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llClassItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/touch_bg"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_5">
+
+    <LinearLayout
+        android:id="@+id/llStudent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2">
+
+        <ImageView
+            android:id="@+id/imgStudent"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="center_vertical"
+            android:background="@mipmap/user_defaulthead" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtName"
+                style="@style/TextStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="屈原" />
+
+            <TextView
+                android:id="@+id/txtCode"
+                style="@style/TextStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="20090901123" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.android.widget.mygridview.MyGridView
+        android:id="@+id/grdvScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:horizontalSpacing="7.5dip"
+        android:listSelector="@null"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="7.5dip" />
+</LinearLayout>

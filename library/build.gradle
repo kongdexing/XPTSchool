@@ -1,0 +1,100 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'optional-base'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
+    defaultConfig {
+        minSdkVersion LIBRARY_MIN_SDK_VERSION
+        targetSdkVersion 23
+        consumerProguardFiles 'proguard-rules.txt'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDirs = [
+                        'src/main/java',
+                        'src/main/android'
+                ]
+            }
+        }
+    }
+}
+
+configurations {
+    lintChecks
+}
+
+dependencies {
+    provided "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
+    provided "com.android.support:support-v13:$SUPPORT_LIBRARY_VERSION",optional
+    testCompile "junit:junit:$JUNIT_VERSION"
+    testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
+    testCompile "org.powermock:powermock-api-mockito:$POWERMOCK_VERSION"
+    testCompile "org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"
+    lintChecks project(path: ':lint', configuration: 'lintChecks')
+}
+
+publish {
+    userOrg = USER
+    groupId = GROUP_ID
+    artifactId = ARTIFACT_ID_LIBRARY
+    version = VERSION
+    description = DESCRIPTION
+    website = WEBSITE
+    licences = LICENCES
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// FIXME: Not sure this is the better way, but it's necessary for update test dependency!
+task copyJarToOtherModules(type: Copy) {
+    from 'build/libs'
+    into '../processor/src/test/libs'
+    include '*-sources.jar'
+}
+
+assemble.doLast {
+    copyJarToOtherModules.execute()
+}
+
+task copyLintJar(type: Copy) {
+    from(configurations.lintChecks) {
+        rename { 'lint.jar' }
+    }
+    into 'build/intermediates/lint/'
+}
+
+project.afterEvaluate {
+    def compileLintTask = project.tasks.find { it.name == 'compileLint' }
+    compileLintTask.dependsOn(copyLintJar)
+}

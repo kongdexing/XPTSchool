@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtHelp"
+        style="@style/mineText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_25"
+        android:gravity="center"
+        android:text="监听号码应从白名单中选择，设置成功后，使用监听号码拨打该学生卡，学生卡可自动接听电话。"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txtTip"
+        style="@style/mineText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_25"
+        android:gravity="center"
+        android:text="监听号码应从白名单中选择，您目前尚未设置白名单，请先进行白名单号码的设置。"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/list_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

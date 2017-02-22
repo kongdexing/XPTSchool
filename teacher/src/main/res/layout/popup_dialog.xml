@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_anima"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="15dp"
+        android:text=""
+        android:textColor="#3dd1a5"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#3dd1a5" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line"
+        android:lineSpacingMultiplier="1.2"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp"
+        android:text="Warning:"
+        android:textColor="#1a1a1a"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/line_bg" />
+
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_30"
+        android:layout_below="@id/line2"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_toLeftOf="@+id/ok"
+        android:background="@drawable/btn_delete_bg"
+        android:gravity="center"
+        android:text="@string/btn_cancel"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_14" />
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_30"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/line2"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="@dimen/dp_5"
+        android:background="@drawable/btn_bg_normal"
+        android:gravity="center"
+        android:text="@string/btn_confirm"
+        android:textSize="@dimen/sp_14" />
+</RelativeLayout>

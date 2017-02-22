@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="LOCAL" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/PushSDK" />
+            <option value="$PROJECT_DIR$/library" />
+            <option value="$PROJECT_DIR$/lint" />
+            <option value="$PROJECT_DIR$/parent" />
+            <option value="$PROJECT_DIR$/processor" />
+            <option value="$PROJECT_DIR$/takephoto_library" />
+            <option value="$PROJECT_DIR$/teacher" />
+            <option value="$PROJECT_DIR$/viewpagerindicator" />
+            <option value="$PROJECT_DIR$/widget" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

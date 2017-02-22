@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorPrimaryTransparent">#ffffff</color>
+    <color name="colorPrimary">#0080ba</color>
+    <color name="colorPrimaryDark">#00a0e8</color>
+    <color name="colorAccent">#EE8026</color>
+    <color name="colorAccent2">#27DEB7</color>
+    <color name="colorAccent3">#A0A8CC</color>
+    <color name="colorOrange">#EE8026</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="colorRed_def">#d71345</color>
+    <color name="colorRed_pre">#d93a49</color>
+
+    <color name="colorUserName">#9298AC</color>
+    <color name="bg_window">#f0f0f0</color>
+    <color name="transparent_gray">#60000000</color>
+    <color name="transparent_gray_map">#10000000</color>
+    <color name="color_refresh_reload">#6fbce6</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_option">#f2f2f2</color>
+
+    <color name="map_colorTransparent">#CCFFFFFF</color>
+    <color name="map_transparent_gray">#40000000</color>
+    <color name="text_white">#E6E6E6</color>
+    <color name="text_grey">#B3B3B3</color>
+    <color name="text_black">#384554</color>
+    <color name="text_black_2">#5b5b5b</color>
+    <color name="text_red">#f34e4e</color>
+
+    <color name="line">#ffd3dde6</color>
+    <color name="line_bg">#CDCDCD</color>
+    <color name="item_clicked">#ffd3dde6</color>
+    <color name="album_item_bg">#fffcfcfd</color>
+
+    <color name="map_railings">#9963c4ed</color>
+
+    <color name="comment_popup_bg">#292929</color>
+    <color name="comment_popup_tx_bg">#c7c7c7</color>
+
+    <color name="color_black_1">#333333</color>
+    <color name="color_black_2">#666666 </color>
+    <color name="color_black_3">#999999</color>
+
+    <color name="color_dili">#fe9f21</color>
+    <color name="color_huaxue">#4dc7ee</color>
+    <color name="color_other">#B07444</color>
+    <color name="color_shengwu">#121a2a</color>
+    <color name="color_shuxue">#ffcf2f</color>
+    <color name="color_tiyu">#0B0F44</color>
+    <color name="color_wuli">#fe80c0</color>
+    <color name="color_yingyu">#8b8ffa</color>
+    <color name="color_yinyue">#494ef8</color>
+    <color name="color_yuwen">#ff6766</color>
+    <color name="color_zhengzhi">#4FB68C</color>
+
+
+    <color name="color_leave_1">#14ae67</color>
+    <color name="color_leave_2">#e36203</color>
+    <color name="color_leave_0">#03a8e3</color>
+
+
+</resources>

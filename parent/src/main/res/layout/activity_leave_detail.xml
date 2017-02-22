@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_publish_home_work"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_leave_student" />
+
+                <com.android.widget.spinner.MaterialSpinner
+                    android:id="@+id/spnStudents"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:ms_dropdown_height="wrap_content"
+                    app:ms_dropdown_max_height="@dimen/dp_350"
+                    app:ms_dropdown_width="wrap_content"
+                    app:ms_padding_left="@dimen/dp_2"
+                    app:ms_text_color="@color/text_black"
+                    app:ms_text_size="@dimen/sp_int_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_teacher" />
+
+                <com.android.widget.spinner.MaterialSpinner
+                    android:id="@+id/spnTeacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:ms_dropdown_height="wrap_content"
+                    app:ms_dropdown_max_height="@dimen/dp_350"
+                    app:ms_dropdown_width="wrap_content"
+                    app:ms_padding_left="@dimen/dp_2"
+                    app:ms_text_color="@color/text_black"
+                    app:ms_text_size="@dimen/sp_int_16" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_leave_type" />
+
+                <com.android.widget.spinner.MaterialSpinner
+                    android:id="@+id/spnLeaveType"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:ms_dropdown_height="wrap_content"
+                    app:ms_dropdown_max_height="@dimen/dp_350"
+                    app:ms_dropdown_width="wrap_content"
+                    app:ms_padding_left="@dimen/dp_2"
+                    app:ms_text_color="@color/text_black"
+                    app:ms_text_size="@dimen/sp_int_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llLeaveStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_leave_status" />
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCreateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_leave_starttime" />
+
+                <TextView
+                    android:id="@+id/txtSTime"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_leave_endtime" />
+
+                <TextView
+                    android:id="@+id/txtETime"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/txtContent"
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_leave_content" />
+
+                <EditText
+                    android:id="@+id/txtLeave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/txtContent"
+                    android:gravity="top|left"
+                    android:minLines="3"
+                    android:text=""
+                    android:textColor="@color/text_black_2"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlLeaveReply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/txtReply"
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="回复：" />
+
+                <EditText
+                    android:id="@+id/edtReply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/txtReply"
+                    android:gravity="top|left"
+                    android:hint=""
+                    android:minLines="3"
+                    android:text=""
+                    android:textColor="@color/text_black_2"
+                    android:textColorHint="@color/text_grey"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/btn_bg_normal"
+                android:text="@string/label_leave"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_18" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/btn_delete_bg_red"
+                android:textColor="@color/colorWhite"
+                android:text="@string/btn_delete"
+                android:textSize="@dimen/sp_18" />
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

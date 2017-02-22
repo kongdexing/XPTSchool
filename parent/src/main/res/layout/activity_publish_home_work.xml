@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_publish_home_work"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="@string/label_class" />
+
+                <TextView
+                    android:id="@+id/txtClassName"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_subject" />
+
+                <TextView
+                    android:id="@+id/txtSubject"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_teacher" />
+
+                <TextView
+                    android:id="@+id/txtTeacher"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCreateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_starttime" />
+
+                <TextView
+                    android:id="@+id/txtPushTime"
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_endtime" />
+
+                <TextView
+                    android:id="@+id/txtCompleteTime"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_homework_title" />
+
+                <TextView
+                    android:id="@+id/edtName"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/txtContent"
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_content" />
+
+                <TextView
+                    android:id="@+id/edtContent"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/txtContent"
+                    android:gravity="top|left"
+                    android:minLines="3"
+                    android:textColor="@color/text_black_2"
+                    android:textColorHint="@color/text_grey" />
+            </RelativeLayout>
+
+            <com.android.widget.mygridview.MyGridView
+                android:id="@+id/gridview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:horizontalSpacing="7.5dip"
+                android:listSelector="@null"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="7.5dip" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.xptschool.parent.view.imgloader.AlbumViewPager
+        android:id="@+id/albumviewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/album_item_bg"
+        android:visibility="gone" />
+
+</FrameLayout>

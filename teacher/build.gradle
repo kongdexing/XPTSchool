@@ -1,0 +1,145 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'org.greenrobot.greendao'
+// 依赖插件脚本
+apply from: 'tinker-support.gradle'
+
+repositories {
+    flatDir {
+        dir 'libs'
+    }
+}
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.xptschool.teacher"
+        minSdkVersion 17
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [API_KEY_BAIDU       : rootProject.appKeyBaiduMap_teacher,
+                                UMENG_APPKEY        : rootProject.UMENG_APPKEY_teacher,
+                                UMENG_MESSAGE_SECRET: rootProject.UMENG_MESSAGE_SECRET_teacher]
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+
+    }
+
+    signingConfigs {
+        releaseConfig {
+            storeFile file('../keystore/school.jks')
+            storePassword 'shuhai123'
+            keyAlias 'XPTSchool'
+            keyPassword 'shuhai123'
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.releaseConfig
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    productFlavors {
+        internal {}
+        official {}
+    }
+
+    productFlavors.all { flavor ->
+        def service_url
+        def app_instruction_url = "http://shuhaixinxi.com/plus/list.php?tid=88";
+        if (name == "official") {
+            service_url = "http://school.xinpingtai.com"
+        } else { // internal
+            service_url = "http://192.168.1.195:8011"
+        }
+
+        buildConfigField "String", "SERVICE_URL", "\"$service_url\""
+        buildConfigField "String", "APP_INSTRUCTION_URL", "\"$app_instruction_url\""
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    defaultConfig {
+        multiDexEnabled true
+    }
+}
+
+greendao {
+    schemaVersion 1
+    targetGenDir 'src/main/java'
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile(name: 'volley', ext: 'aar')
+//    compile(name: 'widget', ext: 'aar')
+//    compile(name: 'takephoto', ext: 'aar')
+    compile(project(':library')) { exclude group: 'com.android.support', module: 'support-v13' }
+    provided project(':processor')
+    compile project(':viewpagerindicator')
+    compile project(':PushSDK')
+    compile project(':takephoto_library')
+    compile project(':widget')
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.jakewharton:butterknife:8.0.1'
+    compile 'org.greenrobot:greendao:3.0.1'
+    //compile 'com.umeng.analytics:analytics:latest.integration'
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+
+    // 多dex配置
+    compile "com.android.support:multidex:1.0.1"
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.0
+    compile 'com.tencent.bugly:crashreport_upgrade:1.2.3'
+}

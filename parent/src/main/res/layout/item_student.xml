@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llStudent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/mine_item_selector"
+    android:clickable="true"
+    android:orientation="horizontal">
+
+    <com.xptschool.parent.view.FilterImageView
+        android:id="@+id/imgStudent"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dp_3"
+        android:padding="0.1dip"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/post_add_pic"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_10">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtStudentName"
+                style="@style/TextAlarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/imgSex"
+                android:text="王小丫" />
+
+            <ImageView
+                android:id="@+id/imgSex"
+                android:layout_width="@dimen/dp_10"
+                android:layout_height="@dimen/dp_10"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_5" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtStudentCode"
+            style="@style/TextAlarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="123456" />
+
+    </LinearLayout>
+
+</LinearLayout>

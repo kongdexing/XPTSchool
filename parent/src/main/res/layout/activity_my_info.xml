@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_teacher_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlMyClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/mine_item_normal"
+                android:clickable="true">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="头像" />
+
+                <com.android.widget.view.CircularImageView
+                    android:id="@+id/imgHead"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_30"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:src="@mipmap/user_defaulthead" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/mine_item_normal"
+                android:clickable="true">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="姓名：" />
+
+                <TextView
+                    android:id="@+id/txtMineName"
+                    style="@style/mineVal"
+                    android:layout_toLeftOf="@+id/img_name"
+                    android:text="无" />
+
+                <ImageView
+                    android:id="@+id/img_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:src="@mipmap/iau"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlMinePhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/mine_item_selector"
+                android:clickable="true">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="手机号：" />
+
+                <TextView
+                    android:id="@+id/txtPhone"
+                    style="@style/mineVal"
+                    android:layout_toLeftOf="@+id/img_phone"
+                    android:text="无" />
+
+                <ImageView
+                    android:id="@+id/img_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:src="@mipmap/iau" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/mine_item_normal"
+                android:clickable="true">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="邮箱：" />
+
+                <TextView
+                    android:id="@+id/txtEmail"
+                    style="@style/mineVal"
+                    android:layout_toLeftOf="@+id/img_email"
+                    android:text="无" />
+
+                <ImageView
+                    android:id="@+id/img_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:src="@mipmap/iau"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/mine_item_normal"
+                android:clickable="true">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="家庭住址：" />
+
+                <TextView
+                    android:id="@+id/txtHomeAdd"
+                    style="@style/mineVal"
+                    android:layout_toLeftOf="@+id/img_address"
+                    android:text="无" />
+
+                <ImageView
+                    android:id="@+id/img_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:src="@mipmap/iau"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlAddressPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/mine_item_selector"
+                android:clickable="true">
+
+                <TextView
+                    android:id="@+id/txtSchoolTitle"
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="家庭电话：" />
+
+                <TextView
+                    android:id="@+id/txtHomeTel"
+                    style="@style/mineVal"
+                    android:layout_toLeftOf="@+id/img_addtel"
+                    android:layout_toRightOf="@+id/txtSchoolTitle"
+                    android:gravity="right"
+                    android:text="无" />
+
+                <ImageView
+                    android:id="@+id/img_addtel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:src="@mipmap/iau" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

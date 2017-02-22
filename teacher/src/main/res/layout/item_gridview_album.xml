@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <com.xptschool.teacher.view.FilterImageView
+        android:id="@+id/post_add_pic"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/dp_100"
+        android:padding="0.1dip"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/post_add_pic" />
+
+    <ImageView
+        android:id="@+id/imgDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/dp_5"
+        android:padding="@dimen/dp_5"
+        android:background="@mipmap/ic_delete"/>
+
+</RelativeLayout>

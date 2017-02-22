@@ -1,0 +1,74 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="dp_0.5">0.5dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_3">3dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_9">9dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_12">12dp</dimen>
+    <dimen name="dp_14">14dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_18">18dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_25">25dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+    <dimen name="dp_35">35dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_45">45dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_70">70dp</dimen>
+    <dimen name="dp_80">80dp</dimen>
+    <dimen name="dp_95">95dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_120">120dp</dimen>
+    <dimen name="dp_170">170dp</dimen>
+    <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_230">230dp</dimen>
+    <dimen name="dp_250">250dp</dimen>
+    <dimen name="dp_350">350dp</dimen>
+
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_13">13dp</dimen>
+    <dimen name="sp_14">14dp</dimen>
+    <dimen name="sp_15">15dp</dimen>
+    <dimen name="sp_16">16dp</dimen>
+    <dimen name="sp_18">18dp</dimen>
+    <dimen name="sp_20">20dp</dimen>
+    <dimen name="sp_22">22dp</dimen>
+    <dimen name="sp_24">24dp</dimen>
+    <dimen name="sp_26">26dp</dimen>
+    <dimen name="sp_30">30dp</dimen>
+
+    <!--text size-->
+    <dimen name="txt_display4">112sp</dimen>
+    <dimen name="txt_display3">56sp</dimen>
+    <dimen name="txt_display2">45sp</dimen>
+    <dimen name="txt_display1">34sp</dimen>
+    <dimen name="txt_headline">24sp</dimen>
+    <dimen name="txt_title">21sp</dimen>
+    <dimen name="txt_subhead">17sp</dimen>
+    <dimen name="txt_body">15sp</dimen>
+    <dimen name="txt_caption">13sp</dimen>
+    <dimen name="txt_button">15sp</dimen>
+    <dimen name="splash_margin_bottom">40dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <item format="float" name="sp_int_10" type="dimen">10</item>
+    <item format="float" name="sp_int_12" type="dimen">12</item>
+    <item format="float" name="sp_int_14" type="dimen">14</item>
+    <item format="float" name="sp_int_16" type="dimen">16</item>
+    <item format="float" name="sp_int_18" type="dimen">18</item>
+
+</resources>

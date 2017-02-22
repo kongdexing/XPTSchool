@@ -1,0 +1,3 @@
+include ':teacher', ':lint', ':library', ':processor',
+        ':viewpagerindicator', ':parent', ':PushSDK',
+        ':takephoto_library', ':widget'

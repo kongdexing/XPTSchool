@@ -1,0 +1,123 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_window"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_200"
+                android:background="@android:color/background_light">
+
+                <com.xptschool.parent.view.AutoScrollViewPager
+                    android:id="@+id/viewPagerTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorWhite" />
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:padding="10dip"
+                    app:fillColor="@color/colorPrimaryDark"
+                    app:strokeColor="@color/colorPrimaryDark" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10">
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_homework"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_homework"
+                    app:text="@string/home_homework" />
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_notice"
+                    app:text="@string/home_notice" />
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_question"
+                    app:text="@string/home_question" />
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_location"
+                    app:text="@string/home_location" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10">
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_classes"
+                    app:text="@string/home_score" />
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_checkin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_checkin"
+                    app:text="@string/home_checkin" />
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_leave"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_leave"
+                    app:text="@string/home_leave" />
+
+                <com.xptschool.parent.view.HomeItemView
+                    android:id="@+id/home_alarm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:src="@mipmap/home_alarm"
+                    app:text="@string/home_alarm" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,178 @@
+<resources>
+    <string name="app_name">平安校园</string>
+    <string name="company_tel">400-8788-165</string>
+    <string name="company_name">数海信息技术(集团)有限公司</string>
+    <string name="company_name_es">Copyright©2016 Shuhai Information Technology(Group) \nCo.,Ltd. All rights reserved</string>
+
+    <string name="btn_confirm">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_delete">删除</string>
+    <string name="btn_send">发送</string>
+    <string name="btn_search">搜索</string>
+    <string name="btn_call">拨打</string>
+
+    <!---->
+    <string name="nav_home">首页</string>
+    <string name="nav_track">跟踪</string>
+    <string name="nav_mine">我的</string>
+
+    <string name="username">用户名</string>
+    <string name="userpwd">密码</string>
+    <string name="forgetpwd"><u>忘记密码</u></string>
+    <string name="login">登录</string>
+    <string name="login_failed">登录失败</string>
+    <string name="error_empty_login">请输入用户名或密码</string>
+
+    <string name="home_homework">家庭作业</string>
+    <string name="home_notice">班级公告</string>
+    <string name="home_question">在线提问</string>
+    <string name="home_location">位置查询</string>
+    <string name="home_score">孩子成绩</string>
+    <string name="home_checkin">孩子考勤</string>
+    <string name="home_leave">在线请假</string>
+    <string name="home_alarm">警报查询</string>
+
+    <string name="option_date">选择日期</string>
+    <string name="option_sdate">开始日期</string>
+    <string name="option_edate">结束日期</string>
+
+    <string name="mine_info">我的信息</string>
+    <string name="mine_child">我的孩子</string>
+    <string name="mine_fence">我的围栏</string>
+    <string name="mine_course">课程表</string>
+    <string name="mine_contacts">通讯录</string>
+    <string name="mine_about">关于</string>
+    <string name="mine_setting">设置</string>
+    <string name="mine_exit">退出当前账号</string>
+    <string name="title_detail">学生详情</string>
+    <string name="setting_change_pwd">修改密码</string>
+    <string name="label_old_pwd">旧密码</string>
+    <string name="label_new_pwd1">新密码</string>
+    <string name="label_new_pwd2">确认密码</string>
+
+    <!--家庭作业-->
+    <string name="push">发 布</string>
+    <string name="push_again">重新发布</string>
+    <string name="homework_detail">查看作业</string>
+    <string name="label_ask_question">发布问题</string>
+    <string name="label_class">班级：</string>
+    <string name="label_subject">科目：</string>
+    <string name="label_starttime">布置时间：</string>
+    <string name="label_time">时间：</string>
+    <string name="label_endtime">完成时间：</string>
+    <string name="label_homework_title">作业名称：</string>
+    <string name="label_homework_title_option">作业名称：%1$s</string>
+    <string name="label_leave_starttime">请假时间：</string>
+    <string name="label_leave_endtime">销假时间：</string>
+    <string name="label_leave_content">请假事由：</string>
+    <string name="label_leave_student">学生：</string>
+    <string name="label_leave_type">请假类型：</string>
+    <string name="label_leave_status">请假状态：</string>
+    <string name="label_leave">发送</string>
+    <string name="label_leave_modify">重新发送</string>
+    <string name="label_modify">编辑</string>
+
+    <string name="label_leave_del">删除</string>
+
+    <string name="label_teacher">教师：</string>
+    <string name="label_teacher_option">教师：%1$s</string>
+    <string name="label_notice_title">标题：</string>
+    <string name="label_content">内容：</string>
+    <string name="label_content_option">内容：\n%1$s</string>
+    <string name="label_camera">拍照</string>
+    <string name="label_album">选择照片</string>
+    <string name="label_back">返回</string>
+    <string name="label_fence_list">学生围栏</string>
+    <string name="label_cardset">学生卡设置</string>
+    <string name="label_card_sos">SOS设置</string>
+    <string name="label_card_whitelist">白名单设置</string>
+    <string name="label_card_moniter">监听设置</string>
+    <string name="label_card_reset">当前输入为空，确定要重置号码？</string>
+    <string name="label_card_moniter_reset">确定要重置监听号码？</string>
+
+    <string name="label_card_sendsms">设置失败！您可用当前手机发送短信至学生卡进行设置。\r\n是否通过本手机发送设置指令？</string>
+
+    <string name="homework_start_end_time">发布时间：%1$s\n完成时间：%2$s</string>
+    <string name="toast_get_failed">获取失败</string>
+
+    <string name="select_picture">选择相册</string>
+    <string name="complete">完成</string>
+    <string name="complete_percent">完成(%1$d/%2$d)</string>
+
+    <string name="button_allow">允许</string>
+    <string name="button_deny">拒绝</string>
+    <string name="image_upline">最多选择%1$d张图片</string>
+    <string name="image_loadfailed">相册加载失败</string>
+    <string name="toast_camera_failed">相机打开失败</string>
+
+    <string name="hint_homework_content">请输入作业内容</string>
+    <string name="hint_contract_name">联系人</string>
+    <string name="hint_phone">请输入手机号</string>
+    <string name="input_error_phone">手机号格式不正确</string>
+    <string name="input_fence_name">请输入围栏名称</string>
+    <string name="hint_old_pwd">请输入旧密码</string>
+    <string name="hint_new_pwd1">请输入新密码</string>
+    <string name="hint_new_pwd2">请重新输入新密码</string>
+
+    <!--提醒消息-->
+    <string name="msg_delete_leave">确定要删除此请假吗？</string>
+    <string name="msg_miss_time">请选择一完整时间段</string>
+    <string name="msg_large_endtime">结束时间小于开始时间，请重新选择</string>
+    <string name="msg_month_cannot_overstep">只能查询当月日期的数据</string>
+    <string name="msg_exit">确定要退出当前账号吗？</string>
+    <string name="msg_fence_delete">确定要删除当前围栏信息吗？</string>
+
+    <string name="msg_fence_deleteing">正在删除围栏信息</string>
+
+    <string name="permission_location_denied">未授予获取位置信息权限</string>
+    <string name="permission_location_rationale">请求授予定位权限</string>
+    <string name="permission_location_never_askagain">已禁止该应用的定位权限，请去设置中进行设置</string>
+    <string name="permission_storage_denied">已禁止该应用的读写文件权限</string>
+    <string name="permission_storage_never_askagain">已禁止该应用的读写文件权限，请去设置中进行设置</string>
+    <string name="permission_call_rationale">请求授予拨打电话权限</string>
+    <string name="permission_call_never_askagain">已禁止该应用的拨打电话权限，请去设置中进行设置</string>
+
+    <string name="permission_contracts_denied">未授予查看通讯录权限</string>
+    <string name="permission_contracts_never_askagain">已禁止该应用查看通讯录权限，请去设置中进行设置</string>
+
+    <string name="toast_homework_empty">请将作业名称，完成时间及作业内容填写完整</string>
+    <string name="toast_question_title_empty">请输入标题</string>
+    <string name="toast_question_content_empty">请输入内容</string>
+    <string name="toast_leave_empty">请输入请假事由</string>
+    <string name="toast_railing_empty">围栏列表为空，请在我的围栏的添加</string>
+
+    <string name="toast_choose_student">请选择一名学生</string>
+    <string name="toast_choose_time">请选择起止日期</string>
+    <string name="toast_input_empty">暂无数据</string>
+    <string name="toast_edit_empty">输入信息不完整</string>
+    <string name="toast_password_length_lt6">新密码不得小于6位</string>
+    <string name="toast_data_empty">暂无数据</string>
+    <string name="toast_data_analyze">数据解析错误</string>
+    <string name="toast_startcall_error">拨号启动失败</string>
+    <string name="toast_phone_empty">号码为空</string>
+    <string name="toast_imei_empty">该学生未绑定相关设备！请先绑定设置！</string>
+    <string name="toast_get_student_null">获取学生信息失败</string>
+    <string name="toast_get_phone_null">获取手机号失败</string>
+    <string name="toast_sos_phones_empty">请输入至少一个电话号码</string>
+    <string name="toast_contract_other_empty">请将对应的名称及手机号填写完整</string>
+    <string name="toast_choose_moniter">请选择监听号码</string>
+    <string name="toast_exit">再按一次退出程序</string>
+    <string name="toast_pwd_not_equal">新密码与确认密码不相同，请重新输入</string>
+    <string name="toast_point_null">坐标点无效</string>
+
+    <string name="progress_add_question">正在发布提问</string>
+    <string name="progress_add_homework">正在发布作业</string>
+    <string name="progress_del_homework">正在刪除作业</string>
+    <string name="progress_add_notice">正在发布公告</string>
+    <string name="progress_del_notice">正在刪除公告</string>
+    <string name="progress_loading">loading...</string>
+    <string name="progress_loading_cn">正在提交...</string>
+    <string name="title_activity_fence_list">FenceListActivity</string>
+
+    <string name="title_no_student">未绑定学生</string>
+    <string name="tip_moniter_help">温馨提示：\n监听号码设置成功后，使用该号码拨打学生卡时，学生卡会自动接听。</string>
+    <string name="tip_moniter_call_help">若您使用的手机号与当前设置的监听号码相同，便可使用本机直接拨打学生卡，否则无法打入或学生卡无法自动接听。
+        \n是否确定继续拨打？</string>
+
+
+</resources>

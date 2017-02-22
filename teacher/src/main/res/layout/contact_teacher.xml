@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/mine_item_normal">
+
+        <TextView
+            android:id="@+id/txtATitle"
+            style="@style/mineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="校区：" />
+
+        <TextView
+            android:id="@+id/txtAreaName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toRightOf="@+id/txtATitle"
+            android:gravity="right"
+            android:text="" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/mine_item_normal">
+
+        <TextView
+            android:id="@+id/txtSTitle"
+            style="@style/mineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学校名称：" />
+
+        <TextView
+            android:id="@+id/txtSchoolName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toRightOf="@+id/txtSTitle"
+            android:gravity="right"
+            android:text="" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlTeacherPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@drawable/mine_item_selector"
+        android:clickable="true">
+
+        <TextView
+            style="@style/mineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号：" />
+
+        <TextView
+            android:id="@+id/txtPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="" />
+    </RelativeLayout>
+</LinearLayout>

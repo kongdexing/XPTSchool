@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/dp_1"
+    android:background="@drawable/grdv_item_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtCourse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        style="@style/TextAlarm"
+        android:textSize="@dimen/sp_14"
+        android:text="语文" />
+
+</RelativeLayout>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_publish_home_work"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xptschool.teacher.ui.homework.HomeWorkDetailActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="@string/label_class" />
+
+                <com.android.widget.spinner.MaterialSpinner
+                    android:id="@+id/spnClasses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_dropdown_height="wrap_content"
+                    app:ms_dropdown_max_height="@dimen/dp_350"
+                    app:ms_dropdown_width="wrap_content"
+                    app:ms_padding_left="@dimen/dp_24"
+                    app:ms_text_color="@color/text_black"
+                    app:ms_text_size="14" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite"
+                android:gravity="center">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_subject" />
+
+                <com.android.widget.spinner.MaterialSpinner
+                    android:id="@+id/spnSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_dropdown_height="wrap_content"
+                    app:ms_dropdown_max_height="@dimen/dp_350"
+                    app:ms_dropdown_width="wrap_content"
+                    app:ms_padding_left="@dimen/dp_24"
+                    app:ms_text_color="@color/text_black"
+                    app:ms_text_size="14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@color/colorWhite"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_teacher" />
+
+                <TextView
+                    android:id="@+id/txtTeacher"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCreateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_starttime" />
+
+                <TextView
+                    android:id="@+id/txtPushTime"
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_endtime" />
+
+                <TextView
+                    android:id="@+id/txtCompleteTime"
+                    style="@style/mineText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_homework_title" />
+
+                <EditText
+                    android:id="@+id/edtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text=""
+                    android:textColor="@color/text_black_2" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/txtContent"
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_content" />
+
+                <EditText
+                    android:id="@+id/edtContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_toRightOf="@+id/txtContent"
+                    android:gravity="top|left"
+                    android:hint="@string/hint_homework_content"
+                    android:minLines="3"
+                    android:textColor="@color/text_black_2"
+                    android:textColorHint="@color/text_grey" />
+            </RelativeLayout>
+
+            <com.android.widget.mygridview.MyGridView
+                android:id="@+id/gridview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:horizontalSpacing="7.5dip"
+                android:listSelector="@null"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="7.5dip" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/btn_bg_normal"
+                android:padding="@dimen/dp_5"
+                android:text="@string/push"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_18" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/btn_delete_bg"
+                android:padding="@dimen/dp_5"
+                android:text="@string/btn_delete"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.xptschool.teacher.view.imgloader.AlbumViewPager
+        android:id="@+id/albumviewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/album_item_bg"
+        android:visibility="gone" />
+</FrameLayout>

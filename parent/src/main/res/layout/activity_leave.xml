@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="@color/colorWhite">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/mine_item_selector"
+            android:gravity="center">
+
+            <com.android.widget.spinner.MaterialSpinner
+                android:id="@+id/spnDate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:ms_dropdown_height="wrap_content"
+                app:ms_dropdown_max_height="@dimen/dp_350"
+                app:ms_dropdown_width="match_parent"
+                app:ms_text_color="@color/text_black"
+                app:ms_text_size="@dimen/sp_int_14" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/text_grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/mine_item_selector"
+            android:gravity="center">
+
+            <com.android.widget.spinner.MaterialSpinner
+                android:id="@+id/spnStudents"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:ms_dropdown_height="wrap_content"
+                app:ms_dropdown_max_height="@dimen/dp_350"
+                app:ms_dropdown_width="match_parent"
+                app:ms_text_color="@color/text_black"
+                app:ms_text_size="@dimen/sp_int_14" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_grey" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.android.widget.view.LoadMoreRecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <FrameLayout
+            android:id="@+id/flTransparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_gray"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_local_album_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xptschool.teacher.ui.album.LocalAlbumDetailActivity">
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:horizontalSpacing="7.5dip"
+        android:numColumns="3"
+        android:verticalSpacing="7.5dip" />
+
+    <FrameLayout
+        android:id="@+id/pagerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.xptschool.teacher.view.imgloader.AlbumViewPager
+            android:id="@+id/albumviewpager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/album_item_bg" />
+
+    </FrameLayout>
+
+</FrameLayout>
