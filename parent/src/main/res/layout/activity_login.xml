@@ -46,7 +46,9 @@
                     <EditText
                         android:id="@+id/edtAccount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@null"
                         android:hint="@string/username"
                         android:inputType="textVisiblePassword|textPersonName"
                         android:textColor="@color/colorBlack"
@@ -68,7 +70,7 @@
                 android:layout_height="@dimen/dp_45"
                 android:layout_marginLeft="@dimen/dp_40"
                 android:layout_marginRight="@dimen/dp_40"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_15"
                 android:background="@drawable/login_edt_bg"
                 android:gravity="center_vertical">
 
@@ -87,7 +89,9 @@
                     <EditText
                         android:id="@+id/edtPwd"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@null"
                         android:hint="@string/userpwd"
                         android:inputType="textPassword"
                         android:textColor="@color/colorBlack"

@@ -35,7 +35,7 @@
         android:clickable="true"
         android:text=""
         android:textColor="@android:color/white"
-        android:textSize="@dimen/sp_15" />
+        android:textSize="@dimen/sp_16" />
 
     <Button
         android:id="@+id/btnRight"

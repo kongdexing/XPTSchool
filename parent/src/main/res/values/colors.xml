@@ -26,7 +26,7 @@
     <color name="map_colorTransparent">#CCFFFFFF</color>
     <color name="map_transparent_gray">#40000000</color>
     <color name="text_white">#E6E6E6</color>
-    <color name="text_grey">#B3B3B3</color>
+    <color name="text_grey">#E6E6E6</color>
     <color name="text_black">#384554</color>
     <color name="text_black_2">#5b5b5b</color>
     <color name="text_red">#f34e4e</color>

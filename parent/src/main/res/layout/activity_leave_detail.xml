@@ -177,11 +177,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/txtContent"
+                    android:layout_marginBottom="@dimen/dp_5"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_toRightOf="@+id/txtContent"
+                    android:background="@null"
                     android:gravity="top|left"
                     android:minLines="3"
-                    android:text=""
+                    android:text="2666"
                     android:textColor="@color/text_black_2"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
@@ -236,8 +239,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@drawable/btn_delete_bg_red"
-                android:textColor="@color/colorWhite"
                 android:text="@string/btn_delete"
+                android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp_18" />
         </LinearLayout>
     </ScrollView>
