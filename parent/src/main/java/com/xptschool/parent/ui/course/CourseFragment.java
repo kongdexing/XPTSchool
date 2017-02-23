@@ -84,6 +84,18 @@ public class CourseFragment extends Fragment {
                         if (progress != null) {
                             progress.setVisibility(View.GONE);
                         }
+                        //初始化空课程表
+                        LinkedHashMap<String, LinkedHashMap<String, String>> linkedCourse = new LinkedHashMap<String, LinkedHashMap<String, String>>();
+                        //节次
+                        for (int i = 0; i < 8; i++) {
+                            LinkedHashMap<String, String> courseName = new LinkedHashMap<String, String>();
+                            //星期
+                            for (int j = 0; j < 7; j++) {
+                                courseName.put((j + 1) + "", "");
+                            }
+                            linkedCourse.put((i + 1) + "", courseName);
+                        }
+
                         switch (volleyHttpResult.getStatus()) {
                             case HttpAction.SUCCESS:
                                 try {
@@ -97,17 +109,7 @@ public class CourseFragment extends Fragment {
                                         hashCourse.put(key, val);
                                     }
 
-                                    //初始化空课程表
-                                    LinkedHashMap<String, LinkedHashMap<String, String>> linkedCourse = new LinkedHashMap<String, LinkedHashMap<String, String>>();
-                                    //节次
-                                    for (int i = 0; i < 8; i++) {
-                                        LinkedHashMap<String, String> courseName = new LinkedHashMap<String, String>();
-                                        //星期
-                                        for (int j = 0; j < 7; j++) {
-                                            courseName.put((j + 1) + "", "");
-                                        }
-                                        linkedCourse.put((i + 1) + "", courseName);
-                                    }
+                                    Log.i(TAG, "empty linkedCourse size: " + linkedCourse.size());
 
                                     JSONObject table = json.getJSONObject("timeTable");
                                     Iterator itTable = table.keys();
@@ -125,7 +127,7 @@ public class CourseFragment extends Fragment {
                                         }
                                     }
                                     Log.i(TAG, "adapter hashCode: " + adapter.hashCode());
-                                    adapter.loadDate(linkedCourse);
+                                    Log.i(TAG, "onResponse: linkedCourse size " + linkedCourse.size());
                                 } catch (Exception ex) {
                                     Log.i(TAG, "onResponse: " + ex.getMessage());
                                 }
@@ -136,6 +138,8 @@ public class CourseFragment extends Fragment {
                                 }
                                 break;
                         }
+
+                        adapter.loadDate(linkedCourse);
                     }
 
                     @Override
@@ -143,6 +147,19 @@ public class CourseFragment extends Fragment {
                         if (progress != null) {
                             progress.setVisibility(View.GONE);
                         }
+                        //drawable empty table
+                        //初始化空课程表
+                        LinkedHashMap<String, LinkedHashMap<String, String>> linkedCourse = new LinkedHashMap<String, LinkedHashMap<String, String>>();
+                        //节次
+                        for (int i = 0; i < 8; i++) {
+                            LinkedHashMap<String, String> courseName = new LinkedHashMap<String, String>();
+                            //星期
+                            for (int j = 0; j < 7; j++) {
+                                courseName.put((j + 1) + "", "");
+                            }
+                            linkedCourse.put((i + 1) + "", courseName);
+                        }
+                        adapter.loadDate(linkedCourse);
                     }
                 });
     }

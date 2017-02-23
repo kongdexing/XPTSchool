@@ -62,6 +62,7 @@ public class CourseAdapter extends BaseAdapter {
                 }
             }
         }
+        Log.i(TAG, "loadDate: courses size " + courses.size());
         notifyDataSetChanged();
     }
 

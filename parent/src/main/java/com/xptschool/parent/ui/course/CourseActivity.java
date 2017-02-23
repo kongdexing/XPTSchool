@@ -75,6 +75,8 @@ public class CourseActivity extends BaseListActivity {
             return student.getName();
         }
 
+
+
         @Override
         public int getCount() {
             Log.i(TAG, "getCount: " + beanStudents.size());

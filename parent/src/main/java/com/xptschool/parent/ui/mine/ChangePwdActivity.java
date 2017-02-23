@@ -32,7 +32,6 @@ public class ChangePwdActivity extends BaseActivity {
     @BindView(R.id.edtNewPwd2)
     EditText edtNewPwd2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
