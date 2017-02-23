@@ -196,13 +196,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_card_sos" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -219,13 +213,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_card_whitelist" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -242,13 +230,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_card_moniter" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
             </RelativeLayout>
 
         </LinearLayout>

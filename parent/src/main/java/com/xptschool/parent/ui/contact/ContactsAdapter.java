@@ -127,13 +127,13 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         if (expanded != isExpanded) {
             if (isExpanded) {
                 rotateAnimation = new
-                        RotateAnimation(180f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        RotateAnimation(-90f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             } else {
                 rotateAnimation = new
-                        RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                        RotateAnimation(0f, -90f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             }
             rotateAnimation.setFillAfter(true); // 设置保持动画最后的状态
-            rotateAnimation.setDuration(500); // 设置动画时间
+            rotateAnimation.setDuration(300); // 设置动画时间
             viewHolder.imgArrow.startAnimation(rotateAnimation);
             groupExpandedStatus.set(groupPosition, isExpanded);
         }

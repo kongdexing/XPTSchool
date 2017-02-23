@@ -70,6 +70,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_10"
                     android:text="@string/company_tel"
+                    android:textColor="@color/blue"
                     android:textSize="@dimen/sp_16" />
 
             </RelativeLayout>
@@ -96,6 +97,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp_10"
                     android:text=""
+                    android:textColor="@color/color_black_2"
                     android:textSize="@dimen/sp_16" />
 
             </RelativeLayout>
@@ -114,13 +116,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/setting_change_pwd" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
             </RelativeLayout>
 
             <RelativeLayout
