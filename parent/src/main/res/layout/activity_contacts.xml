@@ -30,9 +30,9 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/dp_5"
             android:background="@drawable/btn_bg_normal"
+            android:text="@string/btn_search"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_15"
-            android:text="@string/btn_search" />
+            android:textSize="@dimen/sp_15" />
 
     </RelativeLayout>
 
@@ -48,7 +48,8 @@
             <com.android.widget.groupexpandable.FloatingGroupExpandableListView
                 android:id="@+id/expandableview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:groupIndicator="@null" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <ProgressBar

@@ -1,12 +1,17 @@
 package com.xptschool.parent.ui.contact;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +33,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
     private final Context mContext;
     private final LayoutInflater mLayoutInflater;
     private ArrayList<String> keys = new ArrayList();
+    private ArrayList<Boolean> groupExpandedStatus = new ArrayList<>();
 
     private LinkedHashMap<String, ArrayList<Object>> listContacts = new LinkedHashMap<>();
     private LinkedHashMap<String, ArrayList<Object>> allListContacts = new LinkedHashMap<>();
@@ -96,12 +102,41 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        GroupViewHolder viewHolder = null;
         if (convertView == null) {
+            viewHolder = new GroupViewHolder();
             convertView = mLayoutInflater.inflate(R.layout.item_contacts_group, parent, false);
+            viewHolder.groupName = (TextView) convertView.findViewById(R.id.text);
+            viewHolder.imgArrow = (ImageView) convertView.findViewById(R.id.imgArrow);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (GroupViewHolder) convertView.getTag();
         }
 
-        final TextView text = (TextView) convertView.findViewById(R.id.text);
-        text.setText(keys.get(groupPosition));
+        boolean expanded = isExpanded;
+
+        if (groupExpandedStatus.size() > groupPosition) {
+            expanded = groupExpandedStatus.get(groupPosition);
+        } else {
+            groupExpandedStatus.add(isExpanded);
+        }
+
+        viewHolder.groupName.setText(keys.get(groupPosition));
+        Animation rotateAnimation = null;
+
+        if (expanded != isExpanded) {
+            if (isExpanded) {
+                rotateAnimation = new
+                        RotateAnimation(180f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            } else {
+                rotateAnimation = new
+                        RotateAnimation(0f, 180f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            }
+            rotateAnimation.setFillAfter(true); // 设置保持动画最后的状态
+            rotateAnimation.setDuration(500); // 设置动画时间
+            viewHolder.imgArrow.startAnimation(rotateAnimation);
+            groupExpandedStatus.set(groupPosition, isExpanded);
+        }
         return convertView;
     }
 
@@ -171,6 +206,11 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
+    }
+
+    class GroupViewHolder {
+        TextView groupName;
+        ImageView imgArrow;
     }
 
     class ChildrenViewHolder {

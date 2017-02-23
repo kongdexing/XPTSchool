@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingBottom="@dimen/dp_15"
-        android:paddingLeft="@dimen/dp_35"
+        android:paddingLeft="@dimen/dp_15"
         android:textColor="@color/color_black_2"
         android:paddingTop="@dimen/dp_15"
         android:text="方圆" />
