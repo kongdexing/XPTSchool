@@ -270,11 +270,22 @@ public class LeaveDetailActivity extends BaseActivity {
             leave_type = 0;
         }
 
+        if (currentLeave != null) {
+            currentLeave.setStu_id(student.getStu_id());
+            currentLeave.setStu_name(student.getStu_name());
+            currentLeave.setT_name(teacher.getTeacherName());
+            currentLeave.setT_id(teacher.getT_id());
+            currentLeave.setLeave_memo(edtLeave.getText().toString().trim());
+            currentLeave.setLeave_type(leave_type + "");
+            currentLeave.setStart_time(txtSTime.getText().toString());
+            currentLeave.setEnd_time(txtETime.getText().toString());
+        }
+
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.Leave_Add, new VolleyHttpParamsEntity()
                         .addParam("id", currentLeave == null ? "0" : currentLeave.getId())
                         .addParam("stu_id", student.getStu_id())
                         .addParam("t_id", teacher.getT_id())
-                        .addParam("leave_memo", edtLeave.getText().toString())
+                        .addParam("leave_memo", edtLeave.getText().toString().trim())
                         .addParam("leave_type", leave_type + "")
                         .addParam("start_time", txtSTime.getText().toString())
                         .addParam("end_time", txtETime.getText().toString())

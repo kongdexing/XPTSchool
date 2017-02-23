@@ -160,10 +160,19 @@ public class LeaveActivity extends BaseListActivity {
         }
 
         if (requestCode == 1) {
+            int position = 0;
             if (resultCode == ActivityResultCode.Leave_Edit) {
-                recycleView.updateItem(adapter.updateBeanLeave(beanLeave));
+                position = adapter.updateBeanLeave(beanLeave);
+                if (position == -1) {
+                    position = adapter.deleteData(beanLeave);
+                    if (position != -1) {
+                        recycleView.deleteByPosition(position);
+                    }
+                } else {
+                    recycleView.updateItem(position);
+                }
             } else if (resultCode == ActivityResultCode.Leave_Del) {
-                int position = adapter.deleteData(beanLeave);
+                position = adapter.deleteData(beanLeave);
                 if (position != -1) {
                     recycleView.deleteByPosition(position);
                 }

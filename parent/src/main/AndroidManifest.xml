@@ -103,7 +103,10 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.mine.AboutActivity" />
         <activity android:name=".ui.contact.ContactsDetailActivity" />
-        <activity android:name=".ui.leave.LeaveDetailActivity" />
+        <activity
+            android:name=".ui.leave.LeaveDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".ui.main.SplashActivity"
             android:theme="@style/AppTheme.Translucent" />

@@ -40,19 +40,26 @@ public class LeaveAdapter extends BaseRecycleAdapter {
 
     public void refreshData(List<BeanLeave> leaves) {
         Log.i(TAG, "refreshData: ");
+        beanLeaves.clear();
         beanLeaves = leaves;
     }
 
     public void appendData(List<BeanLeave> leaves) {
-        Log.i(TAG, "refreshData: ");
+        Log.i(TAG, "appendData: ");
         beanLeaves.addAll(leaves);
     }
 
     public int updateBeanLeave(BeanLeave leave) {
+        Log.i(TAG, "updateBeanLeave: " + leave.getLeave_memo());
         for (int i = 0; i < beanLeaves.size(); i++) {
             if (beanLeaves.get(i).getId().equals(leave.getId())) {
-                beanLeaves.set(i, leave);
-                return i;
+                if (beanLeaves.get(i).getStu_id().equals(leave.getStu_id())) {
+                    beanLeaves.set(i, leave);
+                    return i;
+                } else {
+                    Toast.makeText(mContext, "该请假已移至【" + leave.getStu_name() + "】的请假列表中", Toast.LENGTH_SHORT).show();
+                    return -1;
+                }
             }
         }
         return 0;

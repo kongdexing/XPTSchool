@@ -40,6 +40,10 @@ public class BeanTeacher extends SpinnerModel {
         return str;
     }
 
+    public String getTeacherName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
