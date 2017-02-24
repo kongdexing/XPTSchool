@@ -5,7 +5,7 @@
     <color name="colorPrimaryTransparent">#ffffff</color>
     <color name="colorPrimary">#0080ba</color>
     <color name="colorPrimaryDark">#00a0e8</color>
-    <color name="colorAccent">#EE8026</color>
+    <color name="colorAccent">#0080ba</color>
     <color name="colorAccent2">#27DEB7</color>
     <color name="colorAccent3">#A0A8CC</color>
     <color name="colorOrange">#EE8026</color>
@@ -26,7 +26,7 @@
     <color name="map_colorTransparent">#CCFFFFFF</color>
     <color name="map_transparent_gray">#40000000</color>
     <color name="text_white">#E6E6E6</color>
-    <color name="text_grey">#E6E6E6</color>
+    <color name="text_grey">#999999</color>
     <color name="text_black">#384554</color>
     <color name="text_black_2">#5b5b5b</color>
     <color name="text_red">#f34e4e</color>

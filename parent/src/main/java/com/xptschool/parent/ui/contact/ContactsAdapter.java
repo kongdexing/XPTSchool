@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.bean.ContactType;
 import com.xptschool.parent.common.ExtraKey;
@@ -162,6 +163,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
             convertView = mLayoutInflater.inflate(R.layout.item_contacts, parent, false);
             viewHolder = new ChildrenViewHolder();
             viewHolder.llContacts = (LinearLayout) convertView.findViewById(R.id.llContacts);
+            viewHolder.imgHead = (CircularImageView) convertView.findViewById(R.id.imgHead);
             viewHolder.text = (TextView) convertView.findViewById(R.id.text);
             convertView.setTag(viewHolder);
         } else {
@@ -171,6 +173,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         final Object object = getChild(groupPosition, childPosition);
         if (object instanceof ContactSchool) {
             final ContactSchool school = (ContactSchool) object;
+            viewHolder.imgHead.setImageResource(R.mipmap.contacts_school);
             viewHolder.text.setText(school.getS_name() + school.getA_name());
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -183,6 +186,11 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
             });
         } else {
             final ContactTeacher teacher = (ContactTeacher) object;
+            if (teacher.getSex().equals("1")) {
+                viewHolder.imgHead.setImageResource(R.mipmap.teacher_man);
+            } else {
+                viewHolder.imgHead.setImageResource(R.mipmap.teacher_woman);
+            }
             viewHolder.text.setText(teacher.getName());
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -215,6 +223,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
 
     class ChildrenViewHolder {
         LinearLayout llContacts;
+        CircularImageView imgHead;
         TextView text;
     }
 

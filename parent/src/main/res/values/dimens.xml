@@ -65,10 +65,10 @@
     <dimen name="splash_margin_bottom">40dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <item format="float" name="sp_int_10" type="dimen">10</item>
-    <item format="float" name="sp_int_12" type="dimen">12</item>
-    <item format="float" name="sp_int_14" type="dimen">14</item>
-    <item format="float" name="sp_int_16" type="dimen">16</item>
-    <item format="float" name="sp_int_18" type="dimen">18</item>
+    <item name="sp_int_10" format="float" type="dimen">10</item>
+    <item name="sp_int_12" format="float" type="dimen">12</item>
+    <item name="sp_int_14" format="float" type="dimen">14</item>
+    <item name="sp_int_16" format="float" type="dimen">16</item>
+    <item name="sp_int_18" format="float" type="dimen">18</item>
 
 </resources>

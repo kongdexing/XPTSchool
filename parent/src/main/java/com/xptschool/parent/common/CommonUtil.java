@@ -252,7 +252,7 @@ public class CommonUtil {
     }
 
     public static int getPopDateHeight() {
-        return XPTApplication.getInstance().getWindowHeight() * 2 / 5;
+        return XPTApplication.getInstance().getWindowHeight()  / 2;
     }
 
     public static boolean isPhone(String inputText) {

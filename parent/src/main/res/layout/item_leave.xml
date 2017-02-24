@@ -56,21 +56,24 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_weight="1"
             android:gravity="right"
-            android:layout_weight="1">
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="状态："
-                android:textColor="@color/text_black"
+                android:textColor="@color/color_black_3"
                 android:textSize="@dimen/sp_16" />
+
             <TextView
                 android:id="@+id/txtStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="已批准"
                 android:textColor="@color/text_black"
+                android:layout_marginRight="@dimen/dp_8"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 

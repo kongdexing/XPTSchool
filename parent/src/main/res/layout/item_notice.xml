@@ -36,7 +36,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_5"
                     android:text="20160612"
-                    android:textColor="@color/text_grey"
+                    android:textColor="@color/color_black_3"
                     android:textSize="@dimen/sp_16" />
 
             </RelativeLayout>

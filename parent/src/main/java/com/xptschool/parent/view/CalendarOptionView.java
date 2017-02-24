@@ -1,6 +1,7 @@
 package com.xptschool.parent.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -81,7 +82,6 @@ public class CalendarOptionView extends LinearLayout implements View.OnClickList
         startDate = txtStartTime.getText().toString();
         endDate = txtEndTime.getText().toString();
 
-//        calendarView.setSelectionColor(getResources().getColor(R.color.white));
         calendarView.setSelectedDate(CommonUtil.getDateBefore(7));
 
     }

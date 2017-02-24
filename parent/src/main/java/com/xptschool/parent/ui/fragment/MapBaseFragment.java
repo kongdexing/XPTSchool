@@ -146,7 +146,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
 
     @Override
     protected void initData() {
-        MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_25));
+        MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_35));
         Log.i(TAG, "initData: MapInfoTop " + MapInfoTop);
     }
 
@@ -396,9 +396,10 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                             }
                         });
                         //地图移动到当前marker
-                        MapStatus.Builder builder = new MapStatus.Builder();
-                        builder.target(latlng);
-                        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+//                        MapStatus.Builder builder = new MapStatus.Builder();
+//                        builder.target(latlng);
+
+                        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds.build()));
                         RailIndex++;
                         sendEmptyMessageDelayed(DrawRail, 1000);
                     } catch (Exception ex) {

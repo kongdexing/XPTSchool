@@ -228,6 +228,7 @@ public class HomeWorkActivity extends BaseListActivity {
                     getHomeWorkList();
                 }
             });
+
             datePopup = new PopupWindow(calendarView,
                     LinearLayout.LayoutParams.MATCH_PARENT, CommonUtil.getPopDateHeight(), true);
             datePopup.setTouchable(true);

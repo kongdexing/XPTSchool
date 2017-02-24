@@ -16,9 +16,11 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 
 import com.android.widget.calendar.format.DayFormatter;
 
@@ -51,6 +53,8 @@ class DayView extends CheckedTextView {
         fadeTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
         setSelectionColor(this.selectionColor);
+
+        setBackgroundColor(Color.CYAN);
 
         setGravity(Gravity.CENTER);
 
@@ -94,6 +98,7 @@ class DayView extends CheckedTextView {
 
     public void setSelectionColor(int color) {
         this.selectionColor = color;
+        this.setTextColor(selectionColor);
         regenerateBackground();
     }
 
@@ -194,7 +199,6 @@ class DayView extends CheckedTextView {
         } else {
             drawable.addState(new int[]{android.R.attr.state_pressed}, generateCircleDrawable(color));
         }
-
         drawable.addState(new int[]{}, generateCircleDrawable(Color.TRANSPARENT));
 
         return drawable;
@@ -254,7 +258,22 @@ class DayView extends CheckedTextView {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        calculateBounds(right - left, bottom - top);
+//        calculateBounds(right - left, bottom - top);
+//        int width = right - left;
+//        int height = bottom - top;
+//        final int radius = Math.min(height, width);
+//        // Lollipop platform bug. Rect offset needs to be divided by 4 instead of 2
+//        final int offsetDivisor = Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP ? 4 : 2;
+//        final int offset = Math.abs(height - width) / offsetDivisor;
+//
+//        if (width >= height) {
+//            super.onLayout(changed, left + offset, top, right - offset, bottom);
+////            tempRect.set(offset, 0, radius + offset, height);
+//        } else {
+//            super.onLayout(changed, left, top + offset, right, bottom - offset);
+////            tempRect.set(0, offset, width, radius + offset);
+//        }
+
         regenerateBackground();
     }
 

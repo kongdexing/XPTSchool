@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,6 @@ public class TimePickerPopupWindow extends PopupWindow implements View.OnClickLi
 
     private String TAG = TimePickerPopupWindow.class.getSimpleName();
     private Context mContext;
-    int fontSize = 18; // 字体大小
     MaterialCalendarView calendarView;
     private WheelView hourWheelView, minuteWheelView;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
@@ -166,7 +166,7 @@ public class TimePickerPopupWindow extends PopupWindow implements View.OnClickLi
         public DateNumericAdapter(Context context, int minValue, int maxValue, int current) {
             super(context, minValue, maxValue, "%02d");
             this.currentValue = current;
-            setTextSize(fontSize);
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, (int) mContext.getResources().getDimensionPixelOffset(R.dimen.sp_15));
         }
 
         @Override

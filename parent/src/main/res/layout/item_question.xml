@@ -69,7 +69,7 @@
                 android:lines="1"
                 android:minWidth="@dimen/dp_30"
                 android:text=""
-                android:textColor="@color/text_grey" />
+                android:textColor="@color/color_black_3" />
         </RelativeLayout>
 
         <LinearLayout
