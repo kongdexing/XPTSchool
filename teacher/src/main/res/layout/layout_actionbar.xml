@@ -23,7 +23,7 @@
         android:lines="1"
         android:text="平安校园"
         android:textColor="@android:color/white"
-        android:textSize="18sp" />
+        android:textSize="@dimen/sp_18" />
 
     <TextView
         android:id="@+id/txtRight"
@@ -35,7 +35,7 @@
         android:clickable="true"
         android:text=""
         android:textColor="@android:color/white"
-        android:textSize="18sp" />
+        android:textSize="@dimen/sp_16" />
 
     <Button
         android:id="@+id/btnRight"
@@ -46,6 +46,7 @@
         android:layout_margin="@dimen/dp_10"
         android:background="@drawable/btn_topright_bg"
         android:padding="@dimen/dp_5"
-        android:text="@string/complete_percent"/>
+        android:text="@string/complete_percent"
+        android:textSize="@dimen/sp_16" />
 
 </RelativeLayout>

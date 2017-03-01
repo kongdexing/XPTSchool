@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="三年级二班"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_black_1"
                     android:textSize="@dimen/sp_16" />
 
                 <TextView
@@ -36,7 +36,7 @@
                     android:layout_marginRight="@dimen/dp_5"
                     android:layout_toLeftOf="@+id/imgArrow"
                     android:text="时间：20160612"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_black_3"
                     android:textSize="@dimen/sp_14" />
 
                 <ImageView
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="标题："
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_black_2"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -69,7 +69,7 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:text="1.akdjad\n2.全文背诵\nsdf"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_black_2"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
 
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="内容："
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_black_3"
                     android:textSize="@dimen/sp_14" />
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text="1.akdjad\n2.全文背诵\nsdf"
-                    android:textColor="@color/text_black"
+                    android:textColor="@color/color_black_3"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
 

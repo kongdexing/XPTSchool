@@ -39,32 +39,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="三年级二班"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/sp_15" />
+                    android:textColor="@color/color_black_1"
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/txtTeacher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/label_teacher_option"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/sp_14" />
+                    android:textColor="@color/color_black_2"
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/txtTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="完成时间：20160612"
-                    android:textColor="@color/text_black_2"
-                    android:textSize="@dimen/sp_13" />
+                    android:textColor="@color/color_black_3"
+                    android:textSize="@dimen/sp_16" />
 
                 <TextView
                     android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/label_homework_title"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/sp_14" />
+                    android:textColor="@color/color_black_2"
+                    android:textSize="@dimen/sp_16" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,8 +76,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="内容："
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/sp_14" />
+                        android:textColor="@color/color_black_2"
+                        android:textSize="@dimen/sp_16" />
 
                     <TextView
                         android:id="@+id/txtContent"
@@ -86,8 +86,8 @@
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text="1.akdjad\n2.全文背诵\nsdf"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/sp_14" />
+                        android:textColor="@color/color_black_2"
+                        android:textSize="@dimen/sp_16" />
                 </LinearLayout>
 
             </LinearLayout>

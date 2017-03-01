@@ -28,6 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp_14"
+                android:textColor="@color/color_black_1"
                 android:text="@string/option_sdate" />
 
             <TextView
@@ -36,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
                 android:textSize="@dimen/sp_14"
+                android:textColor="@color/color_black_2"
                 android:text="2016-12-12" />
         </LinearLayout>
 
@@ -54,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp_14"
+                android:textColor="@color/color_black_1"
                 android:text="@string/option_edate" />
 
             <TextView
@@ -62,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
                 android:textSize="@dimen/sp_14"
+                android:textColor="@color/color_black_2"
                 android:text="2016-12-12" />
         </LinearLayout>
 

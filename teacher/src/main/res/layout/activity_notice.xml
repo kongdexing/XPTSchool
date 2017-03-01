@@ -22,7 +22,7 @@
             android:gravity="center"
             android:maxLines="2"
             android:text="选择日期"
-            android:textColor="@color/text_black"
+            android:textColor="@color/color_black_1"
             android:textSize="@dimen/sp_14" />
 
         <View
@@ -42,11 +42,11 @@
             <com.android.widget.spinner.MaterialSpinner
                 android:id="@+id/spnClass"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:ms_dropdown_height="wrap_content"
                 app:ms_dropdown_width="match_parent"
                 app:ms_dropdown_max_height="@dimen/dp_350"
-                app:ms_text_color="@color/text_black"
+                app:ms_text_color="@color/color_black_1"
                 app:ms_text_size="@dimen/sp_int_14" />
 
         </LinearLayout>
@@ -76,11 +76,11 @@
             <com.android.widget.spinner.MaterialSpinner
                 android:id="@+id/spnState"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:ms_dropdown_height="wrap_content"
                 app:ms_dropdown_width="match_parent"
                 app:ms_dropdown_max_height="@dimen/dp_350"
-                app:ms_text_color="@color/text_black"
+                app:ms_text_color="@color/color_black_1"
                 app:ms_text_size="@dimen/sp_int_14" />
 
         </LinearLayout>

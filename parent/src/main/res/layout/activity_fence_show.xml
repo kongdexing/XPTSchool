@@ -10,4 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true" />
+
+    <LinearLayout
+        android:id="@+id/llMyLocation"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/map_item_selector"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_2">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/icon_main_location" />
+
+    </LinearLayout>
 </RelativeLayout>

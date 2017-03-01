@@ -1,9 +1,21 @@
 package com.xptschool.parent.ui.fence;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -13,6 +25,8 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Stroke;
@@ -21,6 +35,7 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanRail;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.ui.fragment.RailInfoWindowView;
@@ -30,12 +45,27 @@ import com.xptschool.parent.view.MarkerNumView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FenceShowActivity extends BaseActivity {
+import butterknife.BindView;
+import butterknife.OnClick;
 
-    private MapView mMapView;
+public class FenceShowActivity extends BaseActivity implements BDLocationListener, SensorEventListener {
+
+    @BindView(R.id.llMyLocation)
+    LinearLayout llMyLocation;
+    @BindView(R.id.mapView)
+    MapView mMapView;
+
     private BaiduMap mBaiduMap;
     private List<LatLng> listLatLng = new ArrayList<>();
     private BeanRail rail = null;
+    public SensorManager mSensorManager;
+    public Sensor mSensor;
+    public LocationClient mLocClient;
+    boolean isFirstLoc = true; // 是否首次定位
+    public Marker mGPSMarker;
+    private long lastTime = 0;
+    private final int TIME_SENSOR = 100;
+    private float mAngle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +86,107 @@ public class FenceShowActivity extends BaseActivity {
     }
 
     private void initView() {
-        mMapView = (MapView) findViewById(R.id.mapView);
         mBaiduMap = mMapView.getMap();
+        mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+
+        // 开启定位图层
+        mBaiduMap.getUiSettings().setRotateGesturesEnabled(true);
+        mBaiduMap.setMyLocationEnabled(true);
+        // 定位初始化
+        mLocClient = new LocationClient(this);
+        mLocClient.registerLocationListener(this);
+
+        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+                .fromResource(R.mipmap.icon_geobl);
+        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
+                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
+
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setScanSpan(3000);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+
+    }
+
+    @OnClick({R.id.llMyLocation})
+    void onViewClick(View view) {
+        switch (view.getId()) {
+            case R.id.llMyLocation:
+                isFirstLoc = true;
+                if (mLocClient != null) {
+                    mLocClient.start();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (System.currentTimeMillis() - lastTime < TIME_SENSOR) {
+            return;
+        }
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_ORIENTATION: {
+                float x = event.values[0];
+                System.out.println(x);
+                x += CommonUtil.getScreenRotationOnPhone(this);
+                x %= 360.0F;
+                if (x > 180.0F)
+                    x -= 360.0F;
+                else if (x < -180.0F)
+                    x += 360.0F;
+                if (Math.abs(mAngle - 90 + x) < 3.0f) {
+                    break;
+                }
+                mAngle = x;
+                if (mGPSMarker != null) {
+                    mGPSMarker.setRotate(-mAngle);
+                }
+                lastTime = System.currentTimeMillis();
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    /**
+     * 定位SDK监听函数
+     */
+    @Override
+    public void onReceiveLocation(BDLocation location) {
+        // map view 销毁后不在处理新接收的位置
+        if (location == null || mMapView == null) {
+            return;
+        }
+
+        MyLocationData locData = new MyLocationData.Builder()
+                .accuracy(location.getRadius())
+                // 此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(100).latitude(location.getLatitude())
+                .longitude(location.getLongitude()).build();
+
+        mBaiduMap.setMyLocationData(locData);
+
+        LatLng ll = new LatLng(location.getLatitude(),
+                location.getLongitude());
+
+        if (isFirstLoc) {
+            isFirstLoc = false;
+            MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
+                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
+            mGPSMarker = (Marker) mBaiduMap.addOverlay(markerOptions);
+            MapStatus.Builder builder = new MapStatus.Builder();
+            builder.target(ll).zoom(18.0f);
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+        }
+
+        mGPSMarker.setPosition(ll);
     }
 
     private void showFence() {

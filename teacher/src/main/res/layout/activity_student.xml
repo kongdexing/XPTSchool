@@ -11,13 +11,14 @@
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#AA000000"
-        app:footerColor="@color/colorPrimaryDark"
-        app:footerIndicatorHeight="3dp"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/color_black_3"
+        app:footerColor="@color/color_refresh_reload"
+        app:footerIndicatorHeight="1.3dp"
         app:footerIndicatorStyle="underline"
-        app:footerLineHeight="1dp"
-        app:selectedBold="true"
-        app:selectedColor="#FF000000" />
+        app:footerLineHeight="0.5dp"
+        app:selectedBold="false"
+        app:selectedColor="@color/colorPrimaryDark" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

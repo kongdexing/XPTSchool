@@ -95,6 +95,8 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
             mSearch.reverseGeoCode(new ReverseGeoCodeOption()
                     .location(location.getLatLng()));
         }
+        trAlarmType.setVisibility(View.GONE);
+        trLocationType.setVisibility(VISIBLE);
         txtStudentName.setText(student.getStu_name());
         txtIMEI.setText(location.getImei());
         txtTime.setText(location.getCreate_time());
@@ -108,10 +110,12 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
             mSearch.reverseGeoCode(new ReverseGeoCodeOption()
                     .location(location.getLatLng()));
         }
+        trAlarmType.setVisibility(View.GONE);
+        trLocationType.setVisibility(VISIBLE);
         txtStudentName.setText(student.getStu_name());
         txtIMEI.setText(location.getImei());
         txtTime.setText(location.getTime());
-        txtAlarmType.setText(location.getGps_type());
+        txtLocationType.setText(location.getGps_type());
     }
 
     @Override

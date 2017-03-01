@@ -37,13 +37,13 @@
                 <com.android.widget.spinner.MaterialSpinner
                     android:id="@+id/spnClasses"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="@dimen/dp_350"
                     app:ms_dropdown_width="wrap_content"
-                    app:ms_padding_left="@dimen/dp_24"
+                    app:ms_padding_left="@dimen/dp_5"
                     app:ms_text_color="@color/text_black"
-                    app:ms_text_size="14" />
+                    app:ms_text_size="@dimen/sp_int_16" />
 
             </LinearLayout>
 
@@ -63,13 +63,13 @@
                 <com.android.widget.spinner.MaterialSpinner
                     android:id="@+id/spnSubject"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="@dimen/dp_350"
                     app:ms_dropdown_width="wrap_content"
-                    app:ms_padding_left="@dimen/dp_24"
+                    app:ms_padding_left="@dimen/dp_5"
                     app:ms_text_color="@color/text_black"
-                    app:ms_text_size="14" />
+                    app:ms_text_size="@dimen/sp_int_16" />
             </LinearLayout>
 
             <LinearLayout
@@ -156,6 +156,7 @@
                     android:layout_height="wrap_content"
                     android:lines="1"
                     android:text=""
+                    android:textSize="@dimen/sp_16"
                     android:textColor="@color/text_black_2" />
             </LinearLayout>
 
@@ -183,7 +184,8 @@
                     android:hint="@string/hint_homework_content"
                     android:minLines="3"
                     android:textColor="@color/text_black_2"
-                    android:textColorHint="@color/text_grey" />
+                    android:textColorHint="@color/text_grey"
+                    android:textSize="@dimen/sp_16" />
             </RelativeLayout>
 
             <com.android.widget.mygridview.MyGridView

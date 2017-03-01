@@ -20,7 +20,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
                 android:orientation="horizontal"
-                android:padding="@dimen/dp_20">
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10">
 
                 <com.android.widget.view.CircularImageView
                     android:id="@+id/imgHead"
@@ -31,17 +33,19 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_60"
                     android:layout_marginLeft="@dimen/dp_10"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txtUserName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="浆水泉"
-                        android:textSize="@dimen/sp_16"
-                        android:textColor="@color/colorWhite" />
+                        android:layout_gravity="left"
+                        android:text="三丰"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/sp_14" />
 
                     <TextView
                         android:id="@+id/txtChangeAccount"
@@ -49,9 +53,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dp_5"
                         android:background="@drawable/bg_mine_info"
-                        android:padding="@dimen/dp_3"
+                        android:padding="@dimen/dp_2"
                         android:text="切换账号 >"
-                        android:textColor="@color/colorWhite" />
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/sp_14" />
 
                 </LinearLayout>
 
@@ -71,13 +76,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mine_class" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -94,13 +94,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mine_course" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -117,13 +111,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mine_student" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -140,13 +128,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mine_contacts" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -163,13 +145,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/mine_setting" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@mipmap/iau" />
+                <ImageView style="@style/arrow_right" />
+
             </RelativeLayout>
 
         </LinearLayout>

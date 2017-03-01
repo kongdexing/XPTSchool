@@ -110,7 +110,13 @@ public class ScoreActivity extends BaseListActivity {
             }
         });
 
-        spnClass.setItems(GreenDaoHelper.getInstance().getAllClassNameAppend());
+        List<BeanClass> listClass = GreenDaoHelper.getInstance().getAllClass();
+        if (listClass.size() == 0) {
+            spnClass.setText("暂无班级");
+        } else {
+            spnClass.setItems(listClass);
+            getExamName();
+        }
 
         spnClass.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<Object>() {
             @Override
@@ -140,7 +146,6 @@ public class ScoreActivity extends BaseListActivity {
         mAdapter = new ScoreHAdapter(this);
         hlistview_scroll_list.setAdapter(mAdapter);
 
-        getExamName();
     }
 
     public void initTitleExam(BeanExam item) {

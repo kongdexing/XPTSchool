@@ -56,7 +56,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MapFragment extends MapBaseFragment implements BDLocationListener, SensorEventListener {
+public class MapFragment extends MapBaseFragment {
 
     @BindView(R.id.spnStudents)
     MaterialSpinner spnStudents;

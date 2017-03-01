@@ -3,10 +3,10 @@
     android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
     <item android:state_checked="true"
-        android:drawable="@mipmap/ic_my_selector" />
+        android:drawable="@drawable/bg_circle_huaxue" />
 
     <item android:state_pressed="true"
-        android:drawable="@mipmap/ic_my_selector" />
+        android:drawable="@drawable/bg_circle_huaxue" />
 
     <item android:drawable="@android:color/transparent" />
 

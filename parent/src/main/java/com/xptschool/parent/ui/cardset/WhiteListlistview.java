@@ -8,14 +8,21 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.util.CardWhiteListClickListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dexing on 2017/1/11.
@@ -37,7 +44,18 @@ public class WhiteListlistview extends LinearLayout {
     public WhiteListlistview(Context context, AttributeSet attrs) {
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.content_card_whitelist_listview, this, true);
+
+        View buttonView = LayoutInflater.from(context).inflate(R.layout.content_card_whitelist_button, null, false);
+//        buttonView.setLayoutParams(lp);
+        buttonView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.sendBroadcast(new Intent(BroadcastAction.WHITELIST_OKCLICK));
+            }
+        });
         listWhite = (ListView) view.findViewById(R.id.list_white);
+//        listWhite.addFooterView(buttonView);
+
         adapter = new WhiteListAdapter(context);
         listWhite.setAdapter(adapter);
     }
@@ -66,20 +84,50 @@ public class WhiteListlistview extends LinearLayout {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BroadcastAction.WHITELIST_OKCLICK)) {
                 String values = "";
-                List<WhiteCardView> views = adapter.getCardWhiteViews();
-                int size = views.size();
-                Log.i("white", "onReceive: child size " + size);
+//                List<WhiteCardView> views = adapter.getCardWhiteViews();
+//                int size = views.size();
 
-                for (int i = 0; i < size; i++) {
-                    WhiteCardView cardWhiteList = views.get(i);
-                    String value = cardWhiteList.getInputValue();
-                    if (value == null) {
-                        return;
+                HashMap<Integer, String> whiteNumbers = adapter.getWhiteNumbers();
+                Iterator iter = whiteNumbers.entrySet().iterator();
+                while (iter.hasNext()) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    int key = (int) entry.getKey();
+                    String value = (String) entry.getValue();
+                    if (value == null || !value.contains(":")) {
+                        continue;
                     }
+                    String[] nameNums = value.split(":");
+
+                    String name = "";
+                    String phone = "";
+
+                    if (nameNums.length > 0) {
+                        name = nameNums[0];
+                    }
+                    if (nameNums.length > 1) {
+                        phone = nameNums[1];
+                    }
+
+                    if (name.isEmpty() && phone.isEmpty()) {
+                        continue;
+                    }
+
+                    if (name.isEmpty() && !phone.isEmpty()
+                            || !name.isEmpty() && phone.isEmpty()) {
+                        //其中一个为空
+                        Toast.makeText(mContext, R.string.toast_contract_other_empty, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+
+                    if (!CommonUtil.isPhone(phone)) {
+                        Toast.makeText(mContext, R.string.input_error_phone, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+
                     if (!value.isEmpty()) {
                         values += value + ",";
                     }
-                    Log.i("white", i + " value " + value);
+                    Log.i("white", " value " + value);
                 }
 
                 if (values.length() > 1) {

@@ -6,10 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.bean.ContactType;
 import com.xptschool.teacher.common.ExtraKey;
@@ -29,6 +33,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
     private final LayoutInflater mLayoutInflater;
     private ArrayList<String> keys = new ArrayList();
 
+    private ArrayList<Boolean> groupExpandedStatus = new ArrayList<>();
     private LinkedHashMap<String, ArrayList<Object>> listContacts = new LinkedHashMap<>();
     private LinkedHashMap<String, ArrayList<Object>> allListContacts = new LinkedHashMap<>();
 
@@ -105,12 +110,41 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        GroupViewHolder viewHolder = null;
         if (convertView == null) {
+            viewHolder = new GroupViewHolder();
             convertView = mLayoutInflater.inflate(R.layout.item_contacts_group, parent, false);
+            viewHolder.groupName = (TextView) convertView.findViewById(R.id.text);
+            viewHolder.imgArrow = (ImageView) convertView.findViewById(R.id.imgArrow);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (GroupViewHolder) convertView.getTag();
         }
 
-        final TextView text = (TextView) convertView.findViewById(R.id.text);
-        text.setText(keys.get(groupPosition));
+        boolean expanded = isExpanded;
+
+        if (groupExpandedStatus.size() > groupPosition) {
+            expanded = groupExpandedStatus.get(groupPosition);
+        } else {
+            groupExpandedStatus.add(isExpanded);
+        }
+
+        viewHolder.groupName.setText(keys.get(groupPosition));
+        Animation rotateAnimation = null;
+
+        if (expanded != isExpanded) {
+            if (isExpanded) {
+                rotateAnimation = new
+                        RotateAnimation(-90f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            } else {
+                rotateAnimation = new
+                        RotateAnimation(0f, -90f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            }
+            rotateAnimation.setFillAfter(true); // 设置保持动画最后的状态
+            rotateAnimation.setDuration(300); // 设置动画时间
+            viewHolder.imgArrow.startAnimation(rotateAnimation);
+            groupExpandedStatus.set(groupPosition, isExpanded);
+        }
         return convertView;
     }
 
@@ -136,6 +170,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
             convertView = mLayoutInflater.inflate(R.layout.item_contacts, parent, false);
             viewHolder = new ChildrenViewHolder();
             viewHolder.llContacts = (LinearLayout) convertView.findViewById(R.id.llContacts);
+            viewHolder.imgHead = (CircularImageView) convertView.findViewById(R.id.imgHead);
             viewHolder.text = (TextView) convertView.findViewById(R.id.text);
             convertView.setTag(viewHolder);
         } else {
@@ -145,7 +180,11 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         if (getGroup(groupPosition).equals(ContactType.TEACHER.toString())) {
             final ContactTeacher teacher = (ContactTeacher) getChild(groupPosition, childPosition);
             viewHolder.text.setText(teacher.getName());
-
+            if (teacher.getSex().equals("1")) {
+                viewHolder.imgHead.setImageResource(R.mipmap.teacher_man);
+            } else {
+                viewHolder.imgHead.setImageResource(R.mipmap.teacher_woman);
+            }
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -158,7 +197,11 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         } else {
             final ContactStudent student = (ContactStudent) getChild(groupPosition, childPosition);
             viewHolder.text.setText(student.getStu_name());
-
+            if (student.getSex().equals("1")) {
+                viewHolder.imgHead.setImageResource(R.mipmap.student_boy);
+            } else {
+                viewHolder.imgHead.setImageResource(R.mipmap.student_girl);
+            }
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -182,8 +225,15 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+
+    class GroupViewHolder {
+        TextView groupName;
+        ImageView imgArrow;
+    }
+
     class ChildrenViewHolder {
         LinearLayout llContacts;
+        CircularImageView imgHead;
         TextView text;
     }
 

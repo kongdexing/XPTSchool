@@ -41,7 +41,7 @@
                     app:ms_dropdown_max_height="@dimen/dp_350"
                     app:ms_dropdown_width="wrap_content"
                     app:ms_text_color="@color/text_black"
-                    app:ms_text_size="16" />
+                    app:ms_text_size="@dimen/sp_int_16" />
 
             </LinearLayout>
 
@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="@color/text_black"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
             <RelativeLayout
@@ -132,8 +132,9 @@
                     android:layout_toEndOf="@+id/txtContent"
                     android:gravity="top|left"
                     android:minLines="3"
+                    android:text=""
                     android:textColor="@color/text_black"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/sp_16" />
             </RelativeLayout>
 
             <com.android.widget.mygridview.MyGridView

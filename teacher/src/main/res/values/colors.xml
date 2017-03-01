@@ -5,7 +5,7 @@
     <color name="colorPrimaryTransparent">#ffffff</color>
     <color name="colorPrimary">#0080ba</color>
     <color name="colorPrimaryDark">#00a0e8</color>
-    <color name="colorAccent">#EE8026</color>
+    <color name="colorAccent">#0080ba</color>
     <color name="colorAccent2">#27DEB7</color>
     <color name="colorAccent3">#A0A8CC</color>
     <color name="colorOrange">#EE8026</color>
@@ -29,6 +29,10 @@
     <color name="text_black">#384554</color>
     <color name="text_black_2">#5b5b5b</color>
     <color name="text_red">#f34e4e</color>
+
+    <color name="color_black_1">#333333</color>
+    <color name="color_black_2">#666666</color>
+    <color name="color_black_3">#999999</color>
 
     <color name="line">#ffd3dde6</color>
     <color name="line_bg">#CDCDCD</color>

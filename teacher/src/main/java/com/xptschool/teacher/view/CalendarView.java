@@ -68,8 +68,8 @@ public class CalendarView extends LinearLayout implements OnDateSelectedListener
         calendarView.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
 //        calendarView.setTileHeight(LayoutParams.MATCH_PARENT);
 
-        this.setCalendarWidth(40);
-        this.setCalendarHeight(40);
+//        this.setCalendarWidth(40);
+//        this.setCalendarHeight(40);
 
         Calendar instance = Calendar.getInstance();
         calendarView.setSelectedDate(instance.getTime());

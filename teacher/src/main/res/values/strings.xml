@@ -49,7 +49,7 @@
     <string name="label_new_pwd2">确认密码</string>
 
     <!--家庭作业-->
-    <string name="push">发 布</string>
+    <string name="push">发布</string>
     <string name="push_again">重新发布</string>
     <string name="homework_push">发布作业</string>
     <string name="homework_detail">作业详情</string>

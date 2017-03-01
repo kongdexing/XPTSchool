@@ -148,7 +148,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
 
     @Override
     protected void initData() {
-        MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_25));
+        MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_30));
         Log.i(TAG, "initData: MapInfoTop " + MapInfoTop);
     }
 
