@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -19,18 +20,14 @@ import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.util.ContractClickListener;
 import com.xptschool.parent.model.BeanStudent;
+import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
-import com.xptschool.parent.util.CardWhiteListClickListener;
+import com.xptschool.parent.util.ContractClickListener;
 import com.xptschool.parent.view.CustomDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -42,13 +39,12 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class CardSetBaseActivity extends BaseActivity {
 
-//    public static String CARD_TYPE = "card_type";
+    public Button btnSubmit;
     public static String CARD_SOS = "sos";
     public static String CARD_WHITELIST = "whitelist";
     public static String CARD_MONITER = "monitor";
     public String CardType = "";
     public BeanStudent currentStudent;
-    public List<CardSOSView> listSOSViews = new ArrayList<>();
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -192,27 +188,12 @@ public class CardSetBaseActivity extends BaseActivity {
                                         if (CardType.equals(type)) {
                                             if (CardType.equals(CARD_SOS)) {
                                                 currentStudent.setSos(value);
-                                                String[] sosPhones = new String[]{"", "", ""};
-                                                if (value != null) {
-                                                    sosPhones = value.split(",");
-                                                }
-                                                for (int j = 0; j < listSOSViews.size(); j++) {
-                                                    String phone = "";
-                                                    if (sosPhones.length > j) {
-                                                        phone = sosPhones[j];
-                                                    }
-                                                    listSOSViews.get(j).bindData(j + 1, phone, sosContractChooseListener);
-                                                }
                                             } else if (CardType.equals(CARD_WHITELIST)) {
                                                 currentStudent.setWhitelist(value);
-//                                                mWhiteListView.bindDatas(value, contractChooseListener);
                                             } else if (CardType.equals(CARD_MONITER)) {
                                                 currentStudent.setMonitor(value);
-                                                if (value == null || value.isEmpty()) {
-                                                    value = "";
-                                                }
-//                                                mMoniterCardView.bindData(currentStudent, contractChooseListener);
                                             }
+                                            setViewData(value);
                                             GreenDaoHelper.getInstance().updateStudent(currentStudent);
                                         }
                                     }
@@ -251,17 +232,17 @@ public class CardSetBaseActivity extends BaseActivity {
                     public void onStart() {
                         super.onStart();
                         showProgress(R.string.progress_loading_cn);
-//                        if (btnSubmit != null) {
-//                            btnSubmit.setEnabled(false);
-//                        }
+                        if (btnSubmit != null) {
+                            btnSubmit.setEnabled(false);
+                        }
                     }
 
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         hideProgress();
-//                        if (btnSubmit != null) {
-//                            btnSubmit.setEnabled(true);
-//                        }
+                        if (btnSubmit != null) {
+                            btnSubmit.setEnabled(true);
+                        }
                         super.onResponse(volleyHttpResult);
                         switch (volleyHttpResult.getStatus()) {
                             case HttpAction.SUCCESS:
@@ -309,9 +290,9 @@ public class CardSetBaseActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         hideProgress();
-//                        if (btnSubmit != null) {
-//                            btnSubmit.setEnabled(true);
-//                        }
+                        if (btnSubmit != null) {
+                            btnSubmit.setEnabled(true);
+                        }
                         super.onErrorResponse(volleyError);
                         Toast.makeText(CardSetBaseActivity.this, "设置失败！", Toast.LENGTH_SHORT).show();
                     }
@@ -323,23 +304,15 @@ public class CardSetBaseActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    public ContractClickListener sosContractChooseListener = new ContractClickListener() {
+    public ContractClickListener contractChooseListener = new ContractClickListener() {
         @Override
         public void onContractClick() {
             CardSetBaseActivityPermissionsDispatcher.goToChooseContractsWithCheck(CardSetBaseActivity.this);
         }
     };
 
-    CardWhiteListClickListener contractChooseListener = new CardWhiteListClickListener() {
-        @Override
-        public void onContractChooseClick() {
-            CardSetBaseActivityPermissionsDispatcher.goToChooseContractsWithCheck(CardSetBaseActivity.this);
-        }
+    protected void setViewData(String value){
 
-        @Override
-        public void onBtnOkClick(String values) {
-            setCardPhone(values);
-        }
-    };
+    }
 
 }

@@ -19,6 +19,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.util.CardWhiteListClickListener;
+import com.xptschool.parent.util.ContractClickListener;
 
 /**
  * Created by dexing on 2017/1/10.
@@ -33,10 +34,9 @@ public class WhiteCardView extends LinearLayout implements View.OnClickListener 
     private ImageView imgDel1;
     private ImageView imgDel2;
     private ImageView imgContract;
-    private Button btnOk;
 
     private Context mContext;
-    private CardWhiteListClickListener clickListener;
+    private ContractClickListener clickListener;
 
     public WhiteCardView(Context context) {
         this(context, null);
@@ -53,16 +53,13 @@ public class WhiteCardView extends LinearLayout implements View.OnClickListener 
         imgDel1 = (ImageView) view.findViewById(R.id.imgDel1);
         imgDel2 = (ImageView) view.findViewById(R.id.imgDel2);
         imgContract = (ImageView) view.findViewById(R.id.imgContract);
-        btnOk = (Button) view.findViewById(R.id.btnOk);
 
         imgDel1.setOnClickListener(this);
         imgDel2.setOnClickListener(this);
-        btnOk.setOnClickListener(this);
         imgContract.setOnClickListener(this);
     }
 
-    public void bindData(int index, int allSize, String phoneNum, CardWhiteListClickListener listener) {
-        Log.i("WhiteCard", "bindData: index " + index + " allSize " + allSize);
+    public void bindData(int index, String phoneNum, ContractClickListener listener) {
 
         try {
             edtPhoneName.setHint("联系人" + index);
@@ -70,16 +67,11 @@ public class WhiteCardView extends LinearLayout implements View.OnClickListener 
                 String[] values = phoneNum.split(":");
                 edtPhoneName.setText(values[0]);
                 edtPhone.setText(values[1]);
-                edtPhone.requestFocus();
-                edtPhone.setSelection(edtPhone.getText().toString().length());
+//                edtPhone.requestFocus();
+//                edtPhone.setSelection(edtPhone.getText().toString().length());
             }
         } catch (Exception ex) {
 
-        }
-        if (index == allSize) {
-            btnOk.setVisibility(VISIBLE);
-        } else {
-            btnOk.setVisibility(GONE);
         }
         clickListener = listener;
     }
@@ -119,12 +111,9 @@ public class WhiteCardView extends LinearLayout implements View.OnClickListener 
                 break;
             case R.id.imgContract:
                 if (clickListener != null) {
-                    clickListener.onContractChooseClick();
+                    clickListener.onContractClick();
                     mContext.registerReceiver(WhiteListContractsReceiver, new IntentFilter(BroadcastAction.WHITELIST_CONTACTS));
                 }
-                break;
-            case R.id.btnOk:
-                mContext.sendBroadcast(new Intent(BroadcastAction.WHITELIST_OKCLICK));
                 break;
         }
     }

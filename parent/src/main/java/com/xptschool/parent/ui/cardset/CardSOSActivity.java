@@ -1,17 +1,16 @@
 package com.xptschool.parent.ui.cardset;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.main.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +19,10 @@ import butterknife.BindView;
 
 public class CardSOSActivity extends CardSetBaseActivity implements View.OnClickListener {
 
-    @BindView(R.id.llContent)
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
     LinearLayout llContent;
-    private Button btnSubmit;
+    public List<CardSOSView> listSOSViews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,24 +61,37 @@ public class CardSOSActivity extends CardSetBaseActivity implements View.OnClick
         btnSubmit.setTextSize(16);
         btnSubmit.setOnClickListener(this);
 
-        String sos = currentStudent.getSos();
+        llContent = new LinearLayout(this);
+        LinearLayout.LayoutParams contentLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        llContent.setOrientation(LinearLayout.VERTICAL);
+        llContent.setLayoutParams(contentLP);
+
+        setViewData(currentStudent.getSos());
+
+        getCardPhone();
+    }
+
+    @Override
+    protected void setViewData(String value) {
+        super.setViewData(value);
         String[] sosPhones = new String[]{"", "", ""};
-        if (sos != null) {
-            sosPhones = sos.split(",");
+        if (value != null) {
+            sosPhones = value.split(",");
         }
+
+        scrollView.removeAllViews();
         for (int i = 0; i < 3; i++) {
             CardSOSView sosView = new CardSOSView(this);
             String phone = "";
             if (sosPhones.length > i) {
                 phone = sosPhones[i];
             }
-            sosView.bindData(i + 1, phone, sosContractChooseListener);
+            sosView.bindData(i + 1, phone, contractChooseListener);
             listSOSViews.add(sosView);
             llContent.addView(sosView);
         }
         llContent.addView(btnSubmit);
-
-        getCardPhone();
+        scrollView.addView(llContent);
     }
 
     @Override

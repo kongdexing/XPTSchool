@@ -2,7 +2,6 @@ package com.xptschool.parent.ui.cardset;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,7 +127,7 @@ public class ChildFragment extends BaseFragment implements View.OnClickListener 
             return;
         }
 
-        Intent intent = new Intent(getContext(), CardSetActivity.class);
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.RLSOSSet:
                 intent = new Intent(getContext(), CardSOSActivity.class);
@@ -136,12 +135,12 @@ public class ChildFragment extends BaseFragment implements View.OnClickListener 
                 getContext().startActivity(intent);
                 break;
             case R.id.RLWhitelistSet:
-                intent.putExtra(CardSetActivity.CARD_TYPE, CardSetActivity.CARD_WHITELIST);
+                intent = new Intent(getContext(), CardWhiteListActivity.class);
                 intent.putExtra(ExtraKey.STUDENT_ID, currentStudent.getStu_id());
                 getContext().startActivity(intent);
                 break;
             case R.id.RLMoniterSet:
-                intent.putExtra(CardSetActivity.CARD_TYPE, CardSetActivity.CARD_MONITER);
+                intent = new Intent(getContext(), CardMoniterActivity.class);
                 intent.putExtra(ExtraKey.STUDENT_ID, currentStudent.getStu_id());
                 getContext().startActivity(intent);
                 break;

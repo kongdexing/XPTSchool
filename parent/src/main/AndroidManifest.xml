@@ -114,7 +114,7 @@
             android:name=".ui.mine.MyInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.cardset.CardSetActivity"
+            android:name=".ui.cardset.CardMoniterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme" />
         <activity
