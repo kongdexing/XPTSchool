@@ -28,6 +28,7 @@ import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.util.CardWhiteListClickListener;
+import com.xptschool.parent.util.ContractClickListener;
 import com.xptschool.parent.view.CustomDialog;
 
 import org.json.JSONArray;
@@ -148,15 +149,6 @@ public class CardSetActivity extends BaseActivity implements View.OnClickListene
 
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
         startActivityForResult(intent, 0);
-
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_VIEW);
-//        intent.setData(Contacts.People.CONTENT_URI);
-//        startActivityForResult(intent, 0);
-
-//        Uri uri = Uri.parse("content://contacts/people");
-//        Intent intent = new Intent(Intent.ACTION_PICK, uri);
-//        startActivityForResult(intent, 0);
 
     }
 
@@ -465,10 +457,6 @@ public class CardSetActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    public interface ContractClickListener {
-        void onContractClick();
     }
 
     ContractClickListener sosContractChooseListener = new ContractClickListener() {

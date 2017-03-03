@@ -3,6 +3,7 @@ package com.xptschool.parent.ui.checkin;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.bean.BeanCheckin;
+import com.xptschool.parent.bean.BeanHomeWork;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +35,20 @@ public class CheckinAdapter extends BaseRecycleAdapter {
         super(context);
     }
 
-    public void loadDate(List<BeanCheckin> dates) {
-        listBeanCheckins = dates;
-        notifyDataSetChanged();
+    public void refreshData(List<BeanCheckin> beanCheckins) {
+        Log.i(TAG, "refreshData: ");
+        listBeanCheckins = beanCheckins;
     }
+
+    public void appendData(List<BeanCheckin> beanCheckins) {
+        Log.i(TAG, "refreshData: ");
+        listBeanCheckins.addAll(beanCheckins);
+    }
+
+//    public void loadDate(List<BeanCheckin> dates) {
+//        listBeanCheckins = dates;
+//        notifyDataSetChanged();
+//    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,10 +61,10 @@ public class CheckinAdapter extends BaseRecycleAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder mHolder = (ViewHolder) holder;
         final BeanCheckin beanCheckin = listBeanCheckins.get(position);
-        mHolder.txtStudentName.setText(beanCheckin.getStu_name());
-        mHolder.txtInTime.setText(beanCheckin.getSignin_time());
-        mHolder.txtOutTime.setText(beanCheckin.getSignout_time());
-        mHolder.txtLeaveTime.setText(beanCheckin.getLeave());
+        mHolder.txtSignType.setText(beanCheckin.getSchool_type());
+        mHolder.txtSTime.setText(beanCheckin.getS_time());
+        mHolder.txtStatus.setText(beanCheckin.getSignin_type());
+        mHolder.txtInterZone.setText(beanCheckin.getShijianduan());
     }
 
     @Override
@@ -66,17 +78,17 @@ public class CheckinAdapter extends BaseRecycleAdapter {
         @BindView(R.id.llCheckInItem)
         LinearLayout llCheckInItem;
 
-        @BindView(R.id.txtStudentName)
-        TextView txtStudentName;
+        @BindView(R.id.txtSignType)
+        TextView txtSignType;
 
-        @BindView(R.id.txtInTime)
-        TextView txtInTime;
+        @BindView(R.id.txtSTime)
+        TextView txtSTime;
 
-        @BindView(R.id.txtOutTime)
-        TextView txtOutTime;
+        @BindView(R.id.txtStatus)
+        TextView txtStatus;
 
-        @BindView(R.id.txtLeaveTime)
-        TextView txtLeaveTime;
+        @BindView(R.id.txtInterZone)
+        TextView txtInterZone;
 
         public ViewHolder(View itemView) {
             super(itemView);

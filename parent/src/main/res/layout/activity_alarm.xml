@@ -75,20 +75,6 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/txtClassName"
-                style="@style/TextAlarm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="姓名" />
-
-            <View
-                android:layout_width="@dimen/dp_0.5"
-                android:layout_height="match_parent"
-                android:background="@color/text_grey" />
-
-            <TextView
                 style="@style/TextAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,7 +91,7 @@
                 style="@style/TextAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:gravity="center"
                 android:text="报警类型" />
 
@@ -119,7 +105,7 @@
                 style="@style/TextAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:gravity="center"
                 android:text="处理状态" />
 
@@ -135,10 +121,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.v7.widget.RecyclerView
+                <com.android.widget.view.LoadMoreRecyclerView
                     android:id="@+id/recycleView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="8dp" />
 
             </android.support.v4.widget.SwipeRefreshLayout>

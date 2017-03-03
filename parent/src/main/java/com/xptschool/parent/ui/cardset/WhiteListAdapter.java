@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -38,7 +41,7 @@ public class WhiteListAdapter extends BaseAdapter {
     private String[] whitelists = null;
     private Context mContext;
     private CardWhiteListClickListener mListener;
-    //    private List<WhiteCardView> allCardWhite = new ArrayList<>();
+    private List<View> allCardWhite = new ArrayList<>();
     private int maxLength = 10; //最多设置号码个数
     public static HashMap<Integer, String> whiteNumbers;
     private int handlerIndex = 0;
@@ -95,46 +98,36 @@ public class WhiteListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder = null;
-        if (view == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.content_card_whitelist, viewGroup, false);
-            viewHolder = new ViewHolder(view);
-            view.setTag(viewHolder);
+//        ViewHolder viewHolder = null;
+//        if (view == null) {
+//            view.setTag(viewHolder);
+//        } else {
+//            viewHolder = (ViewHolder) view.getTag();
+//        }
+
+        if (allCardWhite.size() > position) {
+            view = allCardWhite.get(position);
         } else {
-            viewHolder = (ViewHolder) view.getTag();
+            view = LayoutInflater.from(mContext).inflate(R.layout.content_card_whitelist, viewGroup, false);
+            allCardWhite.add(view);
         }
+
+        final ViewHolder viewHolder = new ViewHolder(view);
+        view.setTag(viewHolder);
 
         viewHolder.imgDel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String numbers = whiteNumbers.get(position);
-                String[] namNum = numbers.split(":");
-                if (namNum.length > 0) {
-                    if (namNum.length == 1) {
-                        whiteNumbers.put(position, ":");
-                    } else {
-                        whiteNumbers.put(position, ":" + namNum[1]);
-                    }
-                    handlerIndex = position;
-                    leftDel = true;
-                    rightDel = false;
-                    notifyDataSetChanged();
-                }
+                viewHolder.edtPhoneName.setText("");
+                viewHolder.edtPhoneName.requestFocus();
             }
         });
 
         viewHolder.imgDel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String numbers = whiteNumbers.get(position);
-                String[] namNum = numbers.split(":");
-                if (namNum.length > 0) {
-                    whiteNumbers.put(position, namNum[0] + ":");
-                    handlerIndex = position;
-                    leftDel = false;
-                    rightDel = true;
-                    notifyDataSetChanged();
-                }
+                viewHolder.edtPhone.setText("");
+                viewHolder.edtPhone.requestFocus();
             }
         });
 
@@ -150,9 +143,13 @@ public class WhiteListAdapter extends BaseAdapter {
                                 try {
                                     String phone = intent.getStringExtra("phone");
                                     String name = intent.getStringExtra("name");
-                                    whiteNumbers.put(position, name + ":" + phone);
+//                                    whiteNumbers.put(position, name + ":" + phone);
+
+                                    viewHolder.edtPhoneName.setText(name);
+                                    viewHolder.edtPhone.setText(phone);
+
                                     mContext.unregisterReceiver(this);
-                                    notifyDataSetChanged();
+//                                    notifyDataSetChanged();
                                 } catch (Exception ex) {
                                     Toast.makeText(context, R.string.toast_get_phone_null, Toast.LENGTH_SHORT).show();
                                 }
@@ -163,27 +160,20 @@ public class WhiteListAdapter extends BaseAdapter {
             }
         });
 
-        viewHolder.edtPhoneName.setText("");
-        viewHolder.edtPhone.setText("");
-
         try {
             viewHolder.edtPhoneName.setHint("联系人" + (position + 1));
-            String nameNums = whiteNumbers.get(position);
+//            String nameNums = whiteNumbers.get(position);
+            String nameNums = getItem(position);
             Log.i("WhiteCard", "getView: " + position + " value " + nameNums);
 
             if (nameNums.contains(":")) {
                 String[] values = nameNums.split(":");
                 viewHolder.edtPhoneName.setText(values[0]);
                 viewHolder.edtPhone.setText(values[1]);
-                if (handlerIndex == position) {
-                    if (leftDel) {
-                        viewHolder.edtPhoneName.requestFocus();
-                    } else {
-                        viewHolder.edtPhone.requestFocus();
-                    }
-                }
             }
         } catch (Exception ex) {
+//            viewHolder.edtPhoneName.setText("");
+//            viewHolder.edtPhone.setText("");
             Log.i("WhiteCard", "getView: " + position + " error: " + ex.getMessage());
         }
         if (position + 1 == getCount()) {
@@ -198,28 +188,54 @@ public class WhiteListAdapter extends BaseAdapter {
                 mContext.sendBroadcast(new Intent(BroadcastAction.WHITELIST_OKCLICK));
             }
         });
-//        clickListener = listener;
-
-//        view = new WhiteCardView(mContext);
-//        cardWhiteListView = (WhiteCardView) view;
-
-//        cardWhiteListView.bindData(position + 1, getCount(), getItem(position), mListener);
-
-//        if (allCardWhite.size() > position) {
-//            allCardWhite.set(position, view);
-//        } else {
-//            allCardWhite.add(cardWhiteListView);
-//        }
-
-//        if (!allCardWhite.contains(cardWhiteListView)) {
-//            allCardWhite.add(cardWhiteListView);
-//        }
         return view;
     }
 
-//    public List<WhiteCardView> getCardWhiteViews() {
-//        return allCardWhite;
-//    }
+    public List<View> getCardWhiteViews() {
+        return allCardWhite;
+    }
+
+    class myPhoneWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+//            text[index] = s.toString();//为输入的位置内容设置数组管理器，防止item重用机制导致的上下内容一样的问题
+        }
+
+    }
+
+    class myNameWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+//            text[index] = s.toString();//为输入的位置内容设置数组管理器，防止item重用机制导致的上下内容一样的问题
+        }
+
+    }
 
     class ViewHolder {
 

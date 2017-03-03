@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
-import com.xptschool.parent.ui.cardset.CardSetActivity;
+import com.xptschool.parent.util.ContractClickListener;
 
 /**
  * Created by dexing on 2017/1/10.
@@ -30,7 +30,7 @@ public class CardSOSView extends LinearLayout implements View.OnClickListener {
     private ImageView imgDel;
     private ImageView imgSOS1;
     private Context mContext;
-    private CardSetActivity.ContractClickListener clickListener;
+    private ContractClickListener clickListener;
 
     public CardSOSView(Context context) {
         this(context, null);
@@ -48,7 +48,7 @@ public class CardSOSView extends LinearLayout implements View.OnClickListener {
         imgSOS1.setOnClickListener(this);
     }
 
-    public void bindData(int index, String phoneNum, CardSetActivity.ContractClickListener listener) {
+    public void bindData(int index, String phoneNum, ContractClickListener listener) {
         txtSOS1.setText("SOS号码" + index);
         edtSOS1.setText(phoneNum);
         edtSOS1.setSelection(edtSOS1.getText().toString().length());

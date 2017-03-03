@@ -8,9 +8,10 @@ public class BeanCheckin {
 
     private String stu_id;
     private String stu_name;
-    private String signin_time;
-    private String signout_time;
-    private String leave;
+    private String signin_type;
+    private String s_time;
+    private String school_type;
+    private String shijianduan;
 
     public String getStu_id() {
         return stu_id;
@@ -28,27 +29,35 @@ public class BeanCheckin {
         this.stu_name = stu_name;
     }
 
-    public String getSignin_time() {
-        return signin_time;
+    public String getSignin_type() {
+        return signin_type;
     }
 
-    public void setSignin_time(String signin_time) {
-        this.signin_time = signin_time;
+    public void setSignin_type(String signin_type) {
+        this.signin_type = signin_type;
     }
 
-    public String getSignout_time() {
-        return signout_time;
+    public String getS_time() {
+        return s_time;
     }
 
-    public void setSignout_time(String signout_time) {
-        this.signout_time = signout_time;
+    public void setS_time(String s_time) {
+        this.s_time = s_time;
     }
 
-    public String getLeave() {
-        return leave;
+    public String getSchool_type() {
+        return school_type;
     }
 
-    public void setLeave(String leave) {
-        this.leave = leave;
+    public void setSchool_type(String school_type) {
+        this.school_type = school_type;
+    }
+
+    public String getShijianduan() {
+        return shijianduan;
+    }
+
+    public void setShijianduan(String shijianduan) {
+        this.shijianduan = shijianduan;
     }
 }

@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity {
         initData();
 
         mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setDebugMode(true);
+        mPushAgent.setDebugMode(false);
         Log.i(TAG, "init: register ");
         new Thread(new Runnable() {
             @Override

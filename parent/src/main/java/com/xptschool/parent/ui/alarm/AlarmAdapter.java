@@ -17,6 +17,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.bean.BeanAlarm;
+import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.ExtraKey;
 
@@ -41,9 +42,14 @@ public class AlarmAdapter extends BaseRecycleAdapter {
         context.registerReceiver(AlarmAmendReceiver, intentFilter);
     }
 
-    public void refreshData(List<BeanAlarm> list) {
-        beanAlarms = list;
-        notifyDataSetChanged();
+    public void refreshData(List<BeanAlarm> beanAlarms) {
+        Log.i(TAG, "refreshData: ");
+        this.beanAlarms = beanAlarms;
+    }
+
+    public void appendData(List<BeanAlarm> beanAlarms) {
+        Log.i(TAG, "refreshData: ");
+        this.beanAlarms.addAll(beanAlarms);
     }
 
     public void clearData() {
@@ -63,7 +69,6 @@ public class AlarmAdapter extends BaseRecycleAdapter {
         final ViewHolder mHolder = (ViewHolder) holder;
         final BeanAlarm alarm = beanAlarms.get(position);
 
-        mHolder.txtStudentName.setText(alarm.getStu_name());
         mHolder.txtAlarmType.setText(alarm.getWar_type());
         mHolder.txtTime.setText(alarm.getCreate_time());
         if (alarm.getWar_status().equals("0")) {
@@ -93,9 +98,6 @@ public class AlarmAdapter extends BaseRecycleAdapter {
         private Unbinder unbinder;
         @BindView(R.id.llAlarmItem)
         LinearLayout llAlarmItem;
-
-        @BindView(R.id.txtStudentName)
-        TextView txtStudentName;
 
         @BindView(R.id.txtAlarmType)
         TextView txtAlarmType;

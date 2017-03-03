@@ -131,7 +131,7 @@ public class ChildFragment extends BaseFragment implements View.OnClickListener 
         Intent intent = new Intent(getContext(), CardSetActivity.class);
         switch (view.getId()) {
             case R.id.RLSOSSet:
-                intent.putExtra(CardSetActivity.CARD_TYPE, CardSetActivity.CARD_SOS);
+                intent = new Intent(getContext(), CardSOSActivity.class);
                 intent.putExtra(ExtraKey.STUDENT_ID, currentStudent.getStu_id());
                 getContext().startActivity(intent);
                 break;

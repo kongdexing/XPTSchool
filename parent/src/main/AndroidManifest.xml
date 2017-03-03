@@ -115,12 +115,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.cardset.CardSetActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.fence.FenceListActivity"
             android:label="@string/title_activity_fence_list"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.cardset.ReadContractActivity" />
 
         <!-- 必须配置 -->
         <activity
@@ -148,6 +148,8 @@
         <activity android:name=".ui.mine.ChangePwdActivity" />
         <activity android:name=".ui.mine.SettingActivity" />
         <activity android:name=".ui.main.WebViewActivity" />
+        <activity android:name=".ui.cardset.CardSOSActivity" />
+        <activity android:name=".ui.cardset.CardWhiteListActivity"></activity>
     </application>
 
 </manifest>

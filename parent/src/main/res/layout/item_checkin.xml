@@ -3,8 +3,8 @@
     android:id="@+id/llCheckInItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
     android:background="@drawable/touch_bg"
+    android:clickable="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,13 +12,13 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/txtStudentName"
+            android:id="@+id/txtSignType"
             style="@style/TextStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="广博" />
+            android:text="签到类型" />
 
         <View
             android:layout_width="@dimen/dp_0.5"
@@ -26,13 +26,14 @@
             android:background="@color/text_grey" />
 
         <TextView
-            android:id="@+id/txtInTime"
+            android:id="@+id/txtSTime"
             style="@style/TextStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="入校" />
+            android:text="签到时间"
+            android:textSize="@dimen/sp_14" />
 
         <View
             android:layout_width="@dimen/dp_0.5"
@@ -40,13 +41,13 @@
             android:background="@color/text_grey" />
 
         <TextView
-            android:id="@+id/txtOutTime"
+            android:id="@+id/txtStatus"
             style="@style/TextStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:gravity="center"
-            android:text="出校" />
+            android:text="状态" />
 
         <View
             android:layout_width="@dimen/dp_0.5"
@@ -54,13 +55,14 @@
             android:background="@color/text_grey" />
 
         <TextView
-            android:id="@+id/txtLeaveTime"
+            android:id="@+id/txtInterZone"
             style="@style/TextStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="0" />
+            android:text="考勤时间段"
+            android:textSize="@dimen/sp_14" />
 
     </LinearLayout>
 

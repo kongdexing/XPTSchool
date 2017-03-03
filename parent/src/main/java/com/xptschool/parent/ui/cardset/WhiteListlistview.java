@@ -116,12 +116,12 @@ public class WhiteListlistview extends LinearLayout {
                             || !name.isEmpty() && phone.isEmpty()) {
                         //其中一个为空
                         Toast.makeText(mContext, R.string.toast_contract_other_empty, Toast.LENGTH_SHORT).show();
-                        break;
+                        return;
                     }
 
                     if (!CommonUtil.isPhone(phone)) {
                         Toast.makeText(mContext, R.string.input_error_phone, Toast.LENGTH_SHORT).show();
-                        break;
+                        return;
                     }
 
                     if (!value.isEmpty()) {
