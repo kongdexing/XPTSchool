@@ -36,14 +36,14 @@ public class HttpAction {
     //考试名称查询
     public static String EXAM_QUERY = HEAD + "Exam/query";
     //考勤管理
-    public static String Attendance_QUERY = HEAD + "Attendance/query";
+    public static String Attendance_QUERY = HEAD + "Attendance/query_v1_0_1";
     //请假管理
     public static String Leave_QUERY = HEAD + "Leave/query";
     public static String Leave_Edit = HEAD + "Leave/edit";
     //课程表
     public static String Timetable_QUERY = HEAD + "Timetable/query";
     //报警记录
-    public static String Track_alarm = HEAD + "Track/alarmRecord";
+    public static String Track_alarm = HEAD + "Track/alarmRecord_v1_0_1";
     //我的班级
     public static String MyClass_QUERY = HEAD + "MyClass/query";
     //我的学生

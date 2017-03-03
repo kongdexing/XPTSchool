@@ -69,8 +69,8 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/txtClassName"
-                style="@style/TextStudent"
+                android:id="@+id/txtStuName"
+                style="@style/TextAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -83,13 +83,13 @@
                 android:background="@color/text_grey" />
 
             <TextView
-                android:id="@+id/txtClassCode"
-                style="@style/TextStudent"
+                android:id="@+id/txtSignType"
+                style="@style/TextAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="入校" />
+                android:text="签到类型" />
 
             <View
                 android:layout_width="@dimen/dp_0.5"
@@ -97,13 +97,13 @@
                 android:background="@color/text_grey" />
 
             <TextView
-                android:id="@+id/txtClassAdviser"
-                style="@style/TextStudent"
+                android:id="@+id/txtSTime"
+                style="@style/TextAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="出校" />
+                android:text="签到时间" />
 
             <View
                 android:layout_width="@dimen/dp_0.5"
@@ -111,13 +111,27 @@
                 android:background="@color/text_grey" />
 
             <TextView
-                android:id="@+id/txtStudentCount"
-                style="@style/TextStudent"
+                android:id="@+id/txtStatus"
+                style="@style/TextAlarm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="请假课时" />
+                android:text="状态" />
+
+            <View
+                android:layout_width="@dimen/dp_0.5"
+                android:layout_height="match_parent"
+                android:background="@color/text_grey" />
+
+            <TextView
+                android:id="@+id/txtInterZone"
+                style="@style/TextAlarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="考勤时间段" />
 
         </LinearLayout>
 
@@ -131,11 +145,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycleView"
+                <com.android.widget.view.LoadMoreRecyclerView
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dp_5" />
 
             </android.support.v4.widget.SwipeRefreshLayout>
 

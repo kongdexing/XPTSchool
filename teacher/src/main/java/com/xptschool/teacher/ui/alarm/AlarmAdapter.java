@@ -43,13 +43,17 @@ public class AlarmAdapter extends BaseRecycleAdapter {
 
     public void refreshData(List<BeanAlarm> list) {
         beanAlarms = list;
-        notifyDataSetChanged();
     }
 
-    public void clearData() {
-        beanAlarms.clear();
-        notifyDataSetChanged();
+    public void appendData(List<BeanAlarm> beanAlarms) {
+        Log.i(TAG, "refreshData: ");
+        this.beanAlarms.addAll(beanAlarms);
     }
+
+//    public void clearData() {
+//        beanAlarms.clear();
+//        notifyDataSetChanged();
+//    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

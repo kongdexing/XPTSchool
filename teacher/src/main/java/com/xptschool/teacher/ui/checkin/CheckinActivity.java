@@ -17,6 +17,7 @@ import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.android.widget.spinner.MaterialSpinner;
 import com.android.widget.view.ArrowTextView;
+import com.android.widget.view.LoadMoreRecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.teacher.R;
@@ -29,6 +30,8 @@ import com.xptschool.teacher.model.BeanClass;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.view.CalendarView;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -52,8 +55,8 @@ public class CheckinActivity extends BaseListActivity {
     @BindView(R.id.llCheckTitle)
     LinearLayout llCheckTitle;
 
-    @BindView(R.id.recycleView)
-    RecyclerView recyclerView;
+    @BindView(R.id.recyclerView)
+    LoadMoreRecyclerView recyclerView;
 
     @BindView(R.id.flTransparent)
     FrameLayout flTransparent;
@@ -79,7 +82,17 @@ public class CheckinActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                resultPage.setPage(1);
                 getCheckinList();
+            }
+        });
+        recyclerView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                if (resultPage.getPage() < resultPage.getTotal_page()) {
+                    resultPage.setPage(resultPage.getPage() + 1);
+                    getCheckinList();
+                }
             }
         });
     }
@@ -125,6 +138,7 @@ public class CheckinActivity extends BaseListActivity {
                         .addParam("dates", txtDate.getText().toString())
                         .addParam("g_id", currentClass.getG_id())
                         .addParam("c_id", currentClass.getC_id())
+                        .addParam("page", resultPage.getPage() + "")
                         .addParam("token", CommonUtil.encryptToken(HttpAction.Attendance_QUERY)),
                 new MyVolleyRequestListener() {
                     @Override
@@ -143,10 +157,20 @@ public class CheckinActivity extends BaseListActivity {
                         switch (httpResult.getStatus()) {
                             case HttpAction.SUCCESS:
                                 try {
+                                    JSONObject jsonObject = new JSONObject(httpResult.getData().toString());
+                                    resultPage.setPage(jsonObject.getInt("page"));
+                                    resultPage.setTotal_page(jsonObject.getInt("total_page"));
+                                    resultPage.setTotal_count(jsonObject.getInt("total_count"));
+                                    if (resultPage.getTotal_page() > resultPage.getPage()) {
+                                        recyclerView.setAutoLoadMoreEnable(true);
+                                    } else {
+                                        recyclerView.setAutoLoadMoreEnable(false);
+                                    }
+
                                     Gson gson = new Gson();
-                                    List<BeanCheckin> listCheckins = gson.fromJson(httpResult.getData().toString(), new TypeToken<List<BeanCheckin>>() {
-                                    }.getType());
-                                    adapter.loadDate(listCheckins);
+                                    List<BeanCheckin> listCheckins = gson.fromJson(jsonObject.getJSONArray("content").toString(),
+                                            new TypeToken<List<BeanCheckin>>() {
+                                            }.getType());
 
                                     if (listCheckins.size() == 0) {
                                         llCheckTitle.setVisibility(View.GONE);
@@ -154,6 +178,15 @@ public class CheckinActivity extends BaseListActivity {
                                     } else {
                                         llCheckTitle.setVisibility(View.VISIBLE);
                                     }
+
+                                    if (resultPage.getPage() > 1) {
+                                        adapter.appendData(listCheckins);
+                                    } else {
+                                        //第一页数据
+                                        recyclerView.removeAllViews();
+                                        adapter.refreshData(listCheckins);
+                                    }
+                                    recyclerView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
                                 } catch (Exception ex) {
                                     Toast.makeText(CheckinActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }

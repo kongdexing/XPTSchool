@@ -17,6 +17,7 @@ import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.android.widget.spinner.MaterialSpinner;
+import com.android.widget.view.LoadMoreRecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.teacher.R;
@@ -29,6 +30,8 @@ import com.xptschool.teacher.model.BeanClass;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.view.CalendarView;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -45,7 +48,7 @@ public class AlarmActivity extends BaseListActivity {
     SwipeRefreshLayout swipeRefresh;
 
     @BindView(R.id.recycleView)
-    RecyclerView recycleView;
+    LoadMoreRecyclerView recycleView;
 
     @BindView(R.id.spnClass)
     MaterialSpinner spnClass;
@@ -80,7 +83,17 @@ public class AlarmActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                resultPage.setPage(1);
                 getAlarmList(txtDate.getText().toString());
+            }
+        });
+        recycleView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                if (resultPage.getPage() < resultPage.getTotal_page()) {
+                    resultPage.setPage(resultPage.getPage() + 1);
+                    getAlarmList(txtDate.getText().toString());
+                }
             }
         });
 
@@ -130,6 +143,7 @@ public class AlarmActivity extends BaseListActivity {
                 new VolleyHttpParamsEntity()
                         .addParam("dates", date)
                         .addParam("c_id", beanClass.getC_id())
+                        .addParam("page", resultPage.getPage() + "")
                         .addParam("token", CommonUtil.encryptToken(HttpAction.Track_alarm)),
                 new MyVolleyRequestListener() {
                     @Override
@@ -148,22 +162,46 @@ public class AlarmActivity extends BaseListActivity {
                         switch (httpResult.getStatus()) {
                             case HttpAction.SUCCESS:
                                 try {
+                                    JSONObject jsonObject = new JSONObject(httpResult.getData().toString());
+                                    resultPage.setPage(jsonObject.getInt("page"));
+                                    resultPage.setTotal_page(jsonObject.getInt("total_page"));
+                                    resultPage.setTotal_count(jsonObject.getInt("total_count"));
+
+                                    if (resultPage.getTotal_page() > resultPage.getPage()) {
+                                        recycleView.setAutoLoadMoreEnable(true);
+                                    } else {
+                                        recycleView.setAutoLoadMoreEnable(false);
+                                    }
+
                                     Gson gson = new Gson();
-                                    List<BeanAlarm> beanAlarms = gson.fromJson(httpResult.getData().toString(), new TypeToken<List<BeanAlarm>>() {
-                                    }.getType());
+                                    List<BeanAlarm> beanAlarms = gson.fromJson(jsonObject.getJSONArray("content").toString(),
+                                            new TypeToken<List<BeanAlarm>>() {
+                                            }.getType());
+
                                     if (beanAlarms.size() > 0) {
                                         llCheckTitle.setVisibility(View.VISIBLE);
+                                    } else {
+                                        llCheckTitle.setVisibility(View.GONE);
                                     }
-                                    adapter.refreshData(beanAlarms);
+
+                                    if (resultPage.getPage() > 1) {
+                                        adapter.appendData(beanAlarms);
+                                    } else {
+                                        //第一页数据
+                                        if (beanAlarms.size() == 0) {
+                                            Toast.makeText(AlarmActivity.this, R.string.toast_data_empty, Toast.LENGTH_SHORT).show();
+                                        }
+                                        recycleView.removeAllViews();
+                                        adapter.refreshData(beanAlarms);
+                                    }
+                                    recycleView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
+
                                 } catch (Exception ex) {
-                                    adapter.clearData();
                                     llCheckTitle.setVisibility(View.GONE);
                                     Toast.makeText(AlarmActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
-                                adapter.clearData();
-                                llCheckTitle.setVisibility(View.GONE);
                                 Toast.makeText(AlarmActivity.this, httpResult.getInfo(), Toast.LENGTH_SHORT).show();
                                 break;
                         }
@@ -175,8 +213,6 @@ public class AlarmActivity extends BaseListActivity {
                         if (swipeRefresh != null) {
                             swipeRefresh.setRefreshing(false);
                         }
-                        adapter.clearData();
-                        llCheckTitle.setVisibility(View.GONE);
                     }
                 });
     }

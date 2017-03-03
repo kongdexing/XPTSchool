@@ -31,7 +31,7 @@ tinkerSupport {
     baseApkResourceMapping = "${bakPath}/parent-0206-16-27-26/parent-official-release-R.txt"
 
     //基线版本和补丁版本都需要修改这个参数，示例：1.0-base 1.0.1-patch
-    tinkerId = "1.0.1-base"
+    tinkerId = "1.0.2-base"
 
     // 打多渠道补丁时指定目录
     buildAllFlavorsDir = "${bakPath}/${baseApkDir}"

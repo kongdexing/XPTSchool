@@ -3,6 +3,7 @@ package com.xptschool.teacher.ui.checkin;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +34,14 @@ public class CheckinAdapter extends BaseRecycleAdapter {
         super(context);
     }
 
-    public void loadDate(List<BeanCheckin> dates) {
-        listBeanCheckins = dates;
-        notifyDataSetChanged();
+    public void refreshData(List<BeanCheckin> beanCheckins) {
+        Log.i(TAG, "refreshData: ");
+        listBeanCheckins = beanCheckins;
+    }
+
+    public void appendData(List<BeanCheckin> beanCheckins) {
+        Log.i(TAG, "refreshData: ");
+        listBeanCheckins.addAll(beanCheckins);
     }
 
     @Override
@@ -49,10 +55,11 @@ public class CheckinAdapter extends BaseRecycleAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final CheckinAdapter.ViewHolder mHolder = (CheckinAdapter.ViewHolder) holder;
         final BeanCheckin beanCheckin = listBeanCheckins.get(position);
-        mHolder.txtStudentName.setText(beanCheckin.getStu_name());
-        mHolder.txtInTime.setText(beanCheckin.getSignin_time());
-        mHolder.txtOutTime.setText(beanCheckin.getSignout_time());
-        mHolder.txtLeaveTime.setText(beanCheckin.getLeave());
+        mHolder.txtStuName.setText(beanCheckin.getStu_name());
+        mHolder.txtSignType.setText(beanCheckin.getSchool_type());
+        mHolder.txtSTime.setText(beanCheckin.getS_time());
+        mHolder.txtStatus.setText(beanCheckin.getSignin_type());
+        mHolder.txtInterZone.setText(beanCheckin.getShijianduan());
     }
 
     @Override
@@ -66,17 +73,20 @@ public class CheckinAdapter extends BaseRecycleAdapter {
         @BindView(R.id.llCheckInItem)
         LinearLayout llCheckInItem;
 
-        @BindView(R.id.txtStudentName)
-        TextView txtStudentName;
+        @BindView(R.id.txtStuName)
+        TextView txtStuName;
 
-        @BindView(R.id.txtInTime)
-        TextView txtInTime;
+        @BindView(R.id.txtSignType)
+        TextView txtSignType;
 
-        @BindView(R.id.txtOutTime)
-        TextView txtOutTime;
+        @BindView(R.id.txtSTime)
+        TextView txtSTime;
 
-        @BindView(R.id.txtLeaveTime)
-        TextView txtLeaveTime;
+        @BindView(R.id.txtStatus)
+        TextView txtStatus;
+
+        @BindView(R.id.txtInterZone)
+        TextView txtInterZone;
 
         public ViewHolder(View itemView) {
             super(itemView);

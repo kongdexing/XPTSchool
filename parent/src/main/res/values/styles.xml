@@ -80,7 +80,7 @@
 
     <style name="TextAlarm">
         <item name="android:textColor">@color/text_black</item>
-        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:layout_margin">@dimen/dp_3</item>
         <item name="android:layout_gravity">center</item>
     </style>
