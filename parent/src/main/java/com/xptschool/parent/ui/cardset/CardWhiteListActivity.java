@@ -79,7 +79,10 @@ public class CardWhiteListActivity extends CardSetBaseActivity implements View.O
             whitelists = value.split(",");
         }
 
+        llContent.removeAllViews();
         scrollView.removeAllViews();
+        whiteCardViews.clear();
+
         for (int i = 0; i < maxLength; i++) {
             WhiteCardView cardView = new WhiteCardView(this);
             String nameNum = "";

@@ -19,8 +19,6 @@ import butterknife.OnClick;
 public class CardMoniterActivity extends CardSetBaseActivity {
 
 
-    @BindView(R.id.llContent)
-    LinearLayout llContent;
     @BindView(R.id.moniterCardView)
     MoniterCardView mMoniterCardView;
     @BindView(R.id.btnOk)
@@ -50,18 +48,21 @@ public class CardMoniterActivity extends CardSetBaseActivity {
         }
 
         setViewData(currentStudent.getMonitor());
+
         getCardPhone();
     }
 
     @Override
     protected void setViewData(String value) {
         super.setViewData(value);
-        if (value == null || value.isEmpty()) {
-            value = "";
+        try {
+            if (value == null || value.isEmpty()) {
+                value = "";
+            }
+            mMoniterCardView.bindData(value, contractChooseListener);
+        } catch (Exception ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        mMoniterCardView.bindData(value, contractChooseListener);
-        llContent.addView(mMoniterCardView);
-
     }
 
     @OnClick({R.id.btnOk, R.id.btnCall})

@@ -79,7 +79,10 @@ public class CardSOSActivity extends CardSetBaseActivity implements View.OnClick
             sosPhones = value.split(",");
         }
 
+        llContent.removeAllViews();
         scrollView.removeAllViews();
+        listSOSViews.clear();
+
         for (int i = 0; i < 3; i++) {
             CardSOSView sosView = new CardSOSView(this);
             String phone = "";
