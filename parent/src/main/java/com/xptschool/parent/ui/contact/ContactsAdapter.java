@@ -48,13 +48,14 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         if (name.isEmpty()) {
             initData(allListContacts);
         } else {
-            ArrayList<Object> teachers = new ArrayList<>();
             LinkedHashMap<String, ArrayList<Object>> mSearchContacts = new LinkedHashMap<>();
             Iterator iter = allListContacts.entrySet().iterator();
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 String key = (String) entry.getKey();
                 List<Object> val = (ArrayList) entry.getValue();
+                ArrayList<Object> teachers = new ArrayList<>();
+
                 for (int i = 0; i < val.size(); i++) {
                     Object object = val.get(i);
                     if (object instanceof ContactTeacher) {
