@@ -12,15 +12,14 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.MyTopPagerAdapter;
 import com.xptschool.teacher.model.BeanBanner;
-import com.xptschool.teacher.ui.main.MainActivity;
 import com.xptschool.teacher.ui.alarm.AlarmActivity;
 import com.xptschool.teacher.ui.checkin.CheckinActivity;
 import com.xptschool.teacher.ui.homework.HomeWorkActivity;
 import com.xptschool.teacher.ui.leave.LeaveActivity;
+import com.xptschool.teacher.ui.main.MainActivity;
 import com.xptschool.teacher.ui.notice.NoticeActivity;
 import com.xptschool.teacher.ui.question.QuestionActivity;
 import com.xptschool.teacher.ui.score.ScoreActivity;
-import com.xptschool.teacher.view.AutoScrollPagerFragment;
 import com.xptschool.teacher.view.AutoScrollViewPager;
 
 import java.util.List;

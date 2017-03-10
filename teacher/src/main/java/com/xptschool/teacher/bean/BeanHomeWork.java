@@ -9,8 +9,6 @@ import android.os.Parcelable;
 
 import com.xptschool.teacher.BuildConfig;
 
-import org.json.JSONArray;
-
 import java.util.List;
 
 /**

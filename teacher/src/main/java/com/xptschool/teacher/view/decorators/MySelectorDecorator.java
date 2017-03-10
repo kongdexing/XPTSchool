@@ -1,6 +1,5 @@
 package com.xptschool.teacher.view.decorators;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 

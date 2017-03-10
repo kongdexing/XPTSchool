@@ -9,7 +9,6 @@ import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
-import com.xptschool.teacher.ui.alarm.AlarmActivity;
 
 /**
  * Created by dexing on 2017/1/5.

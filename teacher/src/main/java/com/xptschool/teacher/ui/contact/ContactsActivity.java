@@ -20,12 +20,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.bean.ContactType;
+import com.xptschool.teacher.common.CommonUtil;
+import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
-import com.xptschool.teacher.common.CommonUtil;
-import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.main.BaseActivity;
 

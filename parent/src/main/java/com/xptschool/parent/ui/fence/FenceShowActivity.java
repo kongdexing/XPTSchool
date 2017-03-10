@@ -61,7 +61,7 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
     public SensorManager mSensorManager;
     public Sensor mSensor;
     public LocationClient mLocClient;
-    boolean isFirstLoc = true; // 是否首次定位
+    boolean isFirstLoc = false; // 是否首次定位
     public Marker mGPSMarker;
     private long lastTime = 0;
     private final int TIME_SENSOR = 100;
@@ -97,10 +97,10 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
         mLocClient = new LocationClient(this);
         mLocClient.registerLocationListener(this);
 
-        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_geobl);
-        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
+//        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.icon_geobl);
+//        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
+//                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
 
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
@@ -108,7 +108,6 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
         option.setScanSpan(3000);
         mLocClient.setLocOption(option);
         mLocClient.start();
-
     }
 
     @OnClick({R.id.llMyLocation})
@@ -185,8 +184,9 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
             builder.target(ll).zoom(18.0f);
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
-
-        mGPSMarker.setPosition(ll);
+        if (mGPSMarker != null) {
+            mGPSMarker.setPosition(ll);
+        }
     }
 
     private void showFence() {

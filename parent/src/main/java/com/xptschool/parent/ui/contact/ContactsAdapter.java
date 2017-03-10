@@ -52,7 +52,6 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
             LinkedHashMap<String, ArrayList<Object>> mSearchContacts = new LinkedHashMap<>();
             Iterator iter = allListContacts.entrySet().iterator();
             while (iter.hasNext()) {
-                teachers.clear();
                 Map.Entry entry = (Map.Entry) iter.next();
                 String key = (String) entry.getKey();
                 List<Object> val = (ArrayList) entry.getValue();

@@ -34,7 +34,7 @@ public class AlbumGridAdapter extends BaseAdapter {
         this.myGridViewClickListener = listener;
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
-                .cacheOnDisk(false)
+                .cacheOnDisk(true)
                 .showImageForEmptyUri(R.mipmap.pictures_no)
                 .showImageOnFail(R.mipmap.pictures_no)
                 .showImageOnLoading(R.mipmap.pictures_no)

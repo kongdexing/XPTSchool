@@ -2,7 +2,6 @@ package com.xptschool.teacher.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
 

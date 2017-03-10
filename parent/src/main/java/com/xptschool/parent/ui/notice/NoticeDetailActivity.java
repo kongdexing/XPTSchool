@@ -72,7 +72,7 @@ public class NoticeDetailActivity extends BaseActivity {
 
             txtNoticeTitle.setText(currentNotice.getTitle());
             txtTime.setText(currentNotice.getCreate_time());
-            txtContent.setText(currentNotice.getContent()+currentNotice.getContent());
+            txtContent.setText(currentNotice.getContent());
         }
 
     }

@@ -1,9 +1,7 @@
 package com.xptschool.teacher.ui.homework;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +14,7 @@ import android.widget.TextView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.BaseRecycleAdapter;
 import com.xptschool.teacher.adapter.RecyclerViewHolderBase;
-import com.xptschool.teacher.bean.BeanAlarm;
 import com.xptschool.teacher.bean.BeanHomeWork;
-import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.ExtraKey;
 
 import java.util.ArrayList;

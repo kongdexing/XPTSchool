@@ -1,9 +1,7 @@
 package com.xptschool.parent.ui.alarm;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,8 +15,6 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.bean.BeanAlarm;
-import com.xptschool.parent.bean.BeanHomeWork;
-import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.ExtraKey;
 
 import java.util.ArrayList;
@@ -37,9 +33,6 @@ public class AlarmAdapter extends BaseRecycleAdapter {
 
     public AlarmAdapter(Context context) {
         super(context);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(BroadcastAction.ALARM_AMEND);
-        context.registerReceiver(AlarmAmendReceiver, intentFilter);
     }
 
     public void refreshData(List<BeanAlarm> beanAlarms) {
@@ -50,6 +43,17 @@ public class AlarmAdapter extends BaseRecycleAdapter {
     public void appendData(List<BeanAlarm> beanAlarms) {
         Log.i(TAG, "refreshData: ");
         this.beanAlarms.addAll(beanAlarms);
+    }
+
+    public int updateData(BeanAlarm alarm) {
+        for (int i = 0; i < beanAlarms.size(); i++) {
+            if (beanAlarms.get(i).getWm_id().equals(alarm.getWm_id())) {
+                Log.i(TAG, " update " + i + " " + alarm.getCreate_time());
+                beanAlarms.set(i, alarm);
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void clearData() {
@@ -114,33 +118,5 @@ public class AlarmAdapter extends BaseRecycleAdapter {
         }
 
     }
-
-    BroadcastReceiver AlarmAmendReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "onReceive: " + intent.getAction());
-
-            if (intent.getAction() == BroadcastAction.ALARM_AMEND) {
-                Log.i(TAG, "onReceive: equal");
-                if (intent == null || intent.getExtras() == null) {
-                    Log.i(TAG, "onActivityResult: data.getExtras() is null");
-                    return;
-                }
-                BeanAlarm alarm = intent.getExtras().getParcelable(ExtraKey.ALARM_DETAIL);
-                if (alarm == null) {
-                    Log.i(TAG, " is null");
-                    return;
-                }
-                for (int i = 0; i < beanAlarms.size(); i++) {
-                    if (beanAlarms.get(i).getWm_id().equals(alarm.getWm_id())) {
-                        Log.i(TAG, "onReceive: alarm id " + alarm.getWm_id());
-                        beanAlarms.get(i).setWar_status(alarm.getWar_status());
-                        notifyItemChanged(i);
-                        break;
-                    }
-                }
-            }
-        }
-    };
 
 }

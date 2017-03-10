@@ -15,10 +15,9 @@ import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.BaseRecycleAdapter;
 import com.xptschool.teacher.adapter.RecyclerViewHolderBase;
 import com.xptschool.teacher.bean.BeanClassInfo;
+import com.xptschool.teacher.bean.BeanNotice;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
-import com.xptschool.teacher.bean.BeanNotice;
-import com.xptschool.teacher.model.GreenDaoHelper;
 
 import java.util.ArrayList;
 import java.util.List;

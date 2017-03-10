@@ -94,7 +94,7 @@ public class MoniterCardView extends LinearLayout implements View.OnClickListene
             return null;
         }
 
-        return name + ":" + phone;
+        return name + "," + phone;
     }
 
     @Override

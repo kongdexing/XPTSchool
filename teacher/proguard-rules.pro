@@ -192,8 +192,8 @@
 -keep class com.android.volley.toolbox.HurlStack$* { *; }
 -keep class com.android.volley.toolbox.ImageLoader$* { *; }
 
-##ImageLoader
--keep class com.nostra13.universalimageloader.**{*;}
+###ImageLoader
+#-keep class com.nostra13.universalimageloader.**{*;}
 
 ##taobao
 -keep class com.taobao.**{*;}
@@ -214,3 +214,6 @@
 -dontoptimize
 -keep class rx.internal.util.unsafe.**{*;}
 -dontwarn rx.internal.util.unsafe.**
+##databinding
+-keep class android.databinding.**{*;}
+-dontwarn android.databinding.**

@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -53,6 +54,12 @@ public class AlbumActivity extends TakePhotoActivity {
     public ScrollView mScrollView;
     private PopupWindow picPopup;
     public AlbumGridAdapter myPicGridAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LocalImageHelper.getInstance().getLocalCheckedImgs().clear();
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -131,75 +138,6 @@ public class AlbumActivity extends TakePhotoActivity {
         Toast.makeText(this, R.string.permission_camera_never_askagain, Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.i(TAG, "onActivityResult: " + requestCode);
-//        switch (requestCode) {
-//            case ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP:
-//                refreshGridView();
-//                break;
-//            case ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA:
-//                try {
-//                    String cameraPath = LocalImageHelper.getInstance().getCameraImgPath();
-//                    Log.i(TAG, "onActivityResult: cameraPath " + cameraPath);
-//                    if (StringUtils.isEmpty(cameraPath)) {
-//                        return;
-//                    }
-//                    File file = new File(cameraPath);
-//                    if (file.exists()) {
-//                        int degree = getBitmapDegree(cameraPath);
-//                        BitmapFactory.Options opts = new BitmapFactory.Options();//获取缩略图显示到屏幕上
-//                        opts.inSampleSize = 2;
-//                        Bitmap cbitmap = BitmapFactory.decodeFile(cameraPath, opts);
-//
-//                        Uri u = Uri.parse(android.provider.MediaStore.Images.Media.insertImage(getContentResolver(),
-//                                file.getAbsolutePath(), null, null));
-//
-//                        /**
-//                         * 把图片旋转为正的方向
-//                         */
-////                        Bitmap newbitmap = rotaingImageView(degree, cbitmap);
-////                        try {
-////                            FileOutputStream out = new FileOutputStream(cameraPath);
-////                            newbitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-////                            out.flush();
-////                            out.close();
-////                        } catch (Exception ex) {
-////                            Log.i(TAG, "onActivityResult: FileOutputStream " + ex.getMessage());
-////                            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-////                            return;
-////                        }
-//
-//                        try {
-//                            Log.i(TAG, "已经保存");
-//                            Uri uri = Uri.fromFile(file);
-//                            LocalFile localFile = new LocalFile();
-//                            localFile.setThumbnailUri(uri.toString());
-//                            localFile.setOriginalUri(uri.toString());
-//                            localFile.setParentFileName(StringUtils.getParentPath(cameraPath));
-//                            LocalImageHelper.getInstance().getCheckedItems().add(localFile);
-//                            LocalImageHelper.getInstance().setResultOk(true);
-//                            new Handler().postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    refreshGridView();
-//                                }
-//                            }, 300);
-//                        } catch (Exception ex) {
-//                            Log.i(TAG, "onActivityResult: Exception " + ex.getMessage());
-//                            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        Toast.makeText(this, R.string.image_loadfailed, Toast.LENGTH_SHORT).show();
-//                    }
-//                } catch (Exception ex) {
-//                    Log.i(TAG, "onActivityResult: " + ex.getMessage());
-//                    Toast.makeText(this, R.string.image_loadfailed, Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//        }
-//    }
-
     public void showAlbumSource(View view) {
         //选择相片来源
         if (picPopup == null) {
@@ -207,12 +145,11 @@ public class AlbumActivity extends TakePhotoActivity {
             albumSourceView.setOnAlbumSourceClickListener(new AlbumSourceView.OnAlbumSourceClickListener() {
                 @Override
                 public void onAlbumClick() {
-//                    AlbumActivityPermissionsDispatcher.toLocalAlbumWithCheck(AlbumActivity.this);
                     if (LocalImageHelper.getInstance().getLocalCheckedImgs().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
                         Toast.makeText(AlbumActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    int limit = LocalImageHelper.getInstance().getMaxChoiceSize() - LocalImageHelper.getInstance().getLocalCheckedImgs().size();
+                    int limit = LocalImageHelper.getInstance().getCurrentEnableMaxChoiceSize();
                     getTakePhoto().onPickMultiple(limit);
                     picPopup.dismiss();
                 }

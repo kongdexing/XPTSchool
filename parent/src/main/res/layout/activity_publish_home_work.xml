@@ -7,13 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.xptschool.parent.view.imgloader.AlbumViewPager
-        android:id="@+id/albumviewpager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/album_item_bg"
-        android:visibility="gone" />
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -200,4 +193,10 @@
         </LinearLayout>
     </ScrollView>
 
+    <com.xptschool.parent.view.imgloader.AlbumViewPager
+        android:id="@+id/albumviewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/album_item_bg"
+        android:visibility="gone" />
 </FrameLayout>

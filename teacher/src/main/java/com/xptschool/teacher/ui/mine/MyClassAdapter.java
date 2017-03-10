@@ -1,10 +1,7 @@
 package com.xptschool.teacher.ui.mine;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +13,8 @@ import android.widget.TextView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.BaseRecycleAdapter;
 import com.xptschool.teacher.adapter.RecyclerViewHolderBase;
-import com.xptschool.teacher.bean.BeanAlarm;
-import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.model.BeanMyClass;
-import com.xptschool.teacher.ui.alarm.AlarmAdapter;
-import com.xptschool.teacher.ui.alarm.AlarmMapActivity;
 
 import java.util.ArrayList;
 import java.util.List;

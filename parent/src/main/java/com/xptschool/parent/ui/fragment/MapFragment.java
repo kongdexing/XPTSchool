@@ -106,10 +106,10 @@ public class MapFragment extends MapBaseFragment {
         mLocClient = new LocationClient(mContext);
         mLocClient.registerLocationListener(this);
 
-        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_geobl);
-        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
+//        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
+//                .fromResource(R.mipmap.icon_geobl);
+//        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
+//                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
 
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps

@@ -1,9 +1,6 @@
 package com.xptschool.teacher.ui.contact;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +11,7 @@ import android.widget.TextView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.BaseRecycleAdapter;
 import com.xptschool.teacher.adapter.RecyclerViewHolderBase;
-import com.xptschool.teacher.bean.BeanAlarm;
-import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.model.ContactParent;
-import com.xptschool.teacher.ui.alarm.AlarmMapActivity;
 
 import java.util.ArrayList;
 import java.util.List;

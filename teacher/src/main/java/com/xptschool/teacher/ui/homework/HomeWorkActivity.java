@@ -300,6 +300,16 @@ public class HomeWorkActivity extends BaseListActivity {
         datePopup.showAsDropDown(txtDate, 0, 2);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            this.unregisterReceiver(HomeworkAmendReceiver);
+        } catch (Exception ex) {
+
+        }
+    }
+
     MaterialSpinner.OnNothingSelectedListener spinnerNothingSelectedListener = new MaterialSpinner.OnNothingSelectedListener() {
         @Override
         public void onNothingSelected(MaterialSpinner spinner) {

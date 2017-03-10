@@ -1,9 +1,13 @@
 package com.xptschool.teacher.ui.alarm;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -21,9 +25,10 @@ import com.android.widget.view.LoadMoreRecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.bean.BeanAlarm;
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
+import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanClass;
@@ -72,6 +77,10 @@ public class AlarmActivity extends BaseListActivity {
         setTitle(R.string.home_alarm);
         initView();
         initDate();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BroadcastAction.ALARM_AMEND);
+        registerReceiver(AlarmAmendReceiver, intentFilter);
     }
 
     private void initView() {
@@ -249,6 +258,16 @@ public class AlarmActivity extends BaseListActivity {
         datePopup.showAsDropDown(llDate, 0, 2);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            this.unregisterReceiver(AlarmAmendReceiver);
+        } catch (Exception ex) {
+
+        }
+    }
+
     MaterialSpinner.OnNothingSelectedListener spinnerNothingSelectedListener = new MaterialSpinner.OnNothingSelectedListener() {
         @Override
         public void onNothingSelected(MaterialSpinner spinner) {
@@ -256,5 +275,27 @@ public class AlarmActivity extends BaseListActivity {
         }
     };
 
+    BroadcastReceiver AlarmAmendReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "onReceive: " + intent.getAction());
+
+            if (intent.getAction() == BroadcastAction.ALARM_AMEND) {
+                Log.i(TAG, "onReceive: equal");
+                if (intent == null || intent.getExtras() == null) {
+                    Log.i(TAG, "onActivityResult: data.getExtras() is null");
+                    return;
+                }
+                BeanAlarm alarm = intent.getExtras().getParcelable(ExtraKey.ALARM_DETAIL);
+                if (alarm == null) {
+                    Log.i(TAG, " is null");
+                    return;
+                }
+
+                Log.i(TAG, "onReceive: " + alarm.toString());
+                recycleView.updateItem(adapter.updateData(alarm));
+            }
+        }
+    };
 
 }

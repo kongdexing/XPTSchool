@@ -22,10 +22,10 @@ import com.google.gson.Gson;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
-import com.xptschool.teacher.http.MyVolleyRequestListener;
-import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
+import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 
 import org.json.JSONObject;

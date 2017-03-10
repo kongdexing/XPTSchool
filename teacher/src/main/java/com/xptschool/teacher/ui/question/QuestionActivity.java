@@ -1,8 +1,8 @@
 package com.xptschool.teacher.ui.question;
 
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -13,11 +13,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.android.widget.spinner.MaterialSpinner;
 import com.android.widget.view.ArrowTextView;
 import com.android.widget.view.LoadMoreRecyclerView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.bean.BeanQuestion;
 import com.xptschool.teacher.common.CommonUtil;

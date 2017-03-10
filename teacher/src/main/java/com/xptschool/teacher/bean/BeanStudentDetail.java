@@ -1,8 +1,5 @@
 package com.xptschool.teacher.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.xptschool.teacher.model.ContactParent;
 
 import java.util.List;

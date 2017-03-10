@@ -1,7 +1,9 @@
 package com.xptschool.teacher;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -14,8 +16,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
-import com.tencent.tinker.loader.app.TinkerApplication;
-import com.tencent.tinker.loader.shareutil.ShareConstants;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
@@ -24,6 +26,7 @@ import com.umeng.message.entity.UMessage;
 import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.MyUmengMessageHandler;
+import com.xptschool.teacher.ui.main.MainActivity;
 
 import java.io.File;
 
@@ -31,23 +34,19 @@ import java.io.File;
  * Created by Administrator on 2016/10/18 0018.
  */
 
-public class XPTApplication extends TinkerApplication {
+public class XPTApplication extends Application {
 
+    public static final String APP_ID = "3a3021ce3c"; // TODO 替换成bugly上注册的appid
     private static XPTApplication mInstance;
     private Display display;
     private static String TAG = XPTApplication.class.getSimpleName();
-
-    public XPTApplication() {
-        super(ShareConstants.TINKER_ENABLE_ALL, "com.xptschool.teacher.XPTTeacherApplication",
-                "com.tencent.tinker.loader.TinkerLoader", false);
-        Log.i(TAG, "XPTApplication: ");
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         mInstance = this;
         init();
+        initBugly();
     }
 
     public static XPTApplication getInstance() {
@@ -95,6 +94,24 @@ public class XPTApplication extends TinkerApplication {
         //CustomNotificationHandler notificationClickHandler = new CustomNotificationHandler();
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
+    }
+
+    private void initBugly() {
+        // 设置开发设备
+        Bugly.setIsDevelopmentDevice(this, true);
+        // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
+
+        Beta.autoInit = true;
+        Beta.autoCheckUpgrade = true;
+        Beta.initDelay = 3 * 1000;
+        Beta.largeIconId = R.mipmap.ic_launcher;
+        Beta.smallIconId = R.mipmap.ic_launcher;
+        Beta.defaultBannerId = R.mipmap.ic_launcher;
+        Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        Beta.showInterruptedStrategy = true;
+        Beta.canShowUpgradeActs.add(MainActivity.class);
+        Beta.autoDownloadOnWifi = false;
+        Bugly.init(this, APP_ID, true);
     }
 
     // Initialize the image loader stratetry
@@ -164,4 +181,13 @@ public class XPTApplication extends TinkerApplication {
         return display.getWidth() / 4;
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+
+        // 安装tinker
+        Beta.installTinker();
+    }
 }

@@ -1,10 +1,6 @@
 package com.xptschool.teacher.common;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 
 import com.xptschool.teacher.XPTApplication;
 
@@ -12,9 +8,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by linjizong on 15/6/11.
@@ -26,6 +20,7 @@ public class LocalImageHelper {
     private String TAG = LocalImageHelper.class.getSimpleName();
     //最大图片选择个数
     private int maxChoiceSize = 9;
+    private int currentEnableMaxChoiceSize = maxChoiceSize;
     //拍照时指定保存图片的路径
     private String CameraImgPath;
     private List<String> localCheckedImgs = new ArrayList<>();
@@ -77,7 +72,15 @@ public class LocalImageHelper {
         return localCheckedImgs;
     }
 
-    public void setMaxChoiceSize(int maxChoiceSize) {
-        this.maxChoiceSize = maxChoiceSize;
+//    public void setMaxChoiceSize(int maxChoiceSize) {
+//        this.currentEnableMaxChoiceSize = maxChoiceSize;
+//    }
+
+    public int getCurrentEnableMaxChoiceSize() {
+        return currentEnableMaxChoiceSize;
+    }
+
+    public void setCurrentEnableMaxChoiceSize(int currentEnableMaxChoiceSize) {
+        this.currentEnableMaxChoiceSize = currentEnableMaxChoiceSize;
     }
 }

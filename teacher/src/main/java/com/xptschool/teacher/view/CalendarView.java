@@ -1,23 +1,17 @@
 package com.xptschool.teacher.view;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.widget.calendar.CalendarDay;
 import com.android.widget.calendar.MaterialCalendarView;
 import com.android.widget.calendar.OnDateSelectedListener;
-import com.android.widget.wheelview.WheelView;
-import com.android.widget.wheelview.adapter.NumericWheelAdapter;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.view.decorators.HighlightWeekendsDecorator;
 import com.xptschool.teacher.view.decorators.MySelectorDecorator;

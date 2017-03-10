@@ -6,16 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.model.BeanCourse;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.view.FilterImageView;
 
 import java.util.ArrayList;
 import java.util.Iterator;

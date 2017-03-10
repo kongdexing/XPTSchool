@@ -2,8 +2,8 @@ package com.xptschool.teacher.ui.leave;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -22,7 +22,6 @@ import com.android.widget.view.LoadMoreRecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.bean.BeanLeave;
 import com.xptschool.teacher.common.ActivityResultCode;
 import com.xptschool.teacher.common.CommonUtil;

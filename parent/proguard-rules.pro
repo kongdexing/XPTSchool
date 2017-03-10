@@ -204,3 +204,7 @@
 ##agoo
 -keep class org.android.agoo.control.**{*;}
 -dontwarn org.android.agoo.control.**
+
+##databinding
+-keep class android.databinding.**{*;}
+-dontwarn android.databinding.**

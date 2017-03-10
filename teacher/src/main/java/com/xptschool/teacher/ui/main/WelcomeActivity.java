@@ -17,7 +17,6 @@ import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.ui.mine.ChangePwdActivity;
 
 import org.json.JSONObject;
 

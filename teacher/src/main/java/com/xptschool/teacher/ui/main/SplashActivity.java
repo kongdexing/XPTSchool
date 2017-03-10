@@ -1,7 +1,7 @@
 package com.xptschool.teacher.ui.main;
 
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 

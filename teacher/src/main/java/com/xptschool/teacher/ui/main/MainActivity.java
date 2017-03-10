@@ -23,7 +23,6 @@ import com.google.gson.reflect.TypeToken;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.bean.BeanHomeWork;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
@@ -73,6 +72,7 @@ public class MainActivity extends BaseActivity {
 
         initView();
         initData();
+        Toast.makeText(this, "nihao", Toast.LENGTH_SHORT).show();
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.setDebugMode(false);

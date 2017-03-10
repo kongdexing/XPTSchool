@@ -9,15 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.mapapi.map.Text;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.BaseRecycleAdapter;
 import com.xptschool.teacher.adapter.RecyclerViewHolderBase;
-import com.xptschool.teacher.bean.BeanHomeWork;
 import com.xptschool.teacher.bean.BeanLeave;
-import com.xptschool.teacher.bean.LeaveType;
 import com.xptschool.teacher.common.ExtraKey;
 
 import java.util.ArrayList;

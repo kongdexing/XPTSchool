@@ -18,7 +18,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
-import com.android.volley.common.VolleyRequestListener;
 import com.android.widget.mygridview.MyGridView;
 import com.android.widget.spinner.MaterialSpinner;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -48,7 +47,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HomeWorkDetailActivity extends AlbumActivity {
@@ -147,7 +145,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                     showNetImgViewPager(albumviewpager, currentHomeWork.getFile_path(), position);
                 } else {
                     if (position == 0) {
-                        if (LocalImageHelper.getInstance().getLocalCheckedImgs().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
+                        if (myPicGridAdapter.getImgPaths().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
                             Toast.makeText(HomeWorkDetailActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -168,7 +166,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                 btnDelete.setVisibility(View.VISIBLE);
                 btnSubmit.setVisibility(View.GONE);
                 llTeacher.setVisibility(View.GONE);
-                LocalImageHelper.getInstance().setMaxChoiceSize(
+                LocalImageHelper.getInstance().setCurrentEnableMaxChoiceSize(
                         LocalImageHelper.getInstance().getMaxChoiceSize() - currentHomeWork.getFile_path().size());
                 setTxtRight("编辑");
                 setTextRightClickListener(new View.OnClickListener() {

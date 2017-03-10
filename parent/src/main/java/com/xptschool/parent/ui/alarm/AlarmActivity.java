@@ -1,8 +1,13 @@
 package com.xptschool.parent.ui.alarm;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -18,7 +23,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanAlarm;
+import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
@@ -63,6 +70,10 @@ public class AlarmActivity extends BaseListActivity {
         setTitle(R.string.home_alarm);
         initView();
         initDate();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BroadcastAction.ALARM_AMEND);
+        registerReceiver(AlarmAmendReceiver, intentFilter);
     }
 
     private void initView() {
@@ -209,6 +220,16 @@ public class AlarmActivity extends BaseListActivity {
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            this.unregisterReceiver(AlarmAmendReceiver);
+        } catch (Exception ex) {
+
+        }
+    }
+
     MaterialSpinner.OnNothingSelectedListener spinnerNothingSelectedListener = new MaterialSpinner.OnNothingSelectedListener() {
         @Override
         public void onNothingSelected(MaterialSpinner spinner) {
@@ -216,5 +237,27 @@ public class AlarmActivity extends BaseListActivity {
         }
     };
 
+    BroadcastReceiver AlarmAmendReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "onReceive: " + intent.getAction());
+
+            if (intent.getAction() == BroadcastAction.ALARM_AMEND) {
+                Log.i(TAG, "onReceive: equal");
+                if (intent == null || intent.getExtras() == null) {
+                    Log.i(TAG, "onActivityResult: data.getExtras() is null");
+                    return;
+                }
+                BeanAlarm alarm = intent.getExtras().getParcelable(ExtraKey.ALARM_DETAIL);
+                if (alarm == null) {
+                    Log.i(TAG, " is null");
+                    return;
+                }
+
+                Log.i(TAG, "onReceive: " + alarm.toString());
+                recycleView.updateItem(adapter.updateData(alarm));
+            }
+        }
+    };
 
 }

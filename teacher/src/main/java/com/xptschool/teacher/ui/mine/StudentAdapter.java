@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.bean.BeanStudent;
 import com.xptschool.teacher.view.FilterImageView;

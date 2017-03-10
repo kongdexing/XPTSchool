@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/llContacts"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/dp_40">
 
         <TextView
             android:id="@+id/text"
@@ -43,7 +43,7 @@
     <LinearLayout
         android:id="@+id/llAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_40"
         android:layout_below="@+id/llContent"
         android:layout_marginTop="@dimen/dp_1"
         android:background="@drawable/mine_item_selector"

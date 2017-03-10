@@ -81,8 +81,6 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".ui.album.LocalAlbumListActivity" />
-        <activity android:name=".ui.album.LocalAlbumDetailActivity" />
         <activity android:name=".ui.notice.NoticeActivity" />
         <activity
             android:name=".ui.notice.NoticeDetailActivity"

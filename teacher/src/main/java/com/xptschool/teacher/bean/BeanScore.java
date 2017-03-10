@@ -1,6 +1,5 @@
 package com.xptschool.teacher.bean;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
