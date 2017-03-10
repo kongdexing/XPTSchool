@@ -104,7 +104,8 @@
                 <EditText
                     android:id="@+id/edtTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
                     android:text=""
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/sp_16" />
@@ -130,8 +131,10 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_toEndOf="@+id/txtContent"
+                    android:background="@null"
                     android:gravity="top|left"
                     android:minLines="3"
+                    android:paddingTop="@dimen/dp_10"
                     android:text=""
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/sp_16" />

@@ -153,11 +153,12 @@
                 <EditText
                     android:id="@+id/edtName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
                     android:lines="1"
                     android:text=""
-                    android:textSize="@dimen/sp_16"
-                    android:textColor="@color/text_black_2" />
+                    android:textColor="@color/text_black_2"
+                    android:textSize="@dimen/sp_16" />
             </LinearLayout>
 
             <RelativeLayout
@@ -180,9 +181,11 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_toRightOf="@+id/txtContent"
+                    android:background="@null"
                     android:gravity="top|left"
                     android:hint="@string/hint_homework_content"
                     android:minLines="3"
+                    android:paddingTop="@dimen/dp_10"
                     android:textColor="@color/text_black_2"
                     android:textColorHint="@color/text_grey"
                     android:textSize="@dimen/sp_16" />

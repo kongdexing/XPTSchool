@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.android.volley.common.VolleyHttpService;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
@@ -45,6 +47,7 @@ public class CardSetBaseActivity extends BaseActivity {
     public static String CARD_MONITER = "monitor";
     public String CardType = "";
     public BeanStudent currentStudent;
+    public String spKey = "";
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -255,6 +258,7 @@ public class CardSetBaseActivity extends BaseActivity {
                                 } else if (CardType.equals(CARD_MONITER)) {
                                     currentStudent.setMonitor(values);
                                 }
+                                SharedPreferencesUtil.saveData(CardSetBaseActivity.this, spKey, System.currentTimeMillis());
                                 GreenDaoHelper.getInstance().updateStudent(currentStudent);
                                 break;
                             case HttpAction.FAILED:
@@ -311,7 +315,11 @@ public class CardSetBaseActivity extends BaseActivity {
         }
     };
 
-    protected void setViewData(String value){
+    protected void setViewData(String value) {
+        if (currentStudent != null) {
+            String parentId = GreenDaoHelper.getInstance().getCurrentParent().getU_id();
+            spKey = parentId + currentStudent.getStu_id() + CardType;
+        }
 
     }
 

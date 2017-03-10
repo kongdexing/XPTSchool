@@ -26,7 +26,6 @@
         android:id="@+id/ll_centre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/imgGo"
         android:layout_toRightOf="@+id/ll_left"
         android:orientation="vertical"
         android:padding="@dimen/dp_5">
@@ -121,14 +120,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imgGo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/dp_5"
-        android:src="@mipmap/icon_go" />
 
 </RelativeLayout>

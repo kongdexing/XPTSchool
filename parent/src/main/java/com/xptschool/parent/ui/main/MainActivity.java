@@ -308,10 +308,10 @@ public class MainActivity extends BaseActivity {
     private void getBanners() {
         Log.i(TAG, "getBanners: ");
         List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
-        if (students.size() == 0) {
-            Log.i(TAG, "getBanners: students size is 0");
-            return;
-        }
+//        if (students.size() == 0) {
+//            Log.i(TAG, "getBanners: students size is 0");
+//            return;
+//        }
 
         String strSids = "", strAids = "", strCids = "";
         List<String> sids = new ArrayList<>();

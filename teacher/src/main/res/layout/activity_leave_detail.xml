@@ -220,19 +220,21 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_toRightOf="@+id/txtReply"
+                    android:background="@null"
                     android:gravity="top|left"
-                    android:minLines="3"
-                    android:text=""
                     android:hint="说些让学生感觉温暖的话吧"
-                    android:textColorHint="@color/text_grey"
+                    android:minLines="3"
+                    android:paddingTop="@dimen/dp_10"
+                    android:text=""
                     android:textColor="@color/text_black_2"
+                    android:textColorHint="@color/text_grey"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
 
             <Button
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_45"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/dp_10"
@@ -240,12 +242,12 @@
                 android:padding="@dimen/dp_5"
                 android:text="@string/label_leave_ok"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp_20" />
+                android:textSize="@dimen/sp_18" />
 
             <Button
                 android:id="@+id/btnRebut"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_45"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="@dimen/dp_10"
@@ -253,7 +255,7 @@
                 android:padding="@dimen/dp_5"
                 android:text="@string/label_leave_rebut"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp_20" />
+                android:textSize="@dimen/sp_18" />
 
         </LinearLayout>
     </ScrollView>

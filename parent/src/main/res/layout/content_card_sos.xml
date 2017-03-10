@@ -28,6 +28,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_phone"
             android:inputType="number"
+            android:background="@null"
+            android:layout_gravity="center"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/transparent_gray"
             android:textSize="@dimen/sp_16" />

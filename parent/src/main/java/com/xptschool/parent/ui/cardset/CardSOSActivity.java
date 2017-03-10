@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.GreenDaoHelper;
 
 import java.util.ArrayList;
@@ -99,6 +100,13 @@ public class CardSOSActivity extends CardSetBaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        long spVal = (long) SharedPreferencesUtil.getData(this, spKey, 0);
+        long diff = (System.currentTimeMillis() - spVal) / 1000;
+        if (60 >= diff) {
+            Toast.makeText(this, (60 - diff) + "秒后再进行设置", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String sosPhones = "";
         int size = llContent.getChildCount();
         for (int i = 1; i < size - 1; i++) {
