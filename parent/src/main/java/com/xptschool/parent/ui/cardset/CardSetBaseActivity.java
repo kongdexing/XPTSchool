@@ -258,7 +258,7 @@ public class CardSetBaseActivity extends BaseActivity {
                                 } else if (CardType.equals(CARD_MONITER)) {
                                     currentStudent.setMonitor(values);
                                 }
-                                SharedPreferencesUtil.saveData(CardSetBaseActivity.this, spKey, System.currentTimeMillis());
+                                SharedPreferencesUtil.saveData(CardSetBaseActivity.this, spKey, System.currentTimeMillis() + "");
                                 GreenDaoHelper.getInstance().updateStudent(currentStudent);
                                 break;
                             case HttpAction.FAILED:
@@ -320,7 +320,7 @@ public class CardSetBaseActivity extends BaseActivity {
             String parentId = GreenDaoHelper.getInstance().getCurrentParent().getU_id();
             spKey = parentId + currentStudent.getStu_id() + CardType;
         }
-
+        Log.i(TAG, "setViewData:  " + spKey);
     }
 
 }

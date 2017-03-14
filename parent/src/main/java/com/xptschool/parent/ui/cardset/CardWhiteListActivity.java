@@ -1,6 +1,7 @@
 package com.xptschool.parent.ui.cardset;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.GreenDaoHelper;
 
 import java.util.ArrayList;
@@ -100,6 +102,20 @@ public class CardWhiteListActivity extends CardSetBaseActivity implements View.O
 
     @Override
     public void onClick(View v) {
+        try {
+            String val = (String) SharedPreferencesUtil.getData(this, spKey, "0");
+            long spVal = Long.parseLong(val);
+
+            long diff = (System.currentTimeMillis() - spVal) / 1000;
+            if (60 >= diff) {
+                Toast.makeText(this, (60 - diff) + "秒后再进行设置", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (Exception ex) {
+            Log.i(TAG, "onClick: " + ex.getMessage() + " spKey:" + spKey);
+            return;
+        }
+
         String values = "";
         for (int i = 0; i < whiteCardViews.size(); i++) {
             WhiteCardView cardView = whiteCardViews.get(i);

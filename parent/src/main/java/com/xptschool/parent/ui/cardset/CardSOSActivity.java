@@ -1,6 +1,7 @@
 package com.xptschool.parent.ui.cardset;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.ui.main.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,17 +102,24 @@ public class CardSOSActivity extends CardSetBaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        long spVal = (long) SharedPreferencesUtil.getData(this, spKey, 0);
-        long diff = (System.currentTimeMillis() - spVal) / 1000;
-        if (60 >= diff) {
-            Toast.makeText(this, (60 - diff) + "秒后再进行设置", Toast.LENGTH_SHORT).show();
+        try {
+            String val = (String) SharedPreferencesUtil.getData(CardSOSActivity.this, spKey, "0");
+            long spVal = Long.parseLong(val);
+
+            long diff = (System.currentTimeMillis() - spVal) / 1000;
+            if (60 >= diff) {
+                Toast.makeText(this, (60 - diff) + "秒后再进行设置", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (Exception ex) {
+            Log.i(TAG, "onClick: " + ex.getMessage() + " spKey:" + spKey);
             return;
         }
 
         String sosPhones = "";
-        int size = llContent.getChildCount();
-        for (int i = 1; i < size - 1; i++) {
-            CardSOSView sosView = (CardSOSView) llContent.getChildAt(i);
+        int size = listSOSViews.size();
+        for (int i =0; i < size; i++) {
+            CardSOSView sosView = listSOSViews.get(i);
             String phone = sosView.getSOSPhone();
             if (phone == null) {
                 //格式不正确

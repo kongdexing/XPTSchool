@@ -3,6 +3,7 @@ package com.xptschool.parent.ui.cardset;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.view.CustomDialog;
 
@@ -69,6 +71,20 @@ public class CardMoniterActivity extends CardSetBaseActivity {
     void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.btnOk:
+                try {
+                    String val = (String) SharedPreferencesUtil.getData(this, spKey, "0");
+                    long spVal = Long.parseLong(val);
+
+                    long diff = (System.currentTimeMillis() - spVal) / 1000;
+                    if (60 >= diff) {
+                        Toast.makeText(this, (60 - diff) + "秒后再进行设置", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (Exception ex) {
+                    Log.i(TAG, "onClick: " + ex.getMessage() + " spKey:" + spKey);
+                    return;
+                }
+
                 String phone = "";
                 if (mMoniterCardView != null) {
                     phone = mMoniterCardView.getInputValue();
