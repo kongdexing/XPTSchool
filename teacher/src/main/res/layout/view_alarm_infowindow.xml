@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dp_250"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/popup"
     android:orientation="vertical"
     android:paddingBottom="@dimen/dp_10"
@@ -31,8 +32,9 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="@dimen/dp_60"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:text="IMEI：" />
 
         <TextView
@@ -74,7 +76,82 @@
             android:layout_height="wrap_content"
             android:text="" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/trPower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备电量：" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/powerBar"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dp_18"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/txtScore"
+                app:rcBackgroundPadding="1dp"
+                app:rcRadius="3dp" />
+
+            <TextView
+                android:id="@+id/txtPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text=""
+                android:textSize="@dimen/sp_13" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/trSignal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设备信号：" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/signalBar"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/dp_18"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/txtScore"
+                app:rcBackgroundPadding="1dp"
+                app:rcRadius="3dp" />
+
+            <TextView
+                android:id="@+id/txtSignal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text=""
+                android:textSize="@dimen/sp_13" />
+        </RelativeLayout>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/trAlarmType"
         android:layout_width="match_parent"

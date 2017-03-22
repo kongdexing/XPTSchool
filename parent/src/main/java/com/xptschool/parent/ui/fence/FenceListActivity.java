@@ -29,6 +29,7 @@ import com.xptschool.parent.bean.BeanRail;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -166,7 +167,7 @@ public class FenceListActivity extends BaseActivity {
                                         expandableview.expandGroup(i);
                                     }
                                 } catch (Exception ex) {
-                                    Toast.makeText(FenceListActivity.this, "解析错误" + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FenceListActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:

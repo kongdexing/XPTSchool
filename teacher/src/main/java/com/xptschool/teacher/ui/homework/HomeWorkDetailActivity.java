@@ -125,10 +125,24 @@ public class HomeWorkDetailActivity extends AlbumActivity {
 
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
+                List<BeanCourse> courses = new ArrayList<BeanCourse>();
+                if (item != null && item.getG_id() != null) {
+                    courses = GreenDaoHelper.getInstance().getCourseByGId(item.getG_id());
+                }
+                if (courses.size() == 0) {
+                    spnCourse.setItems("无课程");
+                } else {
+                    spnCourse.setItems(courses);
+                }
             }
         });
 
-        spnCourse.setItems(GreenDaoHelper.getInstance().getAllCourse());
+        final List<BeanCourse> allCourse = GreenDaoHelper.getInstance().getAllCourse();
+//        if (allCourse.size() > 0) {
+//            spnCourse.setItems(allCourse);
+//        } else {
+//            spnCourse.setItems("无执教课程");
+//        }
         spnCourse.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanCourse>() {
 
             @Override
@@ -168,12 +182,15 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                 llTeacher.setVisibility(View.GONE);
                 LocalImageHelper.getInstance().setCurrentEnableMaxChoiceSize(
                         LocalImageHelper.getInstance().getMaxChoiceSize() - currentHomeWork.getFile_path().size());
-                setTxtRight("编辑");
+                final List<BeanClass> beanClasses = GreenDaoHelper.getInstance().getAllClass();
+                if (beanClasses.size() > 0 && allCourse.size() > 0) {
+                    setTxtRight("编辑");
+                }
                 setTextRightClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         setViewEnable(true);
-                        List<BeanClass> beanClasses = GreenDaoHelper.getInstance().getAllClass();
+
                         spnClasses.setItems(beanClasses);
 
                         for (int i = 0; i < beanClasses.size(); i++) {
@@ -213,7 +230,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             edtContent.setText(currentHomeWork.getWork_content());
             spnClasses.setItems(currentHomeWork.getG_name() + currentHomeWork.getC_name());
 //            spnClasses.setSelectedIndex(GreenDaoHelper.getInstance().getClassIndexByCId(currentHomeWork.getC_id()));
-            spnCourse.setSelectedIndex(GreenDaoHelper.getInstance().getCourseIndexByCrId(currentHomeWork.getCrs_id()));
+            spnCourse.setItems(GreenDaoHelper.getInstance().getCourseNameById(currentHomeWork.getCrs_id()));
         } else {
             llCreateTime.setVisibility(View.GONE);
             edtName.setText(spnCourse.getText() + "作业");

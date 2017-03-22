@@ -130,7 +130,7 @@ public class NoticeActivity extends BaseListActivity {
         spnClass.setOnNothingSelectedListener(spinnerNothingSelectedListener);
         spnState.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
-        startTime = CommonUtil.getDate2StrBefore(7);
+        startTime = CommonUtil.getDate2StrBefore(6);
         endTime = CommonUtil.getCurrentDate();
 
         setTxtDate();

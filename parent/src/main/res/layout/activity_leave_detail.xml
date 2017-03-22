@@ -184,7 +184,7 @@
                     android:background="@null"
                     android:gravity="top|left"
                     android:minLines="3"
-                    android:text="2666"
+                    android:text=""
                     android:textColor="@color/text_black_2"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
@@ -208,8 +208,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/txtReply"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_toRightOf="@+id/txtReply"
+                    android:background="@null"
                     android:gravity="top|left"
                     android:hint=""
                     android:minLines="3"

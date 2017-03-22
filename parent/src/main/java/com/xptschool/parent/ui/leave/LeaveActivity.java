@@ -22,6 +22,7 @@ import com.xptschool.parent.common.ActivityResultCode;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -234,7 +235,7 @@ public class LeaveActivity extends BaseListActivity {
                                     recycleView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
                                 } catch (Exception ex) {
                                     Log.i(TAG, "onResponse: " + ex.getMessage());
-                                    Toast.makeText(LeaveActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LeaveActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -245,6 +246,7 @@ public class LeaveActivity extends BaseListActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
                         if (swipe_refresh_widget != null) {
                             swipe_refresh_widget.setRefreshing(false);
                         }

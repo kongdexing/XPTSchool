@@ -98,7 +98,6 @@ public class ChangePwdActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError volleyError) {
                         super.onErrorResponse(volleyError);
                         hideProgress();
-
                     }
                 });
     }

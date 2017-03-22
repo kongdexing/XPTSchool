@@ -43,5 +43,6 @@ public class MyVolleyRequestListener implements VolleyRequestListener {
     @Override
     public void onErrorResponse(VolleyError volleyError) {
         Log.i(TAG, "onErrorResponse: ");
+        Toast.makeText(XPTApplication.getInstance(), HttpErrorMsg.ERROR_RESPONSE, Toast.LENGTH_SHORT).show();
     }
 }

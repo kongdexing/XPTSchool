@@ -7,8 +7,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -76,7 +78,7 @@ public class FenceDrawActivity extends BaseActivity implements BDLocationListene
     public SensorManager mSensorManager;
     public Sensor mSensor;
     public LocationClient mLocClient;
-    boolean isFirstLoc = false; // 是否首次定位
+    boolean isFirstLoc = true; // 是否首次定位
     public Marker mGPSMarker;
     private long lastTime = 0;
     private final int TIME_SENSOR = 100;
@@ -122,6 +124,7 @@ public class FenceDrawActivity extends BaseActivity implements BDLocationListene
                 });
             }
         });
+
     }
 
     private void initView() {
@@ -164,7 +167,7 @@ public class FenceDrawActivity extends BaseActivity implements BDLocationListene
         mLocClient.start();
     }
 
-    @OnClick({R.id.llRevoke,R.id.llMyLocation})
+    @OnClick({R.id.llRevoke, R.id.llMyLocation})
     void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.llRevoke:
@@ -315,7 +318,6 @@ public class FenceDrawActivity extends BaseActivity implements BDLocationListene
                     public void onErrorResponse(VolleyError volleyError) {
                         super.onErrorResponse(volleyError);
                         hideProgress();
-                        Toast.makeText(FenceDrawActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 

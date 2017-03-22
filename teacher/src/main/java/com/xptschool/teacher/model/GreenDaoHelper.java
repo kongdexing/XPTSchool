@@ -131,7 +131,7 @@ public class GreenDaoHelper {
     public List<BeanClass> getAllClass() {
         List<BeanClass> classes = new ArrayList<>();
         if (readDaoSession != null) {
-            classes = readDaoSession.getBeanClassDao().queryBuilder().list();
+            classes = readDaoSession.getBeanClassDao().queryBuilder().orderAsc(BeanClassDao.Properties.G_id).list();
         }
         return classes;
     }
@@ -194,25 +194,18 @@ public class GreenDaoHelper {
         return courses;
     }
 
-    public int getCourseIndexByCrId(String crId) {
-        List<BeanCourse> courses = getAllCourse();
-        for (int i = 0; i < courses.size(); i++) {
-            if (courses.get(i).getId().equals(crId)) {
-                return i;
+    public List<BeanCourse> getCourseByGId(String g_id) {
+        List<BeanCourse> courses = new ArrayList<>();
+        if (readDaoSession != null) {
+            if (g_id.isEmpty() || g_id == null) {
+                courses = readDaoSession.getBeanCourseDao().queryBuilder().list();
+            } else {
+                courses = readDaoSession.getBeanCourseDao().queryBuilder().where(BeanCourseDao.Properties.G_id.eq(g_id)).list();
             }
-        }
-        return 0;
-    }
 
-//    public String getCourseIdByName(String name) {
-//        if (readDaoSession != null) {
-//            BeanCourse course = readDaoSession.getBeanCourseDao().queryBuilder().where(BeanCourseDao.Properties.Name.eq(name)).unique();
-//            if (course != null) {
-//                return course.getId();
-//            }
-//        }
-//        return "";
-//    }
+        }
+        return courses;
+    }
 
     public String getCourseNameById(String id) {
         if (readDaoSession != null) {
@@ -224,7 +217,7 @@ public class GreenDaoHelper {
         return "";
     }
 
-    public void deleteContacts(){
+    public void deleteContacts() {
         if (writeDaoSession != null) {
             writeDaoSession.getContactTeacherDao().deleteAll();
             writeDaoSession.getContactStudentDao().deleteAll();

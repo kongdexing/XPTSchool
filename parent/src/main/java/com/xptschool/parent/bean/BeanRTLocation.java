@@ -15,6 +15,8 @@ public class BeanRTLocation {
     private String gps_type;
     private String time;
     private String imei;
+    private String power;
+    private String signal1;
 
     public String getLongitude() {
         return longitude;
@@ -64,4 +66,19 @@ public class BeanRTLocation {
         }
     }
 
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public String getSignal1() {
+        return signal1;
+    }
+
+    public void setSignal1(String signal1) {
+        this.signal1 = signal1;
+    }
 }

@@ -313,8 +313,8 @@ public class LeaveDetailActivity extends BaseActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
                         hideProgress();
-                        Toast.makeText(LeaveDetailActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -399,8 +399,8 @@ public class LeaveDetailActivity extends BaseActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
                         hideProgress();
-                        Toast.makeText(LeaveDetailActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

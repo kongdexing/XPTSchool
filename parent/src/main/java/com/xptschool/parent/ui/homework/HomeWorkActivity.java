@@ -23,6 +23,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -195,7 +196,7 @@ public class HomeWorkActivity extends BaseListActivity {
                                     recyclerView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
                                 } catch (Exception ex) {
                                     Log.i(TAG, "onResponse: " + ex.getMessage());
-                                    Toast.makeText(HomeWorkActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(HomeWorkActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -206,10 +207,10 @@ public class HomeWorkActivity extends BaseListActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
                         if (swipeRefreshLayout != null) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
-                        Toast.makeText(HomeWorkActivity.this, "error:" + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

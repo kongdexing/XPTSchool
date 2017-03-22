@@ -26,6 +26,7 @@ import com.xptschool.parent.common.ActivityResultCode;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -216,14 +217,18 @@ public class NoticeActivity extends BaseListActivity {
                                     }
                                     rclNotices.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
                                 } catch (Exception ex) {
-                                    Toast.makeText(NoticeActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(NoticeActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
+                                break;
+                            default:
+                                Toast.makeText(NoticeActivity.this, httpResult.getInfo(), Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
                         if (swipeRefresh != null) {
                             swipeRefresh.setRefreshing(false);
                         }

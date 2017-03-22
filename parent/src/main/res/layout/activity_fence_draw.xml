@@ -25,8 +25,8 @@
         android:padding="@dimen/dp_2">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
             android:background="@mipmap/icon_revoke" />
 
     </LinearLayout>

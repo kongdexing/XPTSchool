@@ -253,6 +253,8 @@ public class CommonUtil {
             BeanCourse course = new BeanCourse();
             course.setId(json.getString("id"));
             course.setName(json.getString("name"));
+            course.setG_id(json.getString("g_id"));
+            course.setG_name(json.getString("g_name"));
             listCourse.add(course);
         }
         GreenDaoHelper.getInstance().insertCourse(listCourse);
@@ -300,7 +302,7 @@ public class CommonUtil {
     };
 
     public static int getPopDateHeight() {
-        return XPTApplication.getInstance().getWindowHeight()  / 2;
+        return XPTApplication.getInstance().getWindowHeight() / 2;
     }
 
     public static LatLng convertGPS2BD(LatLng sourceLatLng) {

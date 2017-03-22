@@ -114,6 +114,7 @@ public class AlarmActivity extends BaseListActivity {
         List<BeanClass> beanClasses = GreenDaoHelper.getInstance().getAllClass();
         if (beanClasses.size() == 0) {
             spnClass.setText(R.string.toast_class_empty);
+            spnClass.setEnabled(false);
             Toast.makeText(this, R.string.toast_class_empty, Toast.LENGTH_SHORT).show();
             return;
         } else {

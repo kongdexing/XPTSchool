@@ -123,7 +123,6 @@ public class UpushTokenHelper {
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                super.onErrorResponse(volleyError);
                 Log.i(TAG, "onErrorResponse: ");
             }
         });

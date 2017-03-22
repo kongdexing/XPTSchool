@@ -202,7 +202,7 @@ public class CardSetBaseActivity extends BaseActivity {
                                     }
                                 } catch (Exception ex) {
                                     Log.i(TAG, "getCardPhone onResponse: " + ex.getMessage());
-                                    Toast.makeText(CardSetBaseActivity.this, "获取学生卡号码失败  " + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CardSetBaseActivity.this, "获取学生卡号码失败", Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -214,7 +214,6 @@ public class CardSetBaseActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         super.onErrorResponse(volleyError);
-                        Toast.makeText(CardSetBaseActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -298,7 +297,6 @@ public class CardSetBaseActivity extends BaseActivity {
                             btnSubmit.setEnabled(true);
                         }
                         super.onErrorResponse(volleyError);
-                        Toast.makeText(CardSetBaseActivity.this, "设置失败！", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

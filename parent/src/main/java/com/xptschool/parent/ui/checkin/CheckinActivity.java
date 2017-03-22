@@ -20,6 +20,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanCheckin;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -186,7 +187,7 @@ public class CheckinActivity extends BaseListActivity {
                                     }
                                     recyclerView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
                                 } catch (Exception ex) {
-                                    Toast.makeText(CheckinActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CheckinActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -197,10 +198,10 @@ public class CheckinActivity extends BaseListActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
                         if (swipeRefresh != null) {
                             swipeRefresh.setRefreshing(false);
                         }
-                        Toast.makeText(CheckinActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

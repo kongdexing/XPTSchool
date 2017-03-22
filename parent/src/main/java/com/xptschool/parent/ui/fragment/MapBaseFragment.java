@@ -77,6 +77,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
     private int RailIndex = 0;
 
     public BeanStudent currentStudent;
+    private BitmapDescriptor mBlueTexture = null;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -239,6 +240,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                 case DrawLocation:
                     drawLocation((BeanRTLocation) msg.obj, msg.arg1);
                     break;
+                //轨迹
                 case DrawTrack:
                     try {
                         List<LatLng> points = new ArrayList<LatLng>();
@@ -330,8 +332,18 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                         }
                         Log.i(TAG, "track:  points size " + points.size());
                         if (points.size() > 0) {
-                            OverlayOptions ooPolyline1 = new PolylineOptions().width(5)
-                                    .color(0xAAFF0000).points(points);
+
+                            if (mBlueTexture == null) {
+                                mBlueTexture = BitmapDescriptorFactory.fromAsset("icon_road_blue_arrow.png");
+                            }
+                            List<BitmapDescriptor> textureList = new ArrayList<BitmapDescriptor>();
+                            textureList.add(mBlueTexture);
+                            List<Integer> textureIndexs = new ArrayList<Integer>();
+                            textureIndexs.add(0);
+
+                            //.color(0xAAFF0000)
+                            OverlayOptions ooPolyline1 = new PolylineOptions().width(10)
+                                    .points(points).dottedLine(true).customTextureList(textureList).textureIndex(textureIndexs);
                             mBaiduMap.addOverlay(ooPolyline1);
                             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds.build()));
                         }
@@ -339,6 +351,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                         Log.e(TAG, "handleMessage DrawTrack : " + ex.getMessage());
                     }
                     break;
+                //电子围栏
                 case DrawRail:
                     if (RailIndex >= listRail.size()) {
                         RailIndex = 0;

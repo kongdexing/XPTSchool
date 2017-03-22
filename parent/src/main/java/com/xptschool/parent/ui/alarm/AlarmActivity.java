@@ -27,6 +27,7 @@ import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -202,7 +203,7 @@ public class AlarmActivity extends BaseListActivity {
                                     recycleView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
 
                                 } catch (Exception ex) {
-                                    Toast.makeText(AlarmActivity.this, "数据解析错误", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AlarmActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -213,6 +214,7 @@ public class AlarmActivity extends BaseListActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
                         if (swipeRefresh != null) {
                             swipeRefresh.setRefreshing(false);
                         }

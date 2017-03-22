@@ -389,7 +389,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                super.onErrorResponse(volleyError);
                 if (homeFragment != null) {
                     ((HomeFragment) homeFragment).reloadTopFragment(GreenDaoHelper.getInstance().getBanners());
                 }

@@ -20,6 +20,7 @@ import com.xptschool.parent.bean.MessageSendStatus;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -117,7 +118,7 @@ public class QuestionDetailActivity extends BaseActivity {
                                     adapter.refreshData(questions);
                                     listview.setSelection(adapter.getCount() - 1);
                                 } catch (Exception ex) {
-                                    Toast.makeText(QuestionDetailActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(QuestionDetailActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -128,7 +129,7 @@ public class QuestionDetailActivity extends BaseActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(QuestionDetailActivity.this, "error:" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        super.onErrorResponse(error);
                     }
                 });
     }

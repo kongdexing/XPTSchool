@@ -111,11 +111,6 @@ public class MapFragment extends MapBaseFragment implements BDLocationListener, 
         mLocClient = new LocationClient(mContext);
         mLocClient.registerLocationListener(this);
 
-        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_geobl);
-        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
-
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型

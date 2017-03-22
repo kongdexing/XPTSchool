@@ -76,13 +76,13 @@ public class CalendarOptionView extends LinearLayout implements View.OnClickList
                 new HighlightWeekendsDecorator(),
                 oneDayDecorator);
 
-        txtStartTime.setText(CommonUtil.getDate2StrBefore(7));
+        txtStartTime.setText(CommonUtil.getDate2StrBefore(6));
         txtEndTime.setText(CommonUtil.getCurrentDate());
 
         startDate = txtStartTime.getText().toString();
         endDate = txtEndTime.getText().toString();
 
-        calendarView.setSelectedDate(CommonUtil.getDateBefore(7));
+        calendarView.setSelectedDate(CommonUtil.getDateBefore(6));
 
     }
 

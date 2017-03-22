@@ -24,6 +24,8 @@ public class BeanCourseDao extends AbstractDao<BeanCourse, Void> {
     public static class Properties {
         public final static Property Id = new Property(0, String.class, "id", false, "ID");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
+        public final static Property G_id = new Property(2, String.class, "g_id", false, "G_ID");
+        public final static Property G_name = new Property(3, String.class, "g_name", false, "G_NAME");
     };
 
 
@@ -40,7 +42,9 @@ public class BeanCourseDao extends AbstractDao<BeanCourse, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BEAN_COURSE\" (" + //
                 "\"ID\" TEXT," + // 0: id
-                "\"NAME\" TEXT);"); // 1: name
+                "\"NAME\" TEXT," + // 1: name
+                "\"G_ID\" TEXT," + // 2: g_id
+                "\"G_NAME\" TEXT);"); // 3: g_name
     }
 
     /** Drops the underlying database table. */
@@ -62,6 +66,16 @@ public class BeanCourseDao extends AbstractDao<BeanCourse, Void> {
         if (name != null) {
             stmt.bindString(2, name);
         }
+ 
+        String g_id = entity.getG_id();
+        if (g_id != null) {
+            stmt.bindString(3, g_id);
+        }
+ 
+        String g_name = entity.getG_name();
+        if (g_name != null) {
+            stmt.bindString(4, g_name);
+        }
     }
 
     @Override
@@ -77,6 +91,16 @@ public class BeanCourseDao extends AbstractDao<BeanCourse, Void> {
         if (name != null) {
             stmt.bindString(2, name);
         }
+ 
+        String g_id = entity.getG_id();
+        if (g_id != null) {
+            stmt.bindString(3, g_id);
+        }
+ 
+        String g_name = entity.getG_name();
+        if (g_name != null) {
+            stmt.bindString(4, g_name);
+        }
     }
 
     @Override
@@ -88,7 +112,9 @@ public class BeanCourseDao extends AbstractDao<BeanCourse, Void> {
     public BeanCourse readEntity(Cursor cursor, int offset) {
         BeanCourse entity = new BeanCourse( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // name
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // g_id
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // g_name
         );
         return entity;
     }
@@ -97,6 +123,8 @@ public class BeanCourseDao extends AbstractDao<BeanCourse, Void> {
     public void readEntity(Cursor cursor, BeanCourse entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setG_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setG_name(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override

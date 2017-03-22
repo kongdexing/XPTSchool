@@ -187,6 +187,7 @@ public class ContactsActivity extends BaseActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
                         if (swipe_refresh_widget != null) {
                             swipe_refresh_widget.setRefreshing(false);
                         }

@@ -106,7 +106,7 @@ public class QuestionActivity extends BaseListActivity {
                 flTransparent.setVisibility(View.GONE);
             }
         });
-        startTime = CommonUtil.getDate2StrBefore(7);
+        startTime = CommonUtil.getDate2StrBefore(6);
         endTime = CommonUtil.getCurrentDate();
 
         setTxtDate();

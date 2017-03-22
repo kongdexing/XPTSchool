@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
@@ -54,6 +55,20 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
     LinearLayout trAlarmType;
     @BindView(R.id.trLocationType)
     LinearLayout trLocationType;
+
+    @BindView(R.id.trPower)
+    LinearLayout trPower;
+    @BindView(R.id.txtPower)
+    TextView txtPower;
+    @BindView(R.id.powerBar)
+    RoundCornerProgressBar powerBar;
+
+    @BindView(R.id.trSignal)
+    LinearLayout trSignal;
+    @BindView(R.id.txtSignal)
+    TextView txtSignal;
+    @BindView(R.id.signalBar)
+    RoundCornerProgressBar signalBar;
 
     GeoCoder mSearch = null;
     MyOnGetGeoCoderResultListener myOnGetGeoCoderResultListener;
@@ -103,6 +118,13 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         txtLocationType.setText(location.getGps_type());
     }
 
+    /**
+     * 实时位置
+     *
+     * @param location
+     * @param student
+     * @param listener
+     */
     public void setData(BeanRTLocation location, BeanStudent student, MyOnGetGeoCoderResultListener listener) {
         myOnGetGeoCoderResultListener = listener;
         if (location.getLatLng() != null) {
@@ -117,6 +139,26 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         txtIMEI.setText(location.getImei());
         txtTime.setText(location.getTime());
         txtLocationType.setText(location.getGps_type());
+
+        trPower.setVisibility(VISIBLE);
+        trSignal.setVisibility(VISIBLE);
+
+        txtPower.setText(Integer.parseInt(location.getPower()) + "%");
+        txtSignal.setText(Integer.parseInt(location.getSignal1()) + "%");
+
+        powerBar.setProgressBackgroundColor(this.getContext().getResources().getColor(R.color.color_power));
+        powerBar.setMax(100);
+        powerBar.setSecondaryProgress(powerBar.getMax());
+        powerBar.setSecondaryProgressColor(this.getContext().getResources().getColor(R.color.white));
+        powerBar.setProgressColor(this.getContext().getResources().getColor(R.color.color_power));
+        powerBar.setProgress(Float.parseFloat(location.getPower()));
+
+        signalBar.setProgressBackgroundColor(this.getContext().getResources().getColor(R.color.color_signal));
+        signalBar.setMax(100);
+        signalBar.setSecondaryProgress(powerBar.getMax());
+        signalBar.setSecondaryProgressColor(this.getContext().getResources().getColor(R.color.white));
+        signalBar.setProgressColor(this.getContext().getResources().getColor(R.color.color_signal));
+        signalBar.setProgress(Float.parseFloat(location.getSignal1()));
     }
 
     @Override

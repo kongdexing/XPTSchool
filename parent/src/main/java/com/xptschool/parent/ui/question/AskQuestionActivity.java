@@ -163,8 +163,8 @@ public class AskQuestionActivity extends BaseActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
                         hideProgress();
-                        Toast.makeText(AskQuestionActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

@@ -21,6 +21,7 @@ import com.xptschool.parent.bean.BeanExam;
 import com.xptschool.parent.bean.BeanScore;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -175,7 +176,7 @@ public class ScoreActivity extends BaseListActivity {
                                         expandableview.expandGroup(i);
                                     }
                                 } catch (Exception ex) {
-                                    Toast.makeText(ScoreActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ScoreActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -187,6 +188,7 @@ public class ScoreActivity extends BaseListActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
                         if (swipeRefresh != null) {
                             swipeRefresh.setRefreshing(false);
                         }

@@ -174,6 +174,7 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
 
         LatLng ll = new LatLng(location.getLatitude(),
                 location.getLongitude());
+        Log.i(TAG, "onReceiveLocation: " + location.getAddrStr() + location.getLatitude() + " longitude " + location.getLongitude());
 
         if (isFirstLoc) {
             isFirstLoc = false;
@@ -184,6 +185,7 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
             builder.target(ll).zoom(18.0f);
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
+
         if (mGPSMarker != null) {
             mGPSMarker.setPosition(ll);
         }

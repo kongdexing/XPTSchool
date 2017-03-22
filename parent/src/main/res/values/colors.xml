@@ -57,6 +57,8 @@
     <color name="color_yuwen">#ff6766</color>
     <color name="color_zhengzhi">#4FB68C</color>
 
+    <color name="color_power">#2bdfd6</color>
+    <color name="color_signal">#35ace7</color>
 
     <color name="color_leave_1">#14ae67</color>
     <color name="color_leave_2">#e36203</color>

@@ -44,4 +44,7 @@
     <color name="comment_popup_bg">#292929</color>
     <color name="comment_popup_tx_bg">#c7c7c7</color>
 
+    <color name="color_power">#2bdfd6</color>
+    <color name="color_signal">#35ace7</color>
+
 </resources>

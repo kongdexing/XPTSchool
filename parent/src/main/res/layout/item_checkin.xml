@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="考勤时间段"
+            android:text="区间"
             android:textSize="@dimen/sp_14" />
 
     </LinearLayout>

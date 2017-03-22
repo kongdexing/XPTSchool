@@ -121,6 +121,15 @@ public class HomeWorkActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
                 flTransparent.setVisibility(View.GONE);
+                List<BeanCourse> courses = new ArrayList<BeanCourse>();
+                if (item != null && item.getG_id() != null) {
+                    courses = GreenDaoHelper.getInstance().getCourseByGId(item.getG_id());
+                }
+                if (courses.size() == 0) {
+                    spnCourse.setItems("无课程");
+                } else {
+                    spnCourse.setItems(courses);
+                }
                 getHomeWorkList();
             }
         });
@@ -136,7 +145,7 @@ public class HomeWorkActivity extends BaseListActivity {
         });
         spnCourse.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
-        startTime = CommonUtil.getDate2StrBefore(7);
+        startTime = CommonUtil.getDate2StrBefore(6);
         endTime = CommonUtil.getCurrentDate();
 
         setTxtDate();
@@ -194,7 +203,12 @@ public class HomeWorkActivity extends BaseListActivity {
 
     private void getHomeWorkList() {
         BeanClass currentClass = (BeanClass) spnClass.getSelectedItem();
-        BeanCourse currentCourse = (BeanCourse) spnCourse.getSelectedItem();
+        BeanCourse currentCourse = new BeanCourse();
+        try {
+            currentCourse = (BeanCourse) spnCourse.getSelectedItem();
+        } catch (Exception ex) {
+            currentCourse = new BeanCourse();
+        }
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.HOMEWORK_QUERY,
                 new VolleyHttpParamsEntity()

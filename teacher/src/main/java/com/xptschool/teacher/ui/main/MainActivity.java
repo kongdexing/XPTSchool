@@ -72,7 +72,6 @@ public class MainActivity extends BaseActivity {
 
         initView();
         initData();
-        Toast.makeText(this, "nihao", Toast.LENGTH_SHORT).show();
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.setDebugMode(false);

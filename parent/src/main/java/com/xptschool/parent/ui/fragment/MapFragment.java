@@ -40,6 +40,7 @@ import com.xptschool.parent.bean.BeanRTLocation;
 import com.xptschool.parent.bean.BeanRail;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -106,11 +107,6 @@ public class MapFragment extends MapBaseFragment {
         mLocClient = new LocationClient(mContext);
         mLocClient.registerLocationListener(this);
 
-//        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-//                .fromResource(R.mipmap.icon_geobl);
-//        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-//                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
-
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
@@ -137,6 +133,7 @@ public class MapFragment extends MapBaseFragment {
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanStudent item) {
                 flTransparent.setVisibility(View.GONE);
                 currentStudent = item;
+                locationTime = 0;
                 //获取不同数据
                 reloadDataByStatus();
             }
@@ -152,6 +149,8 @@ public class MapFragment extends MapBaseFragment {
         llTrack.setTag(false);
         llLocation.setTag(false);
         llRailings.setTag(false);
+
+        viewClick(llLocation);
     }
 
     @OnClick({R.id.txtSDate, R.id.txtEDate, R.id.llLocation, R.id.llTrack, R.id.llRailings, R.id.spnStudents, R.id.llAlarm, R.id.llMyLocation})
@@ -317,7 +316,7 @@ public class MapFragment extends MapBaseFragment {
             timer = new Timer(true);
         }
         //start the timer
-        timer.schedule(task, 1000, 5000);
+        timer.schedule(task, 1000, 60 * 1000);
     }
 
     @Override
@@ -364,7 +363,7 @@ public class MapFragment extends MapBaseFragment {
                                     message.obj = rtLocation;
                                     mHandler.sendMessage(message);
                                 } catch (Exception ex) {
-                                    Toast.makeText(mContext, "解析失败：" + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -376,8 +375,8 @@ public class MapFragment extends MapBaseFragment {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
                         mHandler.sendEmptyMessage(HIDE_PROGRESS);
-                        Toast.makeText(mContext, "获取失败", Toast.LENGTH_SHORT).show();
                         cancelRTLocationTimer();
                     }
                 });
@@ -406,7 +405,7 @@ public class MapFragment extends MapBaseFragment {
                                             }.getType());
                                     drawTrack(listLocations);
                                 } catch (Exception ex) {
-                                    Toast.makeText(mContext, "解析错误" + ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             default:
@@ -417,7 +416,7 @@ public class MapFragment extends MapBaseFragment {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(mContext, "获取失败", Toast.LENGTH_SHORT).show();
+                        super.onErrorResponse(volleyError);
                     }
                 });
     }
