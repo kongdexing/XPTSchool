@@ -16,7 +16,6 @@
             <option value="$PROJECT_DIR$/takephoto_library" />
             <option value="$PROJECT_DIR$/teacher" />
             <option value="$PROJECT_DIR$/viewpagerindicator" />
-            <option value="$PROJECT_DIR$/widget" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
