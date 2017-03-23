@@ -149,17 +149,17 @@ public class GreenDaoHelper {
         return new ArrayList<ContactSchool>();
     }
 
-    public String getParamTokenByPhone(String phone) {
-        BeanDeviceToken deviceToken = null;
-        if (readDaoSession != null) {
-            deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).unique();
-        }
-        if (deviceToken == null) {
-            return "";
-        }
-        return deviceToken.getParamToken();
-    }
+//    public String getParamTokenByPhone(String phone) {
+//        BeanDeviceToken deviceToken = null;
+//        if (readDaoSession != null) {
+//            deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
+//                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).unique();
+//        }
+//        if (deviceToken == null) {
+//            return "";
+//        }
+//        return deviceToken.getParamToken();
+//    }
 
     public String getTokenByPhone(String phone) {
         BeanDeviceToken deviceToken = null;

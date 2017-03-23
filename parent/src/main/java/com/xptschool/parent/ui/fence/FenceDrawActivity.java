@@ -242,6 +242,9 @@ public class FenceDrawActivity extends BaseActivity implements BDLocationListene
             isFirstLoc = false;
             MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
                     BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
+            if (mGPSMarker != null) {
+                mGPSMarker.remove();
+            }
             mGPSMarker = (Marker) mBaiduMap.addOverlay(markerOptions);
             MapStatus.Builder builder = new MapStatus.Builder();
             builder.target(ll).zoom(18.0f);

@@ -329,7 +329,7 @@ public class MapFragment extends MapBaseFragment implements BDLocationListener, 
             timer = new Timer(true);
         }
         //start the timer
-        timer.schedule(task, 1000, 5000);
+        timer.schedule(task, 1000, 60 * 1000);
     }
 
     @Override

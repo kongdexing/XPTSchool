@@ -70,7 +70,7 @@ public class HttpAction {
     public static String SetCard_Phone = HEAD + "StudentCard/set_cardphone";
 
     //上传upush devices_token
-    public static String Push_Token = BuildConfig.SERVICE_URL + "/token.php";
+    public static String Push_Token = BuildConfig.SERVICE_URL + "/parenttoken.php";
     public static String HOME_Banner = BuildConfig.SERVICE_URL + "/banner.php";
 
 }

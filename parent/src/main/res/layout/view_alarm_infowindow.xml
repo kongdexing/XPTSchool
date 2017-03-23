@@ -6,8 +6,8 @@
     android:background="@drawable/popup"
     android:orientation="vertical"
     android:paddingBottom="@dimen/dp_10"
-    android:paddingLeft="@dimen/dp_5"
     android:paddingRight="@dimen/dp_5"
+    android:paddingLeft="@dimen/dp_5"
     android:paddingTop="@dimen/dp_5">
 
     <LinearLayout
@@ -16,15 +16,20 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="学生姓名：" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:text="学生姓名："
+            android:textColor="@color/color_black_2" />
 
         <TextView
             android:id="@+id/txtStudentName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/color_black_2" />
     </LinearLayout>
 
     <LinearLayout
@@ -32,16 +37,21 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="@dimen/dp_80"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:gravity="right"
-            android:text="IMEI：" />
+            android:lines="1"
+            android:text="IMEI："
+            android:textColor="@color/color_black_2" />
 
         <TextView
             android:id="@+id/txtIMEI"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/color_black_2" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,15 +59,21 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="定位时间：" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:lines="1"
+            android:text="定位时间："
+            android:textColor="@color/color_black_2" />
 
         <TextView
             android:id="@+id/txtTime"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/color_black_2" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,15 +82,21 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="定位方式：" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:lines="1"
+            android:text="定位方式："
+            android:textColor="@color/color_black_2" />
 
         <TextView
             android:id="@+id/txtLocationType"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/color_black_2" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,14 +107,19 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="设备电量：" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:lines="1"
+            android:text="设备电量："
+            android:textColor="@color/color_black_2" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
             <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
                 android:id="@+id/powerBar"
@@ -111,6 +138,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text=""
+                android:textColor="@color/color_black_2"
                 android:textSize="@dimen/sp_13" />
         </RelativeLayout>
 
@@ -124,14 +152,19 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="设备信号：" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:lines="1"
+            android:text="设备信号："
+            android:textColor="@color/color_black_2" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_weight="1">
 
             <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
                 android:id="@+id/signalBar"
@@ -150,6 +183,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text=""
+                android:textColor="@color/color_black_2"
                 android:textSize="@dimen/sp_13" />
         </RelativeLayout>
     </LinearLayout>
@@ -161,15 +195,21 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="报警类型：" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:lines="1"
+            android:text="报警类型："
+            android:textColor="@color/color_black_2" />
 
         <TextView
             android:id="@+id/txtAlarmType"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SOS报警" />
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/color_black_2" />
     </LinearLayout>
 
     <LinearLayout
@@ -177,15 +217,21 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="地理位置：" />
+            android:layout_weight="2"
+            android:gravity="right"
+            android:lines="1"
+            android:text="地理位置："
+            android:textColor="@color/color_black_2" />
 
         <TextView
             android:id="@+id/txtLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/color_black_2" />
     </LinearLayout>
 
 </LinearLayout>

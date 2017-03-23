@@ -128,21 +128,25 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                 .longitude(location.getLongitude()).build();
 
         mBaiduMap.setMyLocationData(locData);
-
         LatLng ll = new LatLng(location.getLatitude(),
                 location.getLongitude());
+        Log.i(TAG, "onReceiveLocation: " + ll.longitude + "--" + ll.latitude + "  " + isFirstLoc);
+
+        MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
+                BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
+        if (mGPSMarker != null) {
+            mGPSMarker.remove();
+        }
+        mGPSMarker = (Marker) mBaiduMap.addOverlay(markerOptions);
+        mGPSMarker.setPosition(ll);
 
         if (isFirstLoc) {
             isFirstLoc = false;
-            MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
-                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
-            mGPSMarker = (Marker) mBaiduMap.addOverlay(markerOptions);
             MapStatus.Builder builder = new MapStatus.Builder();
             builder.target(ll).zoom(18.0f);
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
 
-        mGPSMarker.setPosition(ll);
     }
 
     @Override

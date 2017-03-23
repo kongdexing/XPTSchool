@@ -81,11 +81,13 @@ public class AlarmMapActivity extends BaseActivity {
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, max - 6);
         mBaiduMap.animateMapStatus(u);
 
+        final int MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_30));
+
         final AlarmInfoWindowView alarmInfoWindowView = new AlarmInfoWindowView(this);
         alarmInfoWindowView.setAlarmData(currentAlarm, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
             @Override
             public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-                final InfoWindow infoWindow = new InfoWindow(alarmInfoWindowView, llA, -50);
+                final InfoWindow infoWindow = new InfoWindow(alarmInfoWindowView, llA, MapInfoTop);
                 mBaiduMap.showInfoWindow(infoWindow);
 
                 mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {

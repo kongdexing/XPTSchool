@@ -143,7 +143,9 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         trSignal.setVisibility(VISIBLE);
 
         txtPower.setText(Integer.parseInt(location.getPower()) + "%");
-        txtSignal.setText(Integer.parseInt(location.getSignal1()) + "%");
+        int signal = Integer.parseInt(location.getSignal1());
+
+        txtSignal.setText(signal + "%");
 
         powerBar.setProgressBackgroundColor(this.getContext().getResources().getColor(R.color.color_power));
         powerBar.setMax(100);
@@ -157,7 +159,7 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         signalBar.setSecondaryProgress(powerBar.getMax());
         signalBar.setSecondaryProgressColor(this.getContext().getResources().getColor(R.color.white));
         signalBar.setProgressColor(this.getContext().getResources().getColor(R.color.color_signal));
-        signalBar.setProgress(Float.parseFloat(location.getSignal1()));
+        signalBar.setProgress(signal);
 
     }
 

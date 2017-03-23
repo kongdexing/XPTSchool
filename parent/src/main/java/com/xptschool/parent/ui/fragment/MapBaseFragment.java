@@ -54,7 +54,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
 
     public BaiduMap mBaiduMap;
     public LocationClient mLocClient;
-    boolean isFirstLoc = true; // 是否首次定位
+    boolean isFirstLoc = false; // 是否首次定位
     public Marker mGPSMarker;
     public SensorManager mSensorManager;
     public Sensor mSensor;
@@ -131,18 +131,20 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
 
         LatLng ll = new LatLng(location.getLatitude(),
                 location.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
+                BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
+        if (mGPSMarker != null) {
+            mGPSMarker.remove();
+        }
+        mGPSMarker = (Marker) mBaiduMap.addOverlay(markerOptions);
+        mGPSMarker.setPosition(ll);
 
         if (isFirstLoc) {
             isFirstLoc = false;
-            MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
-                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
-            mGPSMarker = (Marker) mBaiduMap.addOverlay(markerOptions);
             MapStatus.Builder builder = new MapStatus.Builder();
             builder.target(ll).zoom(18.0f);
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
         }
-
-        mGPSMarker.setPosition(ll);
     }
 
     @Override
