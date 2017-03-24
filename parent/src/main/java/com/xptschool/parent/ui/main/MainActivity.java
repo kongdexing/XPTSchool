@@ -313,49 +313,27 @@ public class MainActivity extends BaseActivity {
 //            return;
 //        }
 
-        String strSids = "", strAids = "", strCids = "";
+        String strSids = "";
         List<String> sids = new ArrayList<>();
-        List<String> aids = new ArrayList<>();
-        List<String> cids = new ArrayList<>();
 
         for (int i = 0; i < students.size(); i++) {
             BeanStudent student = students.get(i);
             String sid = student.getS_id();
-            String aid = student.getA_id();
-            String cid = student.getC_id();
             if (!sids.contains(sid)) {
                 sids.add(sid);
-            }
-            if (!aids.contains(aid)) {
-                aids.add(aid);
-            }
-            if (!cids.contains(cid)) {
-                cids.add(cid);
             }
         }
         for (int i = 0; i < sids.size(); i++) {
             strSids += sids.get(i) + ",";
         }
-        for (int i = 0; i < aids.size(); i++) {
-            strAids += aids.get(i) + ",";
-        }
-        for (int i = 0; i < cids.size(); i++) {
-            strCids += cids.get(i) + ",";
-        }
 
         if (strSids.length() > 0) {
             strSids = strSids.substring(0, strSids.length() - 1);
         }
-        if (strAids.length() > 0) {
-            strAids = strAids.substring(0, strAids.length() - 1);
-        }
-        if (strCids.length() > 0) {
-            strCids = strCids.substring(0, strCids.length() - 1);
-        }
 
-        String url = HttpAction.HOME_Banner + "?sid=" + strSids + "&aid=" + strAids + "&cid=" + strCids;
-
-        VolleyHttpService.getInstance().sendGetRequest(url, new MyVolleyRequestListener() {
+        String url = HttpAction.HOME_Banner;
+        VolleyHttpService.getInstance().sendPostRequest(url, new VolleyHttpParamsEntity()
+                .addParam("s_id", strSids), new MyVolleyRequestListener() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -364,27 +342,31 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
                 super.onResponse(volleyHttpResult);
-
-                try {
-                    String info = volleyHttpResult.getInfo().toString();
-                    Log.i(TAG, "onResponse: info " + info);
-                    Gson gson = new Gson();
-                    List<BeanBanner> banners = gson.fromJson(info, new TypeToken<List<BeanBanner>>() {
-                    }.getType());
-                    if (banners.size() > 0) {
-                        GreenDaoHelper.getInstance().insertBanner(banners);
-                    }
-                    Log.i(TAG, "onResponse: size " + banners.size());
-                    if (homeFragment != null) {
-                        ((HomeFragment) homeFragment).reloadTopFragment(banners);
-                    }
-                } catch (Exception ex) {
-                    Log.i(TAG, "onResponse: error " + ex.getMessage());
-                    //错误
-                    if (homeFragment != null) {
-                        ((HomeFragment) homeFragment).reloadTopFragment(GreenDaoHelper.getInstance().getBanners());
-                    }
+                switch (volleyHttpResult.getStatus()) {
+                    case HttpAction.SUCCESS:
+                        try {
+                            String info = volleyHttpResult.getData().toString();
+                            Log.i(TAG, "onResponse: data " + info);
+                            Gson gson = new Gson();
+                            List<BeanBanner> banners = gson.fromJson(info, new TypeToken<List<BeanBanner>>() {
+                            }.getType());
+                            if (banners.size() > 0) {
+                                GreenDaoHelper.getInstance().insertBanner(banners);
+                            }
+                            Log.i(TAG, "onResponse: size " + banners.size());
+                            if (homeFragment != null) {
+                                ((HomeFragment) homeFragment).reloadTopFragment(banners);
+                            }
+                        } catch (Exception ex) {
+                            Log.i(TAG, "onResponse: error " + ex.getMessage());
+                            //错误
+                            if (homeFragment != null) {
+                                ((HomeFragment) homeFragment).reloadTopFragment(GreenDaoHelper.getInstance().getBanners());
+                            }
+                        }
+                        break;
                 }
+
             }
 
             @Override

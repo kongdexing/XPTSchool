@@ -2,6 +2,7 @@ package com.xptschool.parent.common;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
@@ -257,7 +258,7 @@ public class CommonUtil {
     }
 
     public static int getPopDateHeight() {
-        return XPTApplication.getInstance().getWindowHeight()  / 2;
+        return XPTApplication.getInstance().getWindowHeight() / 2;
     }
 
     public static boolean isPhone(String inputText) {
@@ -274,6 +275,11 @@ public class CommonUtil {
         // sourceLatLng待转换坐标
         converter.coord(sourceLatLng);
         return converter.convert();
+    }
+
+    public static String getDeviceId() {
+        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+        return tm.getDeviceId();
     }
 
 }

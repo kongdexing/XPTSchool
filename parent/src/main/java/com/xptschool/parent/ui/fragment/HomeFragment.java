@@ -3,15 +3,28 @@ package com.xptschool.parent.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.VolleyError;
+import com.android.volley.common.VolleyHttpResult;
+import com.android.volley.common.VolleyHttpService;
+import com.android.volley.common.VolleyRequestListener;
+import com.android.volley.toolbox.Volley;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.MyTopPagerAdapter;
+import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanBanner;
+import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.BeanTeacher;
+import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.push.BannerHelper;
 import com.xptschool.parent.ui.main.MainActivity;
 import com.xptschool.parent.ui.alarm.AlarmActivity;
 import com.xptschool.parent.ui.checkin.CheckinActivity;
@@ -22,12 +35,16 @@ import com.xptschool.parent.ui.question.QuestionActivity;
 import com.xptschool.parent.ui.score.ScoreActivity;
 import com.xptschool.parent.view.AutoScrollViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static com.xptschool.parent.http.HttpAction.SHOW_Banner;
 
 public class HomeFragment extends BaseFragment {
 
@@ -38,6 +55,7 @@ public class HomeFragment extends BaseFragment {
 
     private Unbinder unbinder;
     private MyTopPagerAdapter topAdapter;
+    private List<BeanBanner> topBanners = new ArrayList<>();
 
     public HomeFragment() {
     }
@@ -59,6 +77,28 @@ public class HomeFragment extends BaseFragment {
         topAdapter = new MyTopPagerAdapter(this.getContext());
         viewPagerTop.setAdapter(topAdapter);
         indicator.setViewPager(viewPagerTop);
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                Log.i(TAG, "onPageScrolled: " + position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i(TAG, "onPageSelected: banners " + topBanners.size() + "  position: " + position);
+                if (topBanners.size() > position) {
+                    BeanBanner banner = topBanners.get(position);
+                    if (banner != null && banner.getType().equals("1")) {
+                        BannerHelper.postShowBanner(banner);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+//                Log.i(TAG, "onPageScrollStateChanged: ");
+            }
+        });
         indicator.setCurrentItem(0);
     }
 
@@ -110,6 +150,7 @@ public class HomeFragment extends BaseFragment {
     public void reloadTopFragment(List<BeanBanner> banners) {
         Log.i(TAG, "reloadTopFragment: " + banners.size());
         if (topAdapter != null) {
+            topBanners = banners;
             topAdapter.reloadData(banners);
         }
         if (viewPagerTop != null) {

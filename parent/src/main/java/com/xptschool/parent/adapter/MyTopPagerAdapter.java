@@ -14,6 +14,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanBanner;
+import com.xptschool.parent.push.BannerHelper;
 import com.xptschool.parent.ui.main.WebViewActivity;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class MyTopPagerAdapter extends PagerAdapter {
         if (tops.size() == 0) {
             beanBanners.clear();
             BeanBanner banner = new BeanBanner();
-            banner.setImageurl("");
+            banner.setImg("");
             beanBanners.add(banner);
         } else {
             beanBanners = tops;
@@ -63,15 +64,18 @@ public class MyTopPagerAdapter extends PagerAdapter {
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         final BeanBanner banner = beanBanners.get(position);
         if (banner != null) {
-            ImageLoader.getInstance().displayImage(banner.getImageurl(),
+            ImageLoader.getInstance().displayImage(banner.getImg(),
                     new ImageViewAware(view), CommonUtil.getDefaultImageLoaderOption());
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (banner.getMode().equals("click")) {
+                    if (!banner.getUrl().isEmpty()) {
                         Intent intent = new Intent(mContext, WebViewActivity.class);
-                        intent.putExtra(ExtraKey.WEB_URL, banner.getTarget());
+                        intent.putExtra(ExtraKey.WEB_URL, banner.getUrl());
                         mContext.startActivity(intent);
+                        if (banner.getType().equals("2")) {
+                            BannerHelper.postShowBanner(banner);
+                        }
                     }
                 }
             });

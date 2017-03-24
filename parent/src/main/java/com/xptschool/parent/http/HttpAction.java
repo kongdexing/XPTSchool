@@ -71,6 +71,9 @@ public class HttpAction {
 
     //上传upush devices_token
     public static String Push_Token = BuildConfig.SERVICE_URL + "/parenttoken.php";
-    public static String HOME_Banner = BuildConfig.SERVICE_URL + "/banner.php";
+
+    //广告位
+    public static String HOME_Banner = HEAD + "Banner/query";
+    public static String SHOW_Banner = BuildConfig.SERVICE_URL + "/getadstatics.php";
 
 }

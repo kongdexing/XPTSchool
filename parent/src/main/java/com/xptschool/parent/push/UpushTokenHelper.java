@@ -217,8 +217,7 @@ public class UpushTokenHelper {
     private static String getTokenParamString(List<BeanStudent> students, BeanParent parent, String local_device_token, JSONArray jsonArray) {
         String param;
         try {
-            TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-            String DEVICE_ID = tm.getDeviceId();
+            String DEVICE_ID = CommonUtil.getDeviceId();
 
             for (int i = 0; i < students.size(); i++) {
                 JSONObject object = new JSONObject();
