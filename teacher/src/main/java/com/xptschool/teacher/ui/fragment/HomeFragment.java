@@ -3,15 +3,18 @@ package com.xptschool.teacher.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.MyTopPagerAdapter;
 import com.xptschool.teacher.model.BeanBanner;
+import com.xptschool.teacher.push.BannerHelper;
 import com.xptschool.teacher.ui.alarm.AlarmActivity;
 import com.xptschool.teacher.ui.checkin.CheckinActivity;
 import com.xptschool.teacher.ui.homework.HomeWorkActivity;
@@ -22,6 +25,7 @@ import com.xptschool.teacher.ui.question.QuestionActivity;
 import com.xptschool.teacher.ui.score.ScoreActivity;
 import com.xptschool.teacher.view.AutoScrollViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,9 +39,12 @@ public class HomeFragment extends BaseFragment {
     AutoScrollViewPager viewPagerTop;
     @BindView(R.id.indicator)
     CirclePageIndicator indicator;
+    @BindView(R.id.tipTitle)
+    TextView tipTitle;
 
     private Unbinder unbinder;
     private MyTopPagerAdapter topAdapter;
+    private List<BeanBanner> topBanners = new ArrayList<>();
 
     public HomeFragment() {
     }
@@ -58,6 +65,30 @@ public class HomeFragment extends BaseFragment {
         topAdapter = new MyTopPagerAdapter(this.getContext());
         viewPagerTop.setAdapter(topAdapter);
         indicator.setViewPager(viewPagerTop);
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                Log.i(TAG, "onPageScrolled: " + position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i(TAG, "onPageSelected: banners " + topBanners.size() + "  position: " + position);
+                if (topBanners.size() > position) {
+                    BeanBanner banner = topBanners.get(position);
+                    Log.i(TAG, "onPageSelected: banner type " + banner.getType());
+                    if (banner != null) {
+                        tipTitle.setText(banner.getTitle());
+                        BannerHelper.postShowBanner(banner, "1");
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+//                Log.i(TAG, "onPageScrollStateChanged: ");
+            }
+        });
         indicator.setCurrentItem(0);
     }
 
@@ -109,6 +140,7 @@ public class HomeFragment extends BaseFragment {
     public void reloadTopFragment(List<BeanBanner> banners) {
         Log.i(TAG, "reloadTopFragment: " + banners.size());
         if (topAdapter != null) {
+            topBanners = banners;
             topAdapter.reloadData(banners);
         }
         if (viewPagerTop != null) {

@@ -3,6 +3,7 @@ package com.xptschool.teacher.common;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
@@ -55,6 +56,11 @@ public class CommonUtil {
 
     public static String getCurrentDateTime() {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sDateFormat.format(new Date());
+    }
+
+    public static String getCurrentDateHms() {
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sDateFormat.format(new Date());
     }
 
@@ -312,6 +318,11 @@ public class CommonUtil {
         // sourceLatLng待转换坐标
         converter.coord(sourceLatLng);
         return converter.convert();
+    }
+
+    public static String getDeviceId() {
+        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+        return tm.getDeviceId();
     }
 
 }

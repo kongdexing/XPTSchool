@@ -1,21 +1,16 @@
-package com.xptschool.parent.push;
+package com.xptschool.teacher.push;
 
-import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
-import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.common.BroadcastAction;
-import com.xptschool.parent.common.CommonUtil;
-import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.model.BeanBanner;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
-
-import java.util.Random;
+import com.xptschool.teacher.common.CommonUtil;
+import com.xptschool.teacher.http.HttpAction;
+import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.model.BeanBanner;
+import com.xptschool.teacher.model.BeanTeacher;
+import com.xptschool.teacher.model.GreenDaoHelper;
 
 /**
  * Created by dexing on 2017/3/24.
@@ -36,10 +31,10 @@ public class BannerHelper {
         String adid = banner.getId();
         String region_id = banner.getRegion_id();
         String s_id = banner.getSid();
-        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
+        BeanTeacher teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
         String phone = "";
-        if (parent != null) {
-            phone = parent.getParent_phone();
+        if (teacher != null) {
+            phone = teacher.getPhone();
         }
         int random_int = (int) (Math.random() * 100);
 
@@ -57,11 +52,7 @@ public class BannerHelper {
 
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
-                Log.i(TAG, "onResponse: " + volleyHttpResult);
-                //计数超额
-                if (volleyHttpResult.getInfo().toUpperCase().equals("ERROR")) {
-                    XPTApplication.getInstance().sendBroadcast(new Intent(BroadcastAction.RELOAD_BANNER));
-                }
+                Log.i(TAG, "onResponse: " + volleyHttpResult.getInfo());
             }
 
             @Override

@@ -27,6 +27,7 @@ import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.push.UpushTokenHelper;
 
 import org.json.JSONObject;
 
@@ -149,7 +150,10 @@ public class LoginActivity extends BaseActivity {
                         progress.setVisibility(View.INVISIBLE);
                         switch (httpResult.getStatus()) {
                             case HttpAction.SUCCESS:
-                                SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
+                                if (!SharedPreferencesUtil.getData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
+                                    SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
+                                    UpushTokenHelper.switchAccount();
+                                }
                                 SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);
 
                                 try {

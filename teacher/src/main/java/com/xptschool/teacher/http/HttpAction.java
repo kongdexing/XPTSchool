@@ -46,6 +46,7 @@ public class HttpAction {
     public static String Track_alarm = HEAD + "Track/alarmRecord_v1_0_1";
     //我的班级
     public static String MyClass_QUERY = HEAD + "MyClass/query";
+
     //我的学生
     public static String MyStudent_QUERY = HEAD + "MyStudent/query";
     //学生详情
@@ -60,8 +61,10 @@ public class HttpAction {
     public static String Track_Alarm_edit = HEAD + "Track/alarm_edit";
 
     //上传upush devices_token
-    public static String Push_Token = BuildConfig.SERVICE_URL + "/token_teacher.php";
-
-    public static String HOME_Banner = BuildConfig.SERVICE_URL + "/banner.php";
+    public static String Push_Token = BuildConfig.SERVICE_URL + "/teachertoken.php";
+    
+    //广告位
+    public static String HOME_Banner = HEAD + "Banner/query";
+    public static String SHOW_Banner = BuildConfig.SERVICE_URL + "/getadstatics.php";
 
 }

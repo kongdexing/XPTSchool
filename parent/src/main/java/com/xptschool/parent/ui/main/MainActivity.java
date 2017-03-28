@@ -2,9 +2,11 @@ package com.xptschool.parent.ui.main;
 
 import android.Manifest;
 import android.app.Notification;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +39,7 @@ import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 import com.xptschool.parent.R;
+import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
@@ -52,6 +55,7 @@ import com.xptschool.parent.ui.fragment.BaseFragment;
 import com.xptschool.parent.ui.fragment.HomeFragment;
 import com.xptschool.parent.ui.fragment.MapFragment;
 import com.xptschool.parent.ui.fragment.MineFragment;
+import com.xptschool.parent.ui.mine.SettingActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -114,6 +118,19 @@ public class MainActivity extends BaseActivity {
                 });
             }
         }).start();
+
+        //接收通知
+        mPushAgent.enable(new IUmengCallback() {
+            @Override
+            public void onSuccess() {
+                Log.i(TAG, "PushAgent enable onSuccess: ");
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.i(TAG, "PushAgent enable onFailure: " + s + " s1 " + s1);
+            }
+        });
     }
 
     private void initView() {
@@ -121,6 +138,9 @@ public class MainActivity extends BaseActivity {
         homeBtn = (ImageButton) findViewById(R.id.nav_home);
         mapBtn = (ImageButton) findViewById(R.id.nav_track);
         mineBtn = (ImageButton) findViewById(R.id.nav_mine);
+
+        IntentFilter filter = new IntentFilter(BroadcastAction.RELOAD_BANNER);
+        this.registerReceiver(MyBannerReceiver, filter);
     }
 
     private void initData() {
@@ -307,15 +327,10 @@ public class MainActivity extends BaseActivity {
 
     private void getBanners() {
         Log.i(TAG, "getBanners: ");
-        List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
-//        if (students.size() == 0) {
-//            Log.i(TAG, "getBanners: students size is 0");
-//            return;
-//        }
-
         String strSids = "";
         List<String> sids = new ArrayList<>();
 
+        List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
         for (int i = 0; i < students.size(); i++) {
             BeanStudent student = students.get(i);
             String sid = student.getS_id();
@@ -378,9 +393,23 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    BroadcastReceiver MyBannerReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BroadcastAction.RELOAD_BANNER)) {
+                getBanners();
+            }
+        }
+    };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            this.unregisterReceiver(MyBannerReceiver);
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override

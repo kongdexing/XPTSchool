@@ -30,11 +30,24 @@
                     android:id="@+id/indicator"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:padding="10dip"
+                    android:layout_above="@+id/tipTitle"
+                    android:padding="@dimen/dp_3"
                     app:fillColor="@color/colorPrimaryDark"
                     app:strokeColor="@color/colorPrimaryDark" />
 
+                <TextView
+                    android:id="@+id/tipTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
+                    android:text=""
+                    android:background="@color/map_transparent_gray"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_16" />
             </RelativeLayout>
 
             <LinearLayout

@@ -149,18 +149,6 @@ public class GreenDaoHelper {
         return new ArrayList<ContactSchool>();
     }
 
-//    public String getParamTokenByPhone(String phone) {
-//        BeanDeviceToken deviceToken = null;
-//        if (readDaoSession != null) {
-//            deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-//                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).unique();
-//        }
-//        if (deviceToken == null) {
-//            return "";
-//        }
-//        return deviceToken.getParamToken();
-//    }
-
     public String getTokenByPhone(String phone) {
         BeanDeviceToken deviceToken = null;
         if (readDaoSession != null) {
@@ -168,7 +156,7 @@ public class GreenDaoHelper {
                     .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).unique();
         }
         if (deviceToken == null) {
-            return "";
+            return null;
         }
         return deviceToken.getDeviceToken();
     }
@@ -178,7 +166,8 @@ public class GreenDaoHelper {
             return;
         }
         String token = getTokenByPhone(deviceToken.getPhone());
-        if (token.isEmpty()) {
+        Log.i(TAG, "insertOrUpdateToken: phone " + deviceToken.getPhone() + " token:" + token);
+        if (token == null) {
             insertToken(deviceToken);
         } else {
             updateToken(deviceToken);

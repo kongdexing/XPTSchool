@@ -22,9 +22,16 @@ public class BeanBannerDao extends AbstractDao<BeanBanner, Void> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Imageurl = new Property(0, String.class, "imageurl", false, "IMAGEURL");
-        public final static Property Mode = new Property(1, String.class, "mode", false, "MODE");
-        public final static Property Target = new Property(2, String.class, "target", false, "TARGET");
+        public final static Property Id = new Property(0, String.class, "id", false, "ID");
+        public final static Property Img = new Property(1, String.class, "img", false, "IMG");
+        public final static Property Url = new Property(2, String.class, "url", false, "URL");
+        public final static Property Title = new Property(3, String.class, "title", false, "TITLE");
+        public final static Property Type = new Property(4, String.class, "type", false, "TYPE");
+        public final static Property Turn_type = new Property(5, String.class, "turn_type", false, "TURN_TYPE");
+        public final static Property Modelname_android = new Property(6, String.class, "modelname_android", false, "MODELNAME_ANDROID");
+        public final static Property Modelname_ios = new Property(7, String.class, "modelname_ios", false, "MODELNAME_IOS");
+        public final static Property Region_id = new Property(8, String.class, "region_id", false, "REGION_ID");
+        public final static Property Sid = new Property(9, String.class, "sid", false, "SID");
     };
 
 
@@ -40,9 +47,16 @@ public class BeanBannerDao extends AbstractDao<BeanBanner, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BEAN_BANNER\" (" + //
-                "\"IMAGEURL\" TEXT," + // 0: imageurl
-                "\"MODE\" TEXT," + // 1: mode
-                "\"TARGET\" TEXT);"); // 2: target
+                "\"ID\" TEXT," + // 0: id
+                "\"IMG\" TEXT," + // 1: img
+                "\"URL\" TEXT," + // 2: url
+                "\"TITLE\" TEXT," + // 3: title
+                "\"TYPE\" TEXT," + // 4: type
+                "\"TURN_TYPE\" TEXT," + // 5: turn_type
+                "\"MODELNAME_ANDROID\" TEXT," + // 6: modelname_android
+                "\"MODELNAME_IOS\" TEXT," + // 7: modelname_ios
+                "\"REGION_ID\" TEXT," + // 8: region_id
+                "\"SID\" TEXT);"); // 9: sid
     }
 
     /** Drops the underlying database table. */
@@ -55,19 +69,54 @@ public class BeanBannerDao extends AbstractDao<BeanBanner, Void> {
     protected final void bindValues(DatabaseStatement stmt, BeanBanner entity) {
         stmt.clearBindings();
  
-        String imageurl = entity.getImageurl();
-        if (imageurl != null) {
-            stmt.bindString(1, imageurl);
+        String id = entity.getId();
+        if (id != null) {
+            stmt.bindString(1, id);
         }
  
-        String mode = entity.getMode();
-        if (mode != null) {
-            stmt.bindString(2, mode);
+        String img = entity.getImg();
+        if (img != null) {
+            stmt.bindString(2, img);
         }
  
-        String target = entity.getTarget();
-        if (target != null) {
-            stmt.bindString(3, target);
+        String url = entity.getUrl();
+        if (url != null) {
+            stmt.bindString(3, url);
+        }
+ 
+        String title = entity.getTitle();
+        if (title != null) {
+            stmt.bindString(4, title);
+        }
+ 
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(5, type);
+        }
+ 
+        String turn_type = entity.getTurn_type();
+        if (turn_type != null) {
+            stmt.bindString(6, turn_type);
+        }
+ 
+        String modelname_android = entity.getModelname_android();
+        if (modelname_android != null) {
+            stmt.bindString(7, modelname_android);
+        }
+ 
+        String modelname_ios = entity.getModelname_ios();
+        if (modelname_ios != null) {
+            stmt.bindString(8, modelname_ios);
+        }
+ 
+        String region_id = entity.getRegion_id();
+        if (region_id != null) {
+            stmt.bindString(9, region_id);
+        }
+ 
+        String sid = entity.getSid();
+        if (sid != null) {
+            stmt.bindString(10, sid);
         }
     }
 
@@ -75,19 +124,54 @@ public class BeanBannerDao extends AbstractDao<BeanBanner, Void> {
     protected final void bindValues(SQLiteStatement stmt, BeanBanner entity) {
         stmt.clearBindings();
  
-        String imageurl = entity.getImageurl();
-        if (imageurl != null) {
-            stmt.bindString(1, imageurl);
+        String id = entity.getId();
+        if (id != null) {
+            stmt.bindString(1, id);
         }
  
-        String mode = entity.getMode();
-        if (mode != null) {
-            stmt.bindString(2, mode);
+        String img = entity.getImg();
+        if (img != null) {
+            stmt.bindString(2, img);
         }
  
-        String target = entity.getTarget();
-        if (target != null) {
-            stmt.bindString(3, target);
+        String url = entity.getUrl();
+        if (url != null) {
+            stmt.bindString(3, url);
+        }
+ 
+        String title = entity.getTitle();
+        if (title != null) {
+            stmt.bindString(4, title);
+        }
+ 
+        String type = entity.getType();
+        if (type != null) {
+            stmt.bindString(5, type);
+        }
+ 
+        String turn_type = entity.getTurn_type();
+        if (turn_type != null) {
+            stmt.bindString(6, turn_type);
+        }
+ 
+        String modelname_android = entity.getModelname_android();
+        if (modelname_android != null) {
+            stmt.bindString(7, modelname_android);
+        }
+ 
+        String modelname_ios = entity.getModelname_ios();
+        if (modelname_ios != null) {
+            stmt.bindString(8, modelname_ios);
+        }
+ 
+        String region_id = entity.getRegion_id();
+        if (region_id != null) {
+            stmt.bindString(9, region_id);
+        }
+ 
+        String sid = entity.getSid();
+        if (sid != null) {
+            stmt.bindString(10, sid);
         }
     }
 
@@ -99,18 +183,32 @@ public class BeanBannerDao extends AbstractDao<BeanBanner, Void> {
     @Override
     public BeanBanner readEntity(Cursor cursor, int offset) {
         BeanBanner entity = new BeanBanner( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // imageurl
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // mode
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // target
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // id
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // img
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // url
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // title
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // type
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // turn_type
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // modelname_android
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // modelname_ios
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // region_id
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // sid
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, BeanBanner entity, int offset) {
-        entity.setImageurl(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setMode(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setTarget(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setImg(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setUrl(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setTitle(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setType(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setTurn_type(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setModelname_android(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setModelname_ios(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setRegion_id(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setSid(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override

@@ -6,11 +6,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tencent.bugly.beta.Beta;
+import com.umeng.message.IUmengCallback;
+import com.umeng.message.PushAgent;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
@@ -75,6 +78,20 @@ public class SettingActivity extends BaseActivity {
                         //清除upush信息
                         UpushTokenHelper.exitAccount();
                         GreenDaoHelper.getInstance().clearData();
+                        //拒收通知
+                        PushAgent mPushAgent = PushAgent.getInstance(SettingActivity.this);
+                        mPushAgent.disable(new IUmengCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.i(TAG, "PushAgent disable onSuccess: ");
+                            }
+
+                            @Override
+                            public void onFailure(String s, String s1) {
+                                Log.i(TAG, "PushAgent disable onFailure: " + s + " s1 " + s1);
+                            }
+                        });
+
                         Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.putExtra(ExtraKey.LOGIN_ORIGIN, "0");

@@ -99,7 +99,11 @@ public class XPTApplication extends Application {
         MobclickAgent.enableEncrypt(true);
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
+        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);//声音
+        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯
+        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);//振动
+
+        //通知栏数量显示
         mPushAgent.setDisplayNotificationNumber(0);
         mPushAgent.setMessageHandler(new MyUmengMessageHandler());
         mPushAgent.setDebugMode(false);

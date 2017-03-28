@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
@@ -52,6 +53,8 @@ public class HomeFragment extends BaseFragment {
     AutoScrollViewPager viewPagerTop;
     @BindView(R.id.indicator)
     CirclePageIndicator indicator;
+    @BindView(R.id.tipTitle)
+    TextView tipTitle;
 
     private Unbinder unbinder;
     private MyTopPagerAdapter topAdapter;
@@ -88,8 +91,10 @@ public class HomeFragment extends BaseFragment {
                 Log.i(TAG, "onPageSelected: banners " + topBanners.size() + "  position: " + position);
                 if (topBanners.size() > position) {
                     BeanBanner banner = topBanners.get(position);
-                    if (banner != null && banner.getType().equals("1")) {
-                        BannerHelper.postShowBanner(banner);
+                    Log.i(TAG, "onPageSelected: banner type " + banner.getType());
+                    if (banner != null) {
+                        tipTitle.setText(banner.getTitle());
+                        BannerHelper.postShowBanner(banner, "1");
                     }
                 }
             }

@@ -3,6 +3,7 @@ package com.xptschool.parent.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class MyTopPagerAdapter extends PagerAdapter {
 
+    private String TAG = MyTopPagerAdapter.class.getSimpleName();
     List<BeanBanner> beanBanners = new ArrayList<>();
     private Context mContext;
 
@@ -69,13 +71,11 @@ public class MyTopPagerAdapter extends PagerAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!banner.getUrl().isEmpty()) {
+                    if (banner.getTurn_type().equals("1")) {
                         Intent intent = new Intent(mContext, WebViewActivity.class);
                         intent.putExtra(ExtraKey.WEB_URL, banner.getUrl());
                         mContext.startActivity(intent);
-                        if (banner.getType().equals("2")) {
-                            BannerHelper.postShowBanner(banner);
-                        }
+                        BannerHelper.postShowBanner(banner,"2");
                     }
                 }
             });

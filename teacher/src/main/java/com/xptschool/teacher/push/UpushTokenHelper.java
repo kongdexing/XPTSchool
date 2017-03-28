@@ -65,13 +65,6 @@ public class UpushTokenHelper {
             return;
         }
 
-        //判断与本地device_token是否相同
-        String local_device_paramtoken = GreenDaoHelper.getInstance().getParamTokenByPhone(teacher.getPhone());
-        Log.i(TAG, "uploadDevicesToken: local param " + local_device_paramtoken);
-        if (local_device_paramtoken.equals(param)) {
-            Log.i(TAG, "uploadDevicesToken: local equal");
-            return;
-        }
         BeanDeviceToken deviceToken = new BeanDeviceToken();
         deviceToken.setPhone(teacher.getPhone());
         deviceToken.setDeviceToken(device_token);
@@ -96,7 +89,7 @@ public class UpushTokenHelper {
                 Log.i(TAG, "onResponse: " + volleyHttpResult.toString());
                 try {
                     Log.i(TAG, "onResponse: info " + volleyHttpResult.getInfo().toString());
-                    if (volleyHttpResult.getInfo().toString().equals(deviceToken.getParamToken())) {
+                    if (volleyHttpResult.getInfo().toString().contains("SUCCESS")) {
                         Log.i(TAG, "onResponse: success insert db");
                         GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
                     }
@@ -125,33 +118,7 @@ public class UpushTokenHelper {
             Log.i(TAG, "exitAccount: teacher is null");
             return;
         }
-        String local_device_token = "";
-        try {
-            TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-            String DEVICE_ID = tm.getDeviceId();
-            local_device_token = GreenDaoHelper.getInstance().getTokenByPhone(teacher.getPhone());
-
-//            for (int i = 0; i < students.size(); i++) {
-//                JSONObject object = new JSONObject();
-//                String imei = students.get(i).getImei_id();
-//                if (imei != null && !imei.isEmpty()) {
-//                    object.put("imei", imei);
-//                    object.put("devicetoken", local_device_token);
-//                    object.put("mobilenumber", parent.getParent_phone());
-//                    object.put("mobmac", DEVICE_ID);
-//                    object.put("online", "0");
-//                    jsonArray.put(object);
-//                }
-//            }
-            param = jsonArray.toString();
-        } catch (Exception ex) {
-            param = "";
-        }
-        if (param.isEmpty() || jsonArray.length() == 0) {
-            Log.i(TAG, "exitAccount: param " + param);
-            Log.i(TAG, "exitAccount: jsonArray length " + jsonArray.length());
-            return;
-        }
+        String local_device_token = GreenDaoHelper.getInstance().getTokenByPhone(teacher.getPhone());
 
         BeanDeviceToken deviceToken = new BeanDeviceToken();
         deviceToken.setPhone(teacher.getPhone());
@@ -160,7 +127,7 @@ public class UpushTokenHelper {
         GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
         Log.i(TAG, "exitAccount: " + param);
         //不关心是否退出请求成功，先保存
-        pushTokenOnline(HttpAction.Push_Token + "?type=2&data=" + deviceToken.getParamToken(), deviceToken);
+        pushTokenOnline(HttpAction.Push_Token + "?type=2&data=" + deviceToken.getDeviceToken(), deviceToken);
     }
 
     /**
@@ -177,23 +144,16 @@ public class UpushTokenHelper {
         }
         String local_device_token = "";
         try {
-            TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-            String DEVICE_ID = tm.getDeviceId();
+//            TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+//            String DEVICE_ID = tm.getDeviceId();
             local_device_token = GreenDaoHelper.getInstance().getTokenByPhone(teacher.getPhone());
+            JSONObject object = new JSONObject();
 
-//            for (int i = 0; i < students.size(); i++) {
-//                JSONObject object = new JSONObject();
-//                String imei = students.get(i).getImei_id();
-//                if (imei != null && !imei.isEmpty()) {
-//                    object.put("imei", imei);
-//                    object.put("devicetoken", local_device_token);
-//                    object.put("mobtype", "2");
-//                    object.put("mobilenumber", parent.getParent_phone());
-//                    object.put("mobmac", DEVICE_ID);
-//                    object.put("online", "0");
-//                    jsonArray.put(object);
-//                }
-//            }
+            object.put("device_token_teacher", local_device_token);
+            object.put("mobtype", "2");
+            object.put("techer_mobile", teacher.getPhone());
+            object.put("teacher_id", teacher.getT_id());
+            jsonArray.put(object);
             param = jsonArray.toString();
         } catch (Exception ex) {
             param = "";

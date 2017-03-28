@@ -21,13 +21,15 @@
             android:id="@+id/edtOldPwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
             android:hint="@string/hint_old_pwd"
             android:inputType="textPassword"
             android:lines="1"
             android:text=""
-            android:textSize="@dimen/sp_16"
             android:textColor="@color/text_black_2"
-            android:textColorHint="@color/colorUserName" />
+            android:textColorHint="@color/colorUserName"
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,13 +48,15 @@
             android:id="@+id/edtNewPwd1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
             android:hint="@string/hint_new_pwd1"
             android:inputType="textPassword"
             android:lines="1"
             android:text=""
-            android:textSize="@dimen/sp_16"
             android:textColor="@color/text_black_2"
-            android:textColorHint="@color/colorUserName" />
+            android:textColorHint="@color/colorUserName"
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,13 +75,15 @@
             android:id="@+id/edtNewPwd2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
             android:hint="@string/hint_new_pwd2"
             android:inputType="textPassword"
             android:lines="1"
             android:text=""
-            android:textSize="@dimen/sp_16"
             android:textColor="@color/text_black_2"
-            android:textColorHint="@color/colorUserName" />
+            android:textColorHint="@color/colorUserName"
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <Button

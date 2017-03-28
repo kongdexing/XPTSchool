@@ -63,6 +63,7 @@ public class MyClassesActivity extends BaseListActivity {
     }
 
     private void getClassesList() {
+
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.MyClass_QUERY, new VolleyHttpParamsEntity()
                         .addParam("token", CommonUtil.encryptToken(HttpAction.MyClass_QUERY)),
                 new MyVolleyRequestListener() {

@@ -100,8 +100,8 @@ public class UpushTokenHelper {
                 super.onResponse(volleyHttpResult);
                 Log.i(TAG, "onResponse: " + volleyHttpResult.toString());
                 try {
-                    Log.i(TAG, "onResponse: info " + volleyHttpResult.getInfo().toString());
-                    if (volleyHttpResult.getInfo().toString().equals(deviceToken.getParamToken())) {
+                    Log.i(TAG, "onResponse: info " + volleyHttpResult.toString());
+                    if (volleyHttpResult.getInfo().contains("SUCCESS")) {
                         Log.i(TAG, "onResponse: success insert db");
                         GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
                     }
