@@ -3,7 +3,7 @@ apply plugin: 'android-apt'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'org.greenrobot.greendao'
 // 依赖插件脚本
-//apply from: 'tinker-support.gradle'
+apply from: 'tinker-support.gradle'
 
 repositories {
     flatDir {
@@ -19,8 +19,8 @@ android {
         applicationId "com.xptschool.teacher"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [API_KEY_BAIDU       : rootProject.appKeyBaiduMap_teacher,
