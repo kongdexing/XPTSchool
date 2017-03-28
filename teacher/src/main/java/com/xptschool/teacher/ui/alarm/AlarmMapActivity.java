@@ -28,6 +28,7 @@ import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.ui.main.BaseActivity;
+import com.xptschool.teacher.view.MarkerStudentView;
 
 import butterknife.BindView;
 
@@ -38,8 +39,6 @@ public class AlarmMapActivity extends BaseActivity {
     private BaiduMap mBaiduMap;
     private Marker mMarkerA;
     private InfoWindow mInfoWindow;
-    BitmapDescriptor bdA = BitmapDescriptorFactory
-            .fromResource(R.mipmap.icon_gcoding);
     private BeanAlarm currentAlarm;
 
     @Override
@@ -72,7 +71,11 @@ public class AlarmMapActivity extends BaseActivity {
             Toast.makeText(this, R.string.toast_point_null, Toast.LENGTH_SHORT).show();
             return;
         }
-        MarkerOptions ooA = new MarkerOptions().position(llA).icon(bdA).zIndex(-1);
+        MarkerStudentView studentView = new MarkerStudentView(this);
+        studentView.isBoy(currentAlarm.getStu_sex().equals("1"));
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromView(studentView);
+
+        MarkerOptions ooA = new MarkerOptions().position(llA).icon(descriptor).zIndex(-1);
         mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
         float max = mBaiduMap.getMaxZoomLevel();
         float min = mBaiduMap.getMinZoomLevel();
@@ -81,7 +84,7 @@ public class AlarmMapActivity extends BaseActivity {
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(llA, max - 6);
         mBaiduMap.animateMapStatus(u);
 
-        final int MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_30));
+        final int MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_45));
 
         final AlarmInfoWindowView alarmInfoWindowView = new AlarmInfoWindowView(this);
         alarmInfoWindowView.setAlarmData(currentAlarm, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
@@ -161,8 +164,6 @@ public class AlarmMapActivity extends BaseActivity {
     protected void onDestroy() {
         // MapView的生命周期与Activity同步，当activity销毁时需调用MapView.destroy()
         mMapView.onDestroy();
-        // 回收 bitmap 资源
-        bdA.recycle();
         super.onDestroy();
     }
 

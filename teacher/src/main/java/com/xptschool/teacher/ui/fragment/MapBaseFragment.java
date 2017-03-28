@@ -41,6 +41,7 @@ import com.xptschool.teacher.bean.BeanStudent;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.ui.alarm.AlarmInfoWindowView;
 import com.xptschool.teacher.view.MarkerNumView;
+import com.xptschool.teacher.view.MarkerStudentView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,7 +152,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
 
     @Override
     protected void initData() {
-        MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_30));
+        MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_45));
         Log.i(TAG, "initData: MapInfoTop " + MapInfoTop);
     }
 
@@ -163,8 +164,11 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
             Toast.makeText(this.getContext(), R.string.toast_point_null, Toast.LENGTH_SHORT).show();
             return;
         }
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(
-                BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_gcoding)));
+        MarkerStudentView studentView = new MarkerStudentView(mContext);
+        studentView.isBoy(currentStudent.getSex().equals("1"));
+        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromView(studentView);
+
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(descriptor);
         mMarkerStudent = (Marker) mBaiduMap.addOverlay(markerOptions);
 
         final AlarmInfoWindowView alarmInfoWindowView = new AlarmInfoWindowView(getContext());
