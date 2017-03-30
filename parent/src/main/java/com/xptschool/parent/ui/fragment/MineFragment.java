@@ -19,6 +19,7 @@ import com.xptschool.parent.ui.main.LoginActivity;
 import com.xptschool.parent.ui.mine.MyChildActivity;
 import com.xptschool.parent.ui.mine.MyInfoActivity;
 import com.xptschool.parent.ui.mine.SettingActivity;
+import com.xptschool.parent.ui.wellet.WelletActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,8 +68,8 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.imgHead, R.id.txtChangeAccount, R.id.rlMyChild, R.id.rlMyFences, R.id.rlMyCourse, R.id.rlMyContacts,
-            R.id.rlSetting})
+    @OnClick({R.id.imgHead, R.id.txtChangeAccount, R.id.rlMyChild, R.id.rlMyFences, R.id.rlMyWellet,
+            R.id.rlMyCourse, R.id.rlMyContacts, R.id.rlSetting})
     void knifeClick(View view) {
         switch (view.getId()) {
             case R.id.imgHead:
@@ -82,6 +83,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.rlMyCourse:
                 startActivity(new Intent(getContext(), CourseActivity.class));
+                break;
+            case R.id.rlMyWellet:
+                startActivity(new Intent(getContext(), WelletActivity.class));
                 break;
             case R.id.txtChangeAccount:
                 startActivity(new Intent(getContext(), LoginActivity.class));

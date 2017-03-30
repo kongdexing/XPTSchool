@@ -97,10 +97,27 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlMyCourse"
+                android:id="@+id/rlMyWellet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/mine_item_selector"
+                android:clickable="true">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mine_wellet" />
+
+                <ImageView style="@style/arrow_right" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlMyCourse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="@drawable/mine_item_selector"
                 android:clickable="true">
 

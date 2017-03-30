@@ -39,6 +39,7 @@
     <string name="mine_info">我的信息</string>
     <string name="mine_child">我的孩子</string>
     <string name="mine_fence">我的围栏</string>
+    <string name="mine_wellet">我的钱包</string>
     <string name="mine_course">课程表</string>
     <string name="mine_contacts">通讯录</string>
     <string name="mine_about">关于</string>
@@ -177,6 +178,9 @@
     <string name="tip_moniter_help">温馨提示：\n监听号码设置成功后，使用该号码拨打学生卡时，学生卡会自动接听。</string>
     <string name="tip_moniter_call_help">若您使用的手机号与当前设置的监听号码相同，便可使用本机直接拨打学生卡，否则无法打入或学生卡无法自动接听。
         \n是否确定继续拨打？</string>
+
+    <!--钱包-->
+    <string name="label_my_wellet">钱包</string>
 
 
 </resources>
