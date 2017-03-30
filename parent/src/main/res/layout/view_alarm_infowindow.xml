@@ -6,30 +6,27 @@
     android:background="@drawable/popup"
     android:orientation="vertical"
     android:paddingBottom="@dimen/dp_10"
-    android:paddingRight="@dimen/dp_5"
     android:paddingLeft="@dimen/dp_5"
+    android:paddingRight="@dimen/dp_5"
     android:paddingTop="@dimen/dp_5">
 
     <LinearLayout
-        android:id="@+id/trStudentName"
+        android:id="@+id/rlStudentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
-            android:text="学生姓名："
-            android:textColor="@color/color_black_2" />
+            android:text="学生姓名：" />
 
         <TextView
             android:id="@+id/txtStudentName"
+            style="@style/AlarmRightText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textColor="@color/color_black_2" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,21 +34,18 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
             android:lines="1"
-            android:text="IMEI："
-            android:textColor="@color/color_black_2" />
+            android:text="IMEI：" />
 
         <TextView
             android:id="@+id/txtIMEI"
+            style="@style/AlarmRightText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textColor="@color/color_black_2" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,21 +53,18 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
             android:lines="1"
-            android:text="定位时间："
-            android:textColor="@color/color_black_2" />
+            android:text="定位时间：" />
 
         <TextView
             android:id="@+id/txtTime"
+            style="@style/AlarmRightText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textColor="@color/color_black_2" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,21 +73,18 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
             android:lines="1"
-            android:text="定位方式："
-            android:textColor="@color/color_black_2" />
+            android:text="定位方式：" />
 
         <TextView
             android:id="@+id/txtLocationType"
+            style="@style/AlarmRightText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textColor="@color/color_black_2" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -107,19 +95,16 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
             android:lines="1"
-            android:text="设备电量："
-            android:textColor="@color/color_black_2" />
+            android:text="设备电量：" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_gravity="center">
 
             <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
                 android:id="@+id/powerBar"
@@ -133,13 +118,12 @@
 
             <TextView
                 android:id="@+id/txtPower"
+                style="@style/AlarmRightText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text=""
-                android:textColor="@color/color_black_2"
-                android:textSize="@dimen/sp_13" />
+                android:text="" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -152,19 +136,16 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
             android:lines="1"
-            android:text="设备信号："
-            android:textColor="@color/color_black_2" />
+            android:text="设备信号：" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_gravity="center">
 
             <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
                 android:id="@+id/signalBar"
@@ -178,13 +159,12 @@
 
             <TextView
                 android:id="@+id/txtSignal"
+                style="@style/AlarmRightText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text=""
-                android:textColor="@color/color_black_2"
-                android:textSize="@dimen/sp_13" />
+                android:text="" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -195,21 +175,18 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
             android:lines="1"
-            android:text="报警类型："
-            android:textColor="@color/color_black_2" />
+            android:text="报警类型：" />
 
         <TextView
             android:id="@+id/txtAlarmType"
+            style="@style/AlarmRightText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textColor="@color/color_black_2" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -217,21 +194,18 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/AlarmLeftText"
+            android:layout_width="@dimen/dp_80"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="right"
             android:lines="1"
-            android:text="地理位置："
-            android:textColor="@color/color_black_2" />
+            android:text="地理位置：" />
 
         <TextView
             android:id="@+id/txtLocation"
+            style="@style/AlarmRightText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textColor="@color/color_black_2" />
+            android:text="" />
     </LinearLayout>
 
 </LinearLayout>

@@ -278,8 +278,12 @@ public class CommonUtil {
     }
 
     public static String getDeviceId() {
-        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
+        try {
+            TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+            return tm.getDeviceId();
+        } catch (Exception ex) {
+            return "";
+        }
     }
 
 }

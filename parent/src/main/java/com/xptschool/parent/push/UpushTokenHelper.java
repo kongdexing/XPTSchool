@@ -218,7 +218,9 @@ public class UpushTokenHelper {
         String param;
         try {
             String DEVICE_ID = CommonUtil.getDeviceId();
-
+            if (DEVICE_ID == "") {
+                return "";
+            }
             for (int i = 0; i < students.size(); i++) {
                 JSONObject object = new JSONObject();
                 String imei = students.get(i).getImei_id();

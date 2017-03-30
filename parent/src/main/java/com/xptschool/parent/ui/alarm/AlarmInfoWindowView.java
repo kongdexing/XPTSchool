@@ -1,6 +1,7 @@
 package com.xptschool.parent.ui.alarm;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,7 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
     @BindView(R.id.txtLocation)
     TextView txtLocation;
 
-    @BindView(R.id.trStudentName)
+    @BindView(R.id.rlStudentName)
     LinearLayout trStudentName;
     @BindView(R.id.trAlarmType)
     LinearLayout trAlarmType;
@@ -134,7 +135,8 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         }
         trAlarmType.setVisibility(View.GONE);
         trLocationType.setVisibility(VISIBLE);
-        txtStudentName.setText(student.getStu_name());
+        trStudentName.setVisibility(GONE);
+
         txtIMEI.setText(location.getImei());
         txtTime.setText(location.getTime());
         txtLocationType.setText(location.getGps_type());
@@ -169,7 +171,7 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
     }
 
     @Override
-    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+    public void onGetReverseGeoCodeResult(final ReverseGeoCodeResult result) {
         if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
             return;
         }

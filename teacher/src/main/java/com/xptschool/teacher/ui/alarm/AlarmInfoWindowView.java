@@ -134,8 +134,7 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         }
         trAlarmType.setVisibility(View.GONE);
         trLocationType.setVisibility(VISIBLE);
-
-        txtStudentName.setText(student.getStu_name());
+        trStudentName.setVisibility(View.GONE);
         txtIMEI.setText(location.getImei());
         txtTime.setText(location.getTime());
         txtLocationType.setText(location.getGps_type());

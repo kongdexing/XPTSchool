@@ -1,8 +1,11 @@
 package com.xptschool.teacher.ui.main;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -20,6 +23,14 @@ import com.xptschool.teacher.model.GreenDaoHelper;
 
 import org.json.JSONObject;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
 public class WelcomeActivity extends BaseActivity {
 
     @Override
@@ -29,6 +40,23 @@ public class WelcomeActivity extends BaseActivity {
         setContentView(R.layout.activity_welcome);
         showActionBar(false);
 
+        WelcomeActivityPermissionsDispatcher.canReadPhoneStateWithCheck(this);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // NOTE: delegate the permission handling to generated method
+        if (permissions != null && permissions.length > 0) {
+            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
+        }
+        WelcomeActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission(Manifest.permission.READ_PHONE_STATE)
+    void canReadPhoneState() {
+        Log.i(TAG, "canReadPhoneState: ");
         final Intent intent = new Intent();
 
         String userName = (String) SharedPreferencesUtil.getData(this, SharedPreferencesUtil.KEY_USER_NAME, "");
@@ -54,6 +82,28 @@ public class WelcomeActivity extends BaseActivity {
             //login
             login(userName, password);
         }
+    }
+
+    @OnPermissionDenied(Manifest.permission.READ_PHONE_STATE)
+    void onReadPhoneStateDenied() {
+        Log.i(TAG, "onReadPhoneStateDenied: ");
+        // NOTE: Deal with a denied permission, e.g. by showing specific UI
+        // or disabling certain functionality
+        Toast.makeText(this, R.string.permission_readphonestate_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale(Manifest.permission.READ_PHONE_STATE)
+    void showRationaleForReadPhoneState(PermissionRequest request) {
+        // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
+        // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
+        Log.i(TAG, "showRationaleForReadPhoneState: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.READ_PHONE_STATE)
+    void onReadPhoneStateNeverAskAgain() {
+        Log.i(TAG, "onReadPhoneStateNeverAskAgain: ");
+        Toast.makeText(this, R.string.permission_readphonestate_never_askagain, Toast.LENGTH_SHORT).show();
     }
 
     private void login(final String account, final String password) {

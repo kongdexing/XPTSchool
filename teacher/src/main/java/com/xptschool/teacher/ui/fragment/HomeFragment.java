@@ -141,6 +141,10 @@ public class HomeFragment extends BaseFragment {
         Log.i(TAG, "reloadTopFragment: " + banners.size());
         if (topAdapter != null) {
             topBanners = banners;
+            BeanBanner banner = banners.get(0);
+            if (banner != null) {
+                tipTitle.setText(banner.getTitle());
+            }
             topAdapter.reloadData(banners);
         }
         if (viewPagerTop != null) {

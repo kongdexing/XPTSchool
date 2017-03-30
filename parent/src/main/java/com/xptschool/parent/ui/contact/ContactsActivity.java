@@ -60,6 +60,10 @@ public class ContactsActivity extends BaseActivity {
 
     private void initView() {
         adapter = new ContactsAdapter(this);
+
+        expandableview.setDivider(getResources().getDrawable(R.drawable.line_dotted));
+        expandableview.setChildDivider(getResources().getDrawable(R.drawable.line_dotted));
+
         wrapperAdapter = new WrapperExpandableListAdapter(adapter);
         expandableview.setAdapter(wrapperAdapter);
         swipe_refresh_widget.setColorSchemeColors(getResources().getIntArray(R.array.google_colors));

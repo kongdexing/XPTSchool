@@ -39,12 +39,12 @@ public class MyUmengMessageHandler extends UmengMessageHandler {
 
                     Intent openintent = new Intent(context, AlarmMapActivity.class);
                     openintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    PendingIntent intent = PendingIntent.getActivity(context,0, openintent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    PendingIntent intent = PendingIntent.getActivity(context, 0, openintent, PendingIntent.FLAG_CANCEL_CURRENT);
 
                     Notification.Builder builder = new Notification.Builder(context);
                     RemoteViews myNotificationView = new RemoteViews(context.getPackageName(), R.layout.notification_view);
-                    myNotificationView.setTextViewText(R.id.notification_title, msg.text);
-                    myNotificationView.setTextViewText(R.id.notification_text, msg.title);
+                    myNotificationView.setTextViewText(R.id.notification_title, msg.title);
+                    myNotificationView.setTextViewText(R.id.notification_text, msg.text);
                     builder.setContent(myNotificationView)
                             .setSmallIcon(getSmallIconId(context, msg))
                             .setContentIntent(intent)
