@@ -185,6 +185,8 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                 final List<BeanClass> beanClasses = GreenDaoHelper.getInstance().getAllClass();
                 if (beanClasses.size() > 0 && allCourse.size() > 0) {
                     setTxtRight("编辑");
+                } else {
+                    setTxtRight("");
                 }
                 setTextRightClickListener(new View.OnClickListener() {
                     @Override
@@ -230,7 +232,14 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             edtContent.setText(currentHomeWork.getWork_content());
             spnClasses.setItems(currentHomeWork.getG_name() + currentHomeWork.getC_name());
 //            spnClasses.setSelectedIndex(GreenDaoHelper.getInstance().getClassIndexByCId(currentHomeWork.getC_id()));
-            spnCourse.setItems(GreenDaoHelper.getInstance().getCourseNameById(currentHomeWork.getCrs_id()));
+            String courseName = GreenDaoHelper.getInstance().getCourseNameById(currentHomeWork.getCrs_id());
+            if (courseName == null || courseName.isEmpty()) {
+                setTxtRight("");
+                spnCourse.setItems(currentHomeWork.getCrs_name());
+            } else {
+                spnCourse.setItems(courseName);
+            }
+
         } else {
             llCreateTime.setVisibility(View.GONE);
             edtName.setText(spnCourse.getText() + "作业");
