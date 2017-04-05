@@ -40,6 +40,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 请假管理
+ */
 public class LeaveDetailActivity extends BaseActivity {
 
     @BindView(R.id.spnTeacher)

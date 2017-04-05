@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llContacts"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/mine_item_selector"
-    android:clickable="true"
-    android:gravity="center"
-    android:orientation="horizontal">
+    android:clickable="true">
 
     <com.android.widget.view.CircularImageView
         android:id="@+id/imgHead"
         android:layout_width="@dimen/dp_30"
         android:layout_height="@dimen/dp_30"
+        android:layout_centerVertical="true"
         android:layout_margin="@dimen/dp_5"
         android:clickable="true"
         android:src="@null" />
@@ -20,10 +19,17 @@
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgHead"
         android:paddingBottom="@dimen/dp_15"
         android:paddingLeft="@dimen/dp_2"
         android:paddingTop="@dimen/dp_15"
         android:text="方圆"
         android:textColor="@color/color_black_2" />
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1.0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/line_contacts" />
+</RelativeLayout>

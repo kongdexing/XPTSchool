@@ -11,10 +11,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.ui.main.BaseActivity;
 
+import org.json.JSONObject;
+
+import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 import butterknife.OnClick;
 
@@ -35,7 +44,7 @@ public class WelletActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.txtPay})
+    @OnClick({R.id.txtPay, R.id.txtWeChatPay})
     void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.txtPay:
@@ -70,6 +79,25 @@ public class WelletActivity extends BaseActivity {
                 Thread payThread = new Thread(payRunnable);
                 payThread.start();
                 break;
+            case R.id.txtWeChatPay:
+                IWXAPI api = WXAPIFactory.createWXAPI(this, XPTApplication.getInstance().WXAPP_ID);
+                PayReq req = new PayReq();
+//                req.appId = "wxf8b4f85f3a794e77";  // 测试用appId
+                req.appId = XPTApplication.getInstance().WXAPP_ID;
+                req.partnerId = "10000100";
+                req.prepayId = "1101000000140415649af9fc314aa427";
+                req.nonceStr = "a462b76e7436e98e0ed6e13c64b4fd1c";
+                req.timeStamp = "1397527777";
+                req.packageValue = "Sign=WXPay";
+                req.sign = "582282D72DD2B03AD892830965F428CB16E7A256";
+//                req.extData = "app data"; // optional
+//                Toast.makeText(this, "正常调起支付", Toast.LENGTH_SHORT).show();
+                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+
+                api.registerApp(XPTApplication.getInstance().WXAPP_ID);
+                boolean rst = api.sendReq(req);
+                Toast.makeText(this, "sendReq result " + rst, Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -99,5 +127,13 @@ public class WelletActivity extends BaseActivity {
 
         ;
     };
+
+//    //生成随机号，防重发
+//    private String getNonceStr() {
+//        // TODO Auto-generated method stub
+//        Random random = new Random();
+//
+//        return CommonUtil.md5(String.valueOf(random.nextInt(10000))).getBytes();
+//    }
 
 }

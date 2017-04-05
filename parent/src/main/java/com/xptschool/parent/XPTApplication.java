@@ -2,13 +2,11 @@ package com.xptschool.parent;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.android.volley.common.VolleyHttpService;
 import com.baidu.mapapi.SDKInitializer;
@@ -20,19 +18,16 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-import com.tencent.tinker.loader.app.TinkerApplication;
-import com.tencent.tinker.loader.shareutil.ShareConstants;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
-import com.xptschool.parent.common.ActivityTaskHelper;
 import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.MyUmengMessageHandler;
-import com.xptschool.parent.ui.alarm.AlarmActivity;
-import com.xptschool.parent.ui.alarm.AlarmMapActivity;
 import com.xptschool.parent.ui.main.MainActivity;
 
 import java.io.File;
@@ -45,6 +40,7 @@ public class XPTApplication extends Application {
 
     public static final String APP_ID = "3e1429a7a5"; // TODO 替换成bugly上注册的appid
     private static XPTApplication mInstance;
+    public static final String WXAPP_ID = "wx1af4f660ce9e6b37";
     private Display display;
     private String TAG = XPTApplication.class.getSimpleName();
 

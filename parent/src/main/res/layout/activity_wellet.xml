@@ -29,7 +29,7 @@
                     android:layout_height="@dimen/dp_60"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/txtUserName"
@@ -48,7 +48,20 @@
                         android:layout_marginTop="@dimen/dp_5"
                         android:background="@drawable/bg_mine_info"
                         android:padding="@dimen/dp_2"
-                        android:text="  支付  "
+                        android:text="  支付宝支付  "
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/txtWeChatPay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:background="@drawable/bg_mine_info"
+                        android:padding="@dimen/dp_2"
+                        android:text="  微信支付  "
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/sp_14" />
 

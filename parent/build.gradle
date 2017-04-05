@@ -148,4 +148,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.tencent.bugly:crashreport_upgrade:1.2.3'
 
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
+
 }
