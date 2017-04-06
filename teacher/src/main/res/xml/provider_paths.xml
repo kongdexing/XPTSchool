@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <paths>
         <!-- /storage/emulated/0/Download/com.bugly.upgrade.demo/.beta/apk-->
         <external-path
             name="beta_external_path"
@@ -12,7 +12,7 @@
     </paths>
 
     <paths>
-        <root-path
+        <external-path
             name="camera_photos"
             path="" />
     </paths>

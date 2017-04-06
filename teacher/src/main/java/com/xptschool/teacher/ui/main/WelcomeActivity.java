@@ -2,9 +2,11 @@ package com.xptschool.teacher.ui.main;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -15,14 +17,20 @@ import com.google.gson.Gson;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
+import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.ui.album.AlbumActivity;
+import com.xptschool.teacher.ui.album.TakePhotoActivity;
 
 import org.json.JSONObject;
 
+import java.io.File;
+
+import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -31,7 +39,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends TakePhotoActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +112,28 @@ public class WelcomeActivity extends BaseActivity {
     void onReadPhoneStateNeverAskAgain() {
         Log.i(TAG, "onReadPhoneStateNeverAskAgain: ");
         Toast.makeText(this, R.string.permission_readphonestate_never_askagain, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick({R.id.takePhoto})
+    void onViewClick(View view) {
+        switch (view.getId()) {
+            case R.id.takePhoto:
+//                try {
+                //  拍照后保存图片的绝对路径
+                String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
+                File file = new File(cameraPath);
+                if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+                Uri imageUri = Uri.fromFile(file);
+
+//                    configTakePhotoOption(getTakePhoto());
+                //getTakePhoto().onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                getTakePhoto().onPickFromCapture(imageUri);
+//                } catch (Exception ex) {
+//                    Toast.makeText(WelcomeActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Log.i(TAG, "onCameraClick: " + ex.getMessage());
+//                }
+                break;
+        }
     }
 
     private void login(final String account, final String password) {

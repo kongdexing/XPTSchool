@@ -11,6 +11,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.view.CircularImageView;
@@ -169,7 +170,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.item_contacts, parent, false);
             viewHolder = new ChildrenViewHolder();
-            viewHolder.llContacts = (LinearLayout) convertView.findViewById(R.id.llContacts);
+            viewHolder.llContacts = (RelativeLayout) convertView.findViewById(R.id.llContacts);
             viewHolder.imgHead = (CircularImageView) convertView.findViewById(R.id.imgHead);
             viewHolder.text = (TextView) convertView.findViewById(R.id.text);
             convertView.setTag(viewHolder);
@@ -232,7 +233,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
     }
 
     class ChildrenViewHolder {
-        LinearLayout llContacts;
+        RelativeLayout llContacts;
         CircularImageView imgHead;
         TextView text;
     }

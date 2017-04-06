@@ -1,16 +1,9 @@
 package com.xptschool.teacher.ui.album;
 
-import android.Manifest;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -28,27 +21,17 @@ import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.common.ImageUtils;
 import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.view.AlbumSourceView;
 import com.xptschool.teacher.view.imgloader.AlbumViewPager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnNeverAskAgain;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.OnShowRationale;
-import permissions.dispatcher.PermissionRequest;
-import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by Administrator on 2016/10/29.
  */
-@RuntimePermissions
 public class AlbumActivity extends TakePhotoActivity {
 
     public ScrollView mScrollView;
@@ -59,83 +42,6 @@ public class AlbumActivity extends TakePhotoActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocalImageHelper.getInstance().getLocalCheckedImgs().clear();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // NOTE: delegate the permission handling to generated method
-        if (permissions != null && permissions.length > 0) {
-            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
-        }
-        AlbumActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
-
-    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void toLocalAlbum() {
-        Log.i(TAG, "toLocalAlbum: ");
-//        Intent intent = new Intent(AlbumActivity.this, LocalAlbumListActivity.class);
-//        startActivityForResult(intent, ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP);
-    }
-
-    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void onStorageDenied() {
-        // NOTE: Deal with a denied permission, e.g. by showing specific UI
-        // or disabling certain functionality
-        Toast.makeText(this, R.string.permission_storage_denied, Toast.LENGTH_SHORT).show();
-    }
-
-    @OnShowRationale({Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void showRationaleForStorage(PermissionRequest request) {
-        // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
-        // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
-        request.proceed();
-    }
-
-    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void onStorageNeverAskAgain() {
-        Log.i(TAG, "onStorageNeverAskAgain: ");
-        Toast.makeText(this, R.string.permission_storage_never_askagain, Toast.LENGTH_SHORT).show();
-    }
-
-    //打开相机权限
-    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void openCamera() {
-        Log.i(TAG, "opCamera: ");
-        try {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            //  拍照后保存图片的绝对路径
-            String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
-            File file = new File(cameraPath);
-//            intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, u);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-
-            startActivityForResult(intent,
-                    ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA);
-        } catch (Exception ex) {
-            Toast.makeText(AlbumActivity.this, R.string.toast_camera_failed, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void onOpenCameraDenied() {
-        // NOTE: Deal with a denied permission, e.g. by showing specific UI
-        // or disabling certain functionality
-        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
-    }
-
-    @OnShowRationale({Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void showRationaleForOpenCamera(PermissionRequest request) {
-        // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
-        // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
-        request.proceed();
-    }
-
-    @OnNeverAskAgain({Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE})
-    void onOpenCameraNeverAskAgain() {
-        Log.i(TAG, "onOpenCameraNeverAskAgain: ");
-        Toast.makeText(this, R.string.permission_camera_never_askagain, Toast.LENGTH_SHORT).show();
     }
 
     public void showAlbumSource(View view) {
@@ -160,15 +66,22 @@ public class AlbumActivity extends TakePhotoActivity {
                         Toast.makeText(AlbumActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    //  拍照后保存图片的绝对路径
-                    String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
-                    File file = new File(cameraPath);
+                    try {
+                        //  拍照后保存图片的绝对路径
+                        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
+                        File file = new File(cameraPath);
+                        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+                        Uri imageUri = Uri.fromFile(file);
 
-                    TakePhoto takePhoto = getTakePhoto();
-                    configTakePhotoOption(takePhoto);
-                    takePhoto.onPickFromCaptureWithCrop(Uri.fromFile(file), getCropOptions());
+                        configTakePhotoOption(getTakePhoto());
+                        //getTakePhoto().onPickFromCaptureWithCrop(imageUri, getCropOptions());
+                        getTakePhoto().onPickFromCapture(imageUri);
 //                    takePhoto.onPickFromCapture(Uri.fromFile(file));
 //                    AlbumActivityPermissionsDispatcher.openCameraWithCheck(AlbumActivity.this);
+                    } catch (Exception ex) {
+                        Toast.makeText(AlbumActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onCameraClick: " + ex.getMessage());
+                    }
                     picPopup.dismiss();
                 }
 
@@ -192,7 +105,7 @@ public class AlbumActivity extends TakePhotoActivity {
         picPopup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-    private void configTakePhotoOption(TakePhoto takePhoto) {
+    public void configTakePhotoOption(TakePhoto takePhoto) {
         TakePhotoOptions.Builder builder = new TakePhotoOptions.Builder();
         builder.setWithOwnGallery(true);
         builder.setCorrectImage(true);
@@ -290,73 +203,6 @@ public class AlbumActivity extends TakePhotoActivity {
         alphaAnimation.setDuration(200);
         set.addAnimation(alphaAnimation);
         albumviewpager.startAnimation(set);
-    }
-
-    /**
-     * 读取图片的旋转的角度，还是三星的问题，需要根据图片的旋转角度正确显示
-     *
-     * @param path 图片绝对路径
-     * @return 图片的旋转角度
-     */
-    private int getBitmapDegree(String path) {
-        int degree = 0;
-        try {
-            // 从指定路径下读取图片，并获取其EXIF信息
-            ExifInterface exifInterface = new ExifInterface(path);
-            // 获取图片的旋转信息
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    degree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    degree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    degree = 270;
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return degree;
-    }
-
-    /*
-   * 旋转图片
-   * @param angle
-   * @param bitmap
-   * @return Bitmap
-   */
-    public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
-        //旋转图片 动作
-        Matrix matrix = new Matrix();
-        ;
-        matrix.postRotate(angle);
-        System.out.println("angle2=" + angle);
-        // 创建新的图片
-        Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        return resizedBitmap;
-    }
-
-    private void refreshGridView() {
-//        if (LocalImageHelper.getInstance().isResultOk()) {
-//            LocalImageHelper.getInstance().setResultOk(false);
-//            List<String> localCheckedImgs = new ArrayList<>();
-//            List<LocalFile> checkedItems = LocalImageHelper.getInstance().getCheckedItems();
-//            for (LocalFile file : checkedItems) {
-//                localCheckedImgs.add(file.getOriginalUri());
-//            }
-//            myPicGridAdapter.reloadPicture(localCheckedImgs);
-//        }
-//        new Handler().post(new Runnable() {
-//            @Override
-//            public void run() {
-//                mScrollView.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
-//            }
-//        });
     }
 
     @Override

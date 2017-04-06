@@ -4,8 +4,13 @@
     android:id="@+id/activity_welcome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@mipmap/logo_welcome"
+    android:orientation="vertical"
     tools:context="com.xptschool.teacher.ui.main.WelcomeActivity">
 
+    <Button
+        android:id="@+id/takePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TakePhoto" />
 </LinearLayout>
