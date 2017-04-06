@@ -153,11 +153,13 @@
         <activity android:name=".ui.wellet.WelletActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="wx1af4f660ce9e6b37" /> <!-- 需修改 -->
             </intent-filter>
         </activity>
-        <activity android:name=".wxapi.WXPayEntryActivity"></activity>
+        <activity android:name=".wxapi.WXPayEntryActivity" />
 
         <receiver
             android:name=".wxapi.AppRegister"
@@ -171,12 +173,14 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind" />
+        <activity android:name=".ui.wellet.PocketActivity" />
+        <activity android:name=".ui.wellet.RechargeActivity"></activity>
     </application>
 
 </manifest>

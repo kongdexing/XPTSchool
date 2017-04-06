@@ -183,5 +183,8 @@
     <string name="label_my_wellet">钱包</string>
     <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    <string name="label_pocket_money">零钱</string>
+    <string name="label_balance">余额</string>
+    <string name="label_recharge">充值</string>
 
 </resources>

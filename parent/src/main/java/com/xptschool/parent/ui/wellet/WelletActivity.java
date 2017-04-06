@@ -2,12 +2,14 @@ package com.xptschool.parent.ui.wellet;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
@@ -25,6 +27,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class WelletActivity extends BaseActivity {
@@ -127,6 +130,18 @@ public class WelletActivity extends BaseActivity {
 
         ;
     };
+
+    @OnClick({R.id.rl_balance, R.id.rlPocketMoney})
+    void viewOnClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_balance:
+
+                break;
+            case R.id.rlPocketMoney:
+                startActivity(new Intent(this, PocketActivity.class));
+                break;
+        }
+    }
 
 //    //生成随机号，防重发
 //    private String getNonceStr() {

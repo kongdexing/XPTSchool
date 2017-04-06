@@ -169,7 +169,6 @@ public class AlbumActivity extends TakePhotoActivity {
                 path = images.get(i).getCompressPath();
             }
             String patch = "file://" + path;
-            Log.i(TAG, "showImg: " + patch);
             if (!LocalImageHelper.getInstance().getLocalCheckedImgs().contains(patch)) {
                 LocalImageHelper.getInstance().getLocalCheckedImgs().add(patch);
             }
