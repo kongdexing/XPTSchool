@@ -39,7 +39,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class WelcomeActivity extends TakePhotoActivity {
+public class WelcomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,28 +112,6 @@ public class WelcomeActivity extends TakePhotoActivity {
     void onReadPhoneStateNeverAskAgain() {
         Log.i(TAG, "onReadPhoneStateNeverAskAgain: ");
         Toast.makeText(this, R.string.permission_readphonestate_never_askagain, Toast.LENGTH_SHORT).show();
-    }
-
-    @OnClick({R.id.takePhoto})
-    void onViewClick(View view) {
-        switch (view.getId()) {
-            case R.id.takePhoto:
-//                try {
-                //  拍照后保存图片的绝对路径
-                String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
-                File file = new File(cameraPath);
-                if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-                Uri imageUri = Uri.fromFile(file);
-
-//                    configTakePhotoOption(getTakePhoto());
-                //getTakePhoto().onPickFromCaptureWithCrop(imageUri, getCropOptions());
-                getTakePhoto().onPickFromCapture(imageUri);
-//                } catch (Exception ex) {
-//                    Toast.makeText(WelcomeActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-//                    Log.i(TAG, "onCameraClick: " + ex.getMessage());
-//                }
-                break;
-        }
     }
 
     private void login(final String account, final String password) {

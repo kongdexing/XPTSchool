@@ -1,6 +1,7 @@
 package com.jph.takephoto.uitl;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * 常量类
@@ -50,6 +51,6 @@ public class TConstant {
     public final static int PERMISSION_REQUEST_TAKE_PHOTO = 2000;
 
     public final static String getFileProviderName(Context context){
-        return context.getPackageName()+".fileprovider";
+        return context.getPackageName()+".fileProvider";
     }
  }

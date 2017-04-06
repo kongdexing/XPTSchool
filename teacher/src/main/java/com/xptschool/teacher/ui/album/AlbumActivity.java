@@ -16,7 +16,9 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
+import com.jph.takephoto.model.LubanOptions;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
@@ -72,10 +74,14 @@ public class AlbumActivity extends TakePhotoActivity {
                         File file = new File(cameraPath);
                         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
                         Uri imageUri = Uri.fromFile(file);
+                        TakePhoto takePhoto = getTakePhoto();
+                        configCompress(takePhoto);
+                        configTakePhotoOption(takePhoto);
 
-                        configTakePhotoOption(getTakePhoto());
+                        takePhoto.onPickFromCaptureWithCrop(imageUri, getCropOptions());
+
                         //getTakePhoto().onPickFromCaptureWithCrop(imageUri, getCropOptions());
-                        getTakePhoto().onPickFromCapture(imageUri);
+//                        takePhoto.onPickFromCapture(imageUri);
 //                    takePhoto.onPickFromCapture(Uri.fromFile(file));
 //                    AlbumActivityPermissionsDispatcher.openCameraWithCheck(AlbumActivity.this);
                     } catch (Exception ex) {
@@ -105,6 +111,20 @@ public class AlbumActivity extends TakePhotoActivity {
         picPopup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
+    private void configCompress(TakePhoto takePhoto) {
+        int maxSize = 102400;
+        int width = 800;
+        int height = 800;
+        boolean showProgressBar = true;
+        boolean enableRawFile = false;
+        CompressConfig config = new CompressConfig.Builder()
+                .setMaxSize(maxSize)
+                .setMaxPixel(width >= height ? width : height)
+                .enableReserveRaw(enableRawFile)
+                .create();
+        takePhoto.onEnableCompress(config, showProgressBar);
+    }
+
     public void configTakePhotoOption(TakePhoto takePhoto) {
         TakePhotoOptions.Builder builder = new TakePhotoOptions.Builder();
         builder.setWithOwnGallery(true);
@@ -132,17 +152,24 @@ public class AlbumActivity extends TakePhotoActivity {
     @Override
     public void takeFail(TResult result, String msg) {
         super.takeFail(result, msg);
+        Log.i(TAG, "takeFail: " + msg);
     }
 
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
+        Log.i(TAG, "takeSuccess: ");
         showImg(result.getImages());
     }
 
     private void showImg(ArrayList<TImage> images) {
         for (int i = 0; i < images.size(); i++) {
-            String patch = "file://" + images.get(i).getOriginalPath();
+            String path = images.get(i).getOriginalPath();
+            if (path.isEmpty()) {
+                path = images.get(i).getCompressPath();
+            }
+            String patch = "file://" + path;
+            Log.i(TAG, "showImg: " + patch);
             if (!LocalImageHelper.getInstance().getLocalCheckedImgs().contains(patch)) {
                 LocalImageHelper.getInstance().getLocalCheckedImgs().add(patch);
             }

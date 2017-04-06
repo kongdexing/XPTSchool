@@ -11,5 +11,6 @@ public class BroadcastAction {
     public static String HOMEWORK_AMEND = "com.xptschool.teacher.homework.amend";
     public static String RELOGIN = "com.xptschool.teacher.relogin";
 
+    public static String RELOAD_BANNER = "com.xptschool.teacher.banner.reload";
 
 }

@@ -1,7 +1,10 @@
 package com.xptschool.teacher.ui.main;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +27,7 @@ import com.umeng.message.IUmengCallback;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
@@ -118,6 +122,9 @@ public class MainActivity extends BaseActivity {
         homeBtn = (ImageButton) findViewById(R.id.nav_home);
         mapBtn = (ImageButton) findViewById(R.id.nav_track);
         mineBtn = (ImageButton) findViewById(R.id.nav_mine);
+
+        IntentFilter filter = new IntentFilter(BroadcastAction.RELOAD_BANNER);
+        this.registerReceiver(MyBannerReceiver, filter);
     }
 
     private void initData() {
@@ -365,6 +372,15 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+    BroadcastReceiver MyBannerReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BroadcastAction.RELOAD_BANNER)) {
+                getBanners();
+            }
+        }
+    };
 
     @Override
     public void onBackPressed() {

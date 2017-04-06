@@ -1,10 +1,13 @@
 package com.xptschool.teacher.push;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
@@ -53,6 +56,10 @@ public class BannerHelper {
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
                 Log.i(TAG, "onResponse: " + volleyHttpResult.getInfo());
+                //计数超额
+                if (volleyHttpResult.getInfo().toUpperCase().equals("ERROR")) {
+                    XPTApplication.getInstance().sendBroadcast(new Intent(BroadcastAction.RELOAD_BANNER));
+                }
             }
 
             @Override
