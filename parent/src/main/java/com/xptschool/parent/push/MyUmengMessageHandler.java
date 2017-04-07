@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -36,7 +37,6 @@ public class MyUmengMessageHandler extends UmengMessageHandler {
             switch (msg.builder_id) {
                 case 1:
                     //判断通知类型
-
                     Intent openintent = new Intent(context, AlarmMapActivity.class);
                     openintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     PendingIntent intent = PendingIntent.getActivity(context, 0, openintent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -46,7 +46,7 @@ public class MyUmengMessageHandler extends UmengMessageHandler {
                     myNotificationView.setTextViewText(R.id.notification_title, msg.title);
                     myNotificationView.setTextViewText(R.id.notification_text, msg.text);
                     builder.setContent(myNotificationView)
-                            .setSmallIcon(getSmallIconId(context, msg))
+                            .setSmallIcon(R.mipmap.ic_small_launcher)
                             .setContentIntent(intent)
                             .setTicker(msg.ticker)
                             .setAutoCancel(true);

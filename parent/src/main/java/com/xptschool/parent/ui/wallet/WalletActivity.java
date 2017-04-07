@@ -81,7 +81,6 @@ public class WalletActivity extends BaseActivity {
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: error " + ex.getMessage());
                             //错误
-
                         }
                         break;
                 }

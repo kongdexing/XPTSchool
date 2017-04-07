@@ -5,9 +5,11 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.xptschool.parent.R;
@@ -25,6 +27,8 @@ public class WebViewActivity extends BaseActivity {
     WebView web_content;
     @BindView(R.id.btn_refresh)
     View btn_refresh;
+    @BindView(R.id.progressBar1)
+    ProgressBar progressBar1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +61,24 @@ public class WebViewActivity extends BaseActivity {
         webSettings.setSupportZoom(true);
         webSettings.setJavaScriptEnabled(true);
         web_content.requestFocus();
-        MyWebClient wn = new MyWebClient();
-        web_content.setWebViewClient(wn);
+        web_content.setWebViewClient(new MyWebClient());
+
+        MyWebChromeClient wn = new MyWebChromeClient();
+        web_content.setWebChromeClient(wn);
         web_content.loadUrl(webUrl);
     }
 
+    private class MyWebChromeClient extends WebChromeClient {
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            progressBar1.setProgress(newProgress);
+            if (newProgress == 100) {
+                progressBar1.setVisibility(View.GONE);
+            }
+            super.onProgressChanged(view, newProgress);
+        }
+    }
 
     private class MyWebClient extends WebViewClient {
 
@@ -70,33 +87,6 @@ public class WebViewActivity extends BaseActivity {
             return true;
         }
 
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            if (rl_progress != null) {
-                rl_progress.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            if (rl_progress != null) {
-                rl_progress.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onReceivedError(WebView view, int errorCode,
-                                    String description, String failingUrl) {
-            super.onReceivedError(view, errorCode, description, failingUrl);
-            if (rl_progress != null) {
-                rl_progress.setVisibility(View.GONE);
-            }
-            if (web_error != null) {
-                web_error.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
 }
