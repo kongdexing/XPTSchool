@@ -71,9 +71,9 @@ public class QuestionAdapter extends BaseRecycleAdapter {
             mHolder.txtClassName.setVisibility(View.GONE);
         }
         if (question.getReceiver_sex().equals("1")) {
-            mHolder.imgReceiver.setImageResource(R.mipmap.teacher_man);
+            mHolder.imgReceiver.setImageResource(R.drawable.teacher_man);
         } else {
-            mHolder.imgReceiver.setImageResource(R.mipmap.teacher_woman);
+            mHolder.imgReceiver.setImageResource(R.drawable.teacher_woman);
         }
 
         mHolder.txtContent.setText(question.getContent());

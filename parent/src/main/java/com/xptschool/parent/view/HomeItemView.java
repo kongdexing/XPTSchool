@@ -30,7 +30,7 @@ public class HomeItemView extends LinearLayout {
         view.setClickable(true);
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.HomeItemView, 0, 0);
         try {
-            int resId = typedArray.getResourceId(R.styleable.HomeItemView_src, R.mipmap.ic_launcher);
+            int resId = typedArray.getResourceId(R.styleable.HomeItemView_src, R.drawable.ic_launcher);
             String text = typedArray.getString(R.styleable.HomeItemView_text);
             optionImg.setBackgroundResource(resId);
             optionText.setText(text);

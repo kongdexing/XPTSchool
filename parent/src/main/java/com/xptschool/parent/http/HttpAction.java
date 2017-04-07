@@ -76,4 +76,8 @@ public class HttpAction {
     public static String HOME_Banner = HEAD + "Banner/query";
     public static String SHOW_Banner = BuildConfig.SERVICE_URL + "/getadstatics.php";
 
+    //钱包
+    public static String Learning_Server = HEAD + "Learning/query";
+    //获取订单信息
+    public static String GET_OrderInfo = HEAD + "Order/getOrder";
 }

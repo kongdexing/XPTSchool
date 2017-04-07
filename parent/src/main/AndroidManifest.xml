@@ -150,7 +150,7 @@
         <activity android:name=".ui.main.WebViewActivity" />
         <activity android:name=".ui.cardset.CardSOSActivity" />
         <activity android:name=".ui.cardset.CardWhiteListActivity" />
-        <activity android:name=".ui.wellet.WelletActivity">
+        <activity android:name=".ui.wallet.WalletActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -179,8 +179,8 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
-        <activity android:name=".ui.wellet.PocketActivity" />
-        <activity android:name=".ui.wellet.RechargeActivity"></activity>
+        <activity android:name=".ui.wallet.PocketActivity" />
+        <activity android:name=".ui.wallet.RechargeActivity"></activity>
     </application>
 
 </manifest>

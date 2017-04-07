@@ -131,7 +131,7 @@
                 <ImageView
                     android:layout_width="@dimen/dp_20"
                     android:layout_height="@dimen/dp_20"
-                    android:background="@mipmap/icon_location" />
+                    android:background="@drawable/icon_location" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -156,7 +156,7 @@
         <ImageView
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
-            android:background="@mipmap/icon_track" />
+            android:background="@drawable/icon_track" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -180,7 +180,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
-                android:background="@mipmap/icon_railings" />
+                android:background="@drawable/icon_railings" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -204,7 +204,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
-                android:background="@mipmap/icon_alarm" />
+                android:background="@drawable/icon_alarm" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -228,7 +228,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@mipmap/icon_main_location" />
+                android:background="@drawable/icon_main_location" />
 
         </LinearLayout>
 

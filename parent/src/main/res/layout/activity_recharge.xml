@@ -25,6 +25,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_recharge_money"
             android:gravity="center"
+            android:tag="50"
             android:text="50元"
             android:textColor="@color/colorPrimary" />
 
@@ -36,6 +37,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_recharge_money"
             android:gravity="center"
+            android:tag="100"
             android:text="100元"
             android:textColor="@color/colorPrimary" />
 
@@ -48,6 +50,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_recharge_money"
             android:gravity="center"
+            android:tag="150"
             android:text="150元"
             android:textColor="@color/colorPrimary" />
 
@@ -67,6 +70,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_recharge_money"
             android:gravity="center"
+            android:tag="200"
             android:text="200元"
             android:textColor="@color/colorPrimary" />
 
@@ -78,6 +82,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_recharge_money"
             android:gravity="center"
+            android:tag="300"
             android:text="300元"
             android:textColor="@color/colorPrimary" />
 
@@ -90,6 +95,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_recharge_money"
             android:gravity="center"
+            android:tag="400"
             android:text="400元"
             android:textColor="@color/colorPrimary" />
 

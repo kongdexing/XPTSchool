@@ -174,7 +174,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         final Object object = getChild(groupPosition, childPosition);
         if (object instanceof ContactSchool) {
             final ContactSchool school = (ContactSchool) object;
-            viewHolder.imgHead.setImageResource(R.mipmap.contacts_school);
+            viewHolder.imgHead.setImageResource(R.drawable.contacts_school);
             viewHolder.text.setText(school.getS_name() + school.getA_name());
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,9 +188,9 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         } else {
             final ContactTeacher teacher = (ContactTeacher) object;
             if (teacher.getSex().equals("1")) {
-                viewHolder.imgHead.setImageResource(R.mipmap.teacher_man);
+                viewHolder.imgHead.setImageResource(R.drawable.teacher_man);
             } else {
-                viewHolder.imgHead.setImageResource(R.mipmap.teacher_woman);
+                viewHolder.imgHead.setImageResource(R.drawable.teacher_woman);
             }
             viewHolder.text.setText(teacher.getName());
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {

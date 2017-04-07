@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/net_error"/>
+                    android:src="@drawable/net_error"/>
 
                 <TextView
                     android:id="@+id/txt"
@@ -66,7 +66,7 @@
                     android:layout_below="@id/txt"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="36dip"
-                    android:background="@mipmap/net_refresh_bg"
+                    android:background="@drawable/net_refresh_bg"
                     android:orientation="horizontal">
 
                     <RelativeLayout
@@ -79,7 +79,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/net_refresh"/>
+                            android:src="@drawable/net_refresh"/>
 
                         <TextView
                             android:layout_width="wrap_content"

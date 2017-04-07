@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="-40dp"
                 android:clickable="true"
-                android:src="@mipmap/teacher_man" />
+                android:src="@drawable/teacher_man" />
 
             <TextView
                 android:id="@+id/txtName"

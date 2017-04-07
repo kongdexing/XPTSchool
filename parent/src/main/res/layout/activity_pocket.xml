@@ -9,9 +9,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp_30"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/icon_pocket" />
 
     <TextView
+        android:id="@+id/txt_pocket_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

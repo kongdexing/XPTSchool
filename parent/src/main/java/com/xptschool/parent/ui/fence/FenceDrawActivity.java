@@ -241,7 +241,7 @@ public class FenceDrawActivity extends BaseActivity implements BDLocationListene
         if (isFirstLoc) {
             isFirstLoc = false;
             MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
-                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
+                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.location_marker)));
             if (mGPSMarker != null) {
                 mGPSMarker.remove();
             }

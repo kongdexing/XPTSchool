@@ -1,12 +1,14 @@
-package com.xptschool.parent.ui.wellet;
+package com.xptschool.parent.ui.wallet;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.ui.main.BaseActivity;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -14,6 +16,8 @@ import butterknife.OnClick;
  */
 public class PocketActivity extends BaseActivity {
 
+    @BindView(R.id.txt_pocket_money)
+    TextView txt_pocket_money;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

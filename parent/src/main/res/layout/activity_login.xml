@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/dp_20"
-                android:src="@mipmap/company_logo" />
+                android:src="@drawable/company_logo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_15"
-                    android:src="@mipmap/login_name" />
+                    android:src="@drawable/login_name" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|right"
                         android:padding="10dp"
-                        android:src="@mipmap/login_del" />
+                        android:src="@drawable/login_del" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_15"
-                    android:src="@mipmap/login_pwd" />
+                    android:src="@drawable/login_pwd" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -104,7 +104,7 @@
                         android:layout_height="@dimen/dp_15"
                         android:layout_gravity="center_vertical|right"
                         android:layout_margin="10dp"
-                        android:src="@mipmap/login_reg_hidepass" />
+                        android:src="@drawable/login_reg_hidepass" />
 
                 </FrameLayout>
 

@@ -92,19 +92,19 @@ public class ChildFragment extends BaseFragment implements View.OnClickListener 
             return;
         }
         if (currentStudent.getSex().equals("1")) {
-            imgHead.setImageResource(R.mipmap.student_boy);
+            imgHead.setImageResource(R.drawable.student_boy);
         } else {
-            imgHead.setImageResource(R.mipmap.student_girl);
+            imgHead.setImageResource(R.drawable.student_girl);
         }
         //设置信息
         txtName.setText(currentStudent.getStu_name());
         txtClassName.setText(currentStudent.getG_name() + currentStudent.getC_name());
         if (currentStudent.getSex().equals("0")) {
             llInfoBg.setBackgroundResource(R.drawable.bg_student_info_girl);
-            imgSex.setBackgroundResource(R.mipmap.female_w);
+            imgSex.setBackgroundResource(R.drawable.female_w);
         } else {
             llInfoBg.setBackgroundResource(R.drawable.bg_student_info_boy);
-            imgSex.setBackgroundResource(R.mipmap.male_w);
+            imgSex.setBackgroundResource(R.drawable.male_w);
         }
 
         try {

@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wellet;
+package com.xptschool.parent.ui.wallet;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;

@@ -19,7 +19,7 @@ import com.xptschool.parent.ui.main.LoginActivity;
 import com.xptschool.parent.ui.mine.MyChildActivity;
 import com.xptschool.parent.ui.mine.MyInfoActivity;
 import com.xptschool.parent.ui.mine.SettingActivity;
-import com.xptschool.parent.ui.wellet.WelletActivity;
+import com.xptschool.parent.ui.wallet.WalletActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,9 +61,9 @@ public class MineFragment extends BaseFragment {
         if (parent != null) {
             txtUserName.setText(parent.getParent_name());
             if (parent.getSex().equals("1")) {
-                imgHead.setImageResource(R.mipmap.parent_father);
+                imgHead.setImageResource(R.drawable.parent_father);
             } else {
-                imgHead.setImageResource(R.mipmap.parent_mother);
+                imgHead.setImageResource(R.drawable.parent_mother);
             }
         }
     }
@@ -85,7 +85,7 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getContext(), CourseActivity.class));
                 break;
             case R.id.rlMyWellet:
-                startActivity(new Intent(getContext(), WelletActivity.class));
+                startActivity(new Intent(getContext(), WalletActivity.class));
                 break;
             case R.id.txtChangeAccount:
                 startActivity(new Intent(getContext(), LoginActivity.class));

@@ -49,9 +49,9 @@ public class MyInfoActivity extends BaseActivity {
         BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
         if (parent != null) {
             if (parent.getSex().equals("1")) {
-                imgHead.setImageResource(R.mipmap.parent_father);
+                imgHead.setImageResource(R.drawable.parent_father);
             } else {
-                imgHead.setImageResource(R.mipmap.parent_mother);
+                imgHead.setImageResource(R.drawable.parent_mother);
             }
 
             txtMineName.setText(parent.getParent_name());

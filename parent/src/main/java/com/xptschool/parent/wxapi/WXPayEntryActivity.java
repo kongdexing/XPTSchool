@@ -15,7 +15,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.ui.wellet.WelletActivity;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 

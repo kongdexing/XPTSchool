@@ -56,6 +56,7 @@ import com.xptschool.parent.ui.fragment.HomeFragment;
 import com.xptschool.parent.ui.fragment.MapFragment;
 import com.xptschool.parent.ui.fragment.MineFragment;
 import com.xptschool.parent.ui.mine.SettingActivity;
+import com.xptschool.parent.util.ParentUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -327,28 +328,11 @@ public class MainActivity extends BaseActivity {
 
     private void getBanners() {
         Log.i(TAG, "getBanners: ");
-        String strSids = "";
-        List<String> sids = new ArrayList<>();
 
-        List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
-        for (int i = 0; i < students.size(); i++) {
-            BeanStudent student = students.get(i);
-            String sid = student.getS_id();
-            if (!sids.contains(sid)) {
-                sids.add(sid);
-            }
-        }
-        for (int i = 0; i < sids.size(); i++) {
-            strSids += sids.get(i) + ",";
-        }
-
-        if (strSids.length() > 0) {
-            strSids = strSids.substring(0, strSids.length() - 1);
-        }
 
         String url = HttpAction.HOME_Banner;
         VolleyHttpService.getInstance().sendPostRequest(url, new VolleyHttpParamsEntity()
-                .addParam("s_id", strSids), new MyVolleyRequestListener() {
+                .addParam("s_id", ParentUtil.getStuSid()), new MyVolleyRequestListener() {
             @Override
             public void onStart() {
                 super.onStart();

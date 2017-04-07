@@ -106,9 +106,9 @@ public class QuestionDetailAdapter extends BaseAdapter {
             mHolder.rlParent.setVisibility(View.VISIBLE);
             mHolder.rlTeacher.setVisibility(View.GONE);
             if (parent.getSex().equals("1")) {
-                mHolder.imgParent.setImageResource(R.mipmap.parent_father);
+                mHolder.imgParent.setImageResource(R.drawable.parent_father);
             } else {
-                mHolder.imgParent.setImageResource(R.mipmap.parent_mother);
+                mHolder.imgParent.setImageResource(R.drawable.parent_mother);
             }
             mHolder.txtParent.setText(question.getContent());
         } else {
@@ -116,9 +116,9 @@ public class QuestionDetailAdapter extends BaseAdapter {
             mHolder.rlParent.setVisibility(View.GONE);
             mHolder.rlTeacher.setVisibility(View.VISIBLE);
             if (question.getReceiver_sex().equals("1")) {
-                mHolder.imgTeacher.setImageResource(R.mipmap.teacher_man);
+                mHolder.imgTeacher.setImageResource(R.drawable.teacher_man);
             } else {
-                mHolder.imgTeacher.setImageResource(R.mipmap.teacher_woman);
+                mHolder.imgTeacher.setImageResource(R.drawable.teacher_woman);
             }
             mHolder.txtTeacher.setText(question.getContent());
         }

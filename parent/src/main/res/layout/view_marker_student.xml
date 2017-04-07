@@ -3,7 +3,7 @@
     android:id="@+id/fl_Content"
     android:layout_width="@dimen/dp_40"
     android:layout_height="@dimen/dp_50"
-    android:background="@mipmap/icon_marker_girl_bg">
+    android:background="@drawable/icon_marker_girl_bg">
 
     <com.android.widget.view.CircularImageView
         android:id="@+id/imgHead"
@@ -11,6 +11,6 @@
         android:layout_height="@dimen/dp_25"
         android:layout_gravity="center|top"
         android:layout_marginTop="@dimen/dp_6"
-        android:src="@mipmap/student_girl" />
+        android:src="@drawable/student_girl" />
 
 </FrameLayout>

@@ -98,7 +98,7 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
         mLocClient.registerLocationListener(this);
 
 //        BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
-//                .fromResource(R.mipmap.icon_geobl);
+//                .fromResource(R.drawable.icon_geobl);
 //        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
 //                MyLocationConfiguration.LocationMode.NORMAL, true, mCurrentMarker));
 
@@ -179,7 +179,7 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
         if (isFirstLoc) {
             isFirstLoc = false;
             MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
-                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
+                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.location_marker)));
             if (mGPSMarker != null) {
                 mGPSMarker.remove();
             }
@@ -206,7 +206,7 @@ public class FenceShowActivity extends BaseActivity implements BDLocationListene
             bounds.include(latlngs.get(i));
         }
         final LatLng latlng = bounds.build().getCenter();
-        MarkerOptions option = new MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_gcoding))
+        MarkerOptions option = new MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding))
                 .zIndex(9).draggable(false);
         option.animateType(MarkerOptions.MarkerAnimateType.grow);
         final Marker _marker = (Marker) (mBaiduMap.addOverlay(option));

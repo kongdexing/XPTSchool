@@ -8,6 +8,6 @@
         android:id="@+id/imgSplash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/splash_1" />
+        android:background="@drawable/splash_1" />
 
 </LinearLayout>
