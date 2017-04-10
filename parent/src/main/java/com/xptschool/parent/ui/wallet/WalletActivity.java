@@ -50,7 +50,7 @@ public class WalletActivity extends BaseActivity {
     void viewOnClick(View view) {
         switch (view.getId()) {
             case R.id.rl_balance:
-
+                startActivity(new Intent(this, BalanceActivity.class));
                 break;
             case R.id.rlPocketMoney:
                 startActivity(new Intent(this, PocketActivity.class));

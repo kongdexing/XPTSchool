@@ -51,7 +51,7 @@ public class LearningGridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return beanLearningModules.size();
+        return beanLearningModules == null ? 0 : beanLearningModules.size();
     }
 
     @Override

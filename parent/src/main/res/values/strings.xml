@@ -186,5 +186,6 @@
     <string name="label_pocket_money">零钱</string>
     <string name="label_balance">余额</string>
     <string name="label_recharge">充值</string>
+    <string name="label_bill">清单</string>
 
 </resources>

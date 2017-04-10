@@ -180,7 +180,8 @@
             android:exported="false"
             android:screenOrientation="behind" />
         <activity android:name=".ui.wallet.PocketActivity" />
-        <activity android:name=".ui.wallet.RechargeActivity"></activity>
+        <activity android:name=".ui.wallet.RechargeActivity" />
+        <activity android:name=".ui.wallet.BalanceActivity"></activity>
     </application>
 
 </manifest>

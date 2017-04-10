@@ -93,7 +93,7 @@ public class RechargeActivity extends BaseActivity {
         viewOnClick(txt_recharge_50);
     }
 
-    @OnClick({R.id.rl_alipay, R.id.rl_wxpay, R.id.txt_recharge_50, R.id.txt_recharge_100, R.id.txt_recharge_150,
+    @OnClick({R.id.rl_alipay, R.id.cbx_alipay, R.id.rl_wxpay, R.id.cbx_wxpay, R.id.txt_recharge_50, R.id.txt_recharge_100, R.id.txt_recharge_150,
             R.id.txt_recharge_200, R.id.txt_recharge_300, R.id.txt_recharge_400, R.id.btn_recharge})
     void viewOnClick(View view) {
         switch (view.getId()) {
@@ -106,10 +106,12 @@ public class RechargeActivity extends BaseActivity {
                 resetRechargeUI((TextView) view);
                 break;
             case R.id.rl_alipay:
+            case R.id.cbx_alipay:
                 cbx_alipay.setChecked(true);
                 cbx_wxpay.setChecked(false);
                 break;
             case R.id.rl_wxpay:
+            case R.id.cbx_wxpay:
                 cbx_alipay.setChecked(false);
                 cbx_wxpay.setChecked(true);
                 break;
