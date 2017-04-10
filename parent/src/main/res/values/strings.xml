@@ -187,5 +187,6 @@
     <string name="label_balance">余额</string>
     <string name="label_recharge">充值</string>
     <string name="label_bill">清单</string>
+    <string name="label_freeze">账户冻结</string>
 
 </resources>

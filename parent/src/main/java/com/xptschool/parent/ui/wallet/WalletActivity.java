@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -29,6 +30,9 @@ public class WalletActivity extends BaseActivity {
     @BindView(R.id.gridview)
     MyGridView gridview;
     LearningGridAdapter adapter;
+
+    @BindView(R.id.txt_no_learning)
+    TextView txt_no_learning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +82,15 @@ public class WalletActivity extends BaseActivity {
                             List<BeanLearningModule> learningModules = gson.fromJson(info, new TypeToken<List<BeanLearningModule>>() {
                             }.getType());
                             adapter.reloadModule(learningModules);
+                            if (learningModules.size() == 0) {
+                                txt_no_learning.setVisibility(View.VISIBLE);
+                            } else {
+                                txt_no_learning.setVisibility(View.GONE);
+                            }
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: error " + ex.getMessage());
                             //错误
+                            txt_no_learning.setVisibility(View.VISIBLE);
                         }
                         break;
                 }
@@ -89,6 +99,7 @@ public class WalletActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 super.onErrorResponse(volleyError);
+                txt_no_learning.setVisibility(View.VISIBLE);
             }
         });
     }

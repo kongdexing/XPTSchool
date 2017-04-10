@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanLearningModule;
 import com.xptschool.parent.ui.main.WebViewActivity;
@@ -79,6 +80,9 @@ public class LearningGridAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+//        RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, XPTApplication.getInstance().getWindowWidth() / 3);
+//        viewHolder.rlModule.setLayoutParams(rllp);
 
         final BeanLearningModule module = (BeanLearningModule) getItem(position);
         ImageLoader.getInstance().displayImage(BuildConfig.SERVICE_URL + module.getIcon_url(), new ImageViewAware(viewHolder.img_module), options);

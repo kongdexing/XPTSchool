@@ -31,14 +31,7 @@ public class BalanceActivity extends BaseListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
         setTitle(R.string.label_balance);
-        setTxtRight(R.string.label_bill);
         initView();
-        setTextRightClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
     }
 

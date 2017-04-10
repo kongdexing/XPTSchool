@@ -142,10 +142,9 @@ public class RechargeActivity extends BaseActivity {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.GET_OrderInfo, new VolleyHttpParamsEntity()
                 .addParam("deal_price", "0.01")
                 .addParam("num", "1")
-                .addParam("payment_id", "0")
+                .addParam("payment_id", "0") //支付方式 0支付宝 1微信
                 .addParam("type", "0") //充值
                 .addParam("memo", "零钱充值")
-                .addParam("payment_id", "0")
                 .addParam("token", CommonUtil.encryptToken(HttpAction.GET_OrderInfo)), new MyVolleyRequestListener() {
             @Override
             public void onStart() {

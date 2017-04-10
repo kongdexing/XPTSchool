@@ -1,12 +1,18 @@
 package com.xptschool.parent.ui.wallet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xptschool.parent.R;
@@ -38,7 +44,56 @@ public class BalanceAdapter extends BaseRecycleAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        final ViewHolder mHolder = (ViewHolder) holder;
+        final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        mShowAction.setDuration(300);
+        mShowAction.setFillAfter(true);
 
+        final TranslateAnimation mDismissAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                0.0f, Animation.RELATIVE_TO_SELF, 1.0f);
+        mDismissAction.setDuration(300);
+        mDismissAction.setFillAfter(true);
+
+        mHolder.rl_stu_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mHolder.ll_bottom.getVisibility() == View.GONE) {
+                    mHolder.ll_bottom.startAnimation(mShowAction);
+                    mHolder.ll_bottom.setVisibility(View.VISIBLE);
+                } else {
+                    mHolder.ll_bottom.startAnimation(mDismissAction);
+                    mHolder.ll_bottom.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+        mHolder.txt_recharge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHolder.ll_bottom.startAnimation(mDismissAction);
+                mHolder.ll_bottom.setVisibility(View.GONE);
+            }
+        });
+        mHolder.txt_bill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHolder.ll_bottom.startAnimation(mDismissAction);
+                mHolder.ll_bottom.setVisibility(View.GONE);
+                Intent intent = new Intent(mContext, BillActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+        mHolder.txt_freeze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHolder.ll_bottom.startAnimation(mDismissAction);
+                mHolder.ll_bottom.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -49,6 +104,9 @@ public class BalanceAdapter extends BaseRecycleAdapter {
     class ViewHolder extends RecyclerViewHolderBase {
 
         private Unbinder unbinder;
+
+        @BindView(R.id.rl_stu_card)
+        RelativeLayout rl_stu_card;
 
         @BindView(R.id.imgHead)
         ImageView imgHead;
@@ -61,6 +119,18 @@ public class BalanceAdapter extends BaseRecycleAdapter {
 
         @BindView(R.id.txt_balance)
         TextView txt_balance;
+
+        @BindView(R.id.ll_bottom)
+        LinearLayout ll_bottom;
+
+        @BindView(R.id.txt_recharge)
+        TextView txt_recharge;
+
+        @BindView(R.id.txt_bill)
+        TextView txt_bill;
+
+        @BindView(R.id.txt_freeze)
+        TextView txt_freeze;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -26,7 +26,6 @@ public class PocketActivity extends BaseActivity {
         setTitle(R.string.label_pocket_money);
     }
 
-
     @OnClick({R.id.btn_recharge, R.id.btn_withdraw})
     void viewOnClick(View view) {
         switch (view.getId()) {

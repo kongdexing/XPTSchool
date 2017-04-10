@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.xptschool.parent.view.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rlModule"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_gravity="center"
+    android:gravity="center"
     android:background="@drawable/wallet_learning_selector"
     android:orientation="vertical"
     android:padding="@dimen/dp_10">
@@ -27,4 +27,4 @@
         android:textColor="@color/color_black_2"
         android:textSize="@dimen/sp_14" />
 
-</RelativeLayout>
+</com.xptschool.parent.view.SquareLayout>
