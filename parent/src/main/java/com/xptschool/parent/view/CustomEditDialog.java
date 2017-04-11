@@ -8,9 +8,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 
 /**
  * Created by Administrator on 2016/10/28.
@@ -29,6 +31,9 @@ public class CustomEditDialog implements View.OnClickListener {
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setView(new EditText(context));
         alertDialog.show();
+        alertDialog.getWindow().setLayout(XPTApplication.getInstance().getWindowWidth() * 4 / 5,
+                XPTApplication.getInstance().getWindowHeight() / 3);
+
         alertDialog.setCanceledOnTouchOutside(false);
 
         Window window = alertDialog.getWindow();

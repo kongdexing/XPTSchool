@@ -18,6 +18,7 @@ import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanLearningModule;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.wallet.card.StuCardBalanceActivity;
 import com.xptschool.parent.util.ParentUtil;
 
 import java.util.List;
@@ -50,11 +51,11 @@ public class WalletActivity extends BaseActivity {
         gridview.setAdapter(adapter);
     }
 
-    @OnClick({R.id.rl_balance, R.id.rlPocketMoney})
+    @OnClick({R.id.rl_stu_card, R.id.rlPocketMoney})
     void viewOnClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_balance:
-                startActivity(new Intent(this, BalanceActivity.class));
+            case R.id.rl_stu_card:
+                startActivity(new Intent(this, StuCardBalanceActivity.class));
                 break;
             case R.id.rlPocketMoney:
                 startActivity(new Intent(this, PocketActivity.class));

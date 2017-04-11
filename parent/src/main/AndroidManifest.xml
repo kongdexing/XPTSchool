@@ -181,8 +181,9 @@
             android:screenOrientation="behind" />
         <activity android:name=".ui.wallet.PocketActivity" />
         <activity android:name=".ui.wallet.RechargeActivity" />
-        <activity android:name=".ui.wallet.BalanceActivity" />
-        <activity android:name=".ui.wallet.BillActivity"></activity>
+        <activity android:name=".ui.wallet.card.StuCardBalanceActivity" />
+        <activity android:name=".ui.wallet.BillActivity" />
+        <activity android:name=".ui.wallet.card.CardRechargeActivity"></activity>
     </application>
 
 </manifest>

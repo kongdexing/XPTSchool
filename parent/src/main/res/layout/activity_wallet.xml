@@ -22,9 +22,9 @@
                 android:background="@color/colorPrimaryDark"
                 android:orientation="horizontal">
 
-                <!--余额-->
+                <!--学生卡-->
                 <RelativeLayout
-                    android:id="@+id/rl_balance"
+                    android:id="@+id/rl_stu_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -46,7 +46,7 @@
                         android:layout_below="@+id/img_balance_money"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dp_5"
-                        android:text="学生卡"
+                        android:text="@string/label_stu_card"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_14" />
 

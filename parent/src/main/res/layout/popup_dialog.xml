@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/popup_anima"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_dialog">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/dp_40"
         android:gravity="left|center_vertical"
-        android:paddingLeft="15dp"
+        android:paddingLeft="@dimen/dp_15"
         android:text="123546"
         android:textColor="#3dd1a5"
         android:textSize="15sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <View
         android:id="@+id/line"
@@ -28,7 +28,8 @@
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/line2"
         android:layout_below="@id/line"
         android:lineSpacingMultiplier="1.2"
         android:paddingBottom="5dp"
@@ -43,39 +44,43 @@
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@id/content"
+        android:layout_above="@+id/rl_bottom"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:background="@color/line_bg" />
 
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_30"
-        android:layout_below="@id/line2"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_toLeftOf="@+id/ok"
-        android:background="@drawable/btn_delete_bg"
-        android:gravity="center"
-        android:text="@string/btn_cancel"
-        android:textColor="@color/colorWhite"
-        android:textSize="14sp" />
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/ok"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_30"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/line2"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="@dimen/dp_10"
-        android:background="@drawable/btn_bg_normal"
-        android:gravity="center"
-        android:text="@string/btn_confirm"
-        android:textSize="14sp" />
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_toLeftOf="@+id/ok"
+            android:background="@drawable/btn_delete_bg"
+            android:gravity="center"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_14" />
 
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/btn_bg_normal"
+            android:gravity="center"
+            android:text="@string/btn_confirm"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
 </RelativeLayout>

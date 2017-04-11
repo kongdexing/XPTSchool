@@ -59,4 +59,9 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1.0dp"
+        android:layout_below="@+id/llContacts"
+        android:background="@drawable/line_contacts" />
 </RelativeLayout>

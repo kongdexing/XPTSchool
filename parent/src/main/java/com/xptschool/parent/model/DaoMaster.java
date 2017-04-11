@@ -23,24 +23,24 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void createAllTables(Database db, boolean ifNotExists) {
         BeanBannerDao.createTable(db, ifNotExists);
         BeanDeviceTokenDao.createTable(db, ifNotExists);
+        BeanLearningModuleDao.createTable(db, ifNotExists);
         BeanParentDao.createTable(db, ifNotExists);
         BeanStudentDao.createTable(db, ifNotExists);
         ContactParentDao.createTable(db, ifNotExists);
         ContactSchoolDao.createTable(db, ifNotExists);
         ContactTeacherDao.createTable(db, ifNotExists);
-        BeanLearningModuleDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         BeanBannerDao.dropTable(db, ifExists);
         BeanDeviceTokenDao.dropTable(db, ifExists);
+        BeanLearningModuleDao.dropTable(db, ifExists);
         BeanParentDao.dropTable(db, ifExists);
         BeanStudentDao.dropTable(db, ifExists);
         ContactParentDao.dropTable(db, ifExists);
         ContactSchoolDao.dropTable(db, ifExists);
         ContactTeacherDao.dropTable(db, ifExists);
-        BeanLearningModuleDao.dropTable(db, ifExists);
     }
 
     /**
@@ -61,12 +61,12 @@ public class DaoMaster extends AbstractDaoMaster {
         super(db, SCHEMA_VERSION);
         registerDaoClass(BeanBannerDao.class);
         registerDaoClass(BeanDeviceTokenDao.class);
+        registerDaoClass(BeanLearningModuleDao.class);
         registerDaoClass(BeanParentDao.class);
         registerDaoClass(BeanStudentDao.class);
         registerDaoClass(ContactParentDao.class);
         registerDaoClass(ContactSchoolDao.class);
         registerDaoClass(ContactTeacherDao.class);
-        registerDaoClass(BeanLearningModuleDao.class);
     }
 
     public DaoSession newSession() {

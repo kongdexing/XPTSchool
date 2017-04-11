@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wallet;
+package com.xptschool.parent.ui.wallet.card;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,11 +14,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
+import com.xptschool.parent.ui.fence.FenceDrawActivity;
 import com.xptschool.parent.ui.homework.HomeWorkAdapter;
+import com.xptschool.parent.ui.wallet.BillActivity;
+import com.xptschool.parent.view.CustomDialog;
+import com.xptschool.parent.view.CustomEditDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,12 +75,13 @@ public class BalanceAdapter extends BaseRecycleAdapter {
             }
         });
 
-
         mHolder.txt_recharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
+                Intent intent = new Intent(mContext, CardRechargeActivity.class);
+                mContext.startActivity(intent);
             }
         });
         mHolder.txt_bill.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +98,19 @@ public class BalanceAdapter extends BaseRecycleAdapter {
             public void onClick(View v) {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
+
+                CustomDialog dialog = new CustomDialog(mContext);
+                dialog.setTitle(R.string.label_freeze);
+                dialog.setMessage(R.string.msg_freeze);
+                dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+                    @Override
+                    public void onPositiveClick() {
+                        //冻结学生卡
+                        mHolder.txt_freeze.setText(R.string.label_unfreeze);
+                    }
+                });
+
+
             }
         });
     }

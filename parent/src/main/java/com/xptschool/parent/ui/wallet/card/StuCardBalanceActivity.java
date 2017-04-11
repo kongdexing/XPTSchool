@@ -1,14 +1,10 @@
-package com.xptschool.parent.ui.wallet;
+package com.xptschool.parent.ui.wallet.card;
 
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
 import com.android.widget.view.LoadMoreRecyclerView;
 import com.xptschool.parent.R;
-import com.xptschool.parent.ui.homework.HomeWorkAdapter;
-import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.main.BaseListActivity;
 
 import butterknife.BindView;
@@ -16,7 +12,7 @@ import butterknife.BindView;
 /**
  * 学生卡余额
  */
-public class BalanceActivity extends BaseListActivity {
+public class StuCardBalanceActivity extends BaseListActivity {
 
     @BindView(R.id.recyclerview)
     LoadMoreRecyclerView recyclerView;
@@ -30,7 +26,7 @@ public class BalanceActivity extends BaseListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_balance);
-        setTitle(R.string.label_balance);
+        setTitle(R.string.label_stu_card);
         initView();
 
     }
