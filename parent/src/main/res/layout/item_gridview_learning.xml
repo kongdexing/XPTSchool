@@ -13,6 +13,7 @@
         android:layout_width="@dimen/dp_50"
         android:layout_height="@dimen/dp_50"
         android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
         android:layout_margin="@dimen/dp_5"
         android:padding="0.1dip"
         android:src="@drawable/post_add_pic" />

@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.widget.swipebacklayout.app.SwipeBackActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.xptschool.parent.R;
@@ -30,7 +31,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2016/10/18 0018.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends SwipeBackActivity {
 
     public String TAG = "";
     //应用是否销毁标志
