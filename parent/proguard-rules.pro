@@ -217,3 +217,7 @@
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
 -dontwarn com.alipay.android.phone.mrpc.core.**
+
+###银联支付
+-keep class com.unionpay.mobile.android.**{*;}
+-dontwarn com.unionpay.mobile.android.**

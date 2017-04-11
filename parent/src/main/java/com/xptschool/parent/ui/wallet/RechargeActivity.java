@@ -19,6 +19,7 @@ import com.android.widget.view.SmoothCheckBox;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.unionpay.UPPayAssistEx;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
@@ -62,6 +63,8 @@ public class RechargeActivity extends BaseActivity {
     SmoothCheckBox cbx_alipay;
     @BindView(R.id.cbx_wxpay)
     SmoothCheckBox cbx_wxpay;
+    @BindView(R.id.cbx_uppay)
+    SmoothCheckBox cbx_uppay;
 
     private int recharge_limit = 0;
 
@@ -72,6 +75,10 @@ public class RechargeActivity extends BaseActivity {
     public static final String APPID = "2017032706425485";
     public static final String RSA2_PRIVATE = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC8c05wA5eZPK224dGBWNMuDjw46YQSLdPnNwBluBNGgsAouQ3f6L0MJ5RIVPH5+7IkuwJ0lVF093LbML9LAJNyOmVZ0Rs5wtT4VgcTFWJgcfm+svSyCtfSNlN/dH3vM3PWW6Y1SaY2ceihf3HTb2YL4jNRQaWudgoOumriikGwDoa4N1E8goH6DYtt0ff+6keoSgRXDNjK8mCFqrQRyYN190CbsA+duog/oX/gboK0ZtnQoa6qHTUNZ4jpG4QtPdh+h/k3X1Y7hGTpKNPU4y0bXdo7GLVL/mjyLJDIBU6GqydrOKjIZ3s6ags5OE9abNYym6XYMR/JFNzZ7BRScatFAgMBAAECggEAaL7Ci1pDyiXC/JLZy0Ze4wuAh7Wr9hrI3IxiySced6O3QStSvfD0GyxorCei8+rloqrbe4d/Zj8f9RtMSFkCm4w/x0OGGX3kuD/A4OeS7b6MLWX0wn1qZmpR0NckJG955Fy+roHIRBzeS921m+sgUlyhX3nYqHbtsjAFtvNX/Y2xKPf5WNa4glFk7aij/iPX6pXrHdxdo/rpD6Zt11EpnAk8aGKDunDResJ98OcSA0myPFC51TumePCdDQJyvuwnrKgwQMrI6OZO8xeiiOxJRE0wMCE3RfJjMoCzmB8cwq5EWTiZjDILuLdSBG6Exj28zNYcAQHcdCHE+SfXwWmBwQKBgQDiAmqsmlLxFufeuAHlZR9ocAI+EwhB/ZwiJqzKjCbg5QJqcaVpdJET7kTMfrpL3CdhezdlbDS530SEwrKjKDt+FOHJ5ezF6PTOTxK4KrIE2ZPr7dL9xMKf2Alegj9vrR5yIkoKL9j6vaUu4ePy3mu0/7JgLoZymkHebBBl8xEvkQKBgQDVdQCnPf2abHaP92CzAsKZkmCZPYyLYvfMH7tJH1F1PF8WCP2ZBOp8euHdXNkDHGQduYhn8HkSf2e2ay/ShpZuSA61kclNadluEe0x8iaEEgn+EBfH2kMF68pH0iW5DlW8oer7E1kybL0G0ZEHyZ9S+r0wKf6T3nXTgQ8qxq0OdQKBgQDKcR26M5WdrEXPgoT4REcI1mO71HJuIcvL71aRK07b3WX3kIp41lfpQWDQx6b5sl53+9WX/H+SCoImZPt8F9qKSgwhO9mFQPCfJ8b9vgitPXM5PlLiym8GnI1v4T0PPENsOniVfVxe5KZkQyRadI6Hlw3hB2uYlcHwiF175Gh9cQKBgDBmUzuYpsQ5C7khEmAEpDNGKXkVp6SDUESMfV7bJxE6GyVX7IihwLlw833J67r02Q6UXwWSVSGIme+W5kUKF1nyJMOuxsIy2gZHMk085tbTcEiXRY0fREs3Z6pZUAxh37bhz/IWNQdl+IZvRj9JzEJ4cCVXoE3PB1Bp1xKP8fVxAoGBANOa07QOJ5CmngAKpDlzfsyKfW3CIoeJf/0pSV1LzLgI36lNaiLHEW7HkQAVCkc5E3fzi3LOSeaaQ6vvAe+MWQgkaSpa447HDVHWtXvmgtkSb3ntVP/kMnOtx60UPGfpO2F2xVelAoMv4C5BpFHj0FzeGgBEdhZqUHp23dc3C+tb";
 
+    /*****************************************************************
+     * mMode参数解释： "00" - 启动银联正式环境 "01" - 连接银联测试环境
+     *****************************************************************/
+    private final String mMode = "01";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +100,10 @@ public class RechargeActivity extends BaseActivity {
         viewOnClick(txt_recharge_50);
     }
 
-    @OnClick({R.id.rl_alipay, R.id.cbx_alipay, R.id.rl_wxpay, R.id.cbx_wxpay, R.id.txt_recharge_50, R.id.txt_recharge_100, R.id.txt_recharge_150,
+    @OnClick({R.id.rl_alipay, R.id.cbx_alipay,
+            R.id.rl_wxpay, R.id.cbx_wxpay,
+            R.id.rl_uppay, R.id.cbx_uppay,
+            R.id.txt_recharge_50, R.id.txt_recharge_100, R.id.txt_recharge_150,
             R.id.txt_recharge_200, R.id.txt_recharge_300, R.id.txt_recharge_400, R.id.btn_recharge})
     void viewOnClick(View view) {
         switch (view.getId()) {
@@ -109,20 +119,28 @@ public class RechargeActivity extends BaseActivity {
             case R.id.cbx_alipay:
                 cbx_alipay.setChecked(true);
                 cbx_wxpay.setChecked(false);
+                cbx_uppay.setChecked(false);
                 break;
             case R.id.rl_wxpay:
             case R.id.cbx_wxpay:
                 cbx_alipay.setChecked(false);
                 cbx_wxpay.setChecked(true);
+                cbx_uppay.setChecked(false);
+                break;
+            case R.id.rl_uppay:
+            case R.id.cbx_uppay:
+                cbx_alipay.setChecked(false);
+                cbx_wxpay.setChecked(false);
+                cbx_uppay.setChecked(true);
                 break;
             case R.id.btn_recharge:
-                getOrderInfo();
-                toAlipay();
-//                if (cbx_wxpay.isChecked()) {
-//                    toWXpay();
-//                } else {
-//                    toAlipay();
-//                }
+                if (cbx_wxpay.isChecked()) {
+                    toWXpay();
+                } else if (cbx_alipay.isChecked()) {
+                    getOrderInfo();
+                } else {
+                    UPPayAssistEx.startPay(RechargeActivity.this, null, null, "614205026254999379701", mMode);
+                }
                 break;
         }
     }

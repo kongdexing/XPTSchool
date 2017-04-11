@@ -179,11 +179,37 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
-        <activity android:name=".ui.wallet.PocketActivity" />
-        <activity android:name=".ui.wallet.RechargeActivity" />
-        <activity android:name=".ui.wallet.card.StuCardBalanceActivity" />
-        <activity android:name=".ui.wallet.BillActivity" />
-        <activity android:name=".ui.wallet.card.CardRechargeActivity"></activity>
+        <activity
+            android:name=".ui.wallet.PocketActivity"
+            android:configChanges="orientation|keyboardHidden|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.wallet.RechargeActivity"
+            android:configChanges="orientation|keyboardHidden|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.wallet.card.StuCardBalanceActivity"
+            android:configChanges="orientation|keyboardHidden|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.wallet.BillActivity"
+            android:configChanges="orientation|keyboardHidden|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.wallet.card.CardRechargeActivity"
+            android:configChanges="orientation|keyboardHidden|fontScale"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.unionpay.uppay.PayActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.unionpay.UPPayWapActivity"
+            android:configChanges="orientation|keyboardHidden|fontScale"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"></activity>
     </application>
 
 </manifest>
