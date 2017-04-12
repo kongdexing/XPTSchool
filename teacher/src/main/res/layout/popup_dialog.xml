@@ -42,39 +42,43 @@
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_below="@id/content"
+        android:layout_above="@+id/rl_bottom"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:background="@color/line_bg" />
 
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_30"
-        android:layout_below="@id/line2"
-        android:layout_marginBottom="@dimen/dp_5"
-        android:layout_marginRight="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_5"
-        android:layout_toLeftOf="@+id/ok"
-        android:background="@drawable/btn_delete_bg"
-        android:gravity="center"
-        android:text="@string/btn_cancel"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/sp_14" />
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_toLeftOf="@+id/ok"
+            android:background="@drawable/btn_delete_bg"
+            android:gravity="center"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_14" />
 
-    <Button
-        android:id="@+id/ok"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_30"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/line2"
-        android:layout_marginBottom="@dimen/dp_5"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="@dimen/dp_5"
-        android:background="@drawable/btn_bg_normal"
-        android:gravity="center"
-        android:text="@string/btn_confirm"
-        android:textSize="@dimen/sp_14" />
+        <Button
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@drawable/btn_bg_normal"
+            android:gravity="center"
+            android:text="@string/btn_confirm"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
 </RelativeLayout>

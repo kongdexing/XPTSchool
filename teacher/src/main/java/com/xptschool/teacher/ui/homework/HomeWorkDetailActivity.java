@@ -194,7 +194,6 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                         setViewEnable(true);
 
                         spnClasses.setItems(beanClasses);
-
                         for (int i = 0; i < beanClasses.size(); i++) {
                             BeanClass beanClass = beanClasses.get(i);
                             if (beanClass.getG_id().equals(currentHomeWork.getG_id())
@@ -203,6 +202,15 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                                 break;
                             }
                         }
+
+                        spnCourse.setItems(allCourse);
+                        for (int i = 0; i < allCourse.size(); i++) {
+                            if (allCourse.get(i).getId().equals(currentHomeWork.getCrs_id())) {
+                                spnClasses.setSelectedIndex(i);
+                                break;
+                            }
+                        }
+
                         hideViewPager(albumviewpager);
                         btnSubmit.setVisibility(View.VISIBLE);
                         btnSubmit.setText("重新发布");
@@ -271,15 +279,25 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                 }
 
                 BeanHomeWork homeWork = new BeanHomeWork();
+                BeanClass currentClass = (BeanClass) spnClasses.getSelectedItem();
+                if (currentClass == null) {
+                    Toast.makeText(this, "请选择班级", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                BeanCourse course = (BeanCourse) spnCourse.getSelectedItem();
+                if (course == null) {
+                    Toast.makeText(this, "请选择科目", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                homeWork.setCrs_id(course.getId());
                 homeWork.setName(name);
                 homeWork.setWork_content(content);
                 homeWork.setFinish_time(finishTime);
-                BeanClass currentClass = (BeanClass) spnClasses.getSelectedItem();
                 homeWork.setC_id(currentClass.getC_id());
                 homeWork.setC_name(currentClass.getC_name());
                 homeWork.setG_id(currentClass.getG_id());
                 homeWork.setG_name(currentClass.getG_name());
-                homeWork.setCrs_id(((BeanCourse) spnCourse.getSelectedItem()).getId());
+
                 homeWork.setCrs_name(spnCourse.getText().toString().trim());
                 createHomework(homeWork);
                 break;

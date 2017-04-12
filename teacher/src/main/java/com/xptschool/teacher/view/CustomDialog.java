@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.XPTApplication;
 
 /**
  * Created by Administrator on 2016/10/28.
@@ -26,6 +27,8 @@ public class CustomDialog implements View.OnClickListener {
         mContext = context;
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.show();
+        alertDialog.getWindow().setLayout(XPTApplication.getInstance().getWindowWidth() * 4 / 5,
+                XPTApplication.getInstance().getWindowHeight() / 3);
         alertDialog.setCancelable(false);
         Window window = alertDialog.getWindow();
         window.setContentView(R.layout.popup_dialog);
@@ -40,6 +43,7 @@ public class CustomDialog implements View.OnClickListener {
     }
 
     public void setTitle(int strId) {
+        txtTitle.setVisibility(View.VISIBLE);
         txtTitle.setText(strId);
     }
 
@@ -69,7 +73,7 @@ public class CustomDialog implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ok:
-                if (clickListener!=null){
+                if (clickListener != null) {
                     clickListener.onPositiveClick();
                 }
                 break;

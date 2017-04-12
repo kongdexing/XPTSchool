@@ -78,6 +78,8 @@ public class HttpAction {
 
     //钱包
     public static String Learning_Server = HEAD + "Learning/query";
+    //零钱
+    public static String POCKET_BALANCE = HEAD + "OrderBalance/queryAccount";
     //获取订单信息
     public static String GET_OrderInfo = HEAD + "Order/getOrder";
 }
