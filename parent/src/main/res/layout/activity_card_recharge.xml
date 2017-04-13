@@ -39,11 +39,11 @@
             android:text="剩余零钱：" />
 
         <TextView
-            android:id="@+id/txt_change"
+            android:id="@+id/txt_balance"
             style="@style/mineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="200.03"
+            android:text=""
             android:textColor="@color/text_black_2" />
     </LinearLayout>
 
@@ -65,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:inputType="number"
             android:text=""
             android:textColor="@color/text_black_2" />
     </LinearLayout>

@@ -1,10 +1,9 @@
-package com.xptschool.parent.ui.mine;
+package com.xptschool.parent.ui.setting;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
-import com.xptschool.parent.ui.fragment.MineFragment;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.main.LoginActivity;
 import com.xptschool.parent.view.CustomDialog;
@@ -47,7 +45,7 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.rlChangePwd, R.id.rlExit, R.id.rlTel, R.id.rlUpdate})
+    @OnClick({R.id.rlChangePwd, R.id.rlExit, R.id.rlTel, R.id.rlUpdate, R.id.rltutelage})
     void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.rlTel:
@@ -66,6 +64,9 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rlChangePwd:
                 startActivity(new Intent(this, ChangePwdActivity.class));
+                break;
+            case R.id.rltutelage:
+                startActivity(new Intent(this, TutelageActivity.class));
                 break;
             case R.id.rlExit:
                 CustomDialog dialog = new CustomDialog(SettingActivity.this);

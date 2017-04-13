@@ -18,4 +18,7 @@ public class BroadcastAction {
     public static String FENCE_CANCEL = "com.xptschool.parent.fence.cancel";
 
     public static String RELOAD_BANNER = "com.xptschool.parent.banner.reload";
+
+    public static String CARD_FREEZE = "com.xptschool.parent.card.freeze";
+
 }

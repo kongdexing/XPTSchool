@@ -89,7 +89,11 @@ public class WalletActivity extends BaseActivity {
                             txt_pocket_money.setText("¥ " + balance);
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: error " + ex.getMessage());
+                            txt_pocket_money.setText("获取失败");
                         }
+                        break;
+                    default:
+                        txt_pocket_money.setText("获取失败");
                         break;
                 }
             }

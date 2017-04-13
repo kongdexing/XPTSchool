@@ -47,6 +47,7 @@
     <string name="mine_exit">退出当前账号</string>
     <string name="title_detail">学生详情</string>
     <string name="setting_change_pwd">修改密码</string>
+    <string name="setting_add_tutelage">添加监护人</string>
     <string name="label_old_pwd">旧密码</string>
     <string name="label_new_pwd1">新密码</string>
     <string name="label_new_pwd2">确认密码</string>
@@ -192,5 +193,27 @@
     <string name="label_unfreeze">解除冻结</string>
     <string name="msg_freeze">确定要【冻结】该卡的消费功能吗？</string>
     <string name="msg_unfreeze">确定要【开通】该卡的消费功能吗？</string>
+    <string name="msg_recharge_greater_than_balance">充值金额大于剩余金额，请重新输入充值金额</string>
+    <string name="progress_stu_card_recharge">正在充值...</string>
+    <string name="msg_recharge_failed">充值失败</string>
+
+    <!--添加监护人-->
+    <string name="label_tutelage_username">用户名：</string>
+    <string name="label_tutelage_hint_username">用于登录App或平安校园后台网站</string>
+    <string name="label_tutelage_name">姓名：</string>
+    <string name="label_tutelage_hint_name">请输入姓名</string>
+    <string name="label_tutelage_phone">手机号：</string>
+    <string name="label_tutelage_hint_phone">请输入手机号</string>
+    <string name="label_tutelage_sex">性别：</string>
+    <string name="label_tutelage_email">邮箱：</string>
+    <string name="label_tutelage_hint_email">请输入邮箱</string>
+    <string name="label_tutelage_relation">关系：</string>
+    <string name="label_tutelage_address">居住地址：</string>
+    <string name="label_tutelage_hint_address">请输入居住地址</string>
+    <string name="label_tutelage_homephone">住宅电话：</string>
+    <string name="label_tutelage_hint_homephone">请输入住宅电话</string>
+    <string name="label_tutelage_work_unit">工作地址：</string>
+    <string name="label_tutelage_hint_work_unit">请输入工作地址</string>
+
 
 </resources>

@@ -80,6 +80,16 @@ public class HttpAction {
     public static String Learning_Server = HEAD + "Learning/query";
     //零钱
     public static String POCKET_BALANCE = HEAD + "OrderBalance/queryAccount";
+    //学生卡余额
+    public static String STU_CARD_BALANCE = HEAD + "OrderBalance/getStudentCardBalance";
+    //学生卡充值
+    public static String STU_CARD_RECHARGE = HEAD + "OrderBalance/Recharge";
+    //学生卡冻结/解冻
+    public static String STU_CARD_FREEZE = HEAD + "OrderBalance/onFreezeChange";
+    //学生卡消费记录
+    public static String STU_CARD_BILL = HEAD + "OrderBalance/getStuCardBill";
+
     //获取订单信息
     public static String GET_OrderInfo = HEAD + "Order/getOrder";
+
 }

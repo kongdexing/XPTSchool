@@ -3,7 +3,9 @@
     android:id="@+id/rl_stu_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dp_20"
+    android:layout_marginLeft="@dimen/dp_20"
+    android:layout_marginRight="@dimen/dp_20"
+    android:layout_marginTop="@dimen/dp_20"
     android:background="@drawable/card_bg_normal"
     android:clickable="true"
     android:orientation="vertical">

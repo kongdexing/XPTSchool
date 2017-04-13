@@ -18,7 +18,7 @@ import com.xptschool.parent.ui.fence.FenceListActivity;
 import com.xptschool.parent.ui.main.LoginActivity;
 import com.xptschool.parent.ui.mine.MyChildActivity;
 import com.xptschool.parent.ui.mine.MyInfoActivity;
-import com.xptschool.parent.ui.mine.SettingActivity;
+import com.xptschool.parent.ui.setting.SettingActivity;
 import com.xptschool.parent.ui.wallet.WalletActivity;
 
 import butterknife.BindView;

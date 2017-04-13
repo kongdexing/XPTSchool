@@ -101,7 +101,7 @@
             android:name=".ui.contact.ContactsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".ui.mine.AboutActivity" />
+        <activity android:name=".ui.setting.AboutActivity" />
         <activity android:name=".ui.contact.ContactsDetailActivity" />
         <activity
             android:name=".ui.leave.LeaveDetailActivity"
@@ -145,8 +145,8 @@
 
         <activity android:name=".ui.fence.FenceDrawActivity" />
         <activity android:name=".ui.fence.FenceShowActivity" />
-        <activity android:name=".ui.mine.ChangePwdActivity" />
-        <activity android:name=".ui.mine.SettingActivity" />
+        <activity android:name=".ui.setting.ChangePwdActivity" />
+        <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.main.WebViewActivity" />
         <activity android:name=".ui.cardset.CardSOSActivity" />
         <activity android:name=".ui.cardset.CardWhiteListActivity" />
@@ -198,18 +198,17 @@
         <activity
             android:name=".ui.wallet.card.CardRechargeActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.unionpay.uppay.PayActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.unionpay.UPPayWapActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.setting.TutelageActivity"></activity>
     </application>
 
 </manifest>

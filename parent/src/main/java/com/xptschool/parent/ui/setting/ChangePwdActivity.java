@@ -1,7 +1,6 @@
-package com.xptschool.parent.ui.mine;
+package com.xptschool.parent.ui.setting;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;

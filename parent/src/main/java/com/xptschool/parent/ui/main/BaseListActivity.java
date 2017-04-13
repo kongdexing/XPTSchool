@@ -13,14 +13,17 @@ public class BaseListActivity extends BaseActivity {
 
     public ResultPage resultPage = new ResultPage();
 
-    public void initRecyclerView(RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout){
-        recyclerView.setHasFixedSize(true);
-        final WrapContentLinearLayoutManager mLayoutManager = new WrapContentLinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,
-                LinearLayoutManager.VERTICAL, R.drawable.line_dotted));
-        swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.google_colors));
-
+    public void initRecyclerView(RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout) {
+        if (recyclerView != null) {
+            recyclerView.setHasFixedSize(true);
+            final WrapContentLinearLayoutManager mLayoutManager = new WrapContentLinearLayoutManager(this);
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                    LinearLayoutManager.VERTICAL, R.drawable.line_dotted));
+        }
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.google_colors));
+        }
 //        swipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
 //                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
 //                        .getDisplayMetrics()));

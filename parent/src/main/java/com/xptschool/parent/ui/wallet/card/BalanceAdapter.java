@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.wallet.card;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +17,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
+import com.xptschool.parent.common.BroadcastAction;
+import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.ui.fence.FenceDrawActivity;
 import com.xptschool.parent.ui.homework.HomeWorkAdapter;
 import com.xptschool.parent.ui.wallet.BillActivity;
 import com.xptschool.parent.view.CustomDialog;
 import com.xptschool.parent.view.CustomEditDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +43,15 @@ import butterknife.Unbinder;
 
 public class BalanceAdapter extends BaseRecycleAdapter {
 
+    private List<BeanStudent> beanStudents = new ArrayList<>();
+
     public BalanceAdapter(Context context) {
         super(context);
+    }
+
+    public void reloadData(List<BeanStudent> students) {
+        beanStudents = students;
+
     }
 
     @Override
@@ -50,17 +64,32 @@ public class BalanceAdapter extends BaseRecycleAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder mHolder = (ViewHolder) holder;
+        final BeanStudent student = beanStudents.get(position);
+        if (student == null) {
+            return;
+        }
+
+        //弹起操作项动画
         final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
         mShowAction.setDuration(300);
         mShowAction.setFillAfter(true);
-
+        //隐藏操作项动画
         final TranslateAnimation mDismissAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 0.0f, Animation.RELATIVE_TO_SELF, 1.0f);
         mDismissAction.setDuration(300);
         mDismissAction.setFillAfter(true);
+
+        //绑定数据
+        if (student.getSex().equals("1")) {
+            mHolder.imgHead.setImageResource(R.drawable.student_boy);
+        } else {
+            mHolder.imgHead.setImageResource(R.drawable.student_girl);
+        }
+        mHolder.txtStuName.setText(student.getStu_name());
+        mHolder.txtIMEI.setText(student.getImei_id());
 
         mHolder.rl_stu_card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +110,7 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
                 Intent intent = new Intent(mContext, CardRechargeActivity.class);
+                intent.putExtra("stu_id", student.getStu_id());
                 mContext.startActivity(intent);
             }
         });
@@ -107,17 +137,20 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                     public void onPositiveClick() {
                         //冻结学生卡
                         mHolder.txt_freeze.setText(R.string.label_unfreeze);
+                        Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
+                        intent.putExtra("stu_id", student.getStu_id());
+                        intent.putExtra("freeze", "1");
+                        mContext.sendBroadcast(intent);
+
                     }
                 });
-
-
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return beanStudents.size();
     }
 
     class ViewHolder extends RecyclerViewHolderBase {
@@ -128,7 +161,7 @@ public class BalanceAdapter extends BaseRecycleAdapter {
         RelativeLayout rl_stu_card;
 
         @BindView(R.id.imgHead)
-        ImageView imgHead;
+        CircularImageView imgHead;
 
         @BindView(R.id.txtStuName)
         TextView txtStuName;
