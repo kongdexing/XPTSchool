@@ -51,8 +51,13 @@ public class WalletActivity extends BaseActivity {
         setTitle(R.string.label_my_wellet);
 
         initView();
-        getPocketBalance();
         getLearningServer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPocketBalance();
     }
 
     private void initView() {
@@ -76,7 +81,6 @@ public class WalletActivity extends BaseActivity {
         BalanceUtil.getBalance(new BalanceUtil.BalanceCallBack() {
             @Override
             public void onStart() {
-                txt_pocket_money.setText("获取中..");
             }
 
             @Override
@@ -89,7 +93,6 @@ public class WalletActivity extends BaseActivity {
                 txt_pocket_money.setText("获取失败");
             }
         });
-
     }
 
     private void getLearningServer() {

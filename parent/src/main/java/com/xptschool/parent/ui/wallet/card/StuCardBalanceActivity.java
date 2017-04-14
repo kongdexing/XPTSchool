@@ -42,6 +42,11 @@ public class StuCardBalanceActivity extends BaseListActivity {
         setContentView(R.layout.activity_balance);
         setTitle(R.string.label_stu_card);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 

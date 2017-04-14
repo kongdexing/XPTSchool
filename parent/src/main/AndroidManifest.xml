@@ -197,7 +197,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.wallet.card.CardRechargeActivity"
-            android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.unionpay.uppay.PayActivity"

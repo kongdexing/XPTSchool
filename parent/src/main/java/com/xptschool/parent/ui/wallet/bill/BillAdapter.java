@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
+import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.ui.homework.HomeWorkAdapter;
 
 import java.util.ArrayList;
@@ -36,6 +36,16 @@ public class BillAdapter extends BaseRecycleAdapter {
         super(context);
     }
 
+    public void refreshData(List<BeanCadBill> beanCadBills) {
+        Log.i(TAG, "refreshData: ");
+        cadBills = beanCadBills;
+    }
+
+    public void appendData(List<BeanCadBill> beanCadBills) {
+        Log.i(TAG, "refreshData: ");
+        cadBills.addAll(beanCadBills);
+    }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
@@ -56,6 +66,21 @@ public class BillAdapter extends BaseRecycleAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Log.i(TAG, "showData: ");
+        final ViewHolder mHolder = (ViewHolder) holder;
+        final BeanCadBill cardBill = cadBills.get(position);
+        mHolder.txt_bill_detail.setText(cardBill.getDescribe());
+        mHolder.txt_time.setText(cardBill.getCreate_time());
+
+        if (cardBill.getStatus().equals("1")) {
+            //充值
+            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorAccent2));
+            mHolder.txt_amount.setText("+" + cardBill.getBalances());
+        } else {
+            //消费
+            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorRed_def));
+            mHolder.txt_amount.setText("-" + cardBill.getBalances());
+        }
 
     }
 
@@ -68,29 +93,14 @@ public class BillAdapter extends BaseRecycleAdapter {
 
         private Unbinder unbinder;
 
-        @BindView(R.id.llhomeworkItem)
-        LinearLayout llhomeworkItem;
+        @BindView(R.id.txt_bill_detail)
+        TextView txt_bill_detail;
 
-        @BindView(R.id.txtSubject)
-        TextView txtSubject;
+        @BindView(R.id.txt_time)
+        TextView txt_time;
 
-        @BindView(R.id.txtClassName)
-        TextView txtClassName;
-
-        @BindView(R.id.txtTitle)
-        TextView txtTitle;
-
-        @BindView(R.id.txtTeacher)
-        TextView txtTeacher;
-
-        @BindView(R.id.txtTime)
-        TextView txtTime;
-
-        @BindView(R.id.txtContent)
-        TextView txtContent;
-
-        @BindView(R.id.imgDelete)
-        ImageView imgDelete;
+        @BindView(R.id.txt_amount)
+        TextView txt_amount;
 
         public ViewHolder(View itemView) {
             super(itemView);

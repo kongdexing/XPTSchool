@@ -16,6 +16,7 @@ import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.wallet.pocket.BalanceUtil;
 
 import org.json.JSONObject;
 
@@ -69,37 +70,19 @@ public class CardRechargeActivity extends BaseActivity {
     }
 
     private void getPocketBalance() {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.POCKET_BALANCE, new VolleyHttpParamsEntity()
-                .addParam("token", CommonUtil.encryptToken(HttpAction.POCKET_BALANCE)), new MyVolleyRequestListener() {
+
+        BalanceUtil.getBalance(new BalanceUtil.BalanceCallBack() {
             @Override
             public void onStart() {
-                super.onStart();
-                txt_balance.setText("获取中..");
             }
 
             @Override
-            public void onResponse(VolleyHttpResult volleyHttpResult) {
-                super.onResponse(volleyHttpResult);
-                switch (volleyHttpResult.getStatus()) {
-                    case HttpAction.SUCCESS:
-                        try {
-                            JSONObject object = (JSONObject) volleyHttpResult.getData();
-                            String balance = object.getString("account");
-                            txt_balance.setText(balance);
-                        } catch (Exception ex) {
-                            Log.i(TAG, "onResponse: error " + ex.getMessage());
-                            txt_balance.setText("获取失败");
-                        }
-                        break;
-                    default:
-                        txt_balance.setText("获取失败");
-                        break;
-                }
+            public void onSuccess() {
+                txt_balance.setText(BalanceUtil.getParentBalance());
             }
 
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                super.onErrorResponse(volleyError);
+            public void onFailed(String error) {
                 txt_balance.setText("获取失败");
             }
         });

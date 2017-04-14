@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llhomeworkItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,49 +10,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_toLeftOf="@+id/txt_amount"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_5"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_5">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/txt_bill_detail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:text="充值"
+            android:textColor="@color/color_black_1"
+            android:textSize="@dimen/sp_16" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/dp_5">
+        <TextView
+            android:id="@+id/txt_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="20160612"
+            android:textColor="@color/color_black_3"
+            android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:id="@+id/txtClassName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="三年级二班"
-                    android:textColor="@color/color_black_1"
-                    android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:id="@+id/txtTeacher"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_2"
-                    android:text="@string/label_teacher_option"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/sp_16"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/txtTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_2"
-                    android:text="完成时间：20160612"
-                    android:textColor="@color/color_black_3"
-                    android:textSize="@dimen/sp_16" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/txt_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:text="10.00"
+        android:textSize="@dimen/sp_18" />
+</RelativeLayout>
