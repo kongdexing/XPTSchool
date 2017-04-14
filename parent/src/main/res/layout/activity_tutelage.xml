@@ -28,6 +28,7 @@
                     android:text="@string/label_tutelage_username" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edt_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -52,6 +53,7 @@
                     android:text="@string/label_tutelage_name" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -76,12 +78,14 @@
                     android:text="@string/label_tutelage_phone" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edt_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_5"
                     android:hint="@string/label_tutelage_hint_phone"
+                    android:inputType="phone"
                     android:textSize="@dimen/sp_16"
                     app:met_clearButton="true" />
             </LinearLayout>
@@ -101,17 +105,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:gravity="center">
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:gravity="left">
 
                     <LinearLayout
                         android:id="@+id/ll_male"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:clickable="true"
-                        android:gravity="center|right"
-                        android:paddingRight="@dimen/dp_20">
+                        android:gravity="center">
 
                         <com.android.widget.view.SmoothCheckBox
                             android:id="@+id/cbx_male"
@@ -171,6 +174,7 @@
 
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -219,6 +223,7 @@
                     android:text="@string/label_tutelage_address" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edt_home_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -243,6 +248,7 @@
                     android:text="@string/label_tutelage_homephone" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edt_home_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -267,6 +273,7 @@
                     android:text="@string/label_tutelage_work_unit" />
 
                 <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edt_work_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

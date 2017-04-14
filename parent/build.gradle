@@ -135,7 +135,6 @@ dependencies {
 
     // 多dex配置
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.0
-
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:design:24.2.0'
@@ -146,9 +145,8 @@ dependencies {
     compile 'com.tencent.bugly:crashreport_upgrade:1.2.3'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

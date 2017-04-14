@@ -207,7 +207,8 @@
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.setting.TutelageActivity"></activity>
+        <activity android:name=".ui.setting.TutelageActivity" />
+        <activity android:name=".ui.wallet.pocket.PocketDetailActivity"></activity>
     </application>
 
 </manifest>

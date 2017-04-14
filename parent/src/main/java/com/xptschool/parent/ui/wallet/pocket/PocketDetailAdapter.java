@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wallet.bill;
+package com.xptschool.parent.ui.wallet.pocket;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
+import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
+import com.xptschool.parent.ui.wallet.bill.BillAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +22,15 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by dexing on 2017/4/13.
+ * Created by dexing on 2017/4/14.
  * No1
  */
 
-public class BillAdapter extends BaseRecycleAdapter {
+public class PocketDetailAdapter extends BaseRecycleAdapter {
 
     private List<BeanCadBill> cadBills = new ArrayList<>();
 
-    public BillAdapter(Context context) {
+    public PocketDetailAdapter(Context context) {
         super(context);
     }
 
@@ -63,20 +65,20 @@ public class BillAdapter extends BaseRecycleAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Log.i(TAG, "showData: ");
-        final ViewHolder mHolder = (ViewHolder) holder;
-        final BeanCadBill cardBill = cadBills.get(position);
-        mHolder.txt_bill_detail.setText(cardBill.getDescribe());
-        mHolder.txt_time.setText(cardBill.getCreate_time());
-
-        if (cardBill.getStatus().equals("1")) {
-            //充值
-            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorAccent2));
-            mHolder.txt_amount.setText("+" + cardBill.getBalances());
-        } else {
-            //消费
-            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorRed_def));
-            mHolder.txt_amount.setText("-" + cardBill.getBalances());
-        }
+//        final BillAdapter.ViewHolder mHolder = (BillAdapter.ViewHolder) holder;
+//        final BeanCadBill cardBill = cadBills.get(position);
+//        mHolder.txt_bill_detail.setText(cardBill.getDescribe());
+//        mHolder.txt_time.setText(cardBill.getCreate_time());
+//
+//        if (cardBill.getStatus().equals("1")) {
+//            //充值
+//            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorAccent2));
+//            mHolder.txt_amount.setText("+" + cardBill.getBalances());
+//        } else {
+//            //消费
+//            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorRed_def));
+//            mHolder.txt_amount.setText("-" + cardBill.getBalances());
+//        }
 
     }
 
@@ -104,4 +106,5 @@ public class BillAdapter extends BaseRecycleAdapter {
         }
 
     }
+
 }

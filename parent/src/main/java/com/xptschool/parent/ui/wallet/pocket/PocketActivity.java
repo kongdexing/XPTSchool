@@ -34,6 +34,13 @@ public class PocketActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pocket);
         setTitle(R.string.label_pocket_money);
+        setTxtRight(R.string.label_recharge_detail);
+        setTextRightClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PocketActivity.this, PocketDetailActivity.class));
+            }
+        });
     }
 
     @Override
