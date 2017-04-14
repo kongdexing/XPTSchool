@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wallet;
+package com.xptschool.parent.ui.wallet.pocket;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -55,41 +55,22 @@ public class PocketActivity extends BaseActivity {
     }
 
     private void getPocketBalance() {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.POCKET_BALANCE, new VolleyHttpParamsEntity()
-                .addParam("token", CommonUtil.encryptToken(HttpAction.POCKET_BALANCE)), new MyVolleyRequestListener() {
+        BalanceUtil.getBalance(new BalanceUtil.BalanceCallBack() {
             @Override
             public void onStart() {
-                super.onStart();
-                txt_pocket_money.setText("获取中..");
             }
 
             @Override
-            public void onResponse(VolleyHttpResult volleyHttpResult) {
-                super.onResponse(volleyHttpResult);
-                switch (volleyHttpResult.getStatus()) {
-                    case HttpAction.SUCCESS:
-                        try {
-                            JSONObject object = (JSONObject) volleyHttpResult.getData();
-                            String balance = object.getString("account");
-                            txt_pocket_money.setText("¥ " + balance);
-                        } catch (Exception ex) {
-                            Log.i(TAG, "onResponse: error " + ex.getMessage());
-                            txt_pocket_money.setText("获取失败");
-                        }
-                        break;
-                    default:
-                        txt_pocket_money.setText("获取失败");
-                        break;
-
-                }
+            public void onSuccess() {
+                txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
             }
 
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                super.onErrorResponse(volleyError);
+            public void onFailed(String error) {
                 txt_pocket_money.setText("获取失败");
             }
         });
+
     }
 
 

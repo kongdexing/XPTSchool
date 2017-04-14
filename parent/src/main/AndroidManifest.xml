@@ -180,11 +180,11 @@
             android:exported="false"
             android:screenOrientation="behind" />
         <activity
-            android:name=".ui.wallet.PocketActivity"
+            android:name=".ui.wallet.pocket.PocketActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.RechargeActivity"
+            android:name=".ui.wallet.pocket.RechargeActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait" />
         <activity
@@ -192,7 +192,7 @@
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.BillActivity"
+            android:name=".ui.wallet.bill.BillActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait" />
         <activity

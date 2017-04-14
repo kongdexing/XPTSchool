@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -19,6 +20,7 @@ import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseListActivity;
+import com.xptschool.parent.ui.wallet.pocket.BalanceUtil;
 
 import java.util.List;
 
@@ -52,54 +54,67 @@ public class StuCardBalanceActivity extends BaseListActivity {
     }
 
     private void initData() {
-        List<BeanStudent> beanStudents = GreenDaoHelper.getInstance().getStudents();
-        if (beanStudents.size() == 0) {
-            return;
-        }
-        recyclerView.removeAllViews();
-        adapter.reloadData(beanStudents);
         getStuCardBalance();
     }
 
     private void getStuCardBalance() {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.STU_CARD_BALANCE, new VolleyHttpParamsEntity()
-                .addParam("token", CommonUtil.encryptToken(HttpAction.STU_CARD_BALANCE)), new MyVolleyRequestListener() {
+        BalanceUtil.getBalance(new BalanceUtil.BalanceCallBack() {
             @Override
             public void onStart() {
-                super.onStart();
             }
 
             @Override
-            public void onResponse(VolleyHttpResult volleyHttpResult) {
-                super.onResponse(volleyHttpResult);
-
+            public void onSuccess() {
+                List<BeanCardBalance> cardBalances = BalanceUtil.getCardBalances();
+                recyclerView.removeAllViews();
+                adapter.reloadData(cardBalances);
             }
 
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                super.onErrorResponse(volleyError);
+            public void onFailed(String error) {
+                if (!error.isEmpty()) {
+                    Toast.makeText(StuCardBalanceActivity.this, error, Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            this.unregisterReceiver(freezeReceiver);
+        } catch (Exception ex) {
+
+        }
     }
 
     BroadcastReceiver freezeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BroadcastAction.CARD_FREEZE)) {
+                String stu_id = intent.getStringExtra("stu_id");
+                String freeze_type = intent.getStringExtra("freeze");
 
-                VolleyHttpService.getInstance().sendPostRequest(HttpAction.ACTION_LOGIN, new VolleyHttpParamsEntity()
-                        .addParam("", ""), new MyVolleyRequestListener() {
+                VolleyHttpService.getInstance().sendPostRequest(HttpAction.STU_CARD_FREEZE, new VolleyHttpParamsEntity()
+                        .addParam("stu_id", stu_id)
+                        .addParam("type", freeze_type)
+                        .addParam("token", CommonUtil.encryptToken(HttpAction.STU_CARD_FREEZE)), new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
                         super.onStart();
+                        showProgress("");
                     }
 
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        hideProgress();
+                        Toast.makeText(StuCardBalanceActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
                         switch (volleyHttpResult.getStatus()) {
                             case HttpAction.SUCCESS:
-
+                                getStuCardBalance();
                                 break;
                         }
                     }
@@ -107,6 +122,7 @@ public class StuCardBalanceActivity extends BaseListActivity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         super.onErrorResponse(volleyError);
+                        hideProgress();
                     }
                 });
             }

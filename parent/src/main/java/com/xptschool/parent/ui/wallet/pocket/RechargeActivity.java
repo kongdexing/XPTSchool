@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wallet;
+package com.xptschool.parent.ui.wallet.pocket;
 
 import android.app.AlertDialog;
 import android.os.Handler;
@@ -26,6 +26,8 @@ import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.wallet.alipay.OrderInfoUtil2_0;
+import com.xptschool.parent.ui.wallet.alipay.PayResult;
 
 import java.util.ArrayList;
 import java.util.Map;

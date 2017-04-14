@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wallet;
+package com.xptschool.parent.ui.wallet.alipay;
 
 public final class Base64 {
 

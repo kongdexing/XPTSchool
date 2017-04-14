@@ -2,20 +2,16 @@ package com.xptschool.parent.ui.wallet.card;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
@@ -23,11 +19,8 @@ import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.model.BeanStudent;
-import com.xptschool.parent.ui.fence.FenceDrawActivity;
-import com.xptschool.parent.ui.homework.HomeWorkAdapter;
-import com.xptschool.parent.ui.wallet.BillActivity;
+import com.xptschool.parent.ui.wallet.bill.BillActivity;
 import com.xptschool.parent.view.CustomDialog;
-import com.xptschool.parent.view.CustomEditDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,15 +36,14 @@ import butterknife.Unbinder;
 
 public class BalanceAdapter extends BaseRecycleAdapter {
 
-    private List<BeanStudent> beanStudents = new ArrayList<>();
+    private List<BeanCardBalance> beanStudents = new ArrayList<>();
 
     public BalanceAdapter(Context context) {
         super(context);
     }
 
-    public void reloadData(List<BeanStudent> students) {
+    public void reloadData(List<BeanCardBalance> students) {
         beanStudents = students;
-
     }
 
     @Override
@@ -64,8 +56,14 @@ public class BalanceAdapter extends BaseRecycleAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder mHolder = (ViewHolder) holder;
-        final BeanStudent student = beanStudents.get(position);
+        final BeanCardBalance balance = beanStudents.get(position);
+        if (balance == null) {
+            mHolder.fl_Content.setVisibility(View.GONE);
+            return;
+        }
+        final BeanStudent student = balance.getStudent();
         if (student == null) {
+            mHolder.fl_Content.setVisibility(View.GONE);
             return;
         }
 
@@ -90,6 +88,11 @@ public class BalanceAdapter extends BaseRecycleAdapter {
         }
         mHolder.txtStuName.setText(student.getStu_name());
         mHolder.txtIMEI.setText(student.getImei_id());
+        mHolder.txt_balance.setText(balance.getBalances());
+        mHolder.txt_classname.setText("班级：" + student.getG_name() + student.getC_name());
+        mHolder.txt_birthday.setText("出生日期：" + student.getBirth_date());
+        mHolder.txt_school_time.setText("入学时间：" + student.getStu_id());
+        mHolder.txt_school.setText("学校：" + student.getS_name());
 
         mHolder.rl_stu_card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +113,7 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
                 Intent intent = new Intent(mContext, CardRechargeActivity.class);
-                intent.putExtra("stu_id", student.getStu_id());
+                intent.putExtra("stu_id", balance.getStu_id());
                 mContext.startActivity(intent);
             }
         });
@@ -120,9 +123,15 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
                 Intent intent = new Intent(mContext, BillActivity.class);
+                intent.putExtra("stu_id", balance.getStu_id());
                 mContext.startActivity(intent);
             }
         });
+
+        final String freeze_status = balance.getFreeze();
+        mHolder.txt_freeze.setText(freeze_status.equals("0") ?
+                mContext.getResources().getString(R.string.label_freeze) : mContext.getResources().getString(R.string.label_unfreeze));
+
         mHolder.txt_freeze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,32 +139,48 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                 mHolder.ll_bottom.setVisibility(View.GONE);
 
                 CustomDialog dialog = new CustomDialog(mContext);
-                dialog.setTitle(R.string.label_freeze);
-                dialog.setMessage(R.string.msg_freeze);
-                dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
-                    @Override
-                    public void onPositiveClick() {
-                        //冻结学生卡
-                        mHolder.txt_freeze.setText(R.string.label_unfreeze);
-                        Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
-                        intent.putExtra("stu_id", student.getStu_id());
-                        intent.putExtra("freeze", "1");
-                        mContext.sendBroadcast(intent);
-
-                    }
-                });
+                if (freeze_status.equals("0")) {
+                    dialog.setTitle(R.string.label_freeze);
+                    dialog.setMessage(R.string.msg_freeze);
+                    dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            //冻结学生卡
+                            Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
+                            intent.putExtra("stu_id", balance.getStu_id());
+                            intent.putExtra("freeze", "1");
+                            mContext.sendBroadcast(intent);
+                        }
+                    });
+                } else {
+                    dialog.setTitle(R.string.label_unfreeze);
+                    dialog.setMessage(R.string.msg_unfreeze);
+                    dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            //解冻学生卡
+                            Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
+                            intent.putExtra("stu_id", balance.getStu_id());
+                            intent.putExtra("freeze", "0");
+                            mContext.sendBroadcast(intent);
+                        }
+                    });
+                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return beanStudents.size();
+        return beanStudents == null ? 0 : beanStudents.size();
     }
 
     class ViewHolder extends RecyclerViewHolderBase {
 
         private Unbinder unbinder;
+
+        @BindView(R.id.fl_Content)
+        FrameLayout fl_Content;
 
         @BindView(R.id.rl_stu_card)
         RelativeLayout rl_stu_card;
@@ -166,11 +191,23 @@ public class BalanceAdapter extends BaseRecycleAdapter {
         @BindView(R.id.txtStuName)
         TextView txtStuName;
 
-        @BindView(R.id.txtIMEI)
+        @BindView(R.id.txt_imei)
         TextView txtIMEI;
 
         @BindView(R.id.txt_balance)
         TextView txt_balance;
+
+        @BindView(R.id.txt_classname)
+        TextView txt_classname;
+
+        @BindView(R.id.txt_birthday)
+        TextView txt_birthday;
+
+        @BindView(R.id.txt_school_time)
+        TextView txt_school_time;
+
+        @BindView(R.id.txt_school)
+        TextView txt_school;
 
         @BindView(R.id.ll_bottom)
         LinearLayout ll_bottom;

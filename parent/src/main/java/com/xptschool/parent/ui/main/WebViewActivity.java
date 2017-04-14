@@ -72,12 +72,20 @@ public class WebViewActivity extends BaseActivity {
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
+            if (progressBar1 == null) {
+                return;
+            }
             progressBar1.setProgress(newProgress);
             if (newProgress == 100) {
                 progressBar1.setVisibility(View.GONE);
             }
             super.onProgressChanged(view, newProgress);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private class MyWebClient extends WebViewClient {

@@ -150,4 +150,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.joooonho:selectableroundedimageview:1.0.1'
 }

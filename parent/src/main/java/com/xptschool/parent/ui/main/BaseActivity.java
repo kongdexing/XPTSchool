@@ -158,7 +158,7 @@ public class BaseActivity extends SwipeBackActivity {
         getWindow().setAttributes(lp);
     }
 
-    public void showProgress(int strId) {
+    public void showProgress(String str) {
         if (progressDialog == null) {
             progressDialog = new Dialog(this, R.style.CustomDialog);
             progressDialog.setContentView(R.layout.layout_dialog);
@@ -167,12 +167,16 @@ public class BaseActivity extends SwipeBackActivity {
             progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
         TextView msg = (TextView) progressDialog.findViewById(R.id.tv_load_dialog);
-        msg.setText(strId);
+        msg.setText(str);
         try {
             progressDialog.show();
         } catch (Exception ex) {
             Log.e(TAG, "showProgress: " + ex.getMessage());
         }
+    }
+
+    public void showProgress(int strId) {
+        showProgress(getResources().getString(strId));
     }
 
     public void hideProgress() {
