@@ -19,7 +19,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorOrange"
                 android:orientation="horizontal">
 
                 <!--学生卡-->
@@ -29,14 +29,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/wallet_top_selector"
-                    android:clickable="true"
-                    android:padding="@dimen/dp_10">
+                    android:clickable="true">
 
                     <ImageView
                         android:id="@+id/img_balance_money"
                         android:layout_width="@dimen/dp_40"
                         android:layout_height="@dimen/dp_40"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:src="@drawable/icon_stu_card" />
 
                     <TextView
@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/img_balance_money"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_2"
                         android:text="@string/label_stu_card"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_14" />
@@ -68,14 +68,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/wallet_top_selector"
-                    android:clickable="true"
-                    android:padding="@dimen/dp_10">
+                    android:clickable="true">
 
                     <ImageView
                         android:id="@+id/img_pocket_money"
                         android:layout_width="@dimen/dp_40"
                         android:layout_height="@dimen/dp_40"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:src="@drawable/icon_pocket" />
 
                     <TextView
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/img_pocket_money"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_2"
                         android:text="零钱"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_14" />
@@ -96,9 +96,8 @@
                         android:layout_below="@+id/title_pocket_money"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dp_2"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp_14" />
+                        android:text="233"
+                        android:textColor="@color/white" />
 
                 </RelativeLayout>
 
@@ -108,14 +107,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/wallet_top_selector"
-                    android:clickable="true"
-                    android:padding="@dimen/dp_10">
+                    android:clickable="true">
 
                     <ImageView
                         android:id="@+id/img_card"
                         android:layout_width="@dimen/dp_40"
                         android:layout_height="@dimen/dp_40"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:src="@drawable/icon_bank_card" />
 
                     <TextView
@@ -124,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/img_card"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_2"
                         android:text="银行卡"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_14" />

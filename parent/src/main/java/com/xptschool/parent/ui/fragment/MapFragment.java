@@ -99,7 +99,7 @@ public class MapFragment extends MapBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        mBaiduMap = mMapView.getMap();
+
         // 开启定位图层
         mBaiduMap.getUiSettings().setRotateGesturesEnabled(true);
         mBaiduMap.setMyLocationEnabled(true);

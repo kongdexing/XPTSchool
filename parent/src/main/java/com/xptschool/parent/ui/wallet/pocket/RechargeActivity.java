@@ -136,13 +136,7 @@ public class RechargeActivity extends BaseActivity {
                 cbx_uppay.setChecked(true);
                 break;
             case R.id.btn_recharge:
-                if (cbx_wxpay.isChecked()) {
-                    toWXpay();
-                } else if (cbx_alipay.isChecked()) {
-                    getOrderInfo();
-                } else {
-                    UPPayAssistEx.startPay(RechargeActivity.this, null, null, "614205026254999379701", mMode);
-                }
+                getOrderInfo();
                 break;
         }
     }
@@ -159,10 +153,19 @@ public class RechargeActivity extends BaseActivity {
     }
 
     private void getOrderInfo() {
+        String payment_id = "0";
+        if (cbx_wxpay.isChecked()) {
+            payment_id = "1";
+        } else if (cbx_alipay.isChecked()) {
+            payment_id = "0";
+        } else {
+            payment_id = "2";
+        }
+
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.GET_OrderInfo, new VolleyHttpParamsEntity()
                 .addParam("deal_price", "0.01")
                 .addParam("num", "1")
-                .addParam("payment_id", "0") //支付方式 0支付宝 1微信
+                .addParam("payment_id", payment_id) //支付方式 0支付宝 1微信 2银联
                 .addParam("type", "0") //充值
                 .addParam("memo", "零钱充值")
                 .addParam("token", CommonUtil.encryptToken(HttpAction.GET_OrderInfo)), new MyVolleyRequestListener() {
@@ -174,23 +177,29 @@ public class RechargeActivity extends BaseActivity {
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
                 super.onResponse(volleyHttpResult);
-                final String orderInfo = volleyHttpResult.getInfo();
-                Runnable payRunnable = new Runnable() {
+                if (cbx_wxpay.isChecked()) {
+                    toWXpay();
+                } else if (cbx_alipay.isChecked()) {
+                    final String orderInfo = volleyHttpResult.getInfo();
+                    Runnable payRunnable = new Runnable() {
 
-                    @Override
-                    public void run() {
-                        PayTask alipay = new PayTask(RechargeActivity.this);
-                        Map<String, String> result = alipay.payV2(orderInfo, true);
-                        Log.i(TAG, "payV2:" + result.toString());
-                        Message msg = new Message();
-                        msg.what = SDK_PAY_FLAG;
-                        msg.obj = result;
-                        mHandler.sendMessage(msg);
-                    }
-                };
-                // 必须异步调用
-                Thread payThread = new Thread(payRunnable);
-                payThread.start();
+                        @Override
+                        public void run() {
+                            PayTask alipay = new PayTask(RechargeActivity.this);
+                            Map<String, String> result = alipay.payV2(orderInfo, true);
+                            Log.i(TAG, "payV2:" + result.toString());
+                            Message msg = new Message();
+                            msg.what = SDK_PAY_FLAG;
+                            msg.obj = result;
+                            mHandler.sendMessage(msg);
+                        }
+                    };
+                    // 必须异步调用
+                    Thread payThread = new Thread(payRunnable);
+                    payThread.start();
+                } else {
+//                    UPPayAssistEx.startPay(RechargeActivity.this, null, null, volleyHttpResult.getData().toString(), mMode);
+                }
             }
 
             @Override
