@@ -69,12 +69,16 @@ public class PocketActivity extends BaseActivity {
 
             @Override
             public void onSuccess() {
-                txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
+                if (txt_pocket_money != null) {
+                    txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
+                }
             }
 
             @Override
             public void onFailed(String error) {
-                txt_pocket_money.setText("获取失败");
+                if (txt_pocket_money != null) {
+                    txt_pocket_money.setText("获取失败");
+                }
             }
         });
 

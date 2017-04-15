@@ -22,7 +22,7 @@
             style="@style/mineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="15.00"
+            android:text=""
             android:textColor="@color/text_black_2" />
     </LinearLayout>
 

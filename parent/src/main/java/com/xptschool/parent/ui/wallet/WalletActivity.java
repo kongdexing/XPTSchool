@@ -20,6 +20,7 @@ import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanLearningModule;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.wallet.bankcard.BankListActivity;
 import com.xptschool.parent.ui.wallet.card.StuCardBalanceActivity;
 import com.xptschool.parent.ui.wallet.pocket.BalanceUtil;
 import com.xptschool.parent.ui.wallet.pocket.PocketActivity;
@@ -65,7 +66,7 @@ public class WalletActivity extends BaseActivity {
         gridview.setAdapter(adapter);
     }
 
-    @OnClick({R.id.rl_stu_card, R.id.rlPocketMoney})
+    @OnClick({R.id.rl_stu_card, R.id.rlPocketMoney, R.id.rlBankCad})
     void viewOnClick(View view) {
         switch (view.getId()) {
             case R.id.rl_stu_card:
@@ -73,6 +74,9 @@ public class WalletActivity extends BaseActivity {
                 break;
             case R.id.rlPocketMoney:
                 startActivity(new Intent(this, PocketActivity.class));
+                break;
+            case R.id.rlBankCad:
+                startActivity(new Intent(this, BankListActivity.class));
                 break;
         }
     }
@@ -85,12 +89,16 @@ public class WalletActivity extends BaseActivity {
 
             @Override
             public void onSuccess() {
-                txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
+                if (txt_pocket_money!=null) {
+                    txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
+                }
             }
 
             @Override
             public void onFailed(String error) {
-                txt_pocket_money.setText("获取失败");
+                if (txt_pocket_money!=null) {
+                    txt_pocket_money.setText("获取失败");
+                }
             }
         });
     }

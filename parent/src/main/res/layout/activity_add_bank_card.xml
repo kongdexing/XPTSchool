@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="请绑定持卡人本人的银行卡" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/dp_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="持卡人："
+            android:textSize="@dimen/sp_16" />
+
+        <EditText
+            android:id="@+id/edtOldPwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:hint="@string/label_tutelage_hint_name"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:text=""
+            android:textColor="@color/text_black_2"
+            android:textColorHint="@color/colorUserName"
+            android:textSize="@dimen/sp_16" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_1"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/dp_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="卡号："
+            android:textSize="@dimen/sp_16" />
+
+        <EditText
+            android:id="@+id/edt_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:hint="@string/label_bankcard_num"
+            android:inputType="number"
+            android:lines="1"
+            android:text=""
+            android:textColor="@color/text_black_2"
+            android:textColorHint="@color/colorUserName"
+            android:textSize="@dimen/sp_16" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/dp_15"
+        android:background="@drawable/btn_bg_normal"
+        android:padding="@dimen/dp_5"
+        android:text="下一步"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_16" />
+
+</LinearLayout>

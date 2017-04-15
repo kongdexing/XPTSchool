@@ -157,11 +157,9 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
         MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_45));
         Log.i(TAG, "initData: MapInfoTop " + MapInfoTop);
         if (mMapView == null) {
-            Log.i(TAG, "initData: mapview is null");
             return;
         }
         mBaiduMap = mMapView.getMap();
-
         mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
             @Override
             public void onMapStatusChangeStart(MapStatus mapStatus) {

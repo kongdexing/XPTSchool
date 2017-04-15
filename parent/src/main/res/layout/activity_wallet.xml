@@ -103,6 +103,7 @@
 
                 <!--交易记录-->
                 <RelativeLayout
+                    android:id="@+id/rlBankCad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

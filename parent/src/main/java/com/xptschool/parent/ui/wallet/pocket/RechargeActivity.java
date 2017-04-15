@@ -198,7 +198,7 @@ public class RechargeActivity extends BaseActivity {
                     Thread payThread = new Thread(payRunnable);
                     payThread.start();
                 } else {
-//                    UPPayAssistEx.startPay(RechargeActivity.this, null, null, volleyHttpResult.getData().toString(), mMode);
+                    UPPayAssistEx.startPay(RechargeActivity.this, null, null, volleyHttpResult.getInfo().toString(), mMode);
                 }
             }
 

@@ -200,6 +200,12 @@
     <string name="progress_stu_card_recharge">正在充值...</string>
     <string name="msg_recharge_failed">充值失败</string>
 
+    <string name="label_bankcard_list">我的银行卡</string>
+    <string name="label_bankcard_add">添加</string>
+    <string name="label_bankcard_addcard">添加银行卡</string>
+    <string name="label_bankcard">银行卡</string>
+    <string name="label_bankcard_num">请输入银行卡号</string>
+
     <!--添加监护人-->
     <string name="label_tutelage_username">用户名：</string>
     <string name="label_tutelage_hint_username">用于登录App或平安校园后台网站</string>

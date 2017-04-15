@@ -114,6 +114,7 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                 mHolder.ll_bottom.setVisibility(View.GONE);
                 Intent intent = new Intent(mContext, CardRechargeActivity.class);
                 intent.putExtra("stu_id", balance.getStu_id());
+                intent.putExtra("balance", balance.getBalances());
                 mContext.startActivity(intent);
             }
         });

@@ -46,6 +46,7 @@ public class CardRechargeActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             current_stuId = bundle.getString("stu_id");
+            txt_current_num.setText(bundle.getString("balance"));
         }
         getPocketBalance();
     }
@@ -78,12 +79,16 @@ public class CardRechargeActivity extends BaseActivity {
 
             @Override
             public void onSuccess() {
-                txt_balance.setText(BalanceUtil.getParentBalance());
+                if (txt_balance != null) {
+                    txt_balance.setText(BalanceUtil.getParentBalance());
+                }
             }
 
             @Override
             public void onFailed(String error) {
-                txt_balance.setText("获取失败");
+                if (txt_balance != null) {
+                    txt_balance.setText("获取失败");
+                }
             }
         });
     }
