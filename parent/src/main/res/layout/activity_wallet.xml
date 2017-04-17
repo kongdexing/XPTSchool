@@ -96,7 +96,7 @@
                         android:layout_below="@+id/title_pocket_money"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dp_2"
-                        android:text="233"
+                        android:text=""
                         android:textColor="@color/white" />
 
                 </RelativeLayout>

@@ -27,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 学生卡余额
+ * 学生卡管理
  */
 public class StuCardBalanceActivity extends BaseListActivity {
 
@@ -71,8 +71,22 @@ public class StuCardBalanceActivity extends BaseListActivity {
             @Override
             public void onSuccess() {
                 List<BeanCardBalance> cardBalances = BalanceUtil.getCardBalances();
-                recyclerView.removeAllViews();
-                adapter.reloadData(cardBalances);
+
+                String stuName = "";
+                for (int i = 0; i < cardBalances.size(); i++) {
+                    BeanStudent student = cardBalances.get(i).getStudent();
+                    if (student.getImei_id().isEmpty()) {
+                        stuName += student.getStu_name() + ",";
+                    }
+                }
+
+                if (!stuName.isEmpty()) {
+                    stuName = stuName.substring(0, stuName.length() - 1);
+                    Toast.makeText(StuCardBalanceActivity.this, "您的孩子【" + stuName + "】未绑定学生卡", Toast.LENGTH_SHORT).show();
+                } else {
+                    recyclerView.removeAllViews();
+                    adapter.reloadData(cardBalances);
+                }
             }
 
             @Override

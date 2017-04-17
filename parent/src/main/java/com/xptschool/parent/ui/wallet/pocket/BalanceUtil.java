@@ -60,12 +60,37 @@ public class BalanceUtil {
                     case HttpAction.SUCCESS:
                         try {
                             JSONObject object = (JSONObject) volleyHttpResult.getData();
-                            JSONObject parent = object.getJSONObject("parent");
-                            parentBalance = parent.getString("account");
+                            try {
+                                JSONObject parent = object.getJSONObject("parent");
+                                parentBalance = parent.getString("account");
+                            } catch (Exception ex) {
+                                parentBalance = "0";
+                            }
+
                             JSONArray students = object.getJSONArray("student");
                             Gson gson = new Gson();
                             cardBalances = gson.fromJson(students.toString(), new TypeToken<List<BeanCardBalance>>() {
                             }.getType());
+
+                            List<BeanStudent> beanStudents = GreenDaoHelper.getInstance().getStudents();
+                            for (int i = 0; i < beanStudents.size(); i++) {
+                                BeanStudent student = beanStudents.get(i);
+                                BeanCardBalance cardBalance = null;
+                                for (int j = 0; j < cardBalances.size(); j++) {
+                                    if (student.getStu_id().equals(cardBalances.get(j).getStu_id())) {
+                                        cardBalance = cardBalances.get(j);
+                                    }
+                                }
+                                if (cardBalance == null) {
+                                    cardBalance = new BeanCardBalance();
+                                    cardBalance.setStudent(student);
+                                    cardBalance.setStu_id(student.getStu_id());
+                                    cardBalance.setFreeze("0");
+                                    cardBalance.setBalances("0.00");
+                                    cardBalances.add(cardBalance);
+                                }
+                            }
+
                             if (callBack != null) {
                                 callBack.onSuccess();
                             }

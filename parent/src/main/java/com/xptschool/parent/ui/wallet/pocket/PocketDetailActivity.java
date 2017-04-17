@@ -93,33 +93,33 @@ public class PocketDetailActivity extends BaseListActivity {
                 switch (volleyHttpResult.getStatus()) {
                     case HttpAction.SUCCESS:
                         try {
-//                            JSONObject jsonObject = new JSONObject(volleyHttpResult.getData().toString());
-//                            resultPage.setPage(jsonObject.getInt("page"));
-//                            resultPage.setTotal_page(jsonObject.getInt("total_page"));
-//                            resultPage.setTotal_count(jsonObject.getInt("total_count"));
-//
-//                            if (resultPage.getTotal_page() > resultPage.getPage()) {
-//                                recyclerView.setAutoLoadMoreEnable(true);
-//                            } else {
-//                                recyclerView.setAutoLoadMoreEnable(false);
-//                            }
-//
-//                            Gson gson = new Gson();
-//                            List<BeanCadBill> homeWorks = gson.fromJson(jsonObject.getJSONArray("content").toString(),
-//                                    new TypeToken<List<BeanCadBill>>() {
-//                                    }.getType());
-//
-//                            if (resultPage.getPage() > 1) {
-//                                adapter.appendData(homeWorks);
-//                            } else {
-//                                //第一页数据
-//                                if (homeWorks.size() == 0) {
-//                                    Toast.makeText(PocketDetailActivity.this, R.string.toast_data_empty, Toast.LENGTH_SHORT).show();
-//                                }
-//                                recyclerView.removeAllViews();
-//                                adapter.refreshData(homeWorks);
-//                            }
-//                            recyclerView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
+                            JSONObject jsonObject = new JSONObject(volleyHttpResult.getData().toString());
+                            resultPage.setPage(jsonObject.getInt("page"));
+                            resultPage.setTotal_page(jsonObject.getInt("total_page"));
+                            resultPage.setTotal_count(jsonObject.getInt("total_count"));
+
+                            if (resultPage.getTotal_page() > resultPage.getPage()) {
+                                recyclerView.setAutoLoadMoreEnable(true);
+                            } else {
+                                recyclerView.setAutoLoadMoreEnable(false);
+                            }
+
+                            Gson gson = new Gson();
+                            List<BeanPocketRecord> homeWorks = gson.fromJson(jsonObject.getJSONArray("content").toString(),
+                                    new TypeToken<List<BeanPocketRecord>>() {
+                                    }.getType());
+
+                            if (resultPage.getPage() > 1) {
+                                adapter.appendData(homeWorks);
+                            } else {
+                                //第一页数据
+                                if (homeWorks.size() == 0) {
+                                    Toast.makeText(PocketDetailActivity.this, R.string.toast_data_empty, Toast.LENGTH_SHORT).show();
+                                }
+                                recyclerView.removeAllViews();
+                                adapter.refreshData(homeWorks);
+                            }
+                            recyclerView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: " + ex.getMessage());
                             Toast.makeText(PocketDetailActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();

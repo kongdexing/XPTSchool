@@ -33,7 +33,6 @@
             android:stretchMode="columnWidth" />
     </LinearLayout>
 
-
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"

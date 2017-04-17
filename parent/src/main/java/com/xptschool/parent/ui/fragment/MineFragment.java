@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.contact.ContactsActivity;
 import com.xptschool.parent.ui.course.CourseActivity;
@@ -20,6 +22,8 @@ import com.xptschool.parent.ui.mine.MyChildActivity;
 import com.xptschool.parent.ui.mine.MyInfoActivity;
 import com.xptschool.parent.ui.setting.SettingActivity;
 import com.xptschool.parent.ui.wallet.WalletActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,7 +89,12 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getContext(), CourseActivity.class));
                 break;
             case R.id.rlMyWellet:
-                startActivity(new Intent(getContext(), WalletActivity.class));
+                List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
+                if (students.size() > 0) {
+                    startActivity(new Intent(getContext(), WalletActivity.class));
+                } else {
+                    Toast.makeText(mContext, "暂无绑定的学生", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.txtChangeAccount:
                 startActivity(new Intent(getContext(), LoginActivity.class));

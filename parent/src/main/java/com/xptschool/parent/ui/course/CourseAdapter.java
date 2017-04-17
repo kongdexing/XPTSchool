@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.LocalImageHelper;
+import com.xptschool.parent.util.ToastUtils;
 import com.xptschool.parent.view.FilterImageView;
 
 import java.util.ArrayList;
@@ -93,7 +95,18 @@ public class CourseAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.txtCourse.setText(getItem(position));
+        final String course = getItem(position);
+        viewHolder.txtCourse.setText(course);
+
+        if (course.length() > 2) {
+            viewHolder.txtCourse.setTextSize(10);
+        }
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.showToast(mContext, course);
+            }
+        });
         return convertView;
     }
 

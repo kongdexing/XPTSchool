@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_height="match_parent"
     android:layout_margin="@dimen/dp_1"
     android:background="@drawable/grdv_item_bg"
     android:orientation="vertical">
@@ -10,9 +9,10 @@
     <TextView
         android:id="@+id/txtCourse"
         style="@style/TextAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:gravity="center"
         android:text="语文"
         android:textColor="@color/color_black_2"
         android:textSize="@dimen/sp_14" />
