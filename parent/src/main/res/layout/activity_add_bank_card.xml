@@ -36,8 +36,6 @@
             android:layout_gravity="center"
             android:background="@null"
             android:hint="@string/label_tutelage_hint_name"
-            android:inputType="textPassword"
-            android:lines="1"
             android:text=""
             android:textColor="@color/text_black_2"
             android:textColorHint="@color/colorUserName"
@@ -97,8 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
-            android:hint="@string/label_bankcard_num"
-            android:inputType="number"
+            android:hint="@string/label_bankcard_name"
             android:lines="1"
             android:text=""
             android:textColor="@color/text_black_2"
@@ -129,7 +126,7 @@
             android:gravity="left">
 
             <LinearLayout
-                android:id="@+id/ll_male"
+                android:id="@+id/ll_type1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -145,15 +142,16 @@
                     app:color_checked="@color/colorPrimary" />
 
                 <TextView
-                    style="@style/mineText"
+                    android:id="@+id/txtCard1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_15"
                     android:text="借记卡" />
+
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_female"
+                android:id="@+id/ll_type2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -168,8 +166,7 @@
                     app:color_checked="@color/colorPrimary" />
 
                 <TextView
-                    android:id="@+id/textView"
-                    style="@style/mineText"
+                    android:id="@+id/txtCard2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_15"
@@ -187,7 +184,7 @@
         android:layout_margin="@dimen/dp_15"
         android:background="@drawable/btn_bg_normal"
         android:padding="@dimen/dp_5"
-        android:text="下一步"
+        android:text="提交"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/sp_16" />
 

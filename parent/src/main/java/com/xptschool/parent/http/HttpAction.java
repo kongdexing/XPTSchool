@@ -96,4 +96,11 @@ public class HttpAction {
     //获取订单信息
     public static String GET_OrderInfo = HEAD + "Order/getOrder";
 
+    //银行卡
+    public static String GET_BankCards = HEAD + "BankCard/query";
+    public static String Add_BankCard = HEAD + "BankCard/add";
+    public static String Delete_BankCard = HEAD + "BankCard/del";
+
+
+
 }
