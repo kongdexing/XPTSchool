@@ -80,7 +80,7 @@ public class CardRechargeActivity extends BaseActivity {
             @Override
             public void onSuccess() {
                 if (txt_balance != null) {
-                    txt_balance.setText(BalanceUtil.getParentBalance());
+                    txt_balance.setText(BalanceUtil.getParentBalance() + "");
                 }
             }
 

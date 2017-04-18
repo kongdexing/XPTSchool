@@ -119,7 +119,12 @@ public class HomeWorkDetailActivity extends AlbumActivity {
     }
 
     private void initData() {
-        spnClasses.setItems(GreenDaoHelper.getInstance().getAllClassNameAppend());
+        List<BeanClass> allClass = GreenDaoHelper.getInstance().getAllClass();
+        if (allClass.size() > 0) {
+            spnClasses.setItems(allClass);
+        } else {
+            spnClasses.setItems("无执教班级");
+        }
 
         spnClasses.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanClass>() {
 

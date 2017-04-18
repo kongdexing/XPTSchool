@@ -62,7 +62,7 @@ public class BankListAdapter extends BaseRecycleAdapter {
             }
         });
         mHolder.txt_bank_name.setText(bankCard.getBankname());
-        mHolder.txt_username.setText("账户名：" + bankCard.getCardholder());
+        mHolder.txt_username.setText("持卡人：" + bankCard.getCardholder());
         String cardNum = bankCard.getCard_no();
         if (cardNum.length() > 4) {
             cardNum = cardNum.substring(cardNum.length() - 4, cardNum.length());

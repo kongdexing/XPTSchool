@@ -1,11 +1,13 @@
 package com.xptschool.parent.ui.wallet.bankcard;
 
+import com.android.widget.spinner.SpinnerModel;
+
 /**
  * Created by dexing on 2017/4/17.
  * No1
  */
 
-public class BeanBankCard {
+public class BeanBankCard extends SpinnerModel {
 
     private String id;
     private String u_id;
@@ -60,5 +62,15 @@ public class BeanBankCard {
 
     public void setCardholder(String cardholder) {
         this.cardholder = cardholder;
+    }
+
+    @Override
+    public String getName() {
+        String cardNum = "";
+        if (card_no.length() > 4) {
+            cardNum = card_no.substring(card_no.length() - 4, card_no.length());
+        }
+        cardNum = bankname + "(" + cardNum + ")";
+        return cardNum;
     }
 }

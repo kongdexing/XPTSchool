@@ -51,6 +51,6 @@
         android:layout_marginRight="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/btn_bg_withdrawl"
-        android:text="提现"
+        android:text="@string/label_takeout"
         android:textSize="@dimen/sp_16" />
 </LinearLayout>

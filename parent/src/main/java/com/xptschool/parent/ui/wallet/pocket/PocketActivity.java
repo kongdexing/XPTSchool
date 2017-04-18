@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -56,7 +57,12 @@ public class PocketActivity extends BaseActivity {
                 startActivity(new Intent(this, RechargeActivity.class));
                 break;
             case R.id.btn_withdraw:
-
+                if (BalanceUtil.getParentBalance() != 0) {
+                    Intent intent = new Intent(this, TakeOutMoneyActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "当前余额为0，不可提现", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

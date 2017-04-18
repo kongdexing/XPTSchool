@@ -85,6 +85,9 @@ public class HttpAction {
     public static String POCKET_BALANCE = HEAD + "OrderBalance/queryAccount";
     //零钱充值记录
     public static String POCKET_RECHARGE_DETAIL = HEAD + "OrderBalance/SmallchangeRecord";
+    //提现
+    public static String REFUND_ADD = HEAD + "UserRefund/addRefund";
+    public static String REFUND_Query = HEAD + "UserRefund/query";
 
     //学生卡充值
     public static String STU_CARD_RECHARGE = HEAD + "OrderBalance/Recharge";
@@ -100,7 +103,6 @@ public class HttpAction {
     public static String GET_BankCards = HEAD + "BankCard/query";
     public static String Add_BankCard = HEAD + "BankCard/add";
     public static String Delete_BankCard = HEAD + "BankCard/del";
-
 
 
 }

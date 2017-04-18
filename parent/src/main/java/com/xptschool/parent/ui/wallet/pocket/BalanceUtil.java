@@ -30,7 +30,7 @@ import java.util.List;
 public class BalanceUtil {
 
     private static String TAG = BalanceUtil.class.getSimpleName();
-    private static String parentBalance = "";
+    private static double parentBalance = 0;
     private static List<BeanCardBalance> cardBalances = new ArrayList<>();
 
     public interface BalanceCallBack {
@@ -62,9 +62,9 @@ public class BalanceUtil {
                             JSONObject object = (JSONObject) volleyHttpResult.getData();
                             try {
                                 JSONObject parent = object.getJSONObject("parent");
-                                parentBalance = parent.getString("account");
+                                parentBalance = Double.parseDouble(parent.getString("account"));
                             } catch (Exception ex) {
-                                parentBalance = "0";
+                                parentBalance = 0;
                             }
 
                             JSONArray students = object.getJSONArray("student");
@@ -119,7 +119,7 @@ public class BalanceUtil {
         });
     }
 
-    public static String getParentBalance() {
+    public static double getParentBalance() {
         return parentBalance;
     }
 
