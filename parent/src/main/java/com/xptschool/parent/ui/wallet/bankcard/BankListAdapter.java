@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xptschool.parent.R;
@@ -31,23 +32,42 @@ import butterknife.Unbinder;
 public class BankListAdapter extends BaseRecycleAdapter {
 
     private List<BeanBankCard> bankCards = new ArrayList<>();
+    private MyItemClickListener listener;
 
     public void refreshData(List<BeanBankCard> beanBankCards) {
         Log.i(TAG, "refreshData: ");
         bankCards = beanBankCards;
     }
 
-    public BankListAdapter(Context context) {
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    public BankListAdapter(Context context, MyItemClickListener clickListener) {
         super(context);
+        listener = clickListener;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder mHolder = (ViewHolder) holder;
         final BeanBankCard bankCard = bankCards.get(position);
+        mHolder.llItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClick(v, bankCard);
+                }
+            }
+        });
         mHolder.txt_bank_name.setText(bankCard.getBankname());
         mHolder.txt_username.setText("账户名：" + bankCard.getCardholder());
-        mHolder.txt_bank_num.setText(bankCard.getCard_no());
+        String cardNum = bankCard.getCard_no();
+        if (cardNum.length() > 4) {
+            cardNum = cardNum.substring(cardNum.length() - 4, cardNum.length());
+        }
+        mHolder.txt_bank_num.setText("**** **** **** " + cardNum);
         if (bankCard.getCard_type().equals("0")) {
             mHolder.txt_bank_type.setText("借记卡");
         } else if (bankCard.getCard_type().equals("1")) {
@@ -72,6 +92,9 @@ public class BankListAdapter extends BaseRecycleAdapter {
 
         private Unbinder unbinder;
 
+        @BindView(R.id.llItem)
+        LinearLayout llItem;
+
         @BindView(R.id.txt_bank_name)
         TextView txt_bank_name;
 
@@ -90,4 +113,9 @@ public class BankListAdapter extends BaseRecycleAdapter {
         }
 
     }
+
+    interface MyItemClickListener {
+        public void onItemClick(View view, BeanBankCard bankCard);
+    }
+
 }

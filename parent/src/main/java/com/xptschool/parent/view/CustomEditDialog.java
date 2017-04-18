@@ -3,6 +3,7 @@ package com.xptschool.parent.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -66,6 +67,10 @@ public class CustomEditDialog implements View.OnClickListener {
 
     public void setHintEdit(String message) {
         edtMessage.setHint(message);
+    }
+
+    public void setEdtInputType(int type){
+        edtMessage.setInputType(type);
     }
 
     public void setAlertDialogClickListener(DialogClickListener listener) {

@@ -1,10 +1,16 @@
 package com.xptschool.parent.ui.wallet.bankcard;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -16,16 +22,21 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.common.ImageUtils;
+import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.ui.album.AlbumActivity;
 import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
 import com.xptschool.parent.ui.wallet.bill.BillActivity;
 import com.xptschool.parent.ui.wallet.bill.BillAdapter;
+import com.xptschool.parent.view.AlbumSourceView;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +51,7 @@ public class BankListActivity extends BaseListActivity {
 
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-
+    private PopupWindow bottomPop;
     private BankListAdapter adapter;
 
     @Override
@@ -62,7 +73,12 @@ public class BankListActivity extends BaseListActivity {
     private void initView() {
         initRecyclerView(recyclerView, swipeRefreshLayout);
 
-        adapter = new BankListAdapter(this);
+        adapter = new BankListAdapter(this, new BankListAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, BeanBankCard bankCard) {
+                showBankCard(bankCard);
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -79,6 +95,14 @@ public class BankListActivity extends BaseListActivity {
                 }
             }
         });
+
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(BankListActivity.this, "click", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         recyclerView.setAdapter(adapter);
         getBankList();
     }
@@ -134,6 +158,70 @@ public class BankListActivity extends BaseListActivity {
                 }
             }
         });
+    }
+
+    private void deleteBankCard(BeanBankCard bankCard) {
+
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.Delete_BankCard, new VolleyHttpParamsEntity()
+                .addParam("id", bankCard.getId())
+                .addParam("token", CommonUtil.encryptToken(HttpAction.Delete_BankCard)), new MyVolleyRequestListener() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgress("正在删除银行卡");
+            }
+
+            @Override
+            public void onResponse(VolleyHttpResult volleyHttpResult) {
+                super.onResponse(volleyHttpResult);
+                hideProgress();
+                Toast.makeText(BankListActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
+                if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                    getBankList();
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                super.onErrorResponse(volleyError);
+                hideProgress();
+            }
+        });
+    }
+
+    private void showBankCard(final BeanBankCard bankCard) {
+
+        if (bottomPop == null) {
+            BankBtmPopView bankBtmPopView = new BankBtmPopView(BankListActivity.this);
+            bankBtmPopView.setBankCardPopClickListener(new BankBtmPopView.BankCrdPopClickListener() {
+                @Override
+                public void onCardDeleteClick() {
+                    deleteBankCard(bankCard);
+                    if (bottomPop != null) {
+                        bottomPop.dismiss();
+                    }
+                }
+
+                @Override
+                public void onBack() {
+                    if (bottomPop != null) {
+                        bottomPop.dismiss();
+                    }
+                }
+            });
+            bottomPop = new PopupWindow(bankBtmPopView,
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+            bottomPop.setTouchable(true);
+            bottomPop.setBackgroundDrawable(new ColorDrawable());
+            bottomPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    backgroundAlpha(1.0f);
+                }
+            });
+        }
+        backgroundAlpha(0.5f);
+        bottomPop.showAtLocation(recyclerView, Gravity.BOTTOM, 0, 0);
     }
 
 }
