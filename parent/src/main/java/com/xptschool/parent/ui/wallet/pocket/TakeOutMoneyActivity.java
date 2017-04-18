@@ -1,8 +1,8 @@
 package com.xptschool.parent.ui.wallet.pocket;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ButtonBarLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,10 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
-import com.xptschool.parent.ui.wallet.bankcard.BankListActivity;
 import com.xptschool.parent.ui.wallet.bankcard.BeanBankCard;
 
 import java.util.List;
@@ -55,12 +53,42 @@ public class TakeOutMoneyActivity extends BaseActivity {
         setTitle(R.string.label_takeout);
         getBankList();
 
-        txt_rest_money.setText(BalanceUtil.getParentBalance() + "");
+        txt_rest_money.setText(BalanceUtil.getParentBalance() + ",");
+        edt_money.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String money = edt_money.getText().toString();
+                if (money.contains(".")) {
+                    int dotLength = money.length() - (money.indexOf(".") + 1);
+                    if (dotLength > 2) {
+                        String _money = money.substring(0, money.length() - 1);
+                        edt_money.setText(_money);
+                    }
+                }
+
+                if (!money.isEmpty() && Double.parseDouble(money) > BalanceUtil.getParentBalance()) {
+                    edt_money.setText(money.substring(0, money.length() - 1));
+                }
+                edt_money.setSelection(edt_money.getText().toString().length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
-    @OnClick({R.id.btn_takeout})
+    @OnClick({R.id.btn_takeout, R.id.txt_all_money})
     void viewOnClick(View view) {
         switch (view.getId()) {
+            case R.id.txt_all_money:
+                edt_money.setText(BalanceUtil.getParentBalance() + "");
+                edt_money.setSelection(edt_money.getText().length());
+                break;
             case R.id.btn_takeout:
                 String money = edt_money.getText().toString().trim();
                 if (money.isEmpty()) {

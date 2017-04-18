@@ -27,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 零钱充值明细
+ * 零钱明细
  */
 public class PocketDetailActivity extends BaseListActivity {
 
