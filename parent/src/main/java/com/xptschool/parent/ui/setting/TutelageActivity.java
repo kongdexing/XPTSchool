@@ -1,6 +1,7 @@
 package com.xptschool.parent.ui.setting;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,10 +14,13 @@ import com.android.widget.view.SmoothCheckBox;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.wallet.pocket.TakeOutMoneyActivity;
 import com.xptschool.parent.view.CustomDialog;
+import com.xptschool.parent.view.CustomEditDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,13 +96,13 @@ public class TutelageActivity extends BaseActivity {
                 cbx_female.setChecked(true);
                 break;
             case R.id.btn_submit:
-                String username = edt_username.getText().toString().trim();
-                String name = edt_name.getText().toString().trim();
-                String phone = edt_phone.getText().toString().trim();
-                String email = edt_email.getText().toString().trim();
-                String home_address = edt_home_address.getText().toString().trim();
-                String home_phone = edt_home_phone.getText().toString().trim();
-                String work_address = edt_work_address.getText().toString().trim();
+                final String username = edt_username.getText().toString().trim();
+                final String name = edt_name.getText().toString().trim();
+                final String phone = edt_phone.getText().toString().trim();
+                final String email = edt_email.getText().toString().trim();
+                final String home_address = edt_home_address.getText().toString().trim();
+                final String home_phone = edt_home_phone.getText().toString().trim();
+                final String work_address = edt_work_address.getText().toString().trim();
 
                 if (username.isEmpty()) {
                     edt_username.setError("用户名不可为空");
@@ -122,7 +126,24 @@ public class TutelageActivity extends BaseActivity {
                         }
                     }
                 }
-                putTutelageInfo(username, name, phone, email, relation_int + "", home_address, work_address, home_phone);
+                final String relation_str = relation_int + "";
+
+                CustomEditDialog editDialog = new CustomEditDialog(this);
+                editDialog.setTitle("用户验证");
+                editDialog.setEdtInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                editDialog.setHintEdit("请输入当前用户登录密码");
+                editDialog.setAlertDialogClickListener(new CustomEditDialog.DialogClickListener() {
+                    @Override
+                    public void onPositiveClick(String value) {
+                        String password = (String) SharedPreferencesUtil.getData(TutelageActivity.this, SharedPreferencesUtil.KEY_PWD, "");
+                        if (value.equals(password)) {
+                            putTutelageInfo(username, name, phone, email, relation_str, home_address, work_address, home_phone);
+                        } else {
+                            Toast.makeText(TutelageActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                });
                 break;
         }
     }

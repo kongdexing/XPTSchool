@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.wallet.pocket;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +20,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.wallet.bankcard.AddBankCardActivity;
 import com.xptschool.parent.ui.wallet.bankcard.BeanBankCard;
+import com.xptschool.parent.view.CustomEditDialog;
 
 import java.util.List;
 
@@ -90,12 +94,27 @@ public class TakeOutMoneyActivity extends BaseActivity {
                 edt_money.setSelection(edt_money.getText().length());
                 break;
             case R.id.btn_takeout:
-                String money = edt_money.getText().toString().trim();
+                final String money = edt_money.getText().toString().trim();
                 if (money.isEmpty()) {
                     Toast.makeText(this, "请输入提款金额", Toast.LENGTH_SHORT).show();
                 }
-                BeanBankCard bankCard = (BeanBankCard) spnBankCard.getSelectedItem();
-                takeoutMoney(money, bankCard.getId());
+                final BeanBankCard bankCard = (BeanBankCard) spnBankCard.getSelectedItem();
+                CustomEditDialog editDialog = new CustomEditDialog(this);
+                editDialog.setTitle("用户验证");
+                editDialog.setEdtInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                editDialog.setHintEdit("请输入当前用户登录密码");
+                editDialog.setAlertDialogClickListener(new CustomEditDialog.DialogClickListener() {
+                    @Override
+                    public void onPositiveClick(String value) {
+                        String password = (String) SharedPreferencesUtil.getData(TakeOutMoneyActivity.this, SharedPreferencesUtil.KEY_PWD, "");
+                        if (value.equals(password)) {
+                            takeoutMoney(money, bankCard.getId());
+                        } else {
+                            Toast.makeText(TakeOutMoneyActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                });
                 break;
         }
     }
