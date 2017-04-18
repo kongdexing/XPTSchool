@@ -27,7 +27,7 @@ public class BannerHelper {
     private static String TAG = BannerHelper.class.getSimpleName();
 
     public static void postShowBanner(BeanBanner banner, String statisticsType) {
-        if (banner == null) {
+        if (banner == null || banner.getId().isEmpty()) {
             return;
         }
         Log.i(TAG, "postShowBanner: ");

@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.setting;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -15,6 +16,7 @@ import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.view.CustomDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +127,7 @@ public class TutelageActivity extends BaseActivity {
         }
     }
 
-    private void putTutelageInfo(String username, String name, String phone, String email, String relation,
+    private void putTutelageInfo(final String username, String name, String phone, String email, String relation,
                                  String home_address, String work_address, String home_phone) {
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.ADD_TUTELAGE, new VolleyHttpParamsEntity()
@@ -143,16 +145,32 @@ public class TutelageActivity extends BaseActivity {
             @Override
             public void onStart() {
                 super.onStart();
+                showProgress(R.string.progress_loading_cn);
             }
 
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
                 super.onResponse(volleyHttpResult);
+                hideProgress();
+                Toast.makeText(TutelageActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
+
+                if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                    CustomDialog dialog = new CustomDialog(TutelageActivity.this);
+                    dialog.setTitle("添加监护人");
+                    dialog.setMessage("添加监护人成功。\n用户名：" + username + "\n密码：123456");
+                    dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+                        @Override
+                        public void onPositiveClick() {
+                            finish();
+                        }
+                    });
+                }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 super.onErrorResponse(volleyError);
+                hideProgress();
             }
         });
     }
