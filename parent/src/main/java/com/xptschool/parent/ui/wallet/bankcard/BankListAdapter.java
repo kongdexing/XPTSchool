@@ -61,8 +61,14 @@ public class BankListAdapter extends BaseRecycleAdapter {
                 }
             }
         });
+        if (position % 2 == 1) {
+            mHolder.llItem.setBackgroundResource(R.drawable.item_selector_odd_bankcard);
+        } else {
+            mHolder.llItem.setBackgroundResource(R.drawable.item_selector_even_bankcard);
+        }
+
         mHolder.txt_bank_name.setText(bankCard.getBankname());
-        mHolder.txt_username.setText("持卡人：" + bankCard.getCardholder());
+        mHolder.txt_username.setText(bankCard.getCardholder());
         String cardNum = bankCard.getCard_no();
         if (cardNum.length() > 4) {
             cardNum = cardNum.substring(cardNum.length() - 4, cardNum.length());

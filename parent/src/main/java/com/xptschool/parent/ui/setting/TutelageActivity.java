@@ -17,6 +17,8 @@ import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.model.BeanStudent;
+import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.wallet.pocket.TakeOutMoneyActivity;
 import com.xptschool.parent.util.ParentUtil;
@@ -62,8 +64,12 @@ public class TutelageActivity extends BaseActivity {
     SmoothCheckBox cbx_male;
     @BindView(R.id.cbx_female)
     SmoothCheckBox cbx_female;
+    @BindView(R.id.spnStudents)
+    MaterialSpinner spnStudents;
+
     //1爸爸2妈妈3爷爷4奶奶5外公6外婆0其它
     private List<String> relations = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,12 @@ public class TutelageActivity extends BaseActivity {
         relations.add("外婆");
         relations.add("其它");
         spnRelation.setItems(relations);
+
+        List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
+        BeanStudent allStu = new BeanStudent();
+        allStu.setStu_name("全部");
+        students.add(allStu);
+        spnStudents.setItems(students);
 
         cbx_male.setChecked(true);
     }
@@ -152,8 +164,16 @@ public class TutelageActivity extends BaseActivity {
     private void putTutelageInfo(final String username, String name, String phone, String email, String relation,
                                  String home_address, String work_address, String home_phone) {
 
+        String stuIds = "";
+        BeanStudent student = (BeanStudent) spnStudents.getSelectedItem();
+        if (student.getStu_id() == null || student.getStu_id().isEmpty()) {
+            stuIds = ParentUtil.getStuId();
+        } else {
+            stuIds = student.getStu_id();
+        }
+
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.ADD_TUTELAGE, new VolleyHttpParamsEntity()
-                .addParam("stu_id", ParentUtil.getStuId())
+                .addParam("stu_id", stuIds)
                 .addParam("username", username)
                 .addParam("name", name)
                 .addParam("phone", phone)

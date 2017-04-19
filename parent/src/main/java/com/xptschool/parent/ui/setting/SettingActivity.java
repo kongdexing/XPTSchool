@@ -16,11 +16,14 @@ import com.umeng.message.PushAgent;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
+import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.main.LoginActivity;
 import com.xptschool.parent.view.CustomDialog;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,7 +69,12 @@ public class SettingActivity extends BaseActivity {
                 startActivity(new Intent(this, ChangePwdActivity.class));
                 break;
             case R.id.rltutelage:
-                startActivity(new Intent(this, TutelageActivity.class));
+                List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
+                if (students.size() != 0) {
+                    startActivity(new Intent(this, TutelageActivity.class));
+                } else {
+                    Toast.makeText(this, "暂无绑定的学生", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.rlExit:
                 CustomDialog dialog = new CustomDialog(SettingActivity.this);

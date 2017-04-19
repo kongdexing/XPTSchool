@@ -66,7 +66,6 @@ public class AddBankCardActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -103,7 +102,7 @@ public class AddBankCardActivity extends BaseActivity {
                 if (!checkBankCard(cardNum)) {
                     CustomDialog dialog = new CustomDialog(AddBankCardActivity.this);
                     dialog.setTitle("银行卡验证");
-                    dialog.setMessage("您输入的银行卡有误，是否继续添加该银行卡？");
+                    dialog.setMessage("您输入的银行卡有误，请重新输入，继续添加？");
                     dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
                         @Override
                         public void onPositiveClick() {

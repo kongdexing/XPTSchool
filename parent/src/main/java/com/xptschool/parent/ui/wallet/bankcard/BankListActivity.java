@@ -27,6 +27,8 @@ import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.model.BeanStudent;
+import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.album.AlbumActivity;
 import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
@@ -53,6 +55,7 @@ public class BankListActivity extends BaseListActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     private PopupWindow bottomPop;
     private BankListAdapter adapter;
+    private String BankType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +99,12 @@ public class BankListActivity extends BaseListActivity {
             }
         });
 
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(BankListActivity.this, "click", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getBankList();
     }
 
@@ -138,10 +139,13 @@ public class BankListActivity extends BaseListActivity {
                             }
                             recyclerView.removeAllViews();
                             adapter.refreshData(bankCards);
-//                            recyclerView.notifyMoreFinish(true);
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: " + ex.getMessage());
                             Toast.makeText(BankListActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
+                            if (recyclerView != null) {
+                                recyclerView.removeAllViews();
+                                adapter.refreshData(null);
+                            }
                         }
                         break;
                     default:

@@ -4,10 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_10"
-    android:background="@drawable/touch_bg"
+    android:background="@drawable/item_selector_odd_bankcard"
     android:clickable="true"
     android:orientation="vertical"
-    android:padding="@dimen/dp_10">
+    android:paddingBottom="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_20"
+    android:paddingRight="@dimen/dp_20"
+    android:paddingTop="@dimen/dp_10">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,8 +20,8 @@
             android:id="@+id/txt_bank_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/color_black_1"
+            android:text="."
+            android:textColor="@color/bg_window"
             android:textSize="@dimen/sp_16" />
 
         <TextView
@@ -27,13 +30,26 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_15"
             android:layout_toRightOf="@+id/txt_bank_name"
-            android:background="@drawable/bg_pay_alipay"
             android:padding="@dimen/dp_2"
-            android:text=""
-            android:textColor="@color/color_black_3"
+            android:text="."
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_14" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_bank_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="."
+            android:textColor="@color/bg_window"
+            android:textSize="@dimen/sp_30" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txt_username"
@@ -41,29 +57,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_5"
         android:text=""
-        android:textColor="@color/color_black_3"
+        android:textColor="@color/bg_window"
         android:textSize="@dimen/sp_16" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_5"
-            android:text="卡号："
-            android:textColor="@color/color_black_3"
-            android:textSize="@dimen/sp_16" />
-
-        <TextView
-            android:id="@+id/txt_bank_num"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_5"
-            android:text=""
-            android:textColor="@color/color_black_3"
-            android:textSize="@dimen/sp_16" />
-    </LinearLayout>
-
 </LinearLayout>
