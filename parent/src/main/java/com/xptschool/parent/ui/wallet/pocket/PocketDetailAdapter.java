@@ -65,29 +65,29 @@ public class PocketDetailAdapter extends BaseRecycleAdapter {
         Log.i(TAG, "showData: ");
         final ViewHolder mHolder = (ViewHolder) holder;
         final BeanPocketRecord record = beanPocketRecords.get(position);
-        mHolder.txt_record_detail.setText(record.getMemo());
-        String payment_id = record.getPayment_id();
-        if (payment_id.equals("0")) {
-            mHolder.txt_pay_type.setText("支付宝");
-            mHolder.txt_pay_type.setBackgroundResource(R.drawable.bg_pay_alipay);
-        } else if (payment_id.equals("1")) {
-            mHolder.txt_pay_type.setText("微信");
-            mHolder.txt_pay_type.setBackgroundResource(R.drawable.bg_pay_wxpay);
-        } else if (payment_id.equals("2")) {
-            mHolder.txt_pay_type.setText("银联在线");
-            mHolder.txt_pay_type.setBackgroundResource(R.drawable.bg_pay_uppay);
-        } else {
-            mHolder.txt_pay_type.setText("未知");
-        }
-        if (record.getIs_paid().equals("0")) {
-            mHolder.txt_pay_status.setText("失败");
-            mHolder.txt_pay_status.setBackgroundResource(R.drawable.bg_pay_failed);
-        } else {
-            mHolder.txt_pay_status.setText("成功");
-            mHolder.txt_pay_status.setBackgroundResource(R.drawable.bg_pay_success);
-        }
-        mHolder.txt_tn.setText("订单号：" + record.getNotice_sn());
-        mHolder.txt_time.setText("订单时间：" + record.getCreate_time());
+//        mHolder.txt_record_detail.setText(record.getMemo());
+//        String payment_id = record.getPayment_id();
+//        if (payment_id.equals("0")) {
+//            mHolder.txt_pay_type.setText("支付宝");
+//            mHolder.txt_pay_type.setBackgroundResource(R.drawable.bg_pay_alipay);
+//        } else if (payment_id.equals("1")) {
+//            mHolder.txt_pay_type.setText("微信");
+//            mHolder.txt_pay_type.setBackgroundResource(R.drawable.bg_pay_wxpay);
+//        } else if (payment_id.equals("2")) {
+//            mHolder.txt_pay_type.setText("银联在线");
+//            mHolder.txt_pay_type.setBackgroundResource(R.drawable.bg_pay_uppay);
+//        } else {
+//            mHolder.txt_pay_type.setText("未知");
+//        }
+//        if (record.getIs_paid().equals("0")) {
+//            mHolder.txt_pay_status.setText("失败");
+//            mHolder.txt_pay_status.setBackgroundResource(R.drawable.bg_pay_failed);
+//        } else {
+//            mHolder.txt_pay_status.setText("成功");
+//            mHolder.txt_pay_status.setBackgroundResource(R.drawable.bg_pay_success);
+//        }
+//        mHolder.txt_tn.setText("订单号：" + record.getNotice_sn());
+//        mHolder.txt_time.setText("订单时间：" + record.getCreate_time());
 
         //充值
         mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorAccent2));

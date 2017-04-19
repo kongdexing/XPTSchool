@@ -84,7 +84,7 @@ public class HttpAction {
     //零钱
     public static String POCKET_BALANCE = HEAD + "OrderBalance/queryAccount";
     //零钱充值记录
-    public static String POCKET_RECHARGE_DETAIL = HEAD + "OrderBalance/SmallchangeRecord";
+    public static String POCKET_RECHARGE_DETAIL = HEAD + "Order/getBillList";
     //提现
     public static String REFUND_ADD = HEAD + "UserRefund/addRefund";
     public static String REFUND_Query = HEAD + "UserRefund/query";
