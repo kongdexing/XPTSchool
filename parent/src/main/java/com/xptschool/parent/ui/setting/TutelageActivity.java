@@ -19,6 +19,7 @@ import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.wallet.pocket.TakeOutMoneyActivity;
+import com.xptschool.parent.util.ParentUtil;
 import com.xptschool.parent.view.CustomDialog;
 import com.xptschool.parent.view.CustomEditDialog;
 
@@ -152,7 +153,7 @@ public class TutelageActivity extends BaseActivity {
                                  String home_address, String work_address, String home_phone) {
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.ADD_TUTELAGE, new VolleyHttpParamsEntity()
-                .addParam("stu_id", "")
+                .addParam("stu_id", ParentUtil.getStuId())
                 .addParam("username", username)
                 .addParam("name", name)
                 .addParam("phone", phone)

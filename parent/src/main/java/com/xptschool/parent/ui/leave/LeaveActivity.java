@@ -95,7 +95,7 @@ public class LeaveActivity extends BaseListActivity {
         });
 
         if (GreenDaoHelper.getInstance().getStudents().size() > 0) {
-            setTxtRight("请假");
+            setTxtRight(R.string.label_leave);
             setTextRightClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

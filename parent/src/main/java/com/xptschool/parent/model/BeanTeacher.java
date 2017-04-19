@@ -36,7 +36,11 @@ public class BeanTeacher extends SpinnerModel {
         if (charge.equals("1")) {
             str += "[班主任]";
         }
-        str += " 代课:(" + crs_name + ")";
+        if (crs_name == null || crs_name.isEmpty()) {
+            str += " 代课:(无)";
+        } else {
+            str += " 代课:(" + crs_name + ")";
+        }
         return str;
     }
 

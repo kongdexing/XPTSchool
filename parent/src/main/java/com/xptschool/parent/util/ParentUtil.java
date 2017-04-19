@@ -35,4 +35,26 @@ public class ParentUtil {
         return strSids;
     }
 
+    public static String getStuId() {
+        String strIds = "";
+        List<String> Ids = new ArrayList<>();
+
+        List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
+        for (int i = 0; i < students.size(); i++) {
+            BeanStudent student = students.get(i);
+            String sid = student.getStu_id();
+            if (!Ids.contains(sid)) {
+                Ids.add(sid);
+            }
+        }
+        for (int i = 0; i < Ids.size(); i++) {
+            strIds += Ids.get(i) + ",";
+        }
+
+        if (strIds.length() > 0) {
+            strIds = strIds.substring(0, strIds.length() - 1);
+        }
+        return strIds;
+    }
+
 }

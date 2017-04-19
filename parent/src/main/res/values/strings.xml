@@ -64,13 +64,14 @@
     <string name="label_endtime">完成时间：</string>
     <string name="label_homework_title">作业名称：</string>
     <string name="label_homework_title_option">作业名称：%1$s</string>
+    <!--<string name="label_leave"-->
     <string name="label_leave_starttime">请假时间：</string>
     <string name="label_leave_endtime">销假时间：</string>
     <string name="label_leave_content">请假事由：</string>
     <string name="label_leave_student">学生：</string>
     <string name="label_leave_type">请假类型：</string>
     <string name="label_leave_status">请假状态：</string>
-    <string name="label_leave">发送</string>
+    <string name="label_leave">请假</string>
     <string name="label_leave_modify">重新发送</string>
     <string name="label_modify">编辑</string>
 

@@ -6,17 +6,11 @@
     android:orientation="vertical"
     tools:context="com.xptschool.parent.ui.wallet.pocket.PocketDetailActivity">
 
-    <com.viewpagerindicator.TabPageIndicator
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.viewpagerindicator.TabPageIndicator>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.android.widget.view.LoadMoreRecyclerView
             android:id="@+id/recyclerview"

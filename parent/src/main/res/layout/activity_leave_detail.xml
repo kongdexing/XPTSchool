@@ -229,7 +229,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/dp_10"
                 android:background="@drawable/btn_bg_normal"
-                android:text="@string/label_leave"
+                android:text="@string/btn_send"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp_18" />
 

@@ -88,6 +88,7 @@ public class LeaveDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leave_detail);
+        setTitle(R.string.label_leave);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

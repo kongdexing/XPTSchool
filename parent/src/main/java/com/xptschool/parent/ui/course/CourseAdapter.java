@@ -28,6 +28,7 @@ public class CourseAdapter extends BaseAdapter {
     private String TAG = CourseAdapter.class.getSimpleName();
 
     public List<String> courses = new ArrayList<>();
+    public List<String> courseWeek = new ArrayList<>();
 
     public CourseAdapter(Context mContext) {
         super();
@@ -36,6 +37,7 @@ public class CourseAdapter extends BaseAdapter {
 
     public void loadDate(LinkedHashMap<String, LinkedHashMap<String, String>> linkedCourse) {
         courses.clear();
+        courseWeek.clear();
         courses.add("节次");
         courses.add("周一");
         courses.add("周二");
@@ -44,6 +46,15 @@ public class CourseAdapter extends BaseAdapter {
         courses.add("周五");
         courses.add("周六");
         courses.add("周日");
+        courseWeek.addAll(courses);
+        courseWeek.add("1");
+        courseWeek.add("2");
+        courseWeek.add("3");
+        courseWeek.add("4");
+        courseWeek.add("5");
+        courseWeek.add("6");
+        courseWeek.add("7");
+        courseWeek.add("8");
 
         Iterator iter = linkedCourse.entrySet().iterator();
         while (iter.hasNext()) {
@@ -104,7 +115,9 @@ public class CourseAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showToast(mContext, course);
+                if (!course.isEmpty() && !courseWeek.contains(course)) {
+                    ToastUtils.showToast(mContext, course);
+                }
             }
         });
         return convertView;
