@@ -73,7 +73,8 @@ public class WalletActivity extends BaseActivity {
                 startActivity(new Intent(this, StuCardBalanceActivity.class));
                 break;
             case R.id.rlPocketMoney:
-                startActivity(new Intent(this, PocketActivity.class));
+                Intent intent = new Intent(this, PocketActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rlBankCad:
                 startActivity(new Intent(this, BankListActivity.class));

@@ -18,7 +18,6 @@ import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseListActivity;
-import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
 
 import org.json.JSONObject;
 
@@ -43,7 +42,7 @@ public class PocketDetailActivity extends BaseListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pocket_detail);
-        setTitle(R.string.label_recharge_detail);
+        setTitle(R.string.label_pocket_bill);
 
         initView();
         getPocketRechargeDetail();

@@ -1,12 +1,14 @@
 package com.xptschool.parent.ui.wallet.pocket;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xptschool.parent.R;
@@ -65,7 +67,18 @@ public class PocketDetailAdapter extends BaseRecycleAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Log.i(TAG, "showData: ");
         final ViewHolder mHolder = (ViewHolder) holder;
+        mHolder.rlItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, BillDetailActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
         final BeanPocketRecord record = beanPocketRecords.get(position);
+        if (record == null) {
+            mHolder.rlItem.setVisibility(View.GONE);
+            return;
+        }
         mHolder.txt_record_detail.setText(record.getLog_info());
         String payment_id = record.getPayment_id();
         if (payment_id.equals("0")) {
@@ -96,6 +109,9 @@ public class PocketDetailAdapter extends BaseRecycleAdapter {
     class ViewHolder extends RecyclerViewHolderBase {
 
         private Unbinder unbinder;
+
+        @BindView(R.id.rlItem)
+        RelativeLayout rlItem;
 
         @BindView(R.id.txt_record_detail)
         TextView txt_record_detail;

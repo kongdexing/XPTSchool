@@ -49,7 +49,7 @@ public class BankCardChooseActivity extends BaseListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bank_list);
+        setContentView(R.layout.activity_bankchoose_list);
         setTitle(R.string.label_bankcard_list);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

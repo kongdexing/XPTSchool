@@ -2,22 +2,12 @@ package com.xptschool.parent.ui.wallet.pocket;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
 import com.xptschool.parent.R;
-import com.xptschool.parent.common.CommonUtil;
-import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
-
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,7 +25,7 @@ public class PocketActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pocket);
         setTitle(R.string.label_pocket_money);
-        setTxtRight(R.string.label_recharge_detail);
+        setTxtRight(R.string.label_pocket_bill);
         setTextRightClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +58,10 @@ public class PocketActivity extends BaseActivity {
     }
 
     private void getPocketBalance() {
+        if (txt_pocket_money != null) {
+            txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
+        }
+
         BalanceUtil.getBalance(new BalanceUtil.BalanceCallBack() {
             @Override
             public void onStart() {
