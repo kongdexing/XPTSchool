@@ -14,6 +14,7 @@ public class BeanPocketRecord {
     private String user_id;
     private String type;
     private String order_id;
+    private String payment_id;
 
     public String getId() {
         return id;
@@ -69,5 +70,13 @@ public class BeanPocketRecord {
 
     public void setOrder_id(String order_id) {
         this.order_id = order_id;
+    }
+
+    public String getPayment_id() {
+        return payment_id;
+    }
+
+    public void setPayment_id(String payment_id) {
+        this.payment_id = payment_id;
     }
 }
