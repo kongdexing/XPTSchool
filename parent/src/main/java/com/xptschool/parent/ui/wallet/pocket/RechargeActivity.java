@@ -172,11 +172,13 @@ public class RechargeActivity extends BaseActivity {
             @Override
             public void onStart() {
                 super.onStart();
+                showProgress(R.string.label_recharge_progress);
             }
 
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
                 super.onResponse(volleyHttpResult);
+                hideProgress();
                 if (cbx_wxpay.isChecked()) {
                     toWXpay();
                 } else if (cbx_alipay.isChecked()) {
@@ -205,6 +207,7 @@ public class RechargeActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 super.onErrorResponse(volleyError);
+                hideProgress();
             }
         });
     }

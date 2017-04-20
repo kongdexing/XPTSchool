@@ -9,8 +9,21 @@
         <item name="colorAccent2">@color/colorAccent2</item>
         <item name="txt_primary_color">@color/text_white</item>
         <item name="android:windowBackground">@color/colorAccent3</item>
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
         <item name="android:textColorSecondary">@color/text_black</item>
         <item name="android:textColor">@color/text_black</item>
+    </style>
+
+    <!-- Activity显示消失动画 -->
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+        <!-- 当打开一个新的Activity，这Animation就会作用于接下来进入屏幕的Activity -->
+        <item name="android:activityOpenEnterAnimation">@anim/open_enter</item>
+        <!-- 当打开一个新的Activity，这Animation就会作用于接下来退出屏幕的Activity -->
+        <item name="android:activityOpenExitAnimation">@anim/open_exit</item>
+        <!-- 当关闭现在的Activity，这个Animation就会作用于接下来的进入屏幕的Activity -->
+        <item name="android:activityCloseEnterAnimation">@anim/close_enter</item>
+        <!-- 当关闭现在的Activity，这个Animation就会作用于接下来的要退出屏幕的Activity -->
+        <item name="android:activityCloseExitAnimation">@anim/close_exit</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

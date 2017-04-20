@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="付款方式"
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/txt_pay_type"
@@ -48,7 +48,7 @@
             android:gravity="right"
             android:text="支付宝"
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,7 +61,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="转账说明"
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/txt_pay_info"
@@ -71,7 +71,7 @@
             android:gravity="right"
             android:text="..."
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <LinearLayout
@@ -84,7 +84,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="交易时间"
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/txt_pay_time"
@@ -94,7 +94,7 @@
             android:gravity="right"
             android:text="...."
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <LinearLayout
@@ -107,7 +107,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="交易订单号"
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/txt_pay_tn"
@@ -117,7 +117,7 @@
             android:gravity="right"
             android:text="....."
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
     <LinearLayout
@@ -130,7 +130,7 @@
             android:layout_marginTop="@dimen/dp_10"
             android:text="商品订单号"
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/txt_pay_bn"
@@ -140,6 +140,6 @@
             android:gravity="right"
             android:text="....."
             android:textColor="@color/color_black_2"
-            android:textSize="@dimen/sp_18" />
+            android:textSize="@dimen/sp_16" />
     </LinearLayout>
 </LinearLayout>

@@ -188,6 +188,7 @@
     <string name="label_pocket_money">零钱</string>
     <string name="label_stu_card">学生卡</string>
     <string name="label_recharge">充值</string>
+    <string name="label_recharge_progress">正在获取账单信息</string>
     <string name="label_takeout">提现</string>
     <string name="label_pocket_bill">明细</string>
     <string name="label_pocket_bill_detail">账单详情</string>
