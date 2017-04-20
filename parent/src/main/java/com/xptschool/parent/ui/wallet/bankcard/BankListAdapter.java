@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
@@ -16,6 +17,7 @@ import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
 import com.xptschool.parent.ui.wallet.bill.BillAdapter;
 import com.xptschool.parent.ui.wallet.pocket.BeanPocketRecord;
 import com.xptschool.parent.ui.wallet.pocket.PocketDetailAdapter;
+import com.xptschool.parent.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,7 @@ public class BankListAdapter extends BaseRecycleAdapter {
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onItemClick(v, bankCard);
+                    listener.onItemClick(v, bankCards.get(position));
                 }
             }
         });
@@ -75,9 +77,9 @@ public class BankListAdapter extends BaseRecycleAdapter {
         }
         mHolder.txt_bank_num.setText("**** **** **** " + cardNum);
         if (bankCard.getCard_type().equals("0")) {
-            mHolder.txt_bank_type.setText("借记卡");
+            mHolder.txt_bank_type.setText(R.string.label_bankcard_type1);
         } else if (bankCard.getCard_type().equals("1")) {
-            mHolder.txt_bank_type.setText("信用卡");
+            mHolder.txt_bank_type.setText(R.string.label_bankcard_type2);
         }
     }
 

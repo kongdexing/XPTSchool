@@ -59,4 +59,5 @@
         android:text=""
         android:textColor="@color/bg_window"
         android:textSize="@dimen/sp_16" />
+
 </LinearLayout>

@@ -208,6 +208,9 @@
     <string name="label_bankcard">银行卡</string>
     <string name="label_bankcard_num">请输入银行卡号</string>
     <string name="label_bankcard_name">请输入银行名称</string>
+    <string name="label_bankcard_type1">储蓄卡</string>
+    <string name="label_bankcard_type2">信用卡</string>
+
 
     <!--添加监护人-->
     <string name="label_tutelage_username">用户名：</string>

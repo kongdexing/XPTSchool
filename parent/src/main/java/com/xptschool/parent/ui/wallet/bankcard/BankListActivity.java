@@ -34,6 +34,7 @@ import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
 import com.xptschool.parent.ui.wallet.bill.BillActivity;
 import com.xptschool.parent.ui.wallet.bill.BillAdapter;
+import com.xptschool.parent.util.ToastUtils;
 import com.xptschool.parent.view.AlbumSourceView;
 
 import org.json.JSONObject;
@@ -165,7 +166,6 @@ public class BankListActivity extends BaseListActivity {
     }
 
     private void deleteBankCard(BeanBankCard bankCard) {
-
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.Delete_BankCard, new VolleyHttpParamsEntity()
                 .addParam("id", bankCard.getId())
                 .addParam("token", CommonUtil.encryptToken(HttpAction.Delete_BankCard)), new MyVolleyRequestListener() {
@@ -194,37 +194,35 @@ public class BankListActivity extends BaseListActivity {
     }
 
     private void showBankCard(final BeanBankCard bankCard) {
+        BankBtmPopView bankBtmPopView = new BankBtmPopView(BankListActivity.this);
+        bankBtmPopView.setBankCardPopClickListener(new BankBtmPopView.BankCrdPopClickListener() {
+            @Override
+            public void onCardDeleteClick() {
+                deleteBankCard(bankCard);
+                if (bottomPop != null) {
+                    bottomPop.dismiss();
+                }
+            }
 
-        if (bottomPop == null) {
-            BankBtmPopView bankBtmPopView = new BankBtmPopView(BankListActivity.this);
-            bankBtmPopView.setBankCardPopClickListener(new BankBtmPopView.BankCrdPopClickListener() {
-                @Override
-                public void onCardDeleteClick() {
-                    deleteBankCard(bankCard);
-                    if (bottomPop != null) {
-                        bottomPop.dismiss();
-                    }
+            @Override
+            public void onBack() {
+                if (bottomPop != null) {
+                    bottomPop.dismiss();
                 }
+            }
+        });
 
-                @Override
-                public void onBack() {
-                    if (bottomPop != null) {
-                        bottomPop.dismiss();
-                    }
-                }
-            });
-            bottomPop = new PopupWindow(bankBtmPopView,
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-            bottomPop.setTouchable(true);
-            bottomPop.setBackgroundDrawable(new ColorDrawable());
-            bottomPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    backgroundAlpha(1.0f);
-                }
-            });
-        }
-        backgroundAlpha(0.5f);
+        bottomPop = new PopupWindow(bankBtmPopView,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        bottomPop.setTouchable(true);
+        bottomPop.setBackgroundDrawable(new ColorDrawable());
+        bottomPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
+        backgroundAlpha(0.8f);
         bottomPop.showAtLocation(recyclerView, Gravity.BOTTOM, 0, 0);
     }
 

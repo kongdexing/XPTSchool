@@ -3,14 +3,14 @@
     <item android:state_pressed="true">
         <shape>
             <corners android:radius="@dimen/dp_5" />
-            <solid android:color="#165ae9" />
+            <solid android:color="#0c2f78" />
         </shape>
     </item>
     <!-- focused state -->
     <item android:state_focused="true">
         <shape>
             <corners android:radius="@dimen/dp_5" />
-            <solid android:color="#165ae9" />
+            <solid android:color="#0c2f78" />
         </shape>
     </item>
     <!-- default state -->

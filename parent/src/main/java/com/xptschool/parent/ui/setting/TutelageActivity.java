@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.setting;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.main.LoginActivity;
 import com.xptschool.parent.ui.wallet.pocket.TakeOutMoneyActivity;
 import com.xptschool.parent.util.ParentUtil;
 import com.xptschool.parent.view.CustomDialog;
@@ -85,6 +87,18 @@ public class TutelageActivity extends BaseActivity {
         relations.add("外婆");
         relations.add("其它");
         spnRelation.setItems(relations);
+        spnRelation.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner materialSpinner, int i, long l, Object o) {
+                if (i == 1 || i == 3 || i == 5) {
+                    cbx_female.setChecked(true);
+                    cbx_male.setChecked(false);
+                } else if (i == 0 || i == 2 || i == 4) {
+                    cbx_female.setChecked(false);
+                    cbx_male.setChecked(true);
+                }
+            }
+        });
 
         List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
         BeanStudent allStu = new BeanStudent();
