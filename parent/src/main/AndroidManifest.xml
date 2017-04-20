@@ -211,6 +211,8 @@
         <activity android:name=".ui.wallet.pocket.PocketDetailActivity" />
         <activity android:name=".ui.wallet.bankcard.AddBankCardActivity" />
         <activity android:name=".ui.wallet.bankcard.BankListActivity" />
+        <activity android:name=".ui.wallet.pocket.BankCardChooseActivity" />
+
         <activity android:name=".ui.wallet.pocket.TakeOutMoneyActivity"></activity>
     </application>
 

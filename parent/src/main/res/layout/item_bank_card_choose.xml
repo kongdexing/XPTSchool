@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_20"
+    android:paddingRight="@dimen/dp_20"
+    android:paddingTop="@dimen/dp_10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_bank_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="民生银行 储蓄卡（3163）"
+            android:textColor="@color/color_black_2"
+            android:textSize="@dimen/sp_16" />
+
+        <com.android.widget.view.SmoothCheckBox
+            android:id="@+id/cbx_choose"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            app:color_checked="@color/colorPrimary" />
+    </RelativeLayout>
+
+</LinearLayout>

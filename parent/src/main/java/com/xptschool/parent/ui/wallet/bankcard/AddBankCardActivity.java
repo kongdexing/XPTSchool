@@ -1,5 +1,6 @@
 package com.xptschool.parent.ui.wallet.bankcard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -49,7 +50,7 @@ public class AddBankCardActivity extends BaseActivity {
     TextView txtCard1;
     @BindView(R.id.txtCard2)
     TextView txtCard2;
-
+    private String cardAddType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,14 @@ public class AddBankCardActivity extends BaseActivity {
         setContentView(R.layout.activity_add_bank_card);
         setTitle(R.string.label_bankcard_addcard);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            cardAddType = bundle.getString("card");
+        }
+        initView();
+    }
+
+    private void initView() {
         cbx_card1.setChecked(true);
         edt_card.addTextChangedListener(new TextWatcher() {
             @Override
@@ -136,13 +145,9 @@ public class AddBankCardActivity extends BaseActivity {
                 }
             });
         } else {
-            String cardType = "";
-            if (cbx_card1.isChecked()) {
-                cardType = "0";
-            } else {
-                cardType = "1";
-            }
+            final String cardType = cbx_card1.isChecked() ? "0" : "1";
 
+            final String _cardType = this.cardAddType;
             VolleyHttpService.getInstance().sendPostRequest(HttpAction.Add_BankCard, new VolleyHttpParamsEntity()
                             .addParam("cardholder", username)
                             .addParam("card_no", card)
@@ -159,10 +164,23 @@ public class AddBankCardActivity extends BaseActivity {
                         public void onResponse(VolleyHttpResult volleyHttpResult) {
                             super.onResponse(volleyHttpResult);
                             hideProgress();
-                            Toast.makeText(AddBankCardActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
                             switch (volleyHttpResult.getStatus()) {
                                 case HttpAction.SUCCESS:
+                                    if (_cardType.equals("get")) {
+                                        String id = volleyHttpResult.getInfo();
+                                        BeanBankCard bankCard = new BeanBankCard();
+                                        bankCard.setBankname(bankname);
+                                        bankCard.setCard_no(card);
+                                        bankCard.setCard_type(cardType);
+                                        bankCard.setId(id);
+                                        Intent intent = new Intent();
+                                        intent.putExtra("card", bankCard);
+                                        setResult(1, intent);
+                                    }
                                     finish();
+                                    break;
+                                default:
+                                    Toast.makeText(AddBankCardActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
                                     break;
                             }
                         }

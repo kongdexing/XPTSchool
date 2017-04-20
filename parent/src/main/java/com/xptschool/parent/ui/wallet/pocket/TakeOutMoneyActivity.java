@@ -1,5 +1,6 @@
 package com.xptschool.parent.ui.wallet.pocket;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -28,6 +29,7 @@ import com.xptschool.parent.ui.wallet.bankcard.AddBankCardActivity;
 import com.xptschool.parent.ui.wallet.bankcard.BeanBankCard;
 import com.xptschool.parent.view.CustomEditDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,8 +40,8 @@ import butterknife.OnClick;
  */
 public class TakeOutMoneyActivity extends BaseActivity {
 
-    @BindView(R.id.spnBankCard)
-    MaterialSpinner spnBankCard;
+//    @BindView(R.id.spnBankCard)
+//    MaterialSpinner spnBankCard;
 
     @BindView(R.id.txt_rest_money)
     TextView txt_rest_money;
@@ -49,6 +51,12 @@ public class TakeOutMoneyActivity extends BaseActivity {
 
     @BindView(R.id.btn_takeout)
     Button btn_takeout;
+
+    @BindView(R.id.txtBankName)
+    TextView txtBankName;
+
+    private BeanBankCard currentCard = null;
+    private ArrayList<BeanBankCard> listCards = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +94,21 @@ public class TakeOutMoneyActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_takeout, R.id.txt_all_money})
+    @OnClick({R.id.txtBankName, R.id.btn_takeout, R.id.txt_all_money})
     void viewOnClick(View view) {
         switch (view.getId()) {
+            case R.id.txtBankName:
+                if (currentCard == null) {
+                    Intent intent = new Intent(this, AddBankCardActivity.class);
+                    intent.putExtra("card", "get");
+                    startActivityForResult(intent, 0);
+                } else {
+                    Intent intent = new Intent(this, BankCardChooseActivity.class);
+                    intent.putParcelableArrayListExtra("listCard", listCards);
+                    intent.putExtra("card", currentCard);
+                    startActivityForResult(intent, 0);
+                }
+                break;
             case R.id.txt_all_money:
                 edt_money.setText(BalanceUtil.getParentBalance() + "");
                 edt_money.setSelection(edt_money.getText().length());
@@ -98,7 +118,7 @@ public class TakeOutMoneyActivity extends BaseActivity {
                 if (money.isEmpty()) {
                     Toast.makeText(this, "请输入提款金额", Toast.LENGTH_SHORT).show();
                 }
-                final BeanBankCard bankCard = (BeanBankCard) spnBankCard.getSelectedItem();
+                final BeanBankCard bankCard = currentCard;
                 CustomEditDialog editDialog = new CustomEditDialog(this);
                 editDialog.setTitle("用户验证");
                 editDialog.setEdtInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -119,6 +139,18 @@ public class TakeOutMoneyActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == 1) {
+                currentCard = data.getParcelableExtra("card");
+                setTxtBankName();
+            }
+        }
+
+    }
+
     private void getBankList() {
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.GET_BankCards, new VolleyHttpParamsEntity()
@@ -135,17 +167,18 @@ public class TakeOutMoneyActivity extends BaseActivity {
                     case HttpAction.SUCCESS:
                         try {
                             Gson gson = new Gson();
-                            List<BeanBankCard> bankCards = gson.fromJson(volleyHttpResult.getData().toString(),
+                            ArrayList<BeanBankCard> bankCards = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<List<BeanBankCard>>() {
                                     }.getType());
 
                             if (bankCards.size() == 0) {
-                                spnBankCard.setItems("未绑定银行卡");
+                                txtBankName.setText("点击绑定银行卡");
                                 btn_takeout.setEnabled(false);
                             } else {
-                                spnBankCard.setItems(bankCards);
+                                listCards = bankCards;
+                                currentCard = bankCards.get(0);
+                                setTxtBankName();
                             }
-
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: " + ex.getMessage());
                         }
@@ -161,6 +194,24 @@ public class TakeOutMoneyActivity extends BaseActivity {
                 super.onErrorResponse(volleyError);
             }
         });
+    }
+
+    private void setTxtBankName() {
+        if (currentCard != null) {
+            String name = currentCard.getBankname();
+
+            if (currentCard.getCard_type().equals("0")) {
+                name += getResources().getString(R.string.label_bankcard_type1);
+            } else if (currentCard.getCard_type().equals("1")) {
+                name += getResources().getString(R.string.label_bankcard_type2);
+            }
+
+            String cardNum = currentCard.getCard_no();
+            if (cardNum.length() > 4) {
+                cardNum = cardNum.substring(cardNum.length() - 4, cardNum.length());
+            }
+            txtBankName.setText(name + "(" + cardNum + ")");
+        }
     }
 
     private void takeoutMoney(String money, String bankId) {

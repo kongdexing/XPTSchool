@@ -1,5 +1,8 @@
 package com.xptschool.parent.ui.wallet.bankcard;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.android.widget.spinner.SpinnerModel;
 
 /**
@@ -7,7 +10,7 @@ import com.android.widget.spinner.SpinnerModel;
  * No1
  */
 
-public class BeanBankCard extends SpinnerModel {
+public class BeanBankCard extends SpinnerModel implements Parcelable{
 
     private String id;
     private String u_id;
@@ -73,4 +76,43 @@ public class BeanBankCard extends SpinnerModel {
         cardNum = bankname + "(" + cardNum + ")";
         return cardNum;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.u_id);
+        dest.writeString(this.card_no);
+        dest.writeString(this.card_type);
+        dest.writeString(this.bankname);
+        dest.writeString(this.cardholder);
+    }
+
+    public BeanBankCard() {
+    }
+
+    protected BeanBankCard(Parcel in) {
+        this.id = in.readString();
+        this.u_id = in.readString();
+        this.card_no = in.readString();
+        this.card_type = in.readString();
+        this.bankname = in.readString();
+        this.cardholder = in.readString();
+    }
+
+    public static final Creator<BeanBankCard> CREATOR = new Creator<BeanBankCard>() {
+        @Override
+        public BeanBankCard createFromParcel(Parcel source) {
+            return new BeanBankCard(source);
+        }
+
+        @Override
+        public BeanBankCard[] newArray(int size) {
+            return new BeanBankCard[size];
+        }
+    };
 }
