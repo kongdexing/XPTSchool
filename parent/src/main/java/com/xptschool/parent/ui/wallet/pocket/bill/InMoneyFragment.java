@@ -99,6 +99,7 @@ public class InMoneyFragment extends BaseFragment {
 
                                     txt_money.setText(pocketRecord.getMoney());
                                     txt_status.setText(beanOrder.getOrder_status());
+                                    txt_pay_type.setText(beanOrder.getPayment_id());
                                     txt_pay_info.setText(beanOrder.getMemo());
                                     txt_pay_time.setText(beanOrder.getCreate_time());
                                     txt_pay_tn.setText(beanOrder.getNotice_sn());

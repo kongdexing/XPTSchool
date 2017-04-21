@@ -96,9 +96,9 @@ public class PocketDetailAdapter extends BaseRecycleAdapter {
         mHolder.txt_time.setText(record.getLog_time());
 
         if (record.getType().equals("充值")) {
-            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorRed_def));
-        } else {
             mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorAccent2));
+        } else {
+            mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorRed_def));
         }
         mHolder.txt_amount.setText(record.getMoney());
 

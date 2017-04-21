@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:gravity="right"
-            android:text="支付宝"
+            android:text=""
             android:textColor="@color/color_black_2"
             android:textSize="@dimen/sp_16" />
     </LinearLayout>
