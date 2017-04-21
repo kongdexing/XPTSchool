@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">平安校园</string>
     <string name="company_tel">400-8788-165</string>
-    <string name="company_name">数海信息技术(集团)有限公司</string>
-    <string name="company_name_es">Copyright©2016 Shuhai Information Technology(Group) \nCo.,Ltd. All rights reserved</string>
+    <string name="company_name">数海信息技术有限公司</string>
+    <string name="company_name_es">Copyright©2016 Shuhai Information Technology \nCo.,Ltd. All rights reserved</string>
 
     <string name="btn_confirm">确定</string>
     <string name="btn_cancel">取消</string>
@@ -190,7 +190,7 @@
     <string name="label_recharge">充值</string>
     <string name="label_recharge_progress">正在获取账单信息</string>
     <string name="label_takeout">提现</string>
-    <string name="label_pocket_bill">明细</string>
+    <string name="label_pocket_bill">账单</string>
     <string name="label_pocket_bill_detail">账单详情</string>
     <string name="label_card_recharge">卡充值</string>
     <string name="label_bill">清单</string>

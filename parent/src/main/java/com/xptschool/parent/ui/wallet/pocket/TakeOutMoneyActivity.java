@@ -198,19 +198,7 @@ public class TakeOutMoneyActivity extends BaseActivity {
 
     private void setTxtBankName() {
         if (currentCard != null) {
-            String name = currentCard.getBankname();
-
-            if (currentCard.getCard_type().equals("0")) {
-                name += getResources().getString(R.string.label_bankcard_type1);
-            } else if (currentCard.getCard_type().equals("1")) {
-                name += getResources().getString(R.string.label_bankcard_type2);
-            }
-
-            String cardNum = currentCard.getCard_no();
-            if (cardNum.length() > 4) {
-                cardNum = cardNum.substring(cardNum.length() - 4, cardNum.length());
-            }
-            txtBankName.setText(name + "(" + cardNum + ")");
+            txtBankName.setText(PocketHelper.getBankShortName(this, currentCard));
         }
     }
 

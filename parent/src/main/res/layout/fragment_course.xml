@@ -20,17 +20,30 @@
             android:textColor="@color/color_black_2"
             android:textSize="@dimen/sp_16" />
 
-        <GridView
+        <com.android.widget.mygridview.MyGridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_below="@+id/llCheckTitle"
             android:layout_centerVertical="true"
+            android:padding="@dimen/dp_5"
             android:listSelector="@null"
             android:numColumns="8"
-            android:padding="@dimen/dp_5"
             android:scrollbars="none"
             android:stretchMode="columnWidth" />
+
+        <!--<GridView-->
+            <!--android:id="@+id/gridview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@+id/llCheckTitle"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:listSelector="@null"-->
+            <!--android:numColumns="8"-->
+            <!--android:padding="@dimen/dp_5"-->
+            <!--android:scrollbars="none"-->
+            <!--android:stretchMode="columnWidth" />-->
     </LinearLayout>
 
     <ProgressBar

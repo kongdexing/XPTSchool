@@ -1,11 +1,14 @@
 package com.xptschool.parent.ui.wallet.pocket;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by dexing on 2017/4/17.
  * No1
  */
 
-public class BeanPocketRecord {
+public class BeanPocketRecord implements Parcelable{
 
     private String id;
     private String log_info;
@@ -79,4 +82,47 @@ public class BeanPocketRecord {
     public void setPayment_id(String payment_id) {
         this.payment_id = payment_id;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.log_info);
+        dest.writeString(this.log_time);
+        dest.writeString(this.money);
+        dest.writeString(this.user_id);
+        dest.writeString(this.type);
+        dest.writeString(this.order_id);
+        dest.writeString(this.payment_id);
+    }
+
+    public BeanPocketRecord() {
+    }
+
+    protected BeanPocketRecord(Parcel in) {
+        this.id = in.readString();
+        this.log_info = in.readString();
+        this.log_time = in.readString();
+        this.money = in.readString();
+        this.user_id = in.readString();
+        this.type = in.readString();
+        this.order_id = in.readString();
+        this.payment_id = in.readString();
+    }
+
+    public static final Creator<BeanPocketRecord> CREATOR = new Creator<BeanPocketRecord>() {
+        @Override
+        public BeanPocketRecord createFromParcel(Parcel source) {
+            return new BeanPocketRecord(source);
+        }
+
+        @Override
+        public BeanPocketRecord[] newArray(int size) {
+            return new BeanPocketRecord[size];
+        }
+    };
 }

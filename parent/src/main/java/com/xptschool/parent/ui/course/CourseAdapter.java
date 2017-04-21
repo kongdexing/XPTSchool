@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.course;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +110,8 @@ public class CourseAdapter extends BaseAdapter {
         final String course = getItem(position);
         viewHolder.txtCourse.setText(course);
 
-        if (course.length() > 2) {
+        if (course.length() > 3) {
+            viewHolder.txtCourse.setGravity(Gravity.LEFT);
             viewHolder.txtCourse.setTextSize(10);
         }
         convertView.setOnClickListener(new View.OnClickListener() {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.xptschool.parent.ui.wallet.pocket.PocketDetailActivity">
+    tools:context="com.xptschool.parent.ui.wallet.pocket.bill.PocketDetailActivity">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"

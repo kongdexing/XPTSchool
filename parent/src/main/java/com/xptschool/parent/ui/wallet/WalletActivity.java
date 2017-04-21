@@ -83,6 +83,9 @@ public class WalletActivity extends BaseActivity {
     }
 
     private void getPocketBalance() {
+        if (txt_pocket_money != null) {
+            txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
+        }
         BalanceUtil.getBalance(new BalanceUtil.BalanceCallBack() {
             @Override
             public void onStart() {
@@ -90,14 +93,14 @@ public class WalletActivity extends BaseActivity {
 
             @Override
             public void onSuccess() {
-                if (txt_pocket_money!=null) {
+                if (txt_pocket_money != null) {
                     txt_pocket_money.setText("¥ " + BalanceUtil.getParentBalance());
                 }
             }
 
             @Override
             public void onFailed(String error) {
-                if (txt_pocket_money!=null) {
+                if (txt_pocket_money != null) {
                     txt_pocket_money.setText("获取失败");
                 }
             }

@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wallet.pocket;
+package com.xptschool.parent.ui.wallet.pocket.bill;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseListActivity;
+import com.xptschool.parent.ui.wallet.pocket.BeanPocketRecord;
 
 import org.json.JSONObject;
 
@@ -72,9 +73,9 @@ public class PocketDetailActivity extends BaseListActivity {
     }
 
     private void getPocketRechargeDetail() {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.POCKET_RECHARGE_DETAIL, new VolleyHttpParamsEntity()
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.POCKET_BILLS, new VolleyHttpParamsEntity()
                 .addParam("page", resultPage.getPage() + "")
-                .addParam("token", CommonUtil.encryptToken(HttpAction.POCKET_RECHARGE_DETAIL)), new MyVolleyRequestListener() {
+                .addParam("token", CommonUtil.encryptToken(HttpAction.POCKET_BILLS)), new MyVolleyRequestListener() {
             @Override
             public void onStart() {
                 super.onStart();

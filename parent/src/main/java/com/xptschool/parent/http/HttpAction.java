@@ -83,8 +83,10 @@ public class HttpAction {
     public static String Learning_Server = HEAD + "Learning/query";
     //零钱
     public static String POCKET_BALANCE = HEAD + "OrderBalance/queryAccount";
-    //零钱充值记录
-    public static String POCKET_RECHARGE_DETAIL = HEAD + "Order/getBillList";
+    //零钱明细记录
+    public static String POCKET_BILLS = HEAD + "Order/getBillList";
+    public static String POCKET_BILL_DETAIL = HEAD + "Order/getBillDetail";
+
     //提现
     public static String REFUND_ADD = HEAD + "UserRefund/addRefund";
     public static String REFUND_Query = HEAD + "UserRefund/query";
@@ -95,6 +97,7 @@ public class HttpAction {
     public static String STU_CARD_FREEZE = HEAD + "OrderBalance/onFreezeChange";
     //学生卡消费记录
     public static String STU_CARD_BILL = HEAD + "OrderBalance/getStuCardBill";
+
 
     //获取订单信息
     public static String GET_OrderInfo = HEAD + "Order/getOrder";

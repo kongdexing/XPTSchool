@@ -80,19 +80,7 @@ public class BankCardChooseAdapter extends BaseRecycleAdapter {
             mHolder.txt_bank_name.setText("添加新银行卡");
             mHolder.cbx_choose.setVisibility(View.GONE);
         } else {
-            String name = bankCard.getBankname();
-
-            if (bankCard.getCard_type().equals("0")) {
-                name += mContext.getResources().getString(R.string.label_bankcard_type1);
-            } else if (bankCard.getCard_type().equals("1")) {
-                name += mContext.getResources().getString(R.string.label_bankcard_type2);
-            }
-
-            String cardNum = bankCard.getCard_no();
-            if (cardNum.length() > 4) {
-                cardNum = cardNum.substring(cardNum.length() - 4, cardNum.length());
-            }
-            mHolder.txt_bank_name.setText(name + "(" + cardNum + ")");
+            mHolder.txt_bank_name.setText(PocketHelper.getBankShortName(mContext, bankCard));
             if (card != null) {
                 if (bankCard.getId().equals(card.getId())) {
                     mHolder.cbx_choose.setChecked(true);

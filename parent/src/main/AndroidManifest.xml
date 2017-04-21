@@ -208,12 +208,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.setting.TutelageActivity" />
-        <activity android:name=".ui.wallet.pocket.PocketDetailActivity" />
+        <activity android:name=".ui.wallet.pocket.bill.PocketDetailActivity" />
         <activity android:name=".ui.wallet.bankcard.AddBankCardActivity" />
         <activity android:name=".ui.wallet.bankcard.BankListActivity" />
         <activity android:name=".ui.wallet.pocket.BankCardChooseActivity" />
         <activity android:name=".ui.wallet.pocket.TakeOutMoneyActivity" />
-        <activity android:name=".ui.wallet.pocket.BillDetailActivity"></activity>
+        <activity android:name=".ui.wallet.pocket.bill.BillDetailActivity"></activity>
     </application>
 
 </manifest>

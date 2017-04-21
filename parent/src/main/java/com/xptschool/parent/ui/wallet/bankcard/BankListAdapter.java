@@ -8,16 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
-import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
-import com.xptschool.parent.ui.wallet.bill.BillAdapter;
-import com.xptschool.parent.ui.wallet.pocket.BeanPocketRecord;
-import com.xptschool.parent.ui.wallet.pocket.PocketDetailAdapter;
-import com.xptschool.parent.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;

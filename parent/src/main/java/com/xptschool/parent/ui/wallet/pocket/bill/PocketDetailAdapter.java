@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.wallet.pocket;
+package com.xptschool.parent.ui.wallet.pocket.bill;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
+import com.xptschool.parent.ui.wallet.pocket.BeanPocketRecord;
+import com.xptschool.parent.ui.wallet.pocket.bill.BillDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,18 +69,19 @@ public class PocketDetailAdapter extends BaseRecycleAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Log.i(TAG, "showData: ");
         final ViewHolder mHolder = (ViewHolder) holder;
-        mHolder.rlItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, BillDetailActivity.class);
-                mContext.startActivity(intent);
-            }
-        });
         final BeanPocketRecord record = beanPocketRecords.get(position);
         if (record == null) {
             mHolder.rlItem.setVisibility(View.GONE);
             return;
         }
+        mHolder.rlItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, BillDetailActivity.class);
+                intent.putExtra("record", record);
+                mContext.startActivity(intent);
+            }
+        });
         mHolder.txt_record_detail.setText(record.getLog_info());
         String payment_id = record.getPayment_id();
         if (payment_id.equals("0")) {
