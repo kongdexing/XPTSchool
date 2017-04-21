@@ -111,18 +111,26 @@ public class ContactsActivity extends BaseActivity {
             BeanStudent student = students.get(j);
 
             for (int i = 0; i < listSchool.size(); i++) {
-                ContactSchool school = (ContactSchool) listSchool.get(i);
-                if (student.getS_id().equals(school.getS_id()) &&
-                        student.getA_id().equals(school.getA_id())) {
-                    teachers.add(school);
+                try {
+                    ContactSchool school = (ContactSchool) listSchool.get(i);
+                    if (student.getS_id().equals(school.getS_id()) &&
+                            student.getA_id().equals(school.getA_id())) {
+                        teachers.add(school);
+                    }
+                } catch (Exception ex) {
+
                 }
             }
 
             for (int i = 0; i < listTeacher.size(); i++) {
-                ContactTeacher teacher = (ContactTeacher) listTeacher.get(i);
-                if (teacher.getS_id().equals(student.getS_id()) &&
-                        teacher.getC_id().equals(student.getC_id())) {
-                    teachers.add(teacher);
+                try {
+                    ContactTeacher teacher = (ContactTeacher) listTeacher.get(i);
+                    if (teacher.getS_id().equals(student.getS_id()) &&
+                            teacher.getC_id().equals(student.getC_id())) {
+                        teachers.add(teacher);
+                    }
+                } catch (Exception ex) {
+
                 }
             }
             String title = student.getName() + " (" + student.getG_name() + student.getC_name() + ")";

@@ -116,11 +116,11 @@ public class OutMoneyFragment extends BaseFragment {
                                             txt_status.setText("正在处理");
                                             llPayTime.setVisibility(View.GONE);
                                         } else if (takeMoney.getIs_pay().equals("2")) {
-                                            txt_status.setText("驳回");
+                                            txt_status.setText("交易取消");
                                             llPayTime.setVisibility(View.VISIBLE);
                                             txt_pay_time.setText(takeMoney.getPay_time());
                                         } else if (takeMoney.getIs_pay().equals("3")) {
-                                            txt_status.setText("成功");
+                                            txt_status.setText("交易成功");
                                             llPayTime.setVisibility(View.VISIBLE);
                                             txt_pay_time.setText(takeMoney.getPay_time());
                                         }

@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="提现方式"
+            android:text="交易方式"
             android:textColor="@color/color_black_2"
             android:textSize="@dimen/sp_16" />
 
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="提现说明"
+            android:text="交易说明"
             android:textColor="@color/color_black_2"
             android:textSize="@dimen/sp_16" />
 
@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:text="交易时间"
+            android:text="完成时间"
             android:textColor="@color/color_black_2"
             android:textSize="@dimen/sp_16" />
 
