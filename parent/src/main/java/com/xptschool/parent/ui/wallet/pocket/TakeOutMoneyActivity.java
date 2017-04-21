@@ -148,7 +148,6 @@ public class TakeOutMoneyActivity extends BaseActivity {
                 setTxtBankName();
             }
         }
-
     }
 
     private void getBankList() {

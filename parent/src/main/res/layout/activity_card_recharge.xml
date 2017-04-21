@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:text=""
             android:textColor="@color/text_black_2" />
     </LinearLayout>
