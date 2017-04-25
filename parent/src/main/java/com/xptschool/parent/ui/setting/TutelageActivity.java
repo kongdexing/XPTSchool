@@ -72,7 +72,6 @@ public class TutelageActivity extends BaseActivity {
     //1爸爸2妈妈3爷爷4奶奶5外公6外婆0其它
     private List<String> relations = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -71,13 +71,16 @@ public class BalanceUtil {
                             Gson gson = new Gson();
                             cardBalances = gson.fromJson(students.toString(), new TypeToken<List<BeanCardBalance>>() {
                             }.getType());
-
+                        } catch (Exception ex) {
+                            Log.i(TAG, "onResponse: error " + ex.getMessage());
+                        } finally {
                             List<BeanStudent> beanStudents = GreenDaoHelper.getInstance().getStudents();
                             for (int i = 0; i < beanStudents.size(); i++) {
                                 BeanStudent student = beanStudents.get(i);
                                 BeanCardBalance cardBalance = null;
                                 for (int j = 0; j < cardBalances.size(); j++) {
                                     if (student.getStu_id().equals(cardBalances.get(j).getStu_id())) {
+                                        Log.i(TAG, "stu_id: " + student.getStu_id());
                                         cardBalance = cardBalances.get(j);
                                     }
                                 }
@@ -90,14 +93,8 @@ public class BalanceUtil {
                                     cardBalances.add(cardBalance);
                                 }
                             }
-
                             if (callBack != null) {
                                 callBack.onSuccess();
-                            }
-                        } catch (Exception ex) {
-                            Log.i(TAG, "onResponse: error " + ex.getMessage());
-                            if (callBack != null) {
-                                callBack.onFailed(ex.getMessage());
                             }
                         }
                         break;

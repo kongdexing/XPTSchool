@@ -91,8 +91,10 @@ public class HttpAction {
     public static String REFUND_ADD = HEAD + "UserRefund/addRefund";
     public static String REFUND_Query = HEAD + "UserRefund/query";
 
+    public static String STU_CARD_ORDERID = HEAD + "OrderBalance/getCardOrderId";
     //学生卡充值
-    public static String STU_CARD_RECHARGE = HEAD + "OrderBalance/Recharge";
+    public static String STU_CARD_RECHARGE = HEAD + "OrderBalance/onCardRecharge";
+
     //学生卡冻结/解冻
     public static String STU_CARD_FREEZE = HEAD + "OrderBalance/onFreezeChange";
     //学生卡消费记录

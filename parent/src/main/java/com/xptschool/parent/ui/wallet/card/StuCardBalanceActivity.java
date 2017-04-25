@@ -75,7 +75,8 @@ public class StuCardBalanceActivity extends BaseListActivity {
                 String stuName = "";
                 for (int i = 0; i < cardBalances.size(); i++) {
                     BeanStudent student = cardBalances.get(i).getStudent();
-                    if (student.getImei_id().isEmpty()) {
+                    if (student != null && (student.getImei_id() == null ||
+                            student.getImei_id().isEmpty())) {
                         stuName += student.getStu_name() + ",";
                     }
                 }
@@ -91,7 +92,7 @@ public class StuCardBalanceActivity extends BaseListActivity {
 
             @Override
             public void onFailed(String error) {
-                if (!error.isEmpty()) {
+                if (error != null && !error.isEmpty()) {
                     Toast.makeText(StuCardBalanceActivity.this, error, Toast.LENGTH_SHORT).show();
                 }
             }

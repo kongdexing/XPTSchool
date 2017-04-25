@@ -22,6 +22,7 @@ import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.setting.TutelageActivity;
 import com.xptschool.parent.ui.wallet.pocket.BalanceUtil;
+import com.xptschool.parent.util.ToastUtils;
 import com.xptschool.parent.view.CustomEditDialog;
 
 import org.json.JSONObject;
@@ -95,6 +96,11 @@ public class CardRechargeActivity extends BaseActivity {
                         Toast.makeText(this, R.string.msg_recharge_greater_than_balance, Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    if (recharge_sum == 0) {
+                        ToastUtils.showToast(this, "余额为0，无法充值");
+                        return;
+                    }
+
                     CustomEditDialog editDialog = new CustomEditDialog(this);
                     editDialog.setTitle("用户验证");
                     editDialog.setEdtInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -104,7 +110,8 @@ public class CardRechargeActivity extends BaseActivity {
                         public void onPositiveClick(String value) {
                             String password = (String) SharedPreferencesUtil.getData(CardRechargeActivity.this, SharedPreferencesUtil.KEY_PWD, "");
                             if (value.equals(password)) {
-                                onStuCardRecharge(recharge_sum + "");
+                                getOrderId(recharge_sum + "");
+//                                onStuCardRecharge(recharge_sum + "");
                             } else {
                                 Toast.makeText(CardRechargeActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
                                 return;
@@ -142,19 +149,57 @@ public class CardRechargeActivity extends BaseActivity {
         });
     }
 
+    private void getOrderId(final String money) {
+
+        VolleyHttpService.getInstance().sendGetRequest(HttpAction.STU_CARD_ORDERID, new MyVolleyRequestListener() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                showProgress(R.string.progress_stu_card_recharge);
+            }
+
+            @Override
+            public void onResponse(VolleyHttpResult volleyHttpResult) {
+                super.onResponse(volleyHttpResult);
+                if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                    try {
+                        JSONObject object = new JSONObject(volleyHttpResult.getData().toString());
+                        String orderId = object.getString("orderId");
+                        String access_token = CommonUtil.md5(orderId + CommonUtil.CARD_KEY);
+                        onStuCardRecharge(money, orderId, access_token);
+                    } catch (Exception ex) {
+                        hideProgress();
+                        ToastUtils.showToast(CardRechargeActivity.this, R.string.msg_recharge_failed);
+                    }
+                } else {
+                    hideProgress();
+                    ToastUtils.showToast(CardRechargeActivity.this, R.string.msg_recharge_failed);
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                super.onErrorResponse(volleyError);
+                hideProgress();
+                ToastUtils.showToast(CardRechargeActivity.this, R.string.msg_recharge_failed);
+            }
+        });
+    }
+
     //学生卡充值
-    private void onStuCardRecharge(String money) {
+    private void onStuCardRecharge(String money, String orderId, String accessToken) {
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.STU_CARD_RECHARGE,
                 new VolleyHttpParamsEntity()
                         .addParam("stu_id", current_stuId)
                         .addParam("account", money)
+                        .addParam("order_id", orderId)
+                        .addParam("access_token", accessToken)
                         .addParam("token", CommonUtil.encryptToken(HttpAction.STU_CARD_RECHARGE)), new MyVolleyRequestListener() {
 
                     @Override
                     public void onStart() {
                         super.onStart();
-                        showProgress(R.string.progress_stu_card_recharge);
                     }
 
                     @Override
@@ -170,8 +215,8 @@ public class CardRechargeActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         super.onErrorResponse(volleyError);
-                        Toast.makeText(CardRechargeActivity.this, R.string.msg_recharge_failed, Toast.LENGTH_SHORT).show();
                         hideProgress();
+                        Toast.makeText(CardRechargeActivity.this, R.string.msg_recharge_failed, Toast.LENGTH_SHORT).show();
                     }
                 });
 

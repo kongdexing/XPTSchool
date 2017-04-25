@@ -20,6 +20,7 @@ import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.ui.wallet.bill.BillActivity;
+import com.xptschool.parent.util.ToastUtils;
 import com.xptschool.parent.view.CustomDialog;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class BalanceAdapter extends BaseRecycleAdapter {
         mHolder.txt_balance.setText(balance.getBalances());
         mHolder.txt_classname.setText("班级：" + student.getG_name() + student.getC_name());
         mHolder.txt_birthday.setText("出生日期：" + student.getBirth_date());
-        mHolder.txt_school_time.setText("入学时间：" + student.getStu_id());
+        mHolder.txt_school_time.setText("入学时间：" + student.getRx_date());
         mHolder.txt_school.setText("学校：" + student.getS_name());
 
         mHolder.rl_stu_card.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +139,10 @@ public class BalanceAdapter extends BaseRecycleAdapter {
             public void onClick(View v) {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
-
+                if (Double.parseDouble(balance.getBalances()) == 0) {
+                    ToastUtils.showToast(mContext, "当前卡余额为0，不可操作！");
+                    return;
+                }
                 CustomDialog dialog = new CustomDialog(mContext);
                 if (freeze_status.equals("0")) {
                     dialog.setTitle(R.string.label_freeze);

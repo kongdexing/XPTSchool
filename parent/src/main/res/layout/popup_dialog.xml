@@ -31,13 +31,13 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/line2"
         android:layout_below="@id/line"
-        android:gravity="center"
+        android:gravity="center|left"
         android:lineSpacingMultiplier="1.2"
         android:paddingBottom="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="20dp"
-        android:text="13223"
+        android:text="123"
         android:textColor="#1a1a1a"
         android:textSize="16sp" />
 

@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 public class CommonUtil {
 
     private static String TAG = CommonUtil.class.getSimpleName();
+    public static String CARD_KEY = "shuhaixinxi_stu_card_recharge_order";
     private static DisplayImageOptions options;
 
     public static String getCurrentDate() {

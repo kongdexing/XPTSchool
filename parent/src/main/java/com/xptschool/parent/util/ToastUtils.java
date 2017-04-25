@@ -27,6 +27,10 @@ public class ToastUtils {
      */
     private static long twoTime = 0;
 
+    public static void showToast(Context context, int msgId) {
+        showToast(context, context.getResources().getString(msgId));
+    }
+
     /**
      * 显示Toast
      *
