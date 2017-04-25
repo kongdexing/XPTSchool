@@ -70,10 +70,16 @@ public class BillAdapter extends BaseRecycleAdapter {
 
         if (cardBill.getStatus().equals("1")) {
             //充值
+            if (cardBill.getDescribe() == null || cardBill.getDescribe().isEmpty()) {
+                mHolder.txt_bill_detail.setText("充值");
+            }
             mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorAccent2));
             mHolder.txt_amount.setText("+" + cardBill.getBalances());
         } else {
             //消费
+            if (cardBill.getDescribe() == null || cardBill.getDescribe().isEmpty()) {
+                mHolder.txt_bill_detail.setText("消费");
+            }
             mHolder.txt_amount.setTextColor(mContext.getResources().getColor(R.color.colorRed_def));
             mHolder.txt_amount.setText("-" + cardBill.getBalances());
         }

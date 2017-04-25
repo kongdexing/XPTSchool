@@ -165,7 +165,7 @@ public class CardRechargeActivity extends BaseActivity {
                     try {
                         JSONObject object = new JSONObject(volleyHttpResult.getData().toString());
                         String orderId = object.getString("orderId");
-                        String access_token = CommonUtil.md5(orderId + CommonUtil.CARD_KEY);
+                        String access_token = CommonUtil.md5(orderId + CommonUtil.CARD_KEY + current_stuId + money);
                         onStuCardRecharge(money, orderId, access_token);
                     } catch (Exception ex) {
                         hideProgress();

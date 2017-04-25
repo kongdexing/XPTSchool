@@ -197,6 +197,7 @@ public class TakeOutMoneyActivity extends BaseActivity {
 
     private void setTxtBankName() {
         if (currentCard != null) {
+            btn_takeout.setEnabled(true);
             txtBankName.setText(PocketHelper.getBankShortName(this, currentCard));
         }
     }
