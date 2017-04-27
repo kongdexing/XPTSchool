@@ -98,6 +98,7 @@ public class HomeFragment extends BaseFragment {
         if (viewPagerTop != null) {
             viewPagerTop.startAutoScroll();
         }
+        Log.i(TAG, "onResume: ");
     }
 
     @OnClick({R.id.home_homework, R.id.home_alarm, R.id.home_checkin, R.id.home_score,
@@ -156,6 +157,7 @@ public class HomeFragment extends BaseFragment {
     public void onPause() {
         super.onPause();
         viewPagerTop.stopAutoScroll();
+        Log.i(TAG, "onPause: ");
     }
 
     @Override
