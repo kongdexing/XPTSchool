@@ -84,11 +84,11 @@ public class PocketDetailAdapter extends BaseRecycleAdapter {
         });
         mHolder.txt_record_detail.setText(record.getLog_info());
         String payment_id = record.getPayment_id();
-        if (payment_id.equals("0")) {
+        if ("支付宝".equals(payment_id)) {
             mHolder.img_pay_type.setBackgroundResource(R.drawable.icon_alipay);
-        } else if (payment_id.equals("1")) {
+        } else if ("微信".equals(payment_id)) {
             mHolder.img_pay_type.setBackgroundResource(R.drawable.icon_appwx_logo);
-        } else if (payment_id.equals("2")) {
+        } else if ("银联".equals(payment_id)) {
             mHolder.img_pay_type.setBackgroundResource(R.drawable.icon_uppay);
         } else {
             mHolder.img_pay_type.setBackgroundResource(0);

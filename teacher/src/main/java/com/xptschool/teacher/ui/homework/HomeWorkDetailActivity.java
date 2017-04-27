@@ -122,6 +122,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         List<BeanClass> allClass = GreenDaoHelper.getInstance().getAllClass();
         if (allClass.size() > 0) {
             spnClasses.setItems(allClass);
+            loadCourseByClass(allClass.get(0));
         } else {
             spnClasses.setItems("无执教班级");
         }
@@ -130,15 +131,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
 
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
-                List<BeanCourse> courses = new ArrayList<BeanCourse>();
-                if (item != null && item.getG_id() != null) {
-                    courses = GreenDaoHelper.getInstance().getCourseByGId(item.getG_id());
-                }
-                if (courses.size() == 0) {
-                    spnCourse.setItems("无课程");
-                } else {
-                    spnCourse.setItems(courses);
-                }
+                loadCourseByClass(item);
             }
         });
 
@@ -257,6 +250,22 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             llCreateTime.setVisibility(View.GONE);
             edtName.setText(spnCourse.getText() + "作业");
             edtName.setSelection(edtName.getText().length());
+        }
+    }
+
+    private void loadCourseByClass(BeanClass item) {
+        if (item == null) {
+            spnCourse.setItems("无课程");
+            return;
+        }
+        List<BeanCourse> courses = new ArrayList<BeanCourse>();
+        if (item != null && item.getG_id() != null) {
+            courses = GreenDaoHelper.getInstance().getCourseByGId(item.getG_id());
+        }
+        if (courses.size() == 0) {
+            spnCourse.setItems("无课程");
+        } else {
+            spnCourse.setItems(courses);
         }
     }
 

@@ -6,8 +6,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +32,16 @@ public class CourseAdapter extends BaseAdapter {
     private Context mContext;
     private String TAG = CourseAdapter.class.getSimpleName();
 
+    private GridView mGridView;
     public List<String> courses = new ArrayList<>();
     public List<String> courseWeek = new ArrayList<>();
+    public List<Integer> rowHeights = new ArrayList<>();
+    private boolean reDraw = false;
 
-    public CourseAdapter(Context mContext) {
+    public CourseAdapter(Context mContext, GridView gridView) {
         super();
         this.mContext = mContext;
+        this.mGridView = gridView;
     }
 
     public void loadDate(LinkedHashMap<String, LinkedHashMap<String, String>> linkedCourse) {
@@ -48,14 +56,12 @@ public class CourseAdapter extends BaseAdapter {
         courses.add("周六");
         courses.add("周日");
         courseWeek.addAll(courses);
-        courseWeek.add("1");
-        courseWeek.add("2");
-        courseWeek.add("3");
-        courseWeek.add("4");
-        courseWeek.add("5");
-        courseWeek.add("6");
-        courseWeek.add("7");
-        courseWeek.add("8");
+
+        for (int i = 0; i < 8; i++) {
+            courseWeek.add((i + 1) + "");
+            rowHeights.add(0);
+        }
+        rowHeights.add(0);
 
         Iterator iter = linkedCourse.entrySet().iterator();
         while (iter.hasNext()) {
@@ -102,7 +108,9 @@ public class CourseAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.item_gridview_course, parent, false);
             viewHolder = new ViewHolder();
+            viewHolder.rlContent = (RelativeLayout) convertView.findViewById(R.id.rlContent);
             viewHolder.txtCourse = (TextView) convertView.findViewById(R.id.txtCourse);
+            viewHolder.txtCourse.setTag(position);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -112,8 +120,9 @@ public class CourseAdapter extends BaseAdapter {
 
         if (course.length() > 3) {
             viewHolder.txtCourse.setGravity(Gravity.LEFT);
-            viewHolder.txtCourse.setTextSize(10);
+            viewHolder.txtCourse.setTextSize(12);
         }
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,11 +131,49 @@ public class CourseAdapter extends BaseAdapter {
                 }
             }
         });
+
+        int rowHeight = rowHeights.get(position / CourseHelper.GRIVEW_COLUMN_NUMS);
+        if (rowHeight == 0) {
+            //统计最高行
+            initKeyTextView(viewHolder.txtCourse, position);
+        } else {
+            //重新绘制
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                    rowHeight);
+            lp.setMargins(5, 5, 5, 5);
+            viewHolder.txtCourse.setLayoutParams(lp);
+        }
         return convertView;
     }
 
     class ViewHolder {
+        RelativeLayout rlContent;
         TextView txtCourse;
     }
+
+    public void initKeyTextView(final View courseView, final int position) {
+        ViewTreeObserver vto2 = courseView.getViewTreeObserver();
+        vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                courseView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                if (position % CourseHelper.GRIVEW_COLUMN_NUMS == 0) {
+                    CourseHelper.GRIVIEW_COLUMN_HEIGHT = 0;
+                }
+                if (courseView.getHeight() > CourseHelper.GRIVIEW_COLUMN_HEIGHT) {
+                    CourseHelper.GRIVIEW_COLUMN_HEIGHT = courseView.getHeight();
+                }
+                rowHeights.set(position / CourseHelper.GRIVEW_COLUMN_NUMS, CourseHelper.GRIVIEW_COLUMN_HEIGHT);
+
+                if (position == getCount() - 1) {
+                    if (!reDraw) {
+                        reDraw = true;
+                        notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
+
 
 }

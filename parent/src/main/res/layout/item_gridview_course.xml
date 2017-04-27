@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlContent"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_1"
@@ -13,7 +14,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="语文"
-        android:textColor="@color/color_black_2"
-        android:textSize="@dimen/sp_14" />
+        android:textColor="@color/color_black_2" />
 
 </RelativeLayout>

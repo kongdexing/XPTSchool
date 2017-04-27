@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
+import com.android.widget.mygridview.MyGridView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
@@ -34,6 +37,7 @@ public class CourseFragment extends Fragment {
     private CourseAdapter adapter;
     private ProgressBar progress;
     private TextView txtClassName;
+    private GridView gridview;
     private BeanStudent currentStudent;
 
     public CourseFragment() {
@@ -54,10 +58,10 @@ public class CourseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_course, container, false);
-        GridView gridview = (GridView) view.findViewById(R.id.gridview);
+        gridview = (GridView) view.findViewById(R.id.gridview);
         txtClassName = (TextView) view.findViewById(R.id.txtClassName);
         progress = (ProgressBar) view.findViewById(R.id.progress);
-        adapter = new CourseAdapter(getContext());
+        adapter = new CourseAdapter(getContext(), gridview);
         gridview.setAdapter(adapter);
 
         txtClassName.setText(currentStudent.getG_name() + currentStudent.getC_name());
