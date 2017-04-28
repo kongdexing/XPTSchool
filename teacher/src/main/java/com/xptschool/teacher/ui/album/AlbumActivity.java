@@ -57,8 +57,12 @@ public class AlbumActivity extends TakePhotoActivity {
                         Toast.makeText(AlbumActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    TakePhoto takePhoto = getTakePhoto();
+                    configCompress(takePhoto);
+                    configTakePhotoOption(takePhoto);
                     int limit = LocalImageHelper.getInstance().getCurrentEnableMaxChoiceSize();
-                    getTakePhoto().onPickMultiple(limit);
+//                    takePhoto.onPickMultiple(limit);
+                    takePhoto.onPickMultipleWithCrop(limit, getCropOptions());
                     picPopup.dismiss();
                 }
 
@@ -112,7 +116,7 @@ public class AlbumActivity extends TakePhotoActivity {
     }
 
     private void configCompress(TakePhoto takePhoto) {
-        int maxSize = 102400;
+        int maxSize = 204800;
         int width = 800;
         int height = 800;
         boolean showProgressBar = true;
@@ -164,11 +168,12 @@ public class AlbumActivity extends TakePhotoActivity {
 
     private void showImg(ArrayList<TImage> images) {
         for (int i = 0; i < images.size(); i++) {
-            String path = images.get(i).getOriginalPath();
-            if (path.isEmpty()) {
-                path = images.get(i).getCompressPath();
-            }
-            String patch = "file://" + path;
+            String patch = images.get(i).getCompressPath();
+//            if (path.isEmpty()) {
+//                path = images.get(i).getCompressPath();
+//            }
+            patch = "file://" + patch;
+            Log.i(TAG, "showImg: " + patch);
             if (!LocalImageHelper.getInstance().getLocalCheckedImgs().contains(patch)) {
                 LocalImageHelper.getInstance().getLocalCheckedImgs().add(patch);
             }
@@ -186,8 +191,10 @@ public class AlbumActivity extends TakePhotoActivity {
     public void showViewPager(AlbumViewPager albumviewpager, int index) {
         if (albumviewpager == null)
             return;
+        Log.i(TAG, "showViewPager: ");
         albumviewpager.setVisibility(View.VISIBLE);
-        albumviewpager.setAdapter(albumviewpager.new LocalViewPagerAdapter(LocalImageHelper.getInstance().getLocalCheckedImgs()));
+//        albumviewpager.setAdapter(albumviewpager.new LocalViewPagerAdapter(LocalImageHelper.getInstance().getLocalCheckedImgs()));
+        albumviewpager.setAdapter(albumviewpager.new LocalViewPagerAdapter(myPicGridAdapter.getImgPaths()));
         albumviewpager.setCurrentItem(index);
         AnimationSet set = new AnimationSet(true);
         ScaleAnimation scaleAnimation = new ScaleAnimation((float) 0.9, 1, (float) 0.9, 1, albumviewpager.getWidth() / 2, albumviewpager.getHeight() / 2);
@@ -203,6 +210,7 @@ public class AlbumActivity extends TakePhotoActivity {
     public void showNetImgViewPager(AlbumViewPager albumviewpager, List<String> imgUris, int index) {
         if (albumviewpager == null)
             return;
+        Log.i(TAG, "showNetImgViewPager: ");
         albumviewpager.setVisibility(View.VISIBLE);
         albumviewpager.setAdapter(albumviewpager.new NetViewPagerAdapter(imgUris));
         albumviewpager.setCurrentItem(index);
@@ -220,15 +228,17 @@ public class AlbumActivity extends TakePhotoActivity {
     public void hideViewPager(AlbumViewPager albumviewpager) {
         if (albumviewpager == null)
             return;
-        albumviewpager.setVisibility(View.GONE);
-        AnimationSet set = new AnimationSet(true);
-        ScaleAnimation scaleAnimation = new ScaleAnimation(1, (float) 0.9, 1, (float) 0.9, albumviewpager.getWidth() / 2, albumviewpager.getHeight() / 2);
-        scaleAnimation.setDuration(200);
-        set.addAnimation(scaleAnimation);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
-        alphaAnimation.setDuration(200);
-        set.addAnimation(alphaAnimation);
-        albumviewpager.startAnimation(set);
+        if (albumviewpager.getVisibility() == View.VISIBLE) {
+            albumviewpager.setVisibility(View.GONE);
+            AnimationSet set = new AnimationSet(true);
+            ScaleAnimation scaleAnimation = new ScaleAnimation(1, (float) 0.9, 1, (float) 0.9, albumviewpager.getWidth() / 2, albumviewpager.getHeight() / 2);
+            scaleAnimation.setDuration(200);
+            set.addAnimation(scaleAnimation);
+            AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+            alphaAnimation.setDuration(200);
+            set.addAnimation(alphaAnimation);
+            albumviewpager.startAnimation(set);
+        }
     }
 
     @Override

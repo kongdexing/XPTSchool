@@ -153,7 +153,9 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         myPicGridAdapter = new AlbumGridAdapter(this, new AlbumGridAdapter.MyGridViewClickListener() {
             @Override
             public void onGridViewItemClick(int position, String imgPath) {
+                Log.i(TAG, "onGridViewItemClick: " + imgPath);
                 if (currentHomeWork != null && !canModify) {
+                    Log.i(TAG, "onGridViewItemClick: " + canModify);
                     showNetImgViewPager(albumviewpager, currentHomeWork.getFile_path(), position);
                 } else {
                     if (position == 0) {
@@ -162,9 +164,8 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                             return;
                         }
                         showAlbumSource(albumviewpager);
-                    } else if (canModify) {
-                        showNetImgViewPager(albumviewpager, currentHomeWork.getFile_path(), position - 1);
-                    } else {
+                    }
+                    else {
                         showViewPager(albumviewpager, position - 1);
                     }
                 }
@@ -386,7 +387,12 @@ public class HomeWorkDetailActivity extends AlbumActivity {
 //        }
 
         for (int i = 0; i < uploadFile.size(); i++) {
-            Log.i(TAG, "uploadFile: " + uploadFile.get(i));
+            File file1 = new File(uploadFile.get(i));
+            Log.i(TAG, "uploadFile: " + file1.getPath() + " size:" + file1.length());
+            if (file1.length() > 2 * 1024 * 1024) {
+                Toast.makeText(this, "存在大于2MB的文件，请删除后重新添加", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
         VolleyHttpService.getInstance().uploadFiles(HttpAction.HOMEWORK_ADD, entity, uploadFile,

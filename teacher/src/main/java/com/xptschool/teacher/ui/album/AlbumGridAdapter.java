@@ -38,9 +38,7 @@ public class AlbumGridAdapter extends BaseAdapter {
                 tempImgs.add(imgs.get(j));
             }
         }
-
         this.imgPaths.addAll(tempImgs);
-
         notifyDataSetChanged();
     }
 

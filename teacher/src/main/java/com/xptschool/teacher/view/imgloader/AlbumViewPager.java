@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +128,9 @@ public class AlbumViewPager extends ViewPager implements MatrixImageView.OnMovin
 
         public LocalViewPagerAdapter(List<String> paths) {
             this.paths = paths;
+            for (int i = 0; i < paths.size(); i++) {
+                Log.i(TAG, "LocalViewPagerAdapter: " + paths.get(i));
+            }
         }
 
         public void reloadPath(List<String> paths) {
@@ -150,6 +154,7 @@ public class AlbumViewPager extends ViewPager implements MatrixImageView.OnMovin
             imageView.setOnMovingListener(AlbumViewPager.this);
             imageView.setOnSingleTapListener(onSingleTapListener);
             String path = paths.get(position);
+            Log.i(TAG, "instantiateItem: " + path);
             ImageLoader.getInstance().displayImage(path, new ImageViewAware(imageView), localOptions, loadingListener,
                     new ProcessListener(imageLayout));
             return imageLayout;
