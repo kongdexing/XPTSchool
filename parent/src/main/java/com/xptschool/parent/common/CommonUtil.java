@@ -78,12 +78,7 @@ public class CommonUtil {
     public static Date getDateBefore(int day) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        if (7 >= dayOfMonth) {
-            calendar.add(Calendar.DAY_OF_MONTH, dayOfMonth == 7 ? (-6) : -dayOfMonth);
-        } else {
-            calendar.add(Calendar.DAY_OF_MONTH, -day);
-        }
+        calendar.add(Calendar.DAY_OF_MONTH, -day);
         return calendar.getTime();
     }
 

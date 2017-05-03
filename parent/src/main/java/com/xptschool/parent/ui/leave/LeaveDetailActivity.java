@@ -172,8 +172,8 @@ public class LeaveDetailActivity extends BaseActivity {
             llLeaveStatus.setVisibility(View.GONE);
             rlLeaveReply.setVisibility(View.GONE);
             btnDelete.setVisibility(View.GONE);
-            txtSTime.setText(CommonUtil.dateToStr(CommonUtil.getDateBefore(-1)));
-            txtETime.setText(CommonUtil.dateToStr(CommonUtil.getDateBefore(-2)));
+            txtSTime.setText(CommonUtil.dateToStr(CommonUtil.getDateBefore(0)));
+            txtETime.setText(CommonUtil.dateToStr(CommonUtil.getDateBefore(-1)));
             setViewEnable(true);
         } else {
             setViewEnable(false);

@@ -49,7 +49,10 @@
                         android:layout_width="@dimen/dp_80"
                         android:layout_height="@dimen/dp_80"
                         android:clickable="true"
-                        android:src="@drawable/student_boy" />
+                        android:src="@drawable/student_boy"
+                        app:border_alpha="178"
+                        app:border_color="@color/colorWhite"
+                        app:border_width="3dp" />
 
                     <TextView
                         android:id="@+id/txtStuName"

@@ -2,6 +2,7 @@ package com.xptschool.parent.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.RelativeLayout;
 
 /**
@@ -10,6 +11,8 @@ import android.widget.RelativeLayout;
  */
 
 public class SquareLayout extends RelativeLayout {
+
+    private String TAG = SquareLayout.class.getSimpleName();
 
     public SquareLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -24,12 +27,20 @@ public class SquareLayout extends RelativeLayout {
     }
 
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
+        Log.i(TAG, "onMeasure: widthMeasureSpec " + widthMeasureSpec + " heightMeasureSpec:" + heightMeasureSpec);
+//        setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
+//
+//        int childWidthSize = getMeasuredWidth();
+//        int childHeightSize = getMeasuredHeight();
+//        Log.i(TAG, "onMeasure: childWidthSize " + childWidthSize + " childHeightSize:" + childHeightSize);
+//
+//        heightMeasureSpec = widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);
 
-        int childWidthSize = getMeasuredWidth();
-        int childHeightSize = getMeasuredHeight();
+        Log.i(TAG, "makeMeasureSpec: heightMeasureSpec " + heightMeasureSpec);
 
-        heightMeasureSpec = widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+
+        Log.i(TAG, "onMeasure");
+
     }
 }
