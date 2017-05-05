@@ -55,7 +55,7 @@ public class WelcomeActivity extends BaseActivity {
         WelcomeActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    @NeedsPermission(Manifest.permission.READ_PHONE_STATE)
+    @NeedsPermission({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void canReadPhoneState() {
         Log.i(TAG, "canReadPhoneState: ");
         final Intent intent = new Intent();
@@ -85,7 +85,7 @@ public class WelcomeActivity extends BaseActivity {
         }
     }
 
-    @OnPermissionDenied(Manifest.permission.READ_PHONE_STATE)
+    @OnPermissionDenied({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onReadPhoneStateDenied() {
         Log.i(TAG, "onReadPhoneStateDenied: ");
         // NOTE: Deal with a denied permission, e.g. by showing specific UI
@@ -93,7 +93,7 @@ public class WelcomeActivity extends BaseActivity {
         Toast.makeText(this, R.string.permission_readphonestate_denied, Toast.LENGTH_SHORT).show();
     }
 
-    @OnShowRationale(Manifest.permission.READ_PHONE_STATE)
+    @OnShowRationale({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void showRationaleForReadPhoneState(PermissionRequest request) {
         // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
         // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
@@ -101,7 +101,7 @@ public class WelcomeActivity extends BaseActivity {
         request.proceed();
     }
 
-    @OnNeverAskAgain(Manifest.permission.READ_PHONE_STATE)
+    @OnNeverAskAgain({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onReadPhoneStateNeverAskAgain() {
         Log.i(TAG, "onReadPhoneStateNeverAskAgain: ");
         Toast.makeText(this, R.string.permission_readphonestate_never_askagain, Toast.LENGTH_SHORT).show();

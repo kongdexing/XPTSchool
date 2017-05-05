@@ -3,6 +3,7 @@ package com.xptschool.parent.ui.question;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.android.widget.audiorecorder.AudioRecorderButton;
+import com.android.widget.audiorecorder.Recorder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
@@ -26,6 +29,7 @@ import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +43,12 @@ public class QuestionDetailActivity extends BaseActivity {
 
     @BindView(R.id.listview)
     ListView listview;
+
+    @BindView(R.id.imgVoiceOrText)
+    ImageView imgVoiceOrText;
+
+    @BindView(R.id.id_recorder_button)
+    AudioRecorderButton mAudioRecorderButton;
 
     @BindView(R.id.edtContent)
     EditText edtContent;
@@ -65,6 +75,14 @@ public class QuestionDetailActivity extends BaseActivity {
     private void initView() {
         adapter = new QuestionDetailAdapter(this);
         listview.setAdapter(adapter);
+        mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
+
+            public void onFinish(float seconds, String filePath) {
+                Recorder recorder = new Recorder(seconds, filePath);
+
+            }
+        });
+
     }
 
     @OnClick(R.id.btnSend)

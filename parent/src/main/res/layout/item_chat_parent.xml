@@ -7,31 +7,6 @@
     android:padding="@dimen/dp_5">
 
     <RelativeLayout
-        android:id="@+id/rlTeacher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.android.widget.view.CircularImageView
-            android:id="@+id/imgTeacher"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
-            android:background="@drawable/user_defaulthead" />
-
-        <TextView
-            android:id="@+id/txtTeacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_60"
-            android:layout_toRightOf="@+id/imgTeacher"
-            android:background="@drawable/chatfrom_bg"
-            android:clickable="true"
-            android:gravity="left|center_vertical"
-            android:text="" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rlParent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -68,23 +43,23 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/txtParent"
+            android:id="@+id/txtContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_5"
-            android:layout_toLeftOf="@+id/imgParent"
+            android:layout_toLeftOf="@+id/imgUser"
             android:background="@drawable/chatto_bg"
             android:clickable="true"
             android:gravity="left|center_vertical"
             android:maxWidth="@dimen/dp_200"
-            android:text=""
-            android:visibility="gone" />
+            android:text="223" />
 
         <RelativeLayout
             android:id="@+id/rlVoice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/imgParent">
+            android:layout_toLeftOf="@+id/imgUser"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/id_recorder_time"
@@ -115,7 +90,7 @@
         </RelativeLayout>
 
         <com.android.widget.view.CircularImageView
-            android:id="@+id/imgParent"
+            android:id="@+id/imgUser"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
             android:layout_alignParentRight="true"

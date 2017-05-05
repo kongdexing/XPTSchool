@@ -1,6 +1,7 @@
 package com.xptschool.parent.ui.question;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
  */
 public class QuestionDetailAdapter extends BaseAdapter {
 
+    private String TAG = QuestionDetailAdapter.class.getSimpleName();
     private List<BeanQuestionTalk> listQuestions = new ArrayList<>();
     private Context mContext;
 
@@ -69,96 +71,125 @@ public class QuestionDetailAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        ViewHolder mHolder = null;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.item_chat, viewGroup, false);
-            mHolder = new ViewHolder(convertView);
-            convertView.setTag(mHolder);
-        } else {
-            mHolder = (ViewHolder) convertView.getTag();
-        }
+        Log.i(TAG, "getView: " + position);
         final BeanQuestionTalk question = listQuestions.get(position);
         BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
         if (parent == null) {
-            mHolder.rlParent.setVisibility(View.GONE);
-            mHolder.rlTeacher.setVisibility(View.GONE);
             return convertView;
+        }
+        ViewHolder mHolder = null;
+
+        if (question.getSender_id().equals(parent.getU_id())) {
+            //自己消息
+            if (convertView == null) {
+                convertView = LayoutInflater.from(mContext).inflate(
+                        R.layout.item_chat_parent, viewGroup, false);
+                mHolder = new ViewHolderParent(convertView);
+                convertView.setTag(mHolder);
+            } else {
+                mHolder = (ViewHolderParent) convertView.getTag();
+            }
+        } else {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(mContext).inflate(
+                        R.layout.item_chat_teacher, viewGroup, false);
+                mHolder = new ViewHolder(convertView);
+                convertView.setTag(mHolder);
+            } else {
+                mHolder = (ViewHolder) convertView.getTag();
+            }
         }
 
         if (question.getSender_id().equals(parent.getU_id())) {
-            //家长提问
-            mHolder.sendProgress.setVisibility(View.GONE);
-            mHolder.llResend.setVisibility(View.GONE);
-
+            //家长提问，提问发送状态
             if (question.getSendStatus().equals(MessageSendStatus.FAILED)) {
-                mHolder.llResend.setVisibility(View.VISIBLE);
-                mHolder.llResend.setOnClickListener(new View.OnClickListener() {
+                ((ViewHolderParent) mHolder).llResend.setVisibility(View.VISIBLE);
+                ((ViewHolderParent) mHolder).llResend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         ((QuestionDetailActivity) mContext).sendAnswer(question);
                     }
                 });
             } else if (question.getSendStatus().equals(MessageSendStatus.SENDING)) {
-                mHolder.sendProgress.setVisibility(View.VISIBLE);
+                ((ViewHolderParent) mHolder).sendProgress.setVisibility(View.VISIBLE);
             }
 
-            mHolder.rlParent.setVisibility(View.VISIBLE);
-            mHolder.rlTeacher.setVisibility(View.GONE);
             if (parent.getSex().equals("1")) {
-                mHolder.imgParent.setImageResource(R.drawable.parent_father);
+                ((ViewHolderParent) mHolder).imgUser.setImageResource(R.drawable.parent_father);
             } else {
-                mHolder.imgParent.setImageResource(R.drawable.parent_mother);
+                ((ViewHolderParent) mHolder).imgUser.setImageResource(R.drawable.parent_mother);
             }
-            mHolder.txtParent.setText(question.getContent());
         } else {
             //老师回复
-            mHolder.rlParent.setVisibility(View.GONE);
-            mHolder.rlTeacher.setVisibility(View.VISIBLE);
             if (question.getReceiver_sex().equals("1")) {
-                mHolder.imgTeacher.setImageResource(R.drawable.teacher_man);
+                mHolder.imgUser.setImageResource(R.drawable.teacher_man);
             } else {
-                mHolder.imgTeacher.setImageResource(R.drawable.teacher_woman);
+                mHolder.imgUser.setImageResource(R.drawable.teacher_woman);
             }
-            mHolder.txtTeacher.setText(question.getContent());
         }
+
+        if (!question.getContent().isEmpty()) {
+            mHolder.txtContent.setVisibility(View.VISIBLE);
+            mHolder.rlVoice.setVisibility(View.GONE);
+            //聊天内容
+            mHolder.txtContent.setText(question.getContent());
+        }
+        //聊天时长
+
         return convertView;
     }
 
     @Override
     public Object getItem(int i) {
+        Log.i(TAG, "getItem: " + i);
         return listQuestions.get(i);
     }
 
     @Override
     public long getItemId(int i) {
+        Log.i(TAG, "getItemId: " + i);
         return i;
     }
 
     @Override
+    public int getItemViewType(int position) {
+        Log.i(TAG, "getItemViewType: " + position);
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public int getCount() {
+        Log.i(TAG, "getCount: " + listQuestions.size());
         return listQuestions.size();
     }
 
     public class ViewHolder {
 
-        @BindView(R.id.rlParent)
-        RelativeLayout rlParent;
+        @BindView(R.id.imgUser)
+        CircularImageView imgUser;
 
-        @BindView(R.id.rlTeacher)
-        RelativeLayout rlTeacher;
+        @BindView(R.id.txtContent)
+        TextView txtContent;
 
-        @BindView(R.id.imgParent)
-        CircularImageView imgParent;
+        @BindView(R.id.rlVoice)
+        RelativeLayout rlVoice;
 
-        @BindView(R.id.imgTeacher)
-        CircularImageView imgTeacher;
+        @BindView(R.id.id_recorder_length)
+        RelativeLayout id_recorder_length;
 
-        @BindView(R.id.txtParent)
-        TextView txtParent;
+        @BindView(R.id.id_recorder_anim)
+        View id_recorder_anim;
 
-        @BindView(R.id.txtTeacher)
-        TextView txtTeacher;
+        @BindView(R.id.id_recorder_time)
+        TextView id_recorder_time;
+
+        public ViewHolder(View itemView) {
+            ButterKnife.bind(this, itemView);
+        }
+
+    }
+
+    public class ViewHolderParent extends ViewHolder {
 
         @BindView(R.id.sendProgress)
         ProgressBar sendProgress;
@@ -166,10 +197,10 @@ public class QuestionDetailAdapter extends BaseAdapter {
         @BindView(R.id.llResend)
         LinearLayout llResend;
 
-        public ViewHolder(View itemView) {
+        public ViewHolderParent(View itemView) {
+            super(itemView);
             ButterKnife.bind(this, itemView);
         }
-
     }
 
 }
