@@ -1,4 +1,4 @@
-package com.xptschool.parent.server;
+package com.xptschool.teacher.server;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -11,12 +11,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.gson.JsonObject;
-import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.common.BroadcastAction;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.question.BaseMessage;
+import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.common.BroadcastAction;
+import com.xptschool.teacher.model.BeanTeacher;
+import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.ui.question.BaseMessage;
 
 import org.json.JSONObject;
 
@@ -31,12 +30,13 @@ import java.net.Socket;
 
 public class SocketService extends Service {
 
-    private static String TAG = "PSocketService";
+    private static String TAG = "TSocketService";
 //    private static String socketIP = "192.168.1.195";
 //    private static int socketPort = 5020;
+
     private static String socketIP = "chat.pcuion.com";
     private static int socketPort = 50300;
-    private static final String RECONNECT_ALARM = "com.xptschool.parent.RECONNECT_ALARM";
+    private static final String RECONNECT_ALARM = "com.xptschool.teacher.RECONNECT_ALARM";
     private Intent mAlarmIntent = new Intent(RECONNECT_ALARM);
     //    private static Socket mSocket = null;
     private static SocketReceiveThread receiveThread;
@@ -97,6 +97,7 @@ public class SocketService extends Service {
     public void sendMessage(BaseMessage message) {
         Log.i(TAG, "sendMessage: " + message.getAllData().length);
         if (sendThread != null) {
+            Log.i(TAG, "sendMessage sendThread is null ");
             sendThread = null;
         }
         sendThread = new SocketSendThread(message);
@@ -113,9 +114,9 @@ public class SocketService extends Service {
         public void run() {
             super.run();
             try {
-                BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-                if (parent == null || parent.getU_id() == null || parent.getU_id().isEmpty()) {
-                    Log.i(TAG, "receiver run parent is null ");
+                BeanTeacher teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
+                if (teacher == null || teacher.getU_id() == null || teacher.getU_id().isEmpty()) {
+                    Log.i(TAG, "receiver run teacher is null ");
                     return;
                 }
                 Socket mSocket = new Socket(socketIP, socketPort);
@@ -124,15 +125,15 @@ public class SocketService extends Service {
                     return;
                 }
                 OutputStream outputStream = mSocket.getOutputStream();
+                InputStream mmInStream = mSocket.getInputStream();
+
                 JSONObject object = new JSONObject();
-                object.put("tertype", "2"); //1老师端，2家长端
-                object.put("id", parent.getU_id());
+                object.put("tertype", "1"); //1老师端，2家长端
+                object.put("id", teacher.getU_id());
                 Log.i(TAG, "receiver run write :" + object.toString());
                 outputStream.write(object.toString().getBytes());
                 outputStream.flush();
                 mSocket.shutdownOutput();
-
-                InputStream mmInStream = mSocket.getInputStream();
                 int responseSize = mmInStream.available();
                 Log.i(TAG, "run: mmInStream available " + responseSize);
                 if (responseSize > 0) {

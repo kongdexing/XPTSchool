@@ -138,7 +138,6 @@ public class XPTApplication extends Application {
         //CustomNotificationHandler notificationClickHandler = new CustomNotificationHandler();
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
-        SocketManager.getInstance().init(this);
     }
 
     // Initialize the image loader stratetry

@@ -16,8 +16,10 @@ public class BeanQuestion implements Parcelable {
     private String c_name;
     private String g_name;
     private String sender_name;
+    private String sender_id;
     private String sender_sex;
     private String receiver_name;
+    private String receiver_id;
     private String receiver_sex;
     private String create_time;
 
@@ -87,22 +89,6 @@ public class BeanQuestion implements Parcelable {
         this.receiver_name = receiver_name;
     }
 
-    public String getSender_sex() {
-        return sender_sex;
-    }
-
-    public void setSender_sex(String sender_sex) {
-        this.sender_sex = sender_sex;
-    }
-
-    public String getReceiver_sex() {
-        return receiver_sex;
-    }
-
-    public void setReceiver_sex(String receiver_sex) {
-        this.receiver_sex = receiver_sex;
-    }
-
     public String getCreate_time() {
         return create_time;
     }
@@ -119,6 +105,38 @@ public class BeanQuestion implements Parcelable {
         this.sendStatus = sendStatus;
     }
 
+    public String getSender_sex() {
+        return sender_sex;
+    }
+
+    public void setSender_sex(String sender_sex) {
+        this.sender_sex = sender_sex;
+    }
+
+    public String getReceiver_sex() {
+        return receiver_sex;
+    }
+
+    public void setReceiver_sex(String receiver_sex) {
+        this.receiver_sex = receiver_sex;
+    }
+
+    public String getSender_id() {
+        return sender_id;
+    }
+
+    public void setSender_id(String sender_id) {
+        this.sender_id = sender_id;
+    }
+
+    public String getReceiver_id() {
+        return receiver_id;
+    }
+
+    public void setReceiver_id(String receiver_id) {
+        this.receiver_id = receiver_id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -133,8 +151,10 @@ public class BeanQuestion implements Parcelable {
         dest.writeString(this.c_name);
         dest.writeString(this.g_name);
         dest.writeString(this.sender_name);
+        dest.writeString(this.sender_id);
         dest.writeString(this.sender_sex);
         dest.writeString(this.receiver_name);
+        dest.writeString(this.receiver_id);
         dest.writeString(this.receiver_sex);
         dest.writeString(this.create_time);
         dest.writeInt(this.sendStatus == null ? -1 : this.sendStatus.ordinal());
@@ -151,8 +171,10 @@ public class BeanQuestion implements Parcelable {
         this.c_name = in.readString();
         this.g_name = in.readString();
         this.sender_name = in.readString();
+        this.sender_id = in.readString();
         this.sender_sex = in.readString();
         this.receiver_name = in.readString();
+        this.receiver_id = in.readString();
         this.receiver_sex = in.readString();
         this.create_time = in.readString();
         int tmpSendStatus = in.readInt();

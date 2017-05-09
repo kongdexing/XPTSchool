@@ -34,7 +34,7 @@
         android:name=".XPTApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -90,10 +90,7 @@
         <activity android:name=".ui.question.QuestionActivity" />
         <activity android:name=".ui.mine.MyClassesActivity" />
         <activity android:name=".ui.mine.StudentsActivity" />
-        <activity
-            android:name=".ui.question.QuestionDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.question.QuestionDetailActivity" />
         <activity android:name=".ui.score.ScoreActivity" />
         <activity android:name=".ui.checkin.CheckinActivity" />
         <activity android:name=".ui.checkin.ChechinDetailActivity" />
@@ -139,6 +136,8 @@
         <activity android:name=".ui.mine.ChangePwdActivity" />
         <activity android:name=".ui.mine.SettingActivity" />
         <activity android:name=".ui.main.WebViewActivity"></activity>
+
+        <service android:name=".server.SocketService" />
     </application>
 
 </manifest>

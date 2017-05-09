@@ -35,6 +35,7 @@ import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanBanner;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
+import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.fragment.BaseFragment;
 import com.xptschool.parent.ui.fragment.HomeFragment;
 import com.xptschool.parent.ui.fragment.MapFragment;
@@ -114,6 +115,8 @@ public class MainActivity extends BaseActivity {
                 Log.i(TAG, "PushAgent enable onFailure: " + s + " s1 " + s1);
             }
         });
+
+        SocketManager.getInstance().init(this);
     }
 
     private void initView() {

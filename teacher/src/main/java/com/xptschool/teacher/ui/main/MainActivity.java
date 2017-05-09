@@ -38,6 +38,7 @@ import com.xptschool.teacher.model.BeanClass;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
+import com.xptschool.teacher.server.SocketManager;
 import com.xptschool.teacher.ui.fragment.BaseFragment;
 import com.xptschool.teacher.ui.fragment.HomeFragment;
 import com.xptschool.teacher.ui.fragment.MapFragment;
@@ -115,6 +116,8 @@ public class MainActivity extends BaseActivity {
                 Log.i(TAG, "PushAgent enable onFailure: " + s + " s1 " + s1);
             }
         });
+
+        SocketManager.getInstance().init(this);
     }
 
     private void initView() {
