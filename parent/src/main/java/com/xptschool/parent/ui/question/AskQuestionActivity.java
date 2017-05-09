@@ -1,10 +1,8 @@
 package com.xptschool.parent.ui.question;
 
-import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -31,26 +29,14 @@ import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.BeanTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.util.ChatUtil;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -204,8 +190,8 @@ public class AskQuestionActivity extends BaseActivity {
                 try {
                     BeanTeacher teacher = (BeanTeacher) spnTeacher.getSelectedItem();
 
-//                    File file = new File(recorder.getFilePath());
-                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
+                    File file = new File(recorder.getFilePath());
+//                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
                     BaseMessage message = new BaseMessage();
                     message.setType('2');
                     message.setFilename(file.getName());
@@ -215,41 +201,17 @@ public class AskQuestionActivity extends BaseActivity {
                     FileInputStream inputStream = new FileInputStream(file);
                     final byte[] allByte = message.packData(inputStream);
                     inputStream.close();
-//                    QMessage message = new QMessage();
-//                    message.setType('2');
-//                    message.setFilename(file.getName().toCharArray());
-//                    message.setSize((int) file.length());
-//                    message.setParentId(Integer.parseInt(GreenDaoHelper.getInstance().getCurrentParent().getU_id()));
-//                    message.setTeacherId(Integer.parseInt(teacher.getU_id()));
-//
-//                    FileInputStream inputStream = new FileInputStream(recorder.getFilePath());
-//                    Log.i(TAG, "file length: " + inputStream.available());
-//                    if (inputStream.available() > 10 * 1024) {
-//                        return;
-//                    }
-//                    byte[] fileBuf = new byte[10 * 1024];
-//                    char[] fileChar = new char[inputStream.available()];
-//                    while (inputStream.read(fileBuf) != -1) {
-//                        Log.i(TAG, "inputStream read length: " + fileBuf.length);
-//                        fileChar = getChars(fileBuf);
-//                        Log.i(TAG, "inputStream fileChar length: " + fileChar.length);
-//                    }
-//                    Log.i(TAG, "inputStream allFileChar length: " + fileChar.length);
-////                    message.setFilebuf(fileChar);
-//
-//                    final byte[] allByte = toByteArray(message);
-
-//                    QMessage msg = (QMessage) toObject(allByte);
-//                    Log.i(TAG, "QMessage toObject : " + msg.toString());
 
                     if (allByte != null) {
-                        analyseData(allByte);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                connectServerWithTCPSocket(allByte);
-                            }
-                        }).start();
+//                        analyseData(allByte);
+                        message.setAllData(allByte);
+                        SocketManager.getInstance().sendMessage(message);
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                connectServerWithTCPSocket(allByte);
+//                            }
+//                        }).start();
                     }
                 } catch (Exception ex) {
                     Log.i(TAG, "viewClick: " + ex.getMessage());
@@ -268,13 +230,13 @@ public class AskQuestionActivity extends BaseActivity {
             Log.i(TAG, "analyseData: b_osType:" + new String(b_osType));
 
             byte[] b_size = subBytes(allByte, 2, 4);
-            Log.i(TAG, "analyseData: b_size:" + BaseMessage.byteArrayToInt(b_size));
+            Log.i(TAG, "analyseData: b_size:" + ChatUtil.byteArrayToInt(b_size));
 
             byte[] b_pId = subBytes(allByte, 6, 4);
-            Log.i(TAG, "analyseData: b_pId:" + (BaseMessage.byteArrayToInt(b_pId)));
+            Log.i(TAG, "analyseData: b_pId:" + (ChatUtil.byteArrayToInt(b_pId)));
 
             byte[] b_tId = subBytes(allByte, 10, 4);
-            Log.i(TAG, "analyseData: b_tId:" + (BaseMessage.byteArrayToInt(b_tId)));
+            Log.i(TAG, "analyseData: b_tId:" + (ChatUtil.byteArrayToInt(b_tId)));
 
             byte[] b_filename = subBytes(allByte, 14, 15);
             Log.i(TAG, "analyseData: b_filename:" + (new String(b_filename)));

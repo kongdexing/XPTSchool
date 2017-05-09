@@ -39,12 +39,13 @@
 
         <ImageView
             android:id="@+id/imgVoiceOrText"
-            android:layout_width="@dimen/dp_45"
-            android:layout_height="@dimen/dp_45"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_5"
             android:layout_marginRight="@dimen/dp_5"
-            android:background="@drawable/icon_voice" />
+            android:background="@drawable/icon_msg_voice" />
 
         <com.android.widget.audiorecorder.AudioRecorderButton
             android:id="@+id/id_recorder_button"
@@ -58,7 +59,8 @@
             android:minHeight="0dp"
             android:padding="5dp"
             android:text="@string/str_recorder_normal"
-            android:textColor="#727272" />
+            android:textColor="#727272"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/edtContent"
@@ -71,7 +73,7 @@
             android:padding="@dimen/dp_5"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_14"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/btnSend"

@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".XPTApplication"
@@ -88,10 +89,7 @@
         <activity android:name=".ui.question.QuestionActivity" />
         <activity android:name=".ui.question.AskQuestionActivity" />
         <activity android:name=".ui.mine.MyChildActivity" />
-        <activity
-            android:name=".ui.question.QuestionDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.question.QuestionDetailActivity" />
         <activity android:name=".ui.score.ScoreActivity" />
         <activity android:name=".ui.checkin.CheckinActivity" />
         <activity android:name=".ui.checkin.ChechinDetailActivity" />
@@ -216,6 +214,8 @@
         <activity android:name=".ui.wallet.pocket.BankCardChooseActivity" />
         <activity android:name=".ui.wallet.pocket.TakeOutMoneyActivity" />
         <activity android:name=".ui.wallet.pocket.bill.BillDetailActivity"></activity>
+
+        <service android:name=".server.SocketService" />
     </application>
 
 </manifest>

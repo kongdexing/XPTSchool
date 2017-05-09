@@ -39,7 +39,7 @@
             android:layout_height="@dimen/dp_20"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_8"
-            android:layout_toLeftOf="@+id/txtParent"
+            android:layout_toLeftOf="@+id/txtContent"
             android:visibility="gone" />
 
         <TextView

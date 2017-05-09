@@ -45,8 +45,10 @@ public class QuestionDetailAdapter extends BaseAdapter {
     }
 
     public void updateChat(BeanQuestionTalk answer) {
+        Log.i(TAG, "updateChat: ");
         for (int i = 0; i < listQuestions.size(); i++) {
             if (listQuestions.get(i).getCreate_time().equals(answer.getCreate_time())) {
+                Log.i(TAG, "updateChat: " + i + " " + answer.getCreate_time());
                 listQuestions.get(i).setSendStatus(answer.getSendStatus());
                 break;
             }
@@ -112,6 +114,8 @@ public class QuestionDetailAdapter extends BaseAdapter {
                 });
             } else if (question.getSendStatus().equals(MessageSendStatus.SENDING)) {
                 ((ViewHolderParent) mHolder).sendProgress.setVisibility(View.VISIBLE);
+            } else {
+                ((ViewHolderParent) mHolder).sendProgress.setVisibility(View.GONE);
             }
 
             if (parent.getSex().equals("1")) {

@@ -21,4 +21,9 @@ public class BroadcastAction {
 
     public static String CARD_FREEZE = "com.xptschool.parent.card.freeze";
 
+    public static String MESSAGE_SEND_START = "com.xptschool.parent.message.sending";
+    public static String MESSAGE_SEND_SUCCESS = "com.xptschool.parent.message.success";
+    public static String MESSAGE_SEND_FAILED = "com.xptschool.parent.message.failed";
+
+
 }

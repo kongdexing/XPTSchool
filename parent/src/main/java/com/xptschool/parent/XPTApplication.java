@@ -28,6 +28,7 @@ import com.umeng.message.entity.UMessage;
 import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.MyUmengMessageHandler;
+import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.main.MainActivity;
 
 import java.io.File;
@@ -137,6 +138,7 @@ public class XPTApplication extends Application {
         //CustomNotificationHandler notificationClickHandler = new CustomNotificationHandler();
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
+        SocketManager.getInstance().init(this);
     }
 
     // Initialize the image loader stratetry

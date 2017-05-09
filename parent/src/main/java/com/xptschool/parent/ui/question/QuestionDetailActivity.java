@@ -1,7 +1,16 @@
 package com.xptschool.parent.ui.question;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,16 +29,21 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanQuestion;
 import com.xptschool.parent.bean.BeanQuestionTalk;
 import com.xptschool.parent.bean.MessageSendStatus;
+import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.BeanTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.util.ChatUtil;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -52,6 +66,10 @@ public class QuestionDetailActivity extends BaseActivity {
 
     @BindView(R.id.edtContent)
     EditText edtContent;
+
+    @BindView(R.id.btnSend)
+    Button btnSend;
+
     private QuestionDetailAdapter adapter = null;
     private BeanQuestion mQuestion;
 
@@ -70,42 +88,106 @@ public class QuestionDetailActivity extends BaseActivity {
                 getQuestionTalk();
             }
         }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BroadcastAction.MESSAGE_SEND_START);
+        filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
+        filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
+        this.registerReceiver(messageReceiver, filter);
     }
 
     private void initView() {
+        ChatUtil.showInputWindow(QuestionDetailActivity.this, edtContent);
+
         adapter = new QuestionDetailAdapter(this);
         listview.setAdapter(adapter);
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
 
             public void onFinish(float seconds, String filePath) {
                 Recorder recorder = new Recorder(seconds, filePath);
+                File file = new File(recorder.getFilePath());
+                try {
+//                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
+                    BaseMessage message = new BaseMessage();
+                    message.setType('2');
+                    message.setFilename(ChatUtil.getFileName(mQuestion.getSender_id()));
+                    message.setSize((int) file.length());
+                    message.setParentId(mQuestion.getSender_id());
+                    message.setTeacherId(mQuestion.getReceiver_id());
+                    FileInputStream inputStream = new FileInputStream(file);
+                    final byte[] allByte = message.packData(inputStream);
+                    inputStream.close();
+                    if (allByte != null) {
+                        message.setAllData(allByte);
+                        SocketManager.getInstance().sendMessage(message);
+                    }
+                } catch (Exception ex) {
+                    Log.i(TAG, "viewClick: " + ex.getMessage());
+                }
 
+//                try {
+//                    AssetManager assetManager = QuestionDetailActivity.this.getAssets();
+//                    AssetFileDescriptor afd = assetManager.openFd("sent_message.mp3");
+//                    MediaPlayer player = new MediaPlayer();
+//                    player.setDataSource(afd.getFileDescriptor(),
+//                            afd.getStartOffset(), afd.getLength());
+//                    player.setLooping(false);//循环播放
+//                    player.prepare();
+//                    player.start();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 
     }
 
-    @OnClick(R.id.btnSend)
+    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend})
     void viewClick(View view) {
         switch (view.getId()) {
+            case R.id.imgVoiceOrText:
+                if (edtContent.getVisibility() == View.GONE) {
+                    edtContent.setVisibility(View.VISIBLE);
+                    btnSend.setVisibility(View.VISIBLE);
+                    edtContent.requestFocus();
+                    ChatUtil.showInputWindow(QuestionDetailActivity.this, edtContent);
+                    mAudioRecorderButton.setVisibility(View.GONE);
+                } else {
+                    edtContent.setVisibility(View.GONE);
+                    btnSend.setVisibility(View.GONE);
+                    mAudioRecorderButton.setVisibility(View.VISIBLE);
+                    ChatUtil.hideInputWindow(QuestionDetailActivity.this, edtContent);
+                }
+                break;
             case R.id.btnSend:
                 String msg = edtContent.getText().toString();
                 if (msg.isEmpty()) {
                     return;
                 }
-//                adapter.insertChat(msg);
-                edtContent.setText("");
-                BeanQuestionTalk answer = new BeanQuestionTalk();
-                answer.setSendStatus(MessageSendStatus.SENDING);
-                BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-                if (parent != null) {
-                    answer.setSender_id(parent.getU_id());
-                    answer.setSender_sex(parent.getSex());
+                BaseMessage message = new BaseMessage();
+                message.setType('0');
+                message.setFilename(ChatUtil.getCurrentDateHms());
+                message.setSize(msg.length());
+                message.setParentId(mQuestion.getSender_id());
+                message.setTeacherId(mQuestion.getReceiver_id());
+                final byte[] allByte = message.packData(msg);
+                if (allByte != null) {
+                    message.setAllData(allByte);
+                    SocketManager.getInstance().sendMessage(message);
                 }
-                answer.setCreate_time((new Date()) + "");
-                answer.setContent(msg);
-                adapter.insertChat(answer);
-                sendAnswer(answer);
+
+//                adapter.insertChat(msg);
+//                edtContent.setText("");
+//                BeanQuestionTalk answer = new BeanQuestionTalk();
+//                answer.setSendStatus(MessageSendStatus.SENDING);
+//                BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
+//                if (parent != null) {
+//                    answer.setSender_id(parent.getU_id());
+//                    answer.setSender_sex(parent.getSex());
+//                }
+//                answer.setCreate_time((new Date()) + "");
+//                answer.setContent(msg);
+//                adapter.insertChat(answer);
+//                sendAnswer(answer);
                 break;
         }
     }
@@ -188,4 +270,30 @@ public class QuestionDetailActivity extends BaseActivity {
                     }
                 });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            unregisterReceiver(messageReceiver);
+        } catch (Exception ex) {
+
+        }
+    }
+
+    public BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+
+            } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
+
+            } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+
+            }
+
+        }
+    };
+
 }
