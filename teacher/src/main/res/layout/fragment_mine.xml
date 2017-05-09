@@ -29,7 +29,7 @@
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_60"
                     android:clickable="true"
-                    android:src="@mipmap/user_defaulthead" />
+                    android:src="@drawable/user_defaulthead" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

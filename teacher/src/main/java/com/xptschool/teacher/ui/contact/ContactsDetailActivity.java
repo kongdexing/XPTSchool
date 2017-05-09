@@ -107,9 +107,9 @@ public class ContactsDetailActivity extends BaseActivity {
         setTitle(teacher.getName());
 
         if (teacher.getSex().equals("1")) {
-            imgHead.setImageResource(R.mipmap.teacher_man);
+            imgHead.setImageResource(R.drawable.teacher_man);
         } else {
-            imgHead.setImageResource(R.mipmap.teacher_woman);
+            imgHead.setImageResource(R.drawable.teacher_woman);
         }
         txtName.setText(teacher.getName());
         txtAreaName.setText(teacher.getArea_name());
@@ -131,13 +131,13 @@ public class ContactsDetailActivity extends BaseActivity {
         setTitle(student.getStu_name());
 
         if (student.getSex().equals("1")) {
-            imgHead.setImageResource(R.mipmap.student_boy);
+            imgHead.setImageResource(R.drawable.student_boy);
             llInfoBg.setBackgroundResource(R.drawable.bg_student_info_boy);
-            imgSex.setBackgroundResource(R.mipmap.male_w);
+            imgSex.setBackgroundResource(R.drawable.male_w);
         } else {
-            imgHead.setImageResource(R.mipmap.student_girl);
+            imgHead.setImageResource(R.drawable.student_girl);
             llInfoBg.setBackgroundResource(R.drawable.bg_student_info_girl);
-            imgSex.setBackgroundResource(R.mipmap.female_w);
+            imgSex.setBackgroundResource(R.drawable.female_w);
         }
 
         txtAge.setText(student.getAge() + "岁");

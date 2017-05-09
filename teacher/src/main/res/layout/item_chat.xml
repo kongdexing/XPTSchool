@@ -16,7 +16,7 @@
             android:id="@+id/imgParent"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
-            android:background="@mipmap/user_defaulthead" />
+            android:background="@drawable/user_defaulthead" />
 
         <TextView
             android:id="@+id/txtParent"
@@ -51,7 +51,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
-                android:background="@mipmap/icon_exclamation" />
+                android:background="@drawable/icon_exclamation" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -86,6 +86,6 @@
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
             android:layout_alignParentRight="true"
-            android:background="@mipmap/user_defaulthead" />
+            android:background="@drawable/user_defaulthead" />
     </RelativeLayout>
 </LinearLayout>

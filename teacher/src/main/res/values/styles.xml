@@ -131,7 +131,7 @@
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">@dimen/dp_8</item>
-        <item name="android:src">@mipmap/iau</item>
+        <item name="android:src">@drawable/iau</item>
     </style>
 
 </resources>

@@ -12,7 +12,7 @@
         android:layout_height="@dimen/dp_100"
         android:padding="0.1dip"
         android:scaleType="centerCrop"
-        android:src="@mipmap/post_add_pic" />
+        android:src="@drawable/post_add_pic" />
 
     <ImageView
         android:id="@+id/imgDelete"
@@ -21,6 +21,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/dp_5"
         android:padding="@dimen/dp_5"
-        android:background="@mipmap/ic_delete"/>
+        android:background="@drawable/ic_delete"/>
 
 </RelativeLayout>

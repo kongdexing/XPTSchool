@@ -20,8 +20,8 @@ import com.xptschool.teacher.R;
 
 public class SplashAdapter extends FragmentPagerAdapter {
 
-    private int[] resIds = new int[]{R.mipmap.splash_1, R
-            .mipmap.splash_2, R.mipmap.splash_3};
+    private int[] resIds = new int[]{R.drawable.splash_1, R
+            .drawable.splash_2, R.drawable.splash_3};
 
     public SplashAdapter(FragmentManager fm) {
         super(fm);

@@ -85,9 +85,9 @@ public class StudentAdapter extends BaseAdapter {
             }
         });
         if (student.getSex().equals("0")) {
-            viewHolder.imgSex.setBackgroundResource(R.mipmap.ico_female);
+            viewHolder.imgSex.setBackgroundResource(R.drawable.ico_female);
         } else {
-            viewHolder.imgSex.setBackgroundResource(R.mipmap.ico_male);
+            viewHolder.imgSex.setBackgroundResource(R.drawable.ico_male);
         }
 
         viewHolder.txtStudentName.setText(student.getStu_name());

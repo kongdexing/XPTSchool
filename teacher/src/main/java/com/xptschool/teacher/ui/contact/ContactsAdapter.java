@@ -182,9 +182,9 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
             final ContactTeacher teacher = (ContactTeacher) getChild(groupPosition, childPosition);
             viewHolder.text.setText(teacher.getName());
             if (teacher.getSex().equals("1")) {
-                viewHolder.imgHead.setImageResource(R.mipmap.teacher_man);
+                viewHolder.imgHead.setImageResource(R.drawable.teacher_man);
             } else {
-                viewHolder.imgHead.setImageResource(R.mipmap.teacher_woman);
+                viewHolder.imgHead.setImageResource(R.drawable.teacher_woman);
             }
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -199,9 +199,9 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
             final ContactStudent student = (ContactStudent) getChild(groupPosition, childPosition);
             viewHolder.text.setText(student.getStu_name());
             if (student.getSex().equals("1")) {
-                viewHolder.imgHead.setImageResource(R.mipmap.student_boy);
+                viewHolder.imgHead.setImageResource(R.drawable.student_boy);
             } else {
-                viewHolder.imgHead.setImageResource(R.mipmap.student_girl);
+                viewHolder.imgHead.setImageResource(R.drawable.student_girl);
             }
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override

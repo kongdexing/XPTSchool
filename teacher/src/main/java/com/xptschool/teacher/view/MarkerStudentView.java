@@ -31,11 +31,11 @@ public class MarkerStudentView extends LinearLayout {
 
     public void isBoy(boolean isboy) {
         if (isboy) {
-            flContent.setBackgroundResource(R.mipmap.icon_marker_boy_bg);
-            imgHead.setImageResource(R.mipmap.student_boy);
+            flContent.setBackgroundResource(R.drawable.icon_marker_boy_bg);
+            imgHead.setImageResource(R.drawable.student_boy);
         } else {
-            flContent.setBackgroundResource(R.mipmap.icon_marker_girl_bg);
-            imgHead.setImageResource(R.mipmap.student_girl_marker);
+            flContent.setBackgroundResource(R.drawable.icon_marker_girl_bg);
+            imgHead.setImageResource(R.drawable.student_girl_marker);
         }
     }
 

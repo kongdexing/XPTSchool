@@ -88,9 +88,9 @@ public class AlbumViewPager extends ViewPager implements MatrixImageView.OnMovin
         localOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(false)
-                .showImageForEmptyUri(R.mipmap.pictures_no)
-                .showImageOnFail(R.mipmap.pictures_no)
-                .showImageOnLoading(R.mipmap.pictures_no)
+                .showImageForEmptyUri(R.drawable.pictures_no)
+                .showImageOnFail(R.drawable.pictures_no)
+                .showImageOnLoading(R.drawable.pictures_no)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new SimpleBitmapDisplayer()).build();

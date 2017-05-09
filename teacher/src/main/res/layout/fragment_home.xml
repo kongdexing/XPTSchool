@@ -60,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_homework"
+                    app:src="@drawable/home_homework"
                     app:text="@string/home_homework" />
 
                 <com.xptschool.teacher.view.HomeItemView
@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_notice"
+                    app:src="@drawable/home_notice"
                     app:text="@string/home_notice" />
 
                 <com.xptschool.teacher.view.HomeItemView
@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_question"
+                    app:src="@drawable/home_question"
                     app:text="@string/home_question" />
 
                 <com.xptschool.teacher.view.HomeItemView
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_location"
+                    app:src="@drawable/home_location"
                     app:text="@string/home_location" />
 
             </LinearLayout>
@@ -100,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_classes"
+                    app:src="@drawable/home_classes"
                     app:text="@string/home_score" />
 
                 <com.xptschool.teacher.view.HomeItemView
@@ -108,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_checkin"
+                    app:src="@drawable/home_checkin"
                     app:text="@string/home_checkin" />
 
                 <com.xptschool.teacher.view.HomeItemView
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_leave"
+                    app:src="@drawable/home_leave"
                     app:text="@string/home_leave" />
 
                 <com.xptschool.teacher.view.HomeItemView
@@ -124,7 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:src="@mipmap/home_alarm"
+                    app:src="@drawable/home_alarm"
                     app:text="@string/home_alarm" />
 
             </LinearLayout>

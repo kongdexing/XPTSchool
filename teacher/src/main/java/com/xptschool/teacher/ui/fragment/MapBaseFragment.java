@@ -134,7 +134,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
         Log.i(TAG, "onReceiveLocation: " + ll.longitude + "--" + ll.latitude + "  " + isFirstLoc);
 
         MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
-                BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.location_marker)));
+                BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.location_marker)));
         if (mGPSMarker != null) {
             mGPSMarker.remove();
         }
@@ -258,7 +258,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                         final LatLng bdStartLatlng = htLocations.get(0).getLatLng();
                         if (bdStartLatlng != null) {
                             MarkerOptions markerStartOptions = new MarkerOptions().position(bdStartLatlng).icon(
-                                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_walk_start)));
+                                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_walk_start)));
                             final Marker startMarker = (Marker) mBaiduMap.addOverlay(markerStartOptions);
                             final AlarmInfoWindowView alarmInfoWindowView = new AlarmInfoWindowView(getContext());
                             alarmInfoWindowView.setHistoryData(htLocations.get(0), currentStudent, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
@@ -293,7 +293,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                         final LatLng bdEndLatlng = htLocations.get(htLocations.size() - 1).getLatLng();
                         if (bdEndLatlng != null) {
                             MarkerOptions markerEndOptions = new MarkerOptions().position(bdEndLatlng).icon(
-                                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_walk_end)));
+                                    BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_walk_end)));
                             final Marker endMarker = (Marker) mBaiduMap.addOverlay(markerEndOptions);
 
                             final AlarmInfoWindowView endInfoWindowView = new AlarmInfoWindowView(getContext());

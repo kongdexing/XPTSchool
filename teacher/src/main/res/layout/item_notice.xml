@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_10"
-                    android:background="@mipmap/arrow_left_down"
+                    android:background="@drawable/arrow_left_down"
                     android:padding="@dimen/dp_10" />
             </RelativeLayout>
 

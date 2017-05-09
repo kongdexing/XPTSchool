@@ -137,13 +137,13 @@ public class StudentDetailActivity extends BaseActivity {
                                     txtName.setText(studentDetail.getStu_name());
                                     txtClassName.setText(studentDetail.getG_name() + studentDetail.getC_name());
                                     if (studentDetail.getSex().equals("0")) {
-                                        imgHead.setImageResource(R.mipmap.student_girl);
+                                        imgHead.setImageResource(R.drawable.student_girl);
                                         llInfoBg.setBackgroundResource(R.drawable.bg_student_info_girl);
-                                        imgSex.setBackgroundResource(R.mipmap.female_w);
+                                        imgSex.setBackgroundResource(R.drawable.female_w);
                                     } else {
-                                        imgHead.setImageResource(R.mipmap.student_boy);
+                                        imgHead.setImageResource(R.drawable.student_boy);
                                         llInfoBg.setBackgroundResource(R.drawable.bg_student_info_boy);
-                                        imgSex.setBackgroundResource(R.mipmap.male_w);
+                                        imgSex.setBackgroundResource(R.drawable.male_w);
                                     }
                                     txtAge.setText(studentDetail.getAge() + "岁");
                                     txtBirthday.setText(studentDetail.getBirth_date());

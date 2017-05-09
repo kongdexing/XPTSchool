@@ -124,18 +124,6 @@ public class QuestionDetailActivity extends BaseActivity {
                     Log.i(TAG, "viewClick: " + ex.getMessage());
                 }
 
-//                try {
-//                    AssetManager assetManager = QuestionDetailActivity.this.getAssets();
-//                    AssetFileDescriptor afd = assetManager.openFd("sent_message.mp3");
-//                    MediaPlayer player = new MediaPlayer();
-//                    player.setDataSource(afd.getFileDescriptor(),
-//                            afd.getStartOffset(), afd.getLength());
-//                    player.setLooping(false);//循环播放
-//                    player.prepare();
-//                    player.start();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
             }
         });
 

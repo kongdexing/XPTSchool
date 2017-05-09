@@ -61,9 +61,9 @@ public class MineFragment extends BaseFragment {
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(false)
-                .showImageForEmptyUri(R.mipmap.user_defaulthead)
-                .showImageOnFail(R.mipmap.user_defaulthead)
-                .showImageOnLoading(R.mipmap.user_defaulthead)
+                .showImageForEmptyUri(R.drawable.user_defaulthead)
+                .showImageOnFail(R.drawable.user_defaulthead)
+                .showImageOnLoading(R.drawable.user_defaulthead)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .displayer(new SimpleBitmapDisplayer()).build();
     }
@@ -79,9 +79,9 @@ public class MineFragment extends BaseFragment {
         if (teacher != null) {
             txtUserName.setText(teacher.getName());
             if (teacher.getSex().equals("1")) {
-                imgHead.setImageResource(R.mipmap.teacher_man);
+                imgHead.setImageResource(R.drawable.teacher_man);
             } else {
-                imgHead.setImageResource(R.mipmap.teacher_woman);
+                imgHead.setImageResource(R.drawable.teacher_woman);
             }
         }
     }

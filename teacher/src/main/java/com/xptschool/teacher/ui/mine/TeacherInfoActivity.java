@@ -52,9 +52,9 @@ public class TeacherInfoActivity extends BaseActivity {
             return;
         }
         if (teacher.getSex().equals("1")) {
-            imgHead.setImageResource(R.mipmap.teacher_man);
+            imgHead.setImageResource(R.drawable.teacher_man);
         } else {
-            imgHead.setImageResource(R.mipmap.teacher_woman);
+            imgHead.setImageResource(R.drawable.teacher_woman);
         }
         txtTeacherName.setText(teacher.getName());
         txtPhone.setText(teacher.getPhone());

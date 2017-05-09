@@ -166,9 +166,9 @@ public class CommonUtil {
             options = new DisplayImageOptions.Builder()
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
-                    .showImageForEmptyUri(R.mipmap.picture_faile)
-                    .showImageOnFail(R.mipmap.picture_faile)
-                    .showImageOnLoading(R.mipmap.pictures_no)
+                    .showImageForEmptyUri(R.drawable.picture_faile)
+                    .showImageOnFail(R.drawable.picture_faile)
+                    .showImageOnLoading(R.drawable.pictures_no)
                     .bitmapConfig(Bitmap.Config.RGB_565)
                     .displayer(new SimpleBitmapDisplayer()).build();
         }

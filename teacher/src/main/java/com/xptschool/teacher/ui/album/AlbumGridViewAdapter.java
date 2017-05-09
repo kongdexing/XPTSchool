@@ -38,9 +38,9 @@ public class AlbumGridViewAdapter extends android.widget.BaseAdapter {
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(false)
-                .showImageForEmptyUri(R.mipmap.pictures_no)
-                .showImageOnFail(R.mipmap.pictures_no)
-                .showImageOnLoading(R.mipmap.pictures_no)
+                .showImageForEmptyUri(R.drawable.pictures_no)
+                .showImageOnFail(R.drawable.pictures_no)
+                .showImageOnLoading(R.drawable.pictures_no)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .setImageSize(new ImageSize(((XPTApplication) context.getApplicationContext()).getQuarterWidth(), 0))
                 .displayer(new SimpleBitmapDisplayer()).build();

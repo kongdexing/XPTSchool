@@ -106,7 +106,7 @@ public class AlbumGridAdapter extends BaseAdapter {
             if (!canDelete) {
                 ImageLoader.getInstance().displayImage(imgPaths.get(position), new ImageViewAware(viewHolder.imageView), CommonUtil.getDefaultImageLoaderOption());
             } else {
-                ImageLoader.getInstance().displayImage("drawable://" + R.mipmap.post_add_pic, new ImageViewAware(viewHolder.imageView), CommonUtil.getDefaultImageLoaderOption());
+                ImageLoader.getInstance().displayImage("drawable://" + R.drawable.post_add_pic, new ImageViewAware(viewHolder.imageView), CommonUtil.getDefaultImageLoaderOption());
             }
         } else {
             viewHolder.imgDelete.setVisibility(canDelete ? View.VISIBLE : View.GONE);

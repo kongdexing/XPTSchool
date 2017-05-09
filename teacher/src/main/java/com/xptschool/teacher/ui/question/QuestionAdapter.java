@@ -59,9 +59,9 @@ public class QuestionAdapter extends BaseRecycleAdapter {
         final BeanQuestion question = listQuestions.get(position);
 
         if (question.getSender_sex().equals("1")) {
-            mHolder.imgSender.setImageResource(R.mipmap.parent_father);
+            mHolder.imgSender.setImageResource(R.drawable.parent_father);
         } else {
-            mHolder.imgSender.setImageResource(R.mipmap.parent_mother);
+            mHolder.imgSender.setImageResource(R.drawable.parent_mother);
         }
 
         mHolder.txtClassName.setText(question.getG_name() + question.getC_name());

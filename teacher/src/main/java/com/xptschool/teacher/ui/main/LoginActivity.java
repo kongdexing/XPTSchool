@@ -121,11 +121,11 @@ public class LoginActivity extends BaseActivity {
         if (show) {
             // 显示密码
             edtPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            imgToggle.setImageResource(R.mipmap.login_reg_showpass);
+            imgToggle.setImageResource(R.drawable.login_reg_showpass);
         } else {
             // 隐藏密码
             edtPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            imgToggle.setImageResource(R.mipmap.login_reg_hidepass);
+            imgToggle.setImageResource(R.drawable.login_reg_hidepass);
         }
         edtPwd.setSelection(edtPwd.getText().length());
         showPassword = show;

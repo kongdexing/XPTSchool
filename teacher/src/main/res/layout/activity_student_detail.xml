@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="-40dp"
                 android:clickable="true"
-                android:src="@mipmap/user_defaulthead" />
+                android:src="@drawable/user_defaulthead" />
 
             <TextView
                 android:id="@+id/txtName"
@@ -52,7 +52,7 @@
                     android:id="@+id/imgSex"
                     android:layout_width="@dimen/dp_10"
                     android:layout_height="@dimen/dp_10"
-                    android:background="@mipmap/female_w" />
+                    android:background="@drawable/female_w" />
 
                 <TextView
                     android:id="@+id/txtAge"

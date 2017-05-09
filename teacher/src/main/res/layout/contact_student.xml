@@ -18,7 +18,7 @@
             android:id="@+id/imgSex"
             android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
-            android:background="@mipmap/female_w" />
+            android:background="@drawable/female_w" />
 
         <TextView
             android:id="@+id/txtAge"

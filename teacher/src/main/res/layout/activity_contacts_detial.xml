@@ -29,7 +29,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="-40dp"
                 android:clickable="true"
-                android:src="@mipmap/user_defaulthead" />
+                android:src="@drawable/user_defaulthead" />
 
             <TextView
                 android:id="@+id/txtName"

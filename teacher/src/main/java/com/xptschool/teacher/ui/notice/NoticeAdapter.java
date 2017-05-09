@@ -87,10 +87,10 @@ public class NoticeAdapter extends BaseRecycleAdapter {
 
         if (notice.getFs_type().equals("1")) {
             //自己发布的公告
-            mHolder.imgArrow.setBackgroundResource(R.mipmap.arrow_right_up);
+            mHolder.imgArrow.setBackgroundResource(R.drawable.arrow_right_up);
         } else {
             //接收到的公告
-            mHolder.imgArrow.setBackgroundResource(R.mipmap.arrow_left_down);
+            mHolder.imgArrow.setBackgroundResource(R.drawable.arrow_left_down);
         }
 
         mHolder.llNoticeItem.setOnClickListener(new View.OnClickListener() {

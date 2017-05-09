@@ -80,7 +80,7 @@ public class AutoScrollPagerFragment extends Fragment {
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView view = new ImageView(container.getContext());
             view.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            view.setBackground(getResources().getDrawable(R.mipmap.pictures_no));
+            view.setBackground(getResources().getDrawable(R.drawable.pictures_no));
 //            ImageLoader.getInstance().displayImage(imgs[position], new ImageViewAware(view), CommonUtil.getDefaultImageLoaderOption());
             container.addView(view);
             return view;
