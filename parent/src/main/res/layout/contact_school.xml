@@ -70,7 +70,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_toRightOf="@+id/txtMainTitle"
-            android:text="百度" />
+            android:text="" />
 
         <TextView
             android:id="@+id/txtMainPhone"
@@ -79,7 +79,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"
-            android:text="192123456789" />
+            android:text="" />
 
     </RelativeLayout>
 
@@ -104,7 +104,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_toRightOf="@+id/txtViceTitle"
-            android:text="百度" />
+            android:text="" />
 
         <TextView
             android:id="@+id/txtVicePhone"
@@ -113,7 +113,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_10"
-            android:text="192123456789" />
+            android:text="" />
 
     </RelativeLayout>
 

@@ -204,4 +204,35 @@ public class GreenDaoHelper {
         return banners;
     }
 
+    //聊天记录
+
+    public void insertChat(BeanChat chat){
+        if (writeDaoSession != null) {
+            writeDaoSession.getBeanChatDao().insert(chat);
+        }
+    }
+
+    public void updateChat(BeanChat chat){
+        if (writeDaoSession != null) {
+            writeDaoSession.getBeanChatDao().update(chat);
+        }
+    }
+
+    /**
+     * 根据老师id，获取跟此老师的聊天记录
+     * @param teacherId
+     * @return
+     */
+    public List<BeanChat> getChatsByTeacherId(String teacherId) {
+        List<BeanChat> chats = null;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.TeacherId.eq(teacherId)).list();
+        }
+        if (chats == null) {
+            chats = new ArrayList<BeanChat>();
+        }
+        return chats;
+    }
+
 }

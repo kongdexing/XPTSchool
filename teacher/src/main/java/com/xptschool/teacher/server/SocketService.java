@@ -36,6 +36,7 @@ public class SocketService extends Service {
 
     private static String socketIP = "chat.pcuion.com";
     private static int socketPort = 50300;
+    private static int socketReceiverPort = 50301;
     private static final String RECONNECT_ALARM = "com.xptschool.teacher.RECONNECT_ALARM";
     private Intent mAlarmIntent = new Intent(RECONNECT_ALARM);
     //    private static Socket mSocket = null;
@@ -119,7 +120,8 @@ public class SocketService extends Service {
                     Log.i(TAG, "receiver run teacher is null ");
                     return;
                 }
-                Socket mSocket = new Socket(socketIP, socketPort);
+                Socket mSocket = new Socket(socketIP, socketReceiverPort);
+                Log.i(TAG, "serverIP: " + mSocket.getInetAddress() + " " + socketReceiverPort + " status:" + mSocket.isConnected());
                 if (!mSocket.isConnected()) {
                     Log.i(TAG, "connectServerWithTCPSocket unconnected");
                     return;

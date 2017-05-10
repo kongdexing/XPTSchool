@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.android.volley.common.VolleyHttpService;
+import com.android.widget.audiorecorder.AudioManager;
 import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -138,6 +139,7 @@ public class XPTApplication extends Application {
         //CustomNotificationHandler notificationClickHandler = new CustomNotificationHandler();
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
+        AudioManager.getInstance(getCachePath());
     }
 
     // Initialize the image loader stratetry

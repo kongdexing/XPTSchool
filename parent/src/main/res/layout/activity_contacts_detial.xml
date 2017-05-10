@@ -117,6 +117,20 @@
                 android:id="@+id/llSchool"
                 layout="@layout/contact_school"
                 android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnSendMsg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/btn_bg_normal"
+                android:padding="@dimen/dp_5"
+                android:text="@string/label_send_message"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_18" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -233,4 +233,7 @@
     <string name="label_tutelage_hint_work_unit">请输入工作地址</string>
 
 
+    <!--聊天-->
+    <string name="label_send_message">发信息</string>
+
 </resources>

@@ -1,0 +1,204 @@
+package com.xptschool.parent.ui.contact;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.android.widget.audiorecorder.AudioRecorderButton;
+import com.android.widget.audiorecorder.Recorder;
+import com.xptschool.parent.R;
+import com.xptschool.parent.common.BroadcastAction;
+import com.xptschool.parent.common.ExtraKey;
+import com.xptschool.parent.model.BeanChat;
+import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.ContactTeacher;
+import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.question.QuestionDetailActivity;
+import com.xptschool.parent.util.ChatUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+public class ChatActivity extends BaseActivity {
+
+    @BindView(R.id.recycleView)
+    RecyclerView recycleView;
+
+    @BindView(R.id.imgVoiceOrText)
+    ImageView imgVoiceOrText;
+
+    @BindView(R.id.id_recorder_button)
+    AudioRecorderButton mAudioRecorderButton;
+
+    @BindView(R.id.edtContent)
+    EditText edtContent;
+
+    @BindView(R.id.btnSend)
+    Button btnSend;
+
+    private ChatAdapter adapter = null;
+    private ContactTeacher teacher;
+    private BeanParent currentParent;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            teacher = (ContactTeacher) bundle.get(ExtraKey.CHAT_TEACHER);
+            if (teacher != null) {
+                setTitle(teacher.getName());
+            }
+        }
+        currentParent = GreenDaoHelper.getInstance().getCurrentParent();
+        if (currentParent == null || teacher == null) {
+            return;
+        }
+        initView();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BroadcastAction.MESSAGE_SEND_START);
+        filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
+        filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
+        this.registerReceiver(messageReceiver, filter);
+    }
+
+    private void initView() {
+        ChatUtil.showInputWindow(ChatActivity.this, edtContent);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recycleView.setLayoutManager(linearLayoutManager);
+        adapter = new ChatAdapter(this);
+        recycleView.setAdapter(adapter);
+
+        List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByTeacherId(teacher.getT_id());
+        adapter.loadData(chats);
+
+        recycleView.setItemAnimator(new DefaultItemAnimator());
+        recycleView.smoothScrollToPosition(chats.size());
+
+        mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
+
+            public void onFinish(float seconds, String filePath) {
+                Recorder recorder = new Recorder(seconds, filePath);
+                File file = new File(recorder.getFilePath());
+                try {
+//                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
+                    BaseMessage message = new BaseMessage();
+                    message.setType('2');
+                    message.setFilename(ChatUtil.getFileName(currentParent.getU_id()));
+                    message.setSecond((int) seconds);
+                    message.setSize((int) file.length());
+                    message.setParentId(currentParent.getU_id());
+                    message.setTeacherId(teacher.getT_id());
+                    FileInputStream inputStream = new FileInputStream(file);
+                    final byte[] allByte = message.packData(inputStream);
+                    inputStream.close();
+                    if (allByte != null) {
+                        message.setAllData(allByte);
+                        SocketManager.getInstance().sendMessage(message);
+                    }
+                } catch (Exception ex) {
+                    Log.i(TAG, "viewClick: " + ex.getMessage());
+                }
+
+            }
+        });
+
+    }
+
+    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend})
+    void viewClick(View view) {
+        switch (view.getId()) {
+            case R.id.imgVoiceOrText:
+                if (edtContent.getVisibility() == View.GONE) {
+                    edtContent.setVisibility(View.VISIBLE);
+                    btnSend.setVisibility(View.VISIBLE);
+                    edtContent.requestFocus();
+                    ChatUtil.showInputWindow(ChatActivity.this, edtContent);
+                    mAudioRecorderButton.setVisibility(View.GONE);
+                } else {
+                    edtContent.setVisibility(View.GONE);
+                    btnSend.setVisibility(View.GONE);
+                    mAudioRecorderButton.setVisibility(View.VISIBLE);
+                    ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
+                }
+                break;
+            case R.id.btnSend:
+                String msg = edtContent.getText().toString();
+                if (msg.isEmpty()) {
+                    return;
+                }
+                BaseMessage message = new BaseMessage();
+                message.setType('0');
+                message.setFilename(ChatUtil.getCurrentDateHms());
+                message.setSize(msg.length());
+                message.setParentId(currentParent.getU_id());
+                message.setTeacherId(teacher.getT_id());
+                final byte[] allByte = message.packData(msg);
+                if (allByte != null) {
+                    message.setAllData(allByte);
+                    SocketManager.getInstance().sendMessage(message);
+                }
+
+//                adapter.insertChat(msg);
+//                edtContent.setText("");
+//                BeanQuestionTalk answer = new BeanQuestionTalk();
+//                answer.setSendStatus(MessageSendStatus.SENDING);
+//                BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
+//                if (parent != null) {
+//                    answer.setSender_id(parent.getU_id());
+//                    answer.setSender_sex(parent.getSex());
+//                }
+//                answer.setCreate_time((new Date()) + "");
+//                answer.setContent(msg);
+//                adapter.insertChat(answer);
+//                sendAnswer(answer);
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            unregisterReceiver(messageReceiver);
+        } catch (Exception ex) {
+
+        }
+    }
+
+    public BroadcastReceiver messageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+
+            } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
+
+            } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+
+            }
+
+        }
+    };
+
+}

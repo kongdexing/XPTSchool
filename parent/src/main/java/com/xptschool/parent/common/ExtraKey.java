@@ -18,4 +18,5 @@ public class ExtraKey {
     public static final String FENCE_ID = "fence";
     public static final String WEB_URL = "web_url";
 
+    public static final String CHAT_TEACHER = "chat_teacher";
 }

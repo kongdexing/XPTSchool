@@ -27,7 +27,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -213,9 +212,11 @@
         <activity android:name=".ui.wallet.bankcard.BankListActivity" />
         <activity android:name=".ui.wallet.pocket.BankCardChooseActivity" />
         <activity android:name=".ui.wallet.pocket.TakeOutMoneyActivity" />
-        <activity android:name=".ui.wallet.pocket.bill.BillDetailActivity"></activity>
+        <activity android:name=".ui.wallet.pocket.bill.BillDetailActivity" />
 
         <service android:name=".server.SocketService" />
+
+        <activity android:name=".ui.contact.ChatActivity"></activity>
     </application>
 
 </manifest>

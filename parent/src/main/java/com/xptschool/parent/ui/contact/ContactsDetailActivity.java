@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.ui.main.BaseActivity;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ContactsDetailActivity extends BaseActivity {
 
@@ -76,7 +78,13 @@ public class ContactsDetailActivity extends BaseActivity {
     @BindView(R.id.RlViceLeader)
     RelativeLayout RlViceLeader;
 
+    @BindView(R.id.btnSendMsg)
+    Button btnSendMsg;
+
     String currentPhone;
+
+    private ContactTeacher contactTeacher;
+    private ContactSchool contactSchool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +98,13 @@ public class ContactsDetailActivity extends BaseActivity {
             if (type.equals(ExtraKey.CONTACT_TEACHER)) {
                 llTeacher.setVisibility(View.VISIBLE);
                 llSchool.setVisibility(View.GONE);
+                btnSendMsg.setVisibility(View.VISIBLE);
                 setTeacherInfo((ContactTeacher) bundle.get(ExtraKey.CONTACT));
             } else {
                 llTeacher.setVisibility(View.GONE);
                 llSchool.setVisibility(View.VISIBLE);
                 rlTeacherPhone.setVisibility(View.GONE);
+                btnSendMsg.setVisibility(View.GONE);
                 setSchoolInfo((ContactSchool) bundle.get(ExtraKey.CONTACT));
             }
         }
@@ -104,10 +114,23 @@ public class ContactsDetailActivity extends BaseActivity {
 
     }
 
+    @OnClick({R.id.btnSendMsg})
+    public void viewClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnSendMsg:
+                Intent intent = new Intent(this, ChatActivity.class);
+                intent.putExtra(ExtraKey.CHAT_TEACHER, contactTeacher);
+                startActivity(intent);
+                break;
+        }
+    }
+
     private void setTeacherInfo(final ContactTeacher teacher) {
         if (teacher == null) {
             return;
         }
+        contactTeacher = teacher;
+
         setTitle("老师");
         if (teacher.getSex().equals("1")) {
             imgHead.setImageResource(R.drawable.teacher_man);

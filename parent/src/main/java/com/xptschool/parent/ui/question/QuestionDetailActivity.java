@@ -4,9 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,16 +32,13 @@ import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.BeanTeacher;
-import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.ui.contact.BaseMessage;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.util.ChatUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;

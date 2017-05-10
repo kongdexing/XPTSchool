@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.question;
+package com.xptschool.parent.ui.contact;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,12 +7,8 @@ import android.util.Log;
 import com.xptschool.parent.util.ChatUtil;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URLEncoder;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 
 /**
  * Created by dexing on 2017/5/4.
@@ -25,6 +21,7 @@ public class BaseMessage implements Parcelable {
     private char type; //0文字，1文件，2语音
     private int size;   //
     private String filename;
+    private int second = 0;
     private String parentId;
     private String teacherId;
     private byte[] allData;
@@ -70,8 +67,9 @@ public class BaseMessage implements Parcelable {
         Log.i(TAG, "packData: b_pId size " + b_pId.length + "  " + ChatUtil.byteArrayToInt(b_pId));
         byte[] b_tId = ChatUtil.intToByteArray(Integer.parseInt(teacherId));
         Log.i(TAG, "packData: b_tId size " + b_tId.length + "  " + ChatUtil.byteArrayToInt(b_tId));
-
-        byte[] b_filename = new byte[29];
+        byte[] b_second = ChatUtil.intToByteArray(second);
+        Log.i(TAG, "packData: b_second size " + b_second.length + "  " + ChatUtil.byteArrayToInt(b_second));
+        byte[] b_filename = new byte[ChatUtil.fileNameLength];
         if (filename != null && !filename.isEmpty()) {
             b_filename = filename.getBytes();
         }
@@ -85,6 +83,8 @@ public class BaseMessage implements Parcelable {
         Log.i(TAG, "packData pid: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_tId);
         Log.i(TAG, "packData tid: " + allData.length);
+        allData = ChatUtil.addBytes(allData, b_second);
+        Log.i(TAG, "packData fn: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_filename);
         Log.i(TAG, "packData fn: " + allData.length);
         byte[] b_zero = new byte[2];
@@ -151,6 +151,14 @@ public class BaseMessage implements Parcelable {
         this.allData = allData;
     }
 
+    public int getSecond() {
+        return second;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -162,6 +170,7 @@ public class BaseMessage implements Parcelable {
         dest.writeInt(this.type);
         dest.writeInt(this.size);
         dest.writeString(this.filename);
+        dest.writeInt(this.second);
         dest.writeString(this.parentId);
         dest.writeString(this.teacherId);
         dest.writeByteArray(this.allData);
@@ -175,6 +184,7 @@ public class BaseMessage implements Parcelable {
         this.type = (char) in.readInt();
         this.size = in.readInt();
         this.filename = in.readString();
+        this.second = in.readInt();
         this.parentId = in.readString();
         this.teacherId = in.readString();
         this.allData = in.createByteArray();
