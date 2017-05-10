@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.question;
+package com.xptschool.teacher.ui.contact;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -67,8 +67,9 @@ public class BaseMessage implements Parcelable {
         Log.i(TAG, "packData: b_pId size " + b_pId.length + "  " + ChatUtil.byteArrayToInt(b_pId));
         byte[] b_tId = ChatUtil.intToByteArray(Integer.parseInt(teacherId));
         Log.i(TAG, "packData: b_tId size " + b_tId.length + "  " + ChatUtil.byteArrayToInt(b_tId));
-
-        byte[] b_filename = new byte[29];
+        byte[] b_second = ChatUtil.intToByteArray(second);
+        Log.i(TAG, "packData: b_second size " + b_second.length + "  " + ChatUtil.byteArrayToInt(b_second));
+        byte[] b_filename = new byte[ChatUtil.fileNameLength];
         if (filename != null && !filename.isEmpty()) {
             b_filename = filename.getBytes();
         }
@@ -82,6 +83,8 @@ public class BaseMessage implements Parcelable {
         Log.i(TAG, "packData pid: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_tId);
         Log.i(TAG, "packData tid: " + allData.length);
+        allData = ChatUtil.addBytes(allData, b_second);
+        Log.i(TAG, "packData fn: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_filename);
         Log.i(TAG, "packData fn: " + allData.length);
         byte[] b_zero = new byte[2];

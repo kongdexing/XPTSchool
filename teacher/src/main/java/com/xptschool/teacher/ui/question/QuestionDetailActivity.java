@@ -31,15 +31,13 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
-import com.xptschool.teacher.model.BeanTeacher;
-import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
+import com.xptschool.teacher.ui.contact.BaseMessage;
 import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
