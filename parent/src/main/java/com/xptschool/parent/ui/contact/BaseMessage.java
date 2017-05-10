@@ -24,6 +24,7 @@ public class BaseMessage implements Parcelable {
     private int second = 0;
     private String parentId;
     private String teacherId;
+    private String content;
     private byte[] allData;
 
     public byte[] packData(FileInputStream inputStream) {
@@ -94,8 +95,15 @@ public class BaseMessage implements Parcelable {
         return allData;
     }
 
+    /**
+     * 文本信息
+     *
+     * @param message
+     * @return
+     */
     public byte[] packData(String message) {
         try {
+            content = message;
             message = URLEncoder.encode(message, "utf-8");
             return getBytes(message.getBytes());
         } catch (Exception ex) {
@@ -159,6 +167,14 @@ public class BaseMessage implements Parcelable {
         this.second = second;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -173,6 +189,7 @@ public class BaseMessage implements Parcelable {
         dest.writeInt(this.second);
         dest.writeString(this.parentId);
         dest.writeString(this.teacherId);
+        dest.writeString(this.content);
         dest.writeByteArray(this.allData);
     }
 
@@ -187,10 +204,11 @@ public class BaseMessage implements Parcelable {
         this.second = in.readInt();
         this.parentId = in.readString();
         this.teacherId = in.readString();
+        this.content = in.readString();
         this.allData = in.createByteArray();
     }
 
-    public static final Parcelable.Creator<BaseMessage> CREATOR = new Parcelable.Creator<BaseMessage>() {
+    public static final Creator<BaseMessage> CREATOR = new Creator<BaseMessage>() {
         @Override
         public BaseMessage createFromParcel(Parcel source) {
             return new BaseMessage(source);

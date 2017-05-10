@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.contact;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 
 public class ChatAdapter extends RecyclerView.Adapter {
 
-    private Context context;
+    private String TAG = ChatAdapter.class.getSimpleName();
     private List<BeanChat> listChat;
     private int VIEW_PARENT = 0;
     private int VIEW_TEACHER = 1;
@@ -42,7 +43,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private TeacherAdapterDelegate teacherAdapterDelegate;
 
     public ChatAdapter(Context context) {
-        this.context = context;
         parentAdapterDelegate = new ParentAdapterDelegate(context, VIEW_PARENT);
         teacherAdapterDelegate = new TeacherAdapterDelegate(context, VIEW_TEACHER);
     }
@@ -64,6 +64,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int viewType = holder.getItemViewType();
+        Log.i(TAG, "onBindViewHolder position:" + position + " viewType:" + viewType);
         if (viewType == parentAdapterDelegate.getViewType()) {
             parentAdapterDelegate.onBindViewHolder(listChat, position, holder);
         } else {
@@ -83,9 +84,21 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     //  添加数据
     public void addData(BeanChat chat) {
-//      在list中添加数据，并通知条目加入一条
+        Log.i(TAG, "addData: " + chat.getChatId());
         listChat.add(listChat.size(), chat);
         notifyItemInserted(listChat.size());
+    }
+
+    public void updateData(BeanChat chat) {
+        Log.i(TAG, "updateData: ");
+        for (int i = 0; i < listChat.size(); i++) {
+            if (listChat.get(i).getChatId().equals(chat.getChatId())) {
+                Log.i(TAG, "updateData chatId : " + chat.getChatId() + "  position:" + i);
+                listChat.set(i, chat);
+                notifyItemChanged(i);
+                break;
+            }
+        }
     }
 
     //  删除数据

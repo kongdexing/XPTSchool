@@ -1,5 +1,7 @@
 package com.xptschool.parent.model;
 
+import com.xptschool.parent.ui.contact.BaseMessage;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -27,8 +29,8 @@ public class BeanChat {
 
     @Generated(hash = 918254695)
     public BeanChat(String chatId, String type, int size, String parentId,
-            String teacherId, String fileName, String seconds, String content,
-            boolean isSend, int sendStatus, String time, boolean hasRead) {
+                    String teacherId, String fileName, String seconds, String content,
+                    boolean isSend, int sendStatus, String time, boolean hasRead) {
         this.chatId = chatId;
         this.type = type;
         this.size = size;
@@ -154,4 +156,16 @@ public class BeanChat {
     public void setSeconds(String seconds) {
         this.seconds = seconds;
     }
+
+    public void parseMessageToChat(BaseMessage sendMsg) {
+        this.setChatId(sendMsg.getFilename());
+        this.setIsSend(true);
+        this.setType(sendMsg.getType() + "");
+        this.setContent(sendMsg.getContent());
+        this.setSeconds(sendMsg.getSecond() + "");
+        this.setFileName(sendMsg.getFilename());
+        this.setTeacherId(sendMsg.getTeacherId());
+        this.setParentId(sendMsg.getParentId());
+    }
+
 }

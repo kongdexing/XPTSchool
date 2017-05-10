@@ -18,6 +18,7 @@ import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
@@ -103,7 +104,7 @@ public class ChatActivity extends BaseActivity {
                 try {
 //                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
                     BaseMessage message = new BaseMessage();
-                    message.setType('2');
+                    message.setType(ChatUtil.TYPE_AMR);
                     message.setFilename(ChatUtil.getFileName(currentParent.getU_id()));
                     message.setSecond((int) seconds);
                     message.setSize((int) file.length());
@@ -147,8 +148,9 @@ public class ChatActivity extends BaseActivity {
                 if (msg.isEmpty()) {
                     return;
                 }
+
                 BaseMessage message = new BaseMessage();
-                message.setType('0');
+                message.setType(ChatUtil.TYPE_TEXT);
                 message.setFilename(ChatUtil.getCurrentDateHms());
                 message.setSize(msg.length());
                 message.setParentId(currentParent.getU_id());
@@ -156,6 +158,7 @@ public class ChatActivity extends BaseActivity {
                 final byte[] allByte = message.packData(msg);
                 if (allByte != null) {
                     message.setAllData(allByte);
+                    edtContent.setText("");
                     SocketManager.getInstance().sendMessage(message);
                 }
 
@@ -189,12 +192,32 @@ public class ChatActivity extends BaseActivity {
     public BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+            Bundle bundle = intent.getExtras();
+            BaseMessage sendMsg = null;
+            if (bundle != null) {
+                sendMsg = (BaseMessage) bundle.get("message");
+            }
 
+            BeanChat chat = new BeanChat();
+            chat.parseMessageToChat(sendMsg);
+            chat.setHasRead(true);
+            chat.setTime(CommonUtil.getCurrentDateHms());
+
+            String action = intent.getAction();
+            Log.i(TAG, "onReceive: " + action);
+            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+                chat.setSendStatus(ChatUtil.STATUS_SENDING);
+                adapter.addData(chat);
+                GreenDaoHelper.getInstance().insertChat(chat);
             } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
+                chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                adapter.updateData(chat);
+                GreenDaoHelper.getInstance().updateChat(chat);
 
             } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+                chat.setSendStatus(ChatUtil.STATUS_FAILED);
+                adapter.updateData(chat);
+                GreenDaoHelper.getInstance().updateChat(chat);
 
             }
 

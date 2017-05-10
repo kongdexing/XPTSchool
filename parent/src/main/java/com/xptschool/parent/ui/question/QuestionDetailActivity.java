@@ -32,6 +32,7 @@ import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.contact.BaseMessage;
 import com.xptschool.parent.ui.main.BaseActivity;

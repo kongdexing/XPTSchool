@@ -61,24 +61,19 @@ public class TeacherAdapterDelegate {
             viewHolder.imgUser.setImageResource(R.drawable.teacher_woman);
         }
 
-        if (ChatUtil.TYPE_TEXT.equals(chat.getType())) {
+        if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
             viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
-        } else if (ChatUtil.TYPE_AMR.equals(chat.getType())) {
+        } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             //录音
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
             final File file = new File(chat.getFileName());
-            try {
-                MediaPlayer mediaPlayer = new MediaPlayer();
-                mediaPlayer.setDataSource(file.getPath());
-                viewHolder.id_recorder_time.setText(mediaPlayer.getDuration());
-            } catch (Exception ex) {
+            viewHolder.id_recorder_time.setText(chat.getSeconds());
 
-            }
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override

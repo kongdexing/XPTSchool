@@ -137,8 +137,6 @@ public class SocketService extends Service {
                 mSocket.shutdownOutput();
 
                 InputStream mmInStream = mSocket.getInputStream();
-                int responseSize = mmInStream.available();
-                Log.i(TAG, "run: mmInStream available " + responseSize);
                 try {
                     BeanChat chat = new BeanChat();
                     byte[] b_type = new byte[1];
@@ -193,42 +191,42 @@ public class SocketService extends Service {
                         Log.i(TAG, "b_filename:" + chat.getFileName());
                     }
 
-                    if (ChatUtil.TYPE_AMR.equals(chat.getType())) {
-                        //创建文件
-                        File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
-                        if (!file.exists()) {
-                            file.createNewFile();
-                        }
-                        byte[] buffer = new byte[chat.getSize()];
-                        FileOutputStream os = new FileOutputStream(file);
+                    if (chat.getSize() > 0) {
+                        if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
+                            //创建文件
+                            File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+                            if (!file.exists()) {
+                                file.createNewFile();
+                            }
+                            byte[] buffer = new byte[chat.getSize()];
+                            FileOutputStream os = new FileOutputStream(file);
 
-                        while (mmInStream.read(buffer) != -1) {
-                            try {
-                                os.write(buffer);
-                                // Send the obtained bytes to the UI Activity
-                            } catch (Exception e) {
-                                System.out.println("disconnected " + e.getMessage());
-                                break;
+                            while (mmInStream.read(buffer) != -1) {
+                                try {
+                                    os.write(buffer);
+                                    // Send the obtained bytes to the UI Activity
+                                } catch (Exception e) {
+                                    System.out.println("disconnected " + e.getMessage());
+                                    break;
+                                }
+                            }
+                        } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
+
+                        } else if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
+                            byte[] buffer = new byte[chat.getSize()];
+                            while (mmInStream.read(buffer) != -1) {
+                                try {
+                                    System.out.println("SocketReceiveThread read result:"
+                                            + (new String(buffer)));
+                                    // Send the obtained bytes to the UI Activity
+                                } catch (Exception e) {
+                                    System.out.println("disconnected " + e.getMessage());
+                                    break;
+                                }
                             }
                         }
-                    } else if (ChatUtil.TYPE_FILE.equals(chat.getType())) {
-
-                    } else if (ChatUtil.TYPE_TEXT.equals(chat.getType())) {
-                        byte[] buffer = new byte[chat.getSize()];
-                        while (mmInStream.read(buffer) != -1) {
-                            try {
-                                System.out.println("SocketReceiveThread read result:"
-                                        + (new String(buffer)));
-                                // Send the obtained bytes to the UI Activity
-                            } catch (Exception e) {
-                                System.out.println("disconnected " + e.getMessage());
-                                break;
-                            }
-                        }
+                        GreenDaoHelper.getInstance().insertChat(chat);
                     }
-
-                    GreenDaoHelper.getInstance().insertChat(chat);
-
                 } catch (Exception ex) {
 
                 }
@@ -300,7 +298,7 @@ public class SocketService extends Service {
     private class ReceiverAlarmReceiver extends BroadcastReceiver {
         public void onReceive(Context ctx, Intent intent) {
             if (RECONNECT_ALARM.equals(intent.getAction())) {
-//                receiveMessage();
+                receiveMessage();
             }
         }
     }
