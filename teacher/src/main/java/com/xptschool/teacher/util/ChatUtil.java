@@ -1,8 +1,12 @@
 package com.xptschool.teacher.util;
 
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.common.CommonUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -17,15 +21,28 @@ import java.util.Date;
 
 public class ChatUtil {
 
+    public static int fileNameLength = 39;
+    public static int STATUS_SENDING = 0;
+    public static int STATUS_SUCCESS = 1;
+    public static int STATUS_FAILED = 2;
+
+    public static char TYPE_TEXT = '0'; //0文字，1文件，2语音
+    public static char TYPE_FILE = '1';
+    public static char TYPE_AMR = '2';
+
     public static String getFileName(String parentId) {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String fileName = parentId + sDateFormat.format(new Date()) + ".amr";
-        if (fileName.length() >= 29) {
-            fileName = fileName.substring(fileName.length() - 29, fileName.length());
+        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+        String DEVICE_ID = tm.getDeviceId();
+
+        String fileName = DEVICE_ID + parentId + sDateFormat.format(new Date());
+        fileName = CommonUtil.md5(fileName) + ".amr";
+
+        if (fileName.length() >= fileNameLength) {
+            fileName = fileName.substring(fileName.length() - fileNameLength, fileName.length());
         } else {
-//            fileName =
             String prefix = "";
-            for (int i = 0; i < 29 - fileName.length(); i++) {
+            for (int i = 0; i < fileNameLength - fileName.length(); i++) {
                 prefix += " ";
             }
             System.out.println("prefix length :" + prefix.length());
@@ -38,7 +55,7 @@ public class ChatUtil {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = sDateFormat.format(new Date());
         String prefix = "";
-        for (int i = 0; i < 29 - createTime.length(); i++) {
+        for (int i = 0; i < fileNameLength - createTime.length(); i++) {
             prefix += " ";
         }
         createTime = prefix + createTime;
@@ -100,6 +117,11 @@ public class ChatUtil {
             value += (bytes[i] & 0x000000FF) << shift;// 往高位游
         }
         return value;
+    }
+
+    public static int byteArray2Int(byte[] b) {
+        return b[3] & 0xFF << 24 | (b[2] & 0xFF) << 16 | (b[1] & 0xFF) << 8
+                | (b[0] & 0xFF);
     }
 
     /**

@@ -20,8 +20,10 @@ public class BaseMessage implements Parcelable {
     private char type; //0文字，1文件，2语音
     private int size;   //
     private String filename;
+    private int second = 0;
     private String parentId;
     private String teacherId;
+    private String content;
     private byte[] allData;
 
     public byte[] packData(FileInputStream inputStream) {
@@ -112,6 +114,22 @@ public class BaseMessage implements Parcelable {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public int getSecond() {
+        return second;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getFilename() {
