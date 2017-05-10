@@ -15,6 +15,7 @@ import java.io.Serializable;
 public class ContactTeacher implements Serializable {
 
     private String t_id;
+    private String u_id;
     private String name;
     private String phone;
     private String s_id;
@@ -35,6 +36,14 @@ public class ContactTeacher implements Serializable {
 
     public void setT_id(String t_id) {
         this.t_id = t_id;
+    }
+
+    public String getU_id() {
+        return u_id;
+    }
+
+    public void setU_id(String u_id) {
+        this.u_id = u_id;
     }
 
     public String getName() {
@@ -161,11 +170,12 @@ public class ContactTeacher implements Serializable {
         this.c_id = in.readString();
     }
 
-    @Generated(hash = 457267657)
-    public ContactTeacher(String t_id, String name, String phone, String s_id, String s_name, String a_id,
-            String a_name, String d_name, String education, String sex, String email, String charge, String g_id,
-            String c_id) {
+    @Generated(hash = 2076097601)
+    public ContactTeacher(String t_id, String u_id, String name, String phone, String s_id, String s_name,
+            String a_id, String a_name, String d_name, String education, String sex, String email, String charge,
+            String g_id, String c_id) {
         this.t_id = t_id;
+        this.u_id = u_id;
         this.name = name;
         this.phone = phone;
         this.s_id = s_id;

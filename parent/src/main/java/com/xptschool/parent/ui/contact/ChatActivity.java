@@ -90,7 +90,7 @@ public class ChatActivity extends BaseActivity {
         adapter = new ChatAdapter(this);
         recycleView.setAdapter(adapter);
 
-        List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByTeacherId(teacher.getT_id());
+        List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByTeacherId(teacher.getU_id());
         adapter.loadData(chats);
 
         recycleView.setItemAnimator(new DefaultItemAnimator());
@@ -109,7 +109,7 @@ public class ChatActivity extends BaseActivity {
                     message.setSecond((int) seconds);
                     message.setSize((int) file.length());
                     message.setParentId(currentParent.getU_id());
-                    message.setTeacherId(teacher.getT_id());
+                    message.setTeacherId(teacher.getU_id());
                     FileInputStream inputStream = new FileInputStream(file);
                     final byte[] allByte = message.packData(inputStream);
                     inputStream.close();
@@ -154,7 +154,7 @@ public class ChatActivity extends BaseActivity {
                 message.setFilename(ChatUtil.getCurrentDateHms());
                 message.setSize(msg.length());
                 message.setParentId(currentParent.getU_id());
-                message.setTeacherId(teacher.getT_id());
+                message.setTeacherId(teacher.getU_id());
                 final byte[] allByte = message.packData(msg);
                 if (allByte != null) {
                     message.setAllData(allByte);
