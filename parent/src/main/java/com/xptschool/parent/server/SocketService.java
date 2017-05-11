@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URLDecoder;
 
 /**
  * Created by dexing on 2017/5/8.
@@ -116,18 +117,21 @@ public class SocketService extends Service {
         @Override
         public void run() {
             super.run();
+            Socket mSocket = null;
+            OutputStream outputStream = null;
+            InputStream mmInStream = null;
             try {
                 BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
                 if (parent == null || parent.getU_id() == null || parent.getU_id().isEmpty()) {
                     Log.i(TAG, "receiver run parent is null ");
                     return;
                 }
-                Socket mSocket = new Socket(socketIP, socketReceiverPort);
+                mSocket = new Socket(socketIP, socketReceiverPort);
                 if (!mSocket.isConnected()) {
                     Log.i(TAG, "connectServerWithTCPSocket unconnected");
                     return;
                 }
-                OutputStream outputStream = mSocket.getOutputStream();
+                outputStream = mSocket.getOutputStream();
                 JSONObject object = new JSONObject();
                 object.put("tertype", "2"); //1老师端，2家长端
                 object.put("id", parent.getU_id());
@@ -136,7 +140,7 @@ public class SocketService extends Service {
                 outputStream.flush();
                 mSocket.shutdownOutput();
 
-                InputStream mmInStream = mSocket.getInputStream();
+                mmInStream = mSocket.getInputStream();
                 try {
                     BeanChat chat = new BeanChat();
                     byte[] b_type = new byte[1];
@@ -148,6 +152,10 @@ public class SocketService extends Service {
                     if (mmInStream.read(b_size) != -1) {
                         chat.setSize(ChatUtil.byteArray2Int(b_size));
                         Log.i(TAG, "b_size:" + chat.getSize());
+                    }
+                    //无数据，返回
+                    if (chat.getSize() == 0) {
+                        return;
                     }
 
                     byte[] b_parid = new byte[4];
@@ -213,7 +221,7 @@ public class SocketService extends Service {
                             String content = "";
                             while (mmInStream.read(buffer) != -1) {
                                 try {
-                                    content += new String(buffer);
+                                    content += URLDecoder.decode(new String(buffer), "utf-8");
                                     Log.i(TAG, "receive content: " + content);
                                     // Send the obtained bytes to the UI Activity
                                 } catch (Exception e) {
@@ -232,16 +240,38 @@ public class SocketService extends Service {
                 } catch (Exception ex) {
 
                 }
-                outputStream.close();
-                mmInStream.close();
-                mSocket.close();
-                Log.i(TAG, "SocketReceiveThread closed ");
             } catch (Exception ex) {
                 Log.i(TAG, "SocketReceiveThread Exception: " + ex.getMessage());
             } finally {
-                Log.i(TAG, "run finally: ");
+                Log.i(TAG, "finally SocketReceiveThread closed ");
+                closeSocket(mSocket, outputStream, mmInStream);
             }
         }
+    }
+
+    private void closeSocket(Socket mSocket, OutputStream outputStream, InputStream mmInStream) {
+        try {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        } catch (Exception ex) {
+
+        }
+        try {
+            if (mmInStream != null) {
+                mmInStream.close();
+            }
+        } catch (Exception ex) {
+
+        }
+        try {
+            if (mSocket != null) {
+                mSocket.close();
+            }
+        } catch (Exception ex) {
+
+        }
+
     }
 
     private class SocketSendThread extends Thread {
@@ -263,14 +293,16 @@ public class SocketService extends Service {
             Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
             intent.putExtra("message", message);
             XPTApplication.getInstance().sendBroadcast(intent);
+            Socket mSocket = null;
+            OutputStream outputStream = null;
             try {
 //                Socket mSocket = new Socket("192.168.1.195", 5021);
-                Socket mSocket = new Socket(socketIP, socketPort);
+                mSocket = new Socket(socketIP, socketPort);
                 if (mSocket == null || !mSocket.isConnected()) {
                     Log.i(TAG, "SocketSendThread run: socket is null or unconnected");
                     return;
                 }
-                OutputStream outputStream = mSocket.getOutputStream();
+                outputStream = mSocket.getOutputStream();
                 outputStream.write(message.getAllData());
                 outputStream.flush();
                 //发送完成
@@ -284,6 +316,8 @@ public class SocketService extends Service {
                 XPTApplication.getInstance().sendBroadcast(intent);
                 //发送失败
                 Log.e(TAG, "Exception during write", e);
+            } finally {
+                closeSocket(mSocket, outputStream, null);
             }
         }
 

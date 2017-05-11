@@ -6,12 +6,14 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.Serializable;
+
 /**
  * Created by dexing on 2017/5/10.
  * No1
  */
 @Entity
-public class BeanChat {
+public class BeanChat implements Serializable {
 
     @Id
     private String chatId;

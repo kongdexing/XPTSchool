@@ -25,7 +25,6 @@ import butterknife.OnClick;
 
 public class ContactsDetailActivity extends BaseActivity {
 
-
     @BindView(R.id.imgHead)
     CircularImageView imgHead;
 
