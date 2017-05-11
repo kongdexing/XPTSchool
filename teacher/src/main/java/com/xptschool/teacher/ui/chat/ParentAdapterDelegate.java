@@ -31,13 +31,14 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate {
+public class ParentAdapterDelegate extends ChatAdapterDelegate{
 
     private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
     private Context mContext;
 
     public ParentAdapterDelegate(Context context, int viewType) {
+        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -75,16 +76,24 @@ public class ParentAdapterDelegate {
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            final File file = new File(chat.getFileName());
             viewHolder.id_recorder_time.setText(chat.getSeconds());
+
+            ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
+            lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final File file = new File(chat.getFileName());
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
+                    }
+                    Log.i(TAG, "onCompletion: " + file.getPath() + " size:" + file.length());
+                    if (!file.exists()) {
+                        Log.i(TAG, "file not found ");
+                        return;
                     }
                     viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
                     AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();

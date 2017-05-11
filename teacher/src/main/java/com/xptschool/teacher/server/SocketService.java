@@ -16,7 +16,7 @@ import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.ui.contact.BaseMessage;
+import com.xptschool.teacher.ui.chat.BaseMessage;
 import com.xptschool.teacher.util.ChatUtil;
 
 import org.json.JSONObject;

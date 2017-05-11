@@ -3,7 +3,7 @@ package com.xptschool.teacher.server;
 import android.content.Context;
 import android.content.Intent;
 
-import com.xptschool.teacher.ui.contact.BaseMessage;
+import com.xptschool.teacher.ui.chat.BaseMessage;
 
 /**
  * Created by dexing on 2017/5/8.

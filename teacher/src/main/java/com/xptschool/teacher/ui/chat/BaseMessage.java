@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.contact;
+package com.xptschool.teacher.ui.chat;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -105,7 +105,7 @@ public class BaseMessage implements Parcelable {
 
     public byte[] packData(String message) {
         try {
-            message = URLEncoder.encode(message, "utf-8");
+//            message = URLEncoder.encode(message, "utf-8");
             return getBytes(message.getBytes());
         } catch (Exception ex) {
             return null;

@@ -1,6 +1,6 @@
 package com.xptschool.teacher.model;
 
-import com.xptschool.teacher.ui.contact.BaseMessage;
+import com.xptschool.teacher.ui.chat.BaseMessage;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;

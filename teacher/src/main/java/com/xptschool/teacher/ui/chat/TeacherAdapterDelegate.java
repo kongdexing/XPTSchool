@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +32,15 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class TeacherAdapterDelegate {
+public class TeacherAdapterDelegate extends ChatAdapterDelegate {
 
+    private String TAG = TeacherAdapterDelegate.class.getSimpleName();
     private int viewType;
     private Context mContext;
     private BeanTeacher teacher;
 
     public TeacherAdapterDelegate(Context context, int viewType) {
+        super(context);
         this.viewType = viewType;
         this.mContext = context;
         teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
@@ -89,17 +92,26 @@ public class TeacherAdapterDelegate {
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            final File file = new File(chat.getFileName());
             viewHolder.id_recorder_time.setText(chat.getSeconds());
+
+            ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
+            lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final File file = new File(chat.getFileName());
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                     }
+                    Log.i(TAG, "onCompletion: " + file.getPath() + " size:" + file.length());
+                    if (!file.exists()) {
+                        Log.i(TAG, "file not found ");
+                        return;
+                    }
+
                     viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
                     AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                     animation.start();

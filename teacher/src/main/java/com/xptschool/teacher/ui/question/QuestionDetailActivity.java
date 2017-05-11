@@ -32,7 +32,7 @@ import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.server.SocketManager;
-import com.xptschool.teacher.ui.contact.BaseMessage;
+import com.xptschool.teacher.ui.chat.BaseMessage;
 import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.util.ChatUtil;
 

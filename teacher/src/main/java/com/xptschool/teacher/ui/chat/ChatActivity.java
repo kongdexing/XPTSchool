@@ -25,7 +25,6 @@ import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
-import com.xptschool.teacher.ui.contact.BaseMessage;
 import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.util.ChatUtil;
 
