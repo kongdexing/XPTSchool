@@ -205,7 +205,6 @@ public class GreenDaoHelper {
     }
 
     //聊天记录
-
     public void insertChat(BeanChat chat){
         if (writeDaoSession != null) {
             writeDaoSession.getBeanChatDao().insert(chat);

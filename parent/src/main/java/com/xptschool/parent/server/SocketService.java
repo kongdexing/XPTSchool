@@ -146,11 +146,6 @@ public class SocketService extends Service {
                     }
                     byte[] b_size = new byte[4];
                     if (mmInStream.read(b_size) != -1) {
-                        String str = "";
-                        for (int i = 0; i < b_size.length; i++) {
-                            str += b_size[i] + " ";
-                        }
-                        Log.i(TAG, "size byte " + str);
                         chat.setSize(ChatUtil.byteArray2Int(b_size));
                         Log.i(TAG, "b_size:" + chat.getSize());
                     }
@@ -210,22 +205,29 @@ public class SocketService extends Service {
                                     break;
                                 }
                             }
+                            chat.setHasRead(false);
                         } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
 
                         } else if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
                             byte[] buffer = new byte[chat.getSize()];
+                            String content = "";
                             while (mmInStream.read(buffer) != -1) {
                                 try {
-                                    System.out.println("SocketReceiveThread read result:"
-                                            + (new String(buffer)));
+                                    content += new String(buffer);
+                                    Log.i(TAG, "receive content: " + content);
                                     // Send the obtained bytes to the UI Activity
                                 } catch (Exception e) {
                                     System.out.println("disconnected " + e.getMessage());
                                     break;
                                 }
                             }
+                            chat.setContent(content);
                         }
                         GreenDaoHelper.getInstance().insertChat(chat);
+                        //send broadcast
+                        Intent intent = new Intent(BroadcastAction.MESSAGE_RECEIVED);
+                        intent.putExtra("chat", chat);
+                        XPTApplication.getInstance().sendBroadcast(intent);
                     }
                 } catch (Exception ex) {
 
@@ -240,7 +242,6 @@ public class SocketService extends Service {
                 Log.i(TAG, "run finally: ");
             }
         }
-
     }
 
     private class SocketSendThread extends Thread {

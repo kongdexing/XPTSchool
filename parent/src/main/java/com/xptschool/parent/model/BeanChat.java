@@ -1,17 +1,22 @@
 package com.xptschool.parent.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.xptschool.parent.ui.chat.BaseMessage;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by dexing on 2017/5/10.
  * No1
  */
 @Entity
-public class BeanChat {
+public class BeanChat implements Serializable {
 
     @Id
     private String chatId;

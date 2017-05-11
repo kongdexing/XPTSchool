@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.BeanTeacher;
@@ -73,7 +74,6 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            final File file = new File(chat.getFileName());
             viewHolder.id_recorder_time.setText(chat.getSeconds());
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
@@ -83,6 +83,7 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
@@ -98,6 +99,12 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                         }
                     });
+
+                    //未读标示为已读
+                    if (!chat.isHasRead()) {
+                        chat.setHasRead(false);
+                        GreenDaoHelper.getInstance().updateChat(chat);
+                    }
                 }
             });
         } else {

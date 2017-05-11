@@ -21,9 +21,12 @@ public class BroadcastAction {
 
     public static String CARD_FREEZE = "com.xptschool.parent.card.freeze";
 
-    public static String MESSAGE_SEND_START = "com.xptschool.parent.message.sending";
-    public static String MESSAGE_SEND_SUCCESS = "com.xptschool.parent.message.success";
-    public static String MESSAGE_SEND_FAILED = "com.xptschool.parent.message.failed";
+    //聊天消息
+    public static String MESSAGE_SEND_START = "com.xptschool.parent.message.send.sending";
+    public static String MESSAGE_SEND_SUCCESS = "com.xptschool.parent.message.send.success";
+    public static String MESSAGE_SEND_FAILED = "com.xptschool.parent.message.send.failed";
+
+    public static String MESSAGE_RECEIVED = "com.xptschool.parent.message.receive";
 
 
 }
