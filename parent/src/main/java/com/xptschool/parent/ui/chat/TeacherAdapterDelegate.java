@@ -31,12 +31,13 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class TeacherAdapterDelegate {
+public class TeacherAdapterDelegate extends ChatAdapterDelegate {
 
     private int viewType;
     private Context mContext;
 
     public TeacherAdapterDelegate(Context context, int viewType) {
+        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -74,6 +75,9 @@ public class TeacherAdapterDelegate {
 
             final File file = new File(chat.getFileName());
             viewHolder.id_recorder_time.setText(chat.getSeconds());
+
+            ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
+            lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {

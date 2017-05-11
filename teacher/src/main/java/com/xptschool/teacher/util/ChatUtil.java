@@ -32,27 +32,6 @@ public class ChatUtil {
     public static char TYPE_FILE = '1';
     public static char TYPE_AMR = '2';
 
-    public static String getFileName(String parentId) {
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-        String DEVICE_ID = tm.getDeviceId();
-
-        String fileName = DEVICE_ID + parentId + sDateFormat.format(new Date());
-        fileName = CommonUtil.md5(fileName) + ".amr";
-
-        if (fileName.length() >= fileNameLength) {
-            fileName = fileName.substring(fileName.length() - fileNameLength, fileName.length());
-        } else {
-//            String prefix = "";
-//            for (int i = 0; i < fileNameLength - fileName.length(); i++) {
-//                prefix += " ";
-//            }
-//            System.out.println("prefix length :" + prefix.length());
-//            fileName = prefix + fileName;
-        }
-        return fileName;
-    }
-
     public static String getCurrentDateHms() {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = sDateFormat.format(new Date());

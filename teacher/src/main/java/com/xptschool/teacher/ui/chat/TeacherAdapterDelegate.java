@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,6 +57,21 @@ public class TeacherAdapterDelegate {
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
+
+        if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
+            viewHolder.llResend.setVisibility(View.VISIBLE);
+            viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    ((QuestionDetailActivity) mContext).sendAnswer(chat);
+
+                }
+            });
+        } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
+            viewHolder.sendProgress.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.sendProgress.setVisibility(View.GONE);
+        }
 
         if (teacher.getSex().equals("1")) {
             viewHolder.imgUser.setImageResource(R.drawable.teacher_man);
@@ -122,6 +139,12 @@ public class TeacherAdapterDelegate {
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;
+
+        @BindView(R.id.sendProgress)
+        ProgressBar sendProgress;
+
+        @BindView(R.id.llResend)
+        LinearLayout llResend;
 
         public MyViewHolder(View itemView) {
             super(itemView);

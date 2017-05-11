@@ -20,6 +20,7 @@
             android:id="@+id/txtContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_60"
             android:layout_toRightOf="@+id/imgUser"
@@ -27,15 +28,17 @@
             android:clickable="true"
             android:gravity="left|center_vertical"
             android:text=""
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/rlVoice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_60"
-            android:layout_toRightOf="@+id/imgUser">
+            android:layout_toRightOf="@+id/imgUser"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/id_recorder_length"
@@ -49,7 +52,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/adj" />
+                    android:background="@drawable/adj_right" />
 
             </RelativeLayout>
 

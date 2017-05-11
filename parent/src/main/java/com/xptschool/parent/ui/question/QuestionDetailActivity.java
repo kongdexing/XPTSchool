@@ -103,7 +103,7 @@ public class QuestionDetailActivity extends BaseActivity {
 //                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
                     BaseMessage message = new BaseMessage();
                     message.setType('2');
-                    message.setFilename(ChatUtil.getFileName(mQuestion.getSender_id()));
+                    message.setFilename(file.getName());
                     message.setSize((int) file.length());
                     message.setParentId(mQuestion.getSender_id());
                     message.setTeacherId(mQuestion.getReceiver_id());

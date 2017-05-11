@@ -100,11 +100,12 @@ public class ChatActivity extends BaseActivity {
             public void onFinish(float seconds, String filePath) {
                 Recorder recorder = new Recorder(seconds, filePath);
                 File file = new File(recorder.getFilePath());
+                Log.i(TAG, "onFinish: " + recorder.getFilePath());
                 try {
 //                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
                     BaseMessage message = new BaseMessage();
                     message.setType(ChatUtil.TYPE_AMR);
-                    message.setFilename(ChatUtil.getFileName(currentParent.getU_id()));
+                    message.setFilename(file.getName());
                     message.setSecond(Math.round(seconds));
                     message.setSize((int) file.length());
                     message.setParentId(currentParent.getU_id());
@@ -160,20 +161,6 @@ public class ChatActivity extends BaseActivity {
                     edtContent.setText("");
                     SocketManager.getInstance().sendMessage(message);
                 }
-
-//                adapter.insertChat(msg);
-//                edtContent.setText("");
-//                BeanQuestionTalk answer = new BeanQuestionTalk();
-//                answer.setSendStatus(MessageSendStatus.SENDING);
-//                BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-//                if (parent != null) {
-//                    answer.setSender_id(parent.getU_id());
-//                    answer.setSender_sex(parent.getSex());
-//                }
-//                answer.setCreate_time((new Date()) + "");
-//                answer.setContent(msg);
-//                adapter.insertChat(answer);
-//                sendAnswer(answer);
                 break;
         }
     }
@@ -207,6 +194,7 @@ public class ChatActivity extends BaseActivity {
             if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
                 chat.setSendStatus(ChatUtil.STATUS_SENDING);
                 adapter.addData(chat);
+                recycleView.smoothScrollToPosition(adapter.getItemCount());
                 GreenDaoHelper.getInstance().insertChat(chat);
             } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);

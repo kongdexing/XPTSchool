@@ -18,7 +18,6 @@ import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
-import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;
@@ -59,22 +58,6 @@ public class ParentAdapterDelegate {
         final MyViewHolder viewHolder = (MyViewHolder) holder;
         Log.i(TAG, "onBindViewHolder status:" + chat.getSendStatus());
         Log.i(TAG, "onBindViewHolder chatId:" + chat.getChatId());
-
-        //家长提问，提问发送状态
-        if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
-            viewHolder.llResend.setVisibility(View.VISIBLE);
-            viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    ((QuestionDetailActivity) mContext).sendAnswer(chat);
-
-                }
-            });
-        } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
-            viewHolder.sendProgress.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.sendProgress.setVisibility(View.GONE);
-        }
 
         if (parent.getSex().equals("1")) {
             viewHolder.imgUser.setImageResource(R.drawable.parent_father);
@@ -142,12 +125,6 @@ public class ParentAdapterDelegate {
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;
-
-        @BindView(R.id.sendProgress)
-        ProgressBar sendProgress;
-
-        @BindView(R.id.llResend)
-        LinearLayout llResend;
 
         public MyViewHolder(View itemView) {
             super(itemView);

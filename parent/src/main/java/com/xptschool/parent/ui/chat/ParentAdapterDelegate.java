@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -32,13 +33,14 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate {
+public class ParentAdapterDelegate extends ChatAdapterDelegate {
 
     private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
     private Context mContext;
 
     public ParentAdapterDelegate(Context context, int viewType) {
+        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -93,13 +95,21 @@ public class ParentAdapterDelegate {
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            final File file = new File(chat.getFileName());
-            viewHolder.id_recorder_time.setText(chat.getSeconds());
+            viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
+
+            ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
+            lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+                    Log.i(TAG, "onCompletion: " + file.getPath() + " size:" + file.length());
+                    if (!file.exists()) {
+                        Log.i(TAG, "file not found ");
+                        return;
+                    }
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
@@ -111,7 +121,7 @@ public class ParentAdapterDelegate {
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 
                         public void onCompletion(MediaPlayer mp) {
-                            Log.i(TAG, "onCompletion: " + file.getPath());
+                            Log.i(TAG, "onCompletion: ");
                             //播放完成后修改图片
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                         }
