@@ -10,22 +10,24 @@ import java.io.Serializable;
  * No1
  */
 @Entity
-public class ContactParent implements Serializable{
+public class ContactParent implements Serializable {
 
     private String sp_id;
     private String stu_id;
     private String user_id;
     private String name;
     private String phone;
+    private String sex;
 
-    @Generated(hash = 719658246)
+    @Generated(hash = 1441456147)
     public ContactParent(String sp_id, String stu_id, String user_id, String name,
-            String phone) {
+            String phone, String sex) {
         this.sp_id = sp_id;
         this.stu_id = stu_id;
         this.user_id = user_id;
         this.name = name;
         this.phone = phone;
+        this.sex = sex;
     }
 
     @Generated(hash = 645104438)
@@ -72,4 +74,11 @@ public class ContactParent implements Serializable{
         this.phone = phone;
     }
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 }

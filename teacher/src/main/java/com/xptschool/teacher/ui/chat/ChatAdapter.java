@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanChat;
+import com.xptschool.teacher.model.ContactParent;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private int VIEW_TEACHER = 1;
     private ParentAdapterDelegate parentAdapterDelegate;
     private TeacherAdapterDelegate teacherAdapterDelegate;
+    private ContactParent currentParent;
 
     public ChatAdapter(Context context) {
         parentAdapterDelegate = new ParentAdapterDelegate(context, VIEW_PARENT);
@@ -55,7 +57,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         int viewType = holder.getItemViewType();
         Log.i(TAG, "onBindViewHolder position:" + position + " viewType:" + viewType);
         if (viewType == parentAdapterDelegate.getViewType()) {
-            parentAdapterDelegate.onBindViewHolder(listChat, position, holder);
+            parentAdapterDelegate.onBindViewHolder(currentParent,listChat, position, holder);
         } else {
             teacherAdapterDelegate.onBindViewHolder(listChat, position, holder);
         }
@@ -66,8 +68,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
         return listChat == null ? 0 : listChat.size();
     }
 
-    public void loadData(List<BeanChat> chats) {
+    public void loadData(List<BeanChat> chats, ContactParent parent) {
         listChat = chats;
+        currentParent = parent;
         notifyDataSetChanged();
     }
 

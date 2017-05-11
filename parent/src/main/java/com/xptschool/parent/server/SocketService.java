@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -258,9 +259,9 @@ public class SocketService extends Service {
             Log.i(TAG, "SocketSendThread run: ");
             Log.i(TAG, "write start ");
             //开始发送
-//            Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
-//            intent.putExtra("message", message);
-//            XPTApplication.getInstance().sendBroadcast(intent);
+            Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
+            intent.putExtra("message", message);
+            XPTApplication.getInstance().sendBroadcast(intent);
             try {
 //                Socket mSocket = new Socket("192.168.1.195", 5021);
                 Socket mSocket = new Socket(socketIP, socketPort);
@@ -272,14 +273,14 @@ public class SocketService extends Service {
                 outputStream.write(message.getAllData());
                 outputStream.flush();
                 //发送完成
-//                intent = new Intent(BroadcastAction.MESSAGE_SEND_SUCCESS);
-//                intent.putExtra("message", message);
-//                XPTApplication.getInstance().sendBroadcast(intent);
+                intent = new Intent(BroadcastAction.MESSAGE_SEND_SUCCESS);
+                intent.putExtra("message", message);
+                XPTApplication.getInstance().sendBroadcast(intent);
                 Log.i(TAG, "write success");
             } catch (Exception e) {
-//                intent = new Intent(BroadcastAction.MESSAGE_SEND_FAILED);
-//                intent.putExtra("message", message);
-//                XPTApplication.getInstance().sendBroadcast(intent);
+                intent = new Intent(BroadcastAction.MESSAGE_SEND_FAILED);
+                intent.putExtra("message", message);
+                XPTApplication.getInstance().sendBroadcast(intent);
                 //发送失败
                 Log.e(TAG, "Exception during write", e);
             }

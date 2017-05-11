@@ -91,7 +91,7 @@ public class ChatActivity extends BaseActivity {
         recycleView.setAdapter(adapter);
 
         List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByParentId(parent.getUser_id());
-        adapter.loadData(chats);
+        adapter.loadData(chats, parent);
 
         recycleView.setItemAnimator(new DefaultItemAnimator());
         recycleView.smoothScrollToPosition(chats.size());
@@ -106,7 +106,7 @@ public class ChatActivity extends BaseActivity {
                     BaseMessage message = new BaseMessage();
                     message.setType(ChatUtil.TYPE_AMR);
                     message.setFilename(ChatUtil.getFileName(parent.getUser_id()));
-                    message.setSecond((int) seconds);
+                    message.setSecond(Math.round(seconds));
                     message.setSize((int) file.length());
                     message.setParentId(parent.getUser_id());
                     message.setTeacherId(currentTeacher.getU_id());

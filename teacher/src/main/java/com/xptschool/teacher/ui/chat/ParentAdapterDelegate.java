@@ -17,6 +17,7 @@ import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanChat;
+import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
@@ -50,12 +51,11 @@ public class ParentAdapterDelegate {
         return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_parent, parent, false));
     }
 
-    public void onBindViewHolder(List items, int position, RecyclerView.ViewHolder holder) {
+    public void onBindViewHolder(ContactParent parent, List items, int position, RecyclerView.ViewHolder holder) {
         final BeanChat chat = (BeanChat) items.get(position);
-//        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-//        if (parent == null) {
-//            return;
-//        }
+        if (parent == null) {
+            return;
+        }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
         Log.i(TAG, "onBindViewHolder status:" + chat.getSendStatus());
         Log.i(TAG, "onBindViewHolder chatId:" + chat.getChatId());

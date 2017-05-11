@@ -30,6 +30,7 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
         public final static Property User_id = new Property(2, String.class, "user_id", false, "USER_ID");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property Phone = new Property(4, String.class, "phone", false, "PHONE");
+        public final static Property Sex = new Property(5, String.class, "sex", false, "SEX");
     };
 
     private Query<ContactParent> contactStudent_ParentQuery;
@@ -50,7 +51,8 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
                 "\"STU_ID\" TEXT," + // 1: stu_id
                 "\"USER_ID\" TEXT," + // 2: user_id
                 "\"NAME\" TEXT," + // 3: name
-                "\"PHONE\" TEXT);"); // 4: phone
+                "\"PHONE\" TEXT," + // 4: phone
+                "\"SEX\" TEXT);"); // 5: sex
     }
 
     /** Drops the underlying database table. */
@@ -87,6 +89,11 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
         if (phone != null) {
             stmt.bindString(5, phone);
         }
+ 
+        String sex = entity.getSex();
+        if (sex != null) {
+            stmt.bindString(6, sex);
+        }
     }
 
     @Override
@@ -117,6 +124,11 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
         if (phone != null) {
             stmt.bindString(5, phone);
         }
+ 
+        String sex = entity.getSex();
+        if (sex != null) {
+            stmt.bindString(6, sex);
+        }
     }
 
     @Override
@@ -131,7 +143,8 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // stu_id
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // user_id
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // phone
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // phone
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // sex
         );
         return entity;
     }
@@ -143,6 +156,7 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
         entity.setUser_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setPhone(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setSex(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     @Override

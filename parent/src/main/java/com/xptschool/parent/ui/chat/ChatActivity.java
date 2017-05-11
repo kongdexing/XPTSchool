@@ -105,7 +105,7 @@ public class ChatActivity extends BaseActivity {
                     BaseMessage message = new BaseMessage();
                     message.setType(ChatUtil.TYPE_AMR);
                     message.setFilename(ChatUtil.getFileName(currentParent.getU_id()));
-                    message.setSecond((int) seconds);
+                    message.setSecond(Math.round(seconds));
                     message.setSize((int) file.length());
                     message.setParentId(currentParent.getU_id());
                     message.setTeacherId(teacher.getU_id());

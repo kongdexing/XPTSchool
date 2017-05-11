@@ -43,12 +43,12 @@ public class ChatUtil {
         if (fileName.length() >= fileNameLength) {
             fileName = fileName.substring(fileName.length() - fileNameLength, fileName.length());
         } else {
-            String prefix = "";
-            for (int i = 0; i < fileNameLength - fileName.length(); i++) {
-                prefix += " ";
-            }
-            System.out.println("prefix length :" + prefix.length());
-            fileName = prefix + fileName;
+//            String prefix = "";
+//            for (int i = 0; i < fileNameLength - fileName.length(); i++) {
+//                prefix += " ";
+//            }
+//            System.out.println("prefix length :" + prefix.length());
+//            fileName = prefix + fileName;
         }
         return fileName;
     }
@@ -56,11 +56,11 @@ public class ChatUtil {
     public static String getCurrentDateHms() {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = sDateFormat.format(new Date());
-        String prefix = "";
-        for (int i = 0; i < fileNameLength - createTime.length(); i++) {
-            prefix += " ";
-        }
-        createTime = prefix + createTime;
+//        String prefix = "";
+//        for (int i = 0; i < fileNameLength - createTime.length(); i++) {
+//            prefix += " ";
+//        }
+//        createTime = prefix + createTime;
         return createTime;
     }
 
