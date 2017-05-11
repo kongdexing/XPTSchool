@@ -12,11 +12,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.contact.BaseMessage;
+import com.xptschool.parent.ui.chat.BaseMessage;
 import com.xptschool.parent.util.ChatUtil;
 
 import org.json.JSONObject;

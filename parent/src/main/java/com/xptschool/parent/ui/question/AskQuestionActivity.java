@@ -30,7 +30,7 @@ import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.BeanTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.server.SocketManager;
-import com.xptschool.parent.ui.contact.BaseMessage;
+import com.xptschool.parent.ui.chat.BaseMessage;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.util.ChatUtil;
 

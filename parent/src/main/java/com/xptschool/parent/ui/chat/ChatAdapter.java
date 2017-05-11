@@ -1,28 +1,19 @@
-package com.xptschool.parent.ui.contact;
+package com.xptschool.parent.ui.chat;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
-import com.xptschool.parent.bean.BeanQuestionTalk;
-import com.xptschool.parent.bean.MessageSendStatus;
 import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.question.QuestionDetailActivity;
-import com.xptschool.parent.ui.question.QuestionDetailAdapter;
+import com.xptschool.parent.model.BeanTeacher;
+import com.xptschool.parent.model.ContactTeacher;
 
-import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,6 +32,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     private int VIEW_TEACHER = 1;
     private ParentAdapterDelegate parentAdapterDelegate;
     private TeacherAdapterDelegate teacherAdapterDelegate;
+    private ContactTeacher currentTeacher;
 
     public ChatAdapter(Context context) {
         parentAdapterDelegate = new ParentAdapterDelegate(context, VIEW_PARENT);
@@ -68,7 +60,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         if (viewType == parentAdapterDelegate.getViewType()) {
             parentAdapterDelegate.onBindViewHolder(listChat, position, holder);
         } else {
-            teacherAdapterDelegate.onBindViewHolder(listChat, position, holder);
+            teacherAdapterDelegate.onBindViewHolder(currentTeacher,listChat, position, holder);
         }
     }
 
@@ -77,8 +69,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
         return listChat == null ? 0 : listChat.size();
     }
 
-    public void loadData(List<BeanChat> chats) {
+    public void loadData(List<BeanChat> chats, ContactTeacher teacher) {
         listChat = chats;
+        currentTeacher = teacher;
         notifyDataSetChanged();
     }
 
@@ -105,36 +98,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
     public void removeData(int position) {
         listChat.remove(listChat.size() - 1);
         notifyItemRemoved(listChat.size());
-    }
-
-    /**
-     * ViewHolder的类，用于缓存控件
-     */
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.imgUser)
-        CircularImageView imgUser;
-
-        @BindView(R.id.txtContent)
-        TextView txtContent;
-
-        @BindView(R.id.rlVoice)
-        RelativeLayout rlVoice;
-
-        @BindView(R.id.id_recorder_length)
-        RelativeLayout id_recorder_length;
-
-        @BindView(R.id.id_recorder_anim)
-        View id_recorder_anim;
-
-        @BindView(R.id.id_recorder_time)
-        TextView id_recorder_time;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
     }
 
 }

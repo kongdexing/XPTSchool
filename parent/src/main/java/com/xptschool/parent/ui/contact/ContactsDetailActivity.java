@@ -17,6 +17,7 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.ContactSchool;
 import com.xptschool.parent.model.ContactTeacher;
+import com.xptschool.parent.ui.chat.ChatActivity;
 import com.xptschool.parent.ui.main.BaseActivity;
 
 import butterknife.BindView;

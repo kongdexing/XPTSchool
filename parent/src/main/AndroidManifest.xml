@@ -216,7 +216,7 @@
 
         <service android:name=".server.SocketService" />
 
-        <activity android:name=".ui.contact.ChatActivity"></activity>
+        <activity android:name=".ui.chat.ChatActivity"></activity>
     </application>
 
 </manifest>

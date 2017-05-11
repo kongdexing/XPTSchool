@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.contact;
+package com.xptschool.parent.ui.chat;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -15,6 +15,8 @@ import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.BeanTeacher;
+import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.util.ChatUtil;
 
@@ -47,15 +49,14 @@ public class TeacherAdapterDelegate {
         return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_teacher, parent, false));
     }
 
-    public void onBindViewHolder(List items, int position, RecyclerView.ViewHolder holder) {
+    public void onBindViewHolder(ContactTeacher teacher, List items, int position, RecyclerView.ViewHolder holder) {
         final BeanChat chat = (BeanChat) items.get(position);
-        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-        if (parent == null) {
+        if (teacher == null) {
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
 
-        if (parent.getSex().equals("1")) {
+        if (teacher.getSex().equals("1")) {
             viewHolder.imgUser.setImageResource(R.drawable.teacher_man);
         } else {
             viewHolder.imgUser.setImageResource(R.drawable.teacher_woman);

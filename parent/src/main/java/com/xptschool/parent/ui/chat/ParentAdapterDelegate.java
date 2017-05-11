@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.contact;
+package com.xptschool.parent.ui.chat;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;

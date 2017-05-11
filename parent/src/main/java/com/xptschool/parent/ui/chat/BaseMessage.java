@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.contact;
+package com.xptschool.parent.ui.chat;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,10 +9,7 @@ import com.xptschool.parent.util.ChatUtil;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URLEncoder;
-
-import static android.R.attr.name;
 
 /**
  * Created by dexing on 2017/5/4.

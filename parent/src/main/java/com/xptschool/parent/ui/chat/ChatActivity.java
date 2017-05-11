@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.contact;
+package com.xptschool.parent.ui.chat;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,7 +26,6 @@ import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.main.BaseActivity;
-import com.xptschool.parent.ui.question.QuestionDetailActivity;
 import com.xptschool.parent.util.ChatUtil;
 
 import java.io.File;
@@ -91,7 +90,7 @@ public class ChatActivity extends BaseActivity {
         recycleView.setAdapter(adapter);
 
         List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByTeacherId(teacher.getU_id());
-        adapter.loadData(chats);
+        adapter.loadData(chats, teacher);
 
         recycleView.setItemAnimator(new DefaultItemAnimator());
         recycleView.smoothScrollToPosition(chats.size());
