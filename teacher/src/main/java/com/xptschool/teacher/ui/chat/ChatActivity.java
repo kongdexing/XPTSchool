@@ -154,26 +154,13 @@ public class ChatActivity extends BaseActivity {
                 message.setSize(msg.length());
                 message.setParentId(parent.getUser_id());
                 message.setTeacherId(currentTeacher.getU_id());
+                message.setContent(msg);
                 final byte[] allByte = message.packData(msg);
                 if (allByte != null) {
                     message.setAllData(allByte);
                     edtContent.setText("");
                     SocketManager.getInstance().sendMessage(message);
                 }
-
-//                adapter.insertChat(msg);
-//                edtContent.setText("");
-//                BeanQuestionTalk answer = new BeanQuestionTalk();
-//                answer.setSendStatus(MessageSendStatus.SENDING);
-//                BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-//                if (parent != null) {
-//                    answer.setSender_id(parent.getU_id());
-//                    answer.setSender_sex(parent.getSex());
-//                }
-//                answer.setCreate_time((new Date()) + "");
-//                answer.setContent(msg);
-//                adapter.insertChat(answer);
-//                sendAnswer(answer);
                 break;
         }
     }

@@ -168,4 +168,21 @@ public class BeanChat {
         this.setParentId(sendMsg.getParentId());
     }
 
+    @Override
+    public String toString() {
+        return "BeanChat{" +
+                "chatId='" + chatId + '\'' +
+                ", type='" + type + '\'' +
+                ", size=" + size +
+                ", parentId='" + parentId + '\'' +
+                ", teacherId='" + teacherId + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", seconds='" + seconds + '\'' +
+                ", content='" + content + '\'' +
+                ", isSend=" + isSend +
+                ", sendStatus=" + sendStatus +
+                ", time='" + time + '\'' +
+                ", hasRead=" + hasRead +
+                '}';
+    }
 }

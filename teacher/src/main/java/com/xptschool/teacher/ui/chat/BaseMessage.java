@@ -187,8 +187,10 @@ public class BaseMessage implements Parcelable {
         dest.writeInt(this.type);
         dest.writeInt(this.size);
         dest.writeString(this.filename);
+        dest.writeInt(this.second);
         dest.writeString(this.parentId);
         dest.writeString(this.teacherId);
+        dest.writeString(this.content);
         dest.writeByteArray(this.allData);
     }
 
@@ -200,8 +202,10 @@ public class BaseMessage implements Parcelable {
         this.type = (char) in.readInt();
         this.size = in.readInt();
         this.filename = in.readString();
+        this.second = in.readInt();
         this.parentId = in.readString();
         this.teacherId = in.readString();
+        this.content = in.readString();
         this.allData = in.createByteArray();
     }
 
