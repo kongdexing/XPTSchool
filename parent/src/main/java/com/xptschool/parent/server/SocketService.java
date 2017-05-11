@@ -144,6 +144,7 @@ public class SocketService extends Service {
                 try {
                     BeanChat chat = new BeanChat();
                     byte[] b_type = new byte[1];
+
                     if (mmInStream.read(b_type) != -1) {
                         chat.setType(new String(b_type));
                         Log.i(TAG, "type: " + chat.getType());
@@ -195,7 +196,9 @@ public class SocketService extends Service {
                     }
 
                     if (chat.getSize() > 0) {
-                        if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
+                        Log.i(TAG, "run: " + chat.getType());
+                        char type = chat.getType().toCharArray()[0];
+                        if (ChatUtil.TYPE_AMR == type) {
                             //创建文件
                             File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
                             if (!file.exists()) {
@@ -214,9 +217,9 @@ public class SocketService extends Service {
                                 }
                             }
                             chat.setHasRead(false);
-                        } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
+                        } else if (ChatUtil.TYPE_FILE == type) {
 
-                        } else if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
+                        } else if (ChatUtil.TYPE_TEXT == type) {
                             byte[] buffer = new byte[chat.getSize()];
                             String content = "";
                             while (mmInStream.read(buffer) != -1) {
@@ -236,9 +239,10 @@ public class SocketService extends Service {
                         Intent intent = new Intent(BroadcastAction.MESSAGE_RECEIVED);
                         intent.putExtra("chat", chat);
                         XPTApplication.getInstance().sendBroadcast(intent);
+                        Log.i(TAG, "receive data success ");
                     }
                 } catch (Exception ex) {
-
+                    Log.i(TAG, "receive data error:" + ex.getMessage());
                 }
             } catch (Exception ex) {
                 Log.i(TAG, "SocketReceiveThread Exception: " + ex.getMessage());

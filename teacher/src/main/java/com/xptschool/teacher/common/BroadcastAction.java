@@ -13,8 +13,9 @@ public class BroadcastAction {
 
     public static String RELOAD_BANNER = "com.xptschool.teacher.banner.reload";
 
-    public static String MESSAGE_SEND_START = "com.xptschool.parent.message.sending";
-    public static String MESSAGE_SEND_SUCCESS = "com.xptschool.parent.message.success";
-    public static String MESSAGE_SEND_FAILED = "com.xptschool.parent.message.failed";
+    public static String MESSAGE_SEND_START = "com.xptschool.teacher.message.send.sending";
+    public static String MESSAGE_SEND_SUCCESS = "com.xptschool.teacher.message.send.success";
+    public static String MESSAGE_SEND_FAILED = "com.xptschool.teacher.message.send.failed";
 
+    public static String MESSAGE_RECEIVED = "com.xptschool.teacher.message.receive";
 }

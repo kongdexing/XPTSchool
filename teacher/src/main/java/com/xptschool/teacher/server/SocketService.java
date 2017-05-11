@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URLDecoder;
 
 /**
  * Created by dexing on 2017/5/8.
@@ -118,20 +119,23 @@ public class SocketService extends Service {
         @Override
         public void run() {
             super.run();
+            Socket mSocket = null;
+            OutputStream outputStream = null;
+            InputStream mmInStream = null;
             try {
                 BeanTeacher teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
                 if (teacher == null || teacher.getU_id() == null || teacher.getU_id().isEmpty()) {
                     Log.i(TAG, "receiver run teacher is null ");
                     return;
                 }
-                Socket mSocket = new Socket(socketIP, socketReceiverPort);
+                mSocket = new Socket(socketIP, socketReceiverPort);
                 Log.i(TAG, "serverIP: " + mSocket.getInetAddress() + " " + socketReceiverPort + " status:" + mSocket.isConnected());
                 if (!mSocket.isConnected()) {
                     Log.i(TAG, "connectServerWithTCPSocket unconnected");
                     return;
                 }
-                OutputStream outputStream = mSocket.getOutputStream();
-                InputStream mmInStream = mSocket.getInputStream();
+                outputStream = mSocket.getOutputStream();
+                mmInStream = mSocket.getInputStream();
 
                 JSONObject object = new JSONObject();
                 object.put("tertype", "1"); //1老师端，2家长端
@@ -149,13 +153,12 @@ public class SocketService extends Service {
                     }
                     byte[] b_size = new byte[4];
                     if (mmInStream.read(b_size) != -1) {
-                        String str = "";
-                        for (int i = 0; i < b_size.length; i++) {
-                            str += b_size[i] + " ";
-                        }
-                        Log.i(TAG, "size byte " + str);
                         chat.setSize(ChatUtil.byteArray2Int(b_size));
                         Log.i(TAG, "b_size:" + chat.getSize());
+                    }
+
+                    if (chat.getSize() == 0) {
+                        return;
                     }
 
                     byte[] b_parid = new byte[4];
@@ -195,7 +198,8 @@ public class SocketService extends Service {
                     }
 
                     if (chat.getSize() > 0) {
-                        if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
+                        char type = chat.getType().toCharArray()[0];
+                        if (ChatUtil.TYPE_AMR == type) {
                             //创建文件
                             File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
                             if (!file.exists()) {
@@ -213,35 +217,63 @@ public class SocketService extends Service {
                                     break;
                                 }
                             }
-                        } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
+                        } else if (ChatUtil.TYPE_FILE == type) {
 
-                        } else if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
+                        } else if (ChatUtil.TYPE_TEXT == type) {
                             byte[] buffer = new byte[chat.getSize()];
+                            String content = "";
                             while (mmInStream.read(buffer) != -1) {
                                 try {
-                                    System.out.println("SocketReceiveThread read result:"
-                                            + (new String(buffer)));
+                                    content += URLDecoder.decode(new String(buffer), "utf-8");
+                                    Log.i(TAG, "receive content: " + content);
                                     // Send the obtained bytes to the UI Activity
                                 } catch (Exception e) {
                                     System.out.println("disconnected " + e.getMessage());
                                     break;
                                 }
                             }
+                            chat.setContent(content);
                         }
-//                        GreenDaoHelper.getInstance().insertChat(chat);
+                        GreenDaoHelper.getInstance().insertChat(chat);
+                        //send broadcast
+                        Intent intent = new Intent(BroadcastAction.MESSAGE_RECEIVED);
+                        intent.putExtra("chat", chat);
+                        XPTApplication.getInstance().sendBroadcast(intent);
+                        Log.i(TAG, "receive data success ");
                     }
                 } catch (Exception ex) {
-
+                    Log.i(TAG, "receive data error:" + ex.getMessage());
                 }
-                outputStream.close();
-                mmInStream.close();
-                mSocket.close();
-                Log.i(TAG, "SocketReceiveThread closed ");
             } catch (Exception ex) {
                 Log.i(TAG, "SocketReceiveThread Exception: " + ex.getMessage());
             } finally {
-                Log.i(TAG, "run finally: ");
+                Log.i(TAG, "finally SocketReceiveThread closed ");
+                closeSocket(mSocket, outputStream, mmInStream);
             }
+        }
+    }
+
+    private void closeSocket(Socket mSocket, OutputStream outputStream, InputStream mmInStream) {
+        try {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        } catch (Exception ex) {
+
+        }
+        try {
+            if (mmInStream != null) {
+                mmInStream.close();
+            }
+        } catch (Exception ex) {
+
+        }
+        try {
+            if (mSocket != null) {
+                mSocket.close();
+            }
+        } catch (Exception ex) {
+
         }
 
     }
@@ -265,14 +297,16 @@ public class SocketService extends Service {
             Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
             intent.putExtra("message", message);
             XPTApplication.getInstance().sendBroadcast(intent);
+            Socket mSocket = null;
+            OutputStream outputStream = null;
             try {
-                Socket mSocket = new Socket(socketIP, socketPort);
+                mSocket = new Socket(socketIP, socketPort);
 
                 if (mSocket == null || !mSocket.isConnected()) {
                     Log.i(TAG, "SocketSendThread run: socket is null or unconnected");
                     return;
                 }
-                OutputStream outputStream = mSocket.getOutputStream();
+                outputStream = mSocket.getOutputStream();
                 outputStream.write(message.getAllData());
                 outputStream.flush();
                 //发送完成
@@ -286,6 +320,8 @@ public class SocketService extends Service {
                 XPTApplication.getInstance().sendBroadcast(intent);
                 //发送失败
                 Log.e(TAG, "Exception during write", e);
+            } finally {
+                closeSocket(mSocket, outputStream, null);
             }
         }
 

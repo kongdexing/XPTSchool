@@ -105,7 +105,7 @@ public class BaseMessage implements Parcelable {
 
     public byte[] packData(String message) {
         try {
-//            message = URLEncoder.encode(message, "utf-8");
+            message = URLEncoder.encode(message, "utf-8");
             return getBytes(message.getBytes());
         } catch (Exception ex) {
             return null;

@@ -188,6 +188,7 @@ public class ChatActivity extends BaseActivity {
 
             if (action.equals(BroadcastAction.MESSAGE_RECEIVED)) {
                 BeanChat chat = (BeanChat) bundle.getSerializable("chat");
+                Log.i(TAG, "onReceive: " + chat.getTeacherId() + " " + teacher.getU_id() + "  " + chat.getContent());
                 //判断是否为当前正在聊天老师发来的信息
                 if (chat.getTeacherId().equals(teacher.getU_id())) {
                     adapter.addData(chat);

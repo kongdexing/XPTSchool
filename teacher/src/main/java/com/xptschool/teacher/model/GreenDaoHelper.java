@@ -343,7 +343,7 @@ public class GreenDaoHelper {
 
     public void insertChat(BeanChat chat){
         if (writeDaoSession != null) {
-            writeDaoSession.getBeanChatDao().insert(chat);
+            writeDaoSession.getBeanChatDao().insertOrReplace(chat);
         }
     }
 
