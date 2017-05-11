@@ -139,5 +139,7 @@
     <string name="progress_loading">loading...</string>
     <string name="progress_loading_cn">正在提交...</string>
 
+    <string name="label_call">打电话</string>
+    <string name="label_chat">发消息</string>
 
 </resources>

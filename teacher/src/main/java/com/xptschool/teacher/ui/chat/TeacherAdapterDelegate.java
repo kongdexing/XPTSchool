@@ -1,25 +1,22 @@
-package com.xptschool.parent.ui.contact;
+package com.xptschool.teacher.ui.chat;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
-import com.xptschool.parent.R;
-import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.util.ChatUtil;
+import com.xptschool.teacher.R;
+import com.xptschool.teacher.model.BeanChat;
+import com.xptschool.teacher.model.BeanTeacher;
+import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;
 import java.util.List;
@@ -32,15 +29,16 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate {
+public class TeacherAdapterDelegate {
 
-    private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
     private Context mContext;
+    private BeanTeacher teacher;
 
-    public ParentAdapterDelegate(Context context, int viewType) {
+    public TeacherAdapterDelegate(Context context, int viewType) {
         this.viewType = viewType;
         this.mContext = context;
+        teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
     }
 
     public int getViewType() {
@@ -48,39 +46,20 @@ public class ParentAdapterDelegate {
     }
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
-        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_parent, parent, false));
+        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_teacher, parent, false));
     }
 
     public void onBindViewHolder(List items, int position, RecyclerView.ViewHolder holder) {
         final BeanChat chat = (BeanChat) items.get(position);
-        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-        if (parent == null) {
+        if (teacher == null) {
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
-        Log.i(TAG, "onBindViewHolder status:" + chat.getSendStatus());
-        Log.i(TAG, "onBindViewHolder chatId:" + chat.getChatId());
 
-        //家长提问，提问发送状态
-        if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
-            viewHolder.llResend.setVisibility(View.VISIBLE);
-            viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    ((QuestionDetailActivity) mContext).sendAnswer(chat);
-
-                }
-            });
-        } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
-            viewHolder.sendProgress.setVisibility(View.VISIBLE);
+        if (teacher.getSex().equals("1")) {
+            viewHolder.imgUser.setImageResource(R.drawable.teacher_man);
         } else {
-            viewHolder.sendProgress.setVisibility(View.GONE);
-        }
-
-        if (parent.getSex().equals("1")) {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_father);
-        } else {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
+            viewHolder.imgUser.setImageResource(R.drawable.teacher_woman);
         }
 
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
@@ -111,7 +90,6 @@ public class ParentAdapterDelegate {
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 
                         public void onCompletion(MediaPlayer mp) {
-                            Log.i(TAG, "onCompletion: " + file.getPath());
                             //播放完成后修改图片
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                         }
@@ -144,12 +122,6 @@ public class ParentAdapterDelegate {
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;
-
-        @BindView(R.id.sendProgress)
-        ProgressBar sendProgress;
-
-        @BindView(R.id.llResend)
-        LinearLayout llResend;
 
         public MyViewHolder(View itemView) {
             super(itemView);

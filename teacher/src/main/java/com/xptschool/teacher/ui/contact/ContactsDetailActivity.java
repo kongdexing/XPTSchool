@@ -1,29 +1,38 @@
 package com.xptschool.teacher.ui.contact;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.widget.view.CircularImageView;
 import com.android.widget.view.KenBurnsView;
+import com.jph.takephoto.app.TakePhoto;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.DividerItemDecoration;
 import com.xptschool.teacher.adapter.WrapContentLinearLayoutManager;
 import com.xptschool.teacher.common.ExtraKey;
+import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
+import com.xptschool.teacher.ui.album.AlbumActivity;
+import com.xptschool.teacher.ui.chat.ChatActivity;
 import com.xptschool.teacher.ui.main.BaseActivity;
+import com.xptschool.teacher.view.AlbumSourceView;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,7 +83,8 @@ public class ContactsDetailActivity extends BaseActivity {
 
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
-    String currentPhone;
+
+    private PopupWindow picPopup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +128,7 @@ public class ContactsDetailActivity extends BaseActivity {
         rlTeacherPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentPhone = teacher.getPhone();
-                call();
+                call(teacher.getPhone());
             }
         });
     }
@@ -155,9 +164,10 @@ public class ContactsDetailActivity extends BaseActivity {
         adapter.refreshDate(parents);
         adapter.setPhoneClickListener(new ContactParentAdapter.OnParentPhoneClickListener() {
             @Override
-            public void onPhoneClickListener(String phone) {
-                currentPhone = phone;
-                call();
+            public void onPhoneClickListener(ContactParent parent) {
+                showBottomView(recycleView, parent);
+//                currentPhone = parent.getPhone();
+//                call();
             }
         });
 
@@ -169,12 +179,51 @@ public class ContactsDetailActivity extends BaseActivity {
         recycleView.setAdapter(adapter);
     }
 
-    private void call() {
+    public void showBottomView(View view, final ContactParent parent) {
+        //选择相片来源
+        if (picPopup == null) {
+            BottomChatView albumSourceView = new BottomChatView(ContactsDetailActivity.this);
+            albumSourceView.setOnBottomChatClickListener(new BottomChatView.OnBottomChatClickListener() {
+                @Override
+                public void onCallClick() {
+                    call(parent.getPhone());
+                    picPopup.dismiss();
+                }
+
+                @Override
+                public void onChatClick() {
+                    Intent intent = new Intent(ContactsDetailActivity.this, ChatActivity.class);
+                    intent.putExtra(ExtraKey.CHAT_PARENT, parent);
+                    startActivity(intent);
+                    picPopup.dismiss();
+                }
+
+                @Override
+                public void onBack() {
+                    picPopup.dismiss();
+                }
+            });
+            picPopup = new PopupWindow(albumSourceView,
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+            picPopup.setTouchable(true);
+            picPopup.setBackgroundDrawable(new ColorDrawable());
+            picPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    backgroundAlpha(1.0f);
+                }
+            });
+        }
+        backgroundAlpha(0.5f);
+        picPopup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+    private void call(String phone) {
         Log.i(TAG, "call: ");
         try {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + currentPhone));
+            intent.setData(Uri.parse("tel:" + phone));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception ex) {

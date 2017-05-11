@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.xptschool.teacher.util.ChatUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URLEncoder;
 
 /**
@@ -70,8 +72,15 @@ public class BaseMessage implements Parcelable {
         byte[] b_second = ChatUtil.intToByteArray(second);
         Log.i(TAG, "packData: b_second size " + b_second.length + "  " + ChatUtil.byteArrayToInt(b_second));
         byte[] b_filename = new byte[ChatUtil.fileNameLength];
-        if (filename != null && !filename.isEmpty()) {
-            b_filename = filename.getBytes();
+        // 将流与字节数组关联
+        ByteArrayInputStream bs = new ByteArrayInputStream(filename.toString()
+                .getBytes());
+        try {
+            // 将字符串信息写入数组中（保证字符串信息存储的都是10个字节）
+            bs.read(b_filename);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         Log.i(TAG, "packData: b_filename size " + b_filename.length + "  " + new String(b_filename));
 

@@ -27,8 +27,9 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
     public static class Properties {
         public final static Property Sp_id = new Property(0, String.class, "sp_id", false, "SP_ID");
         public final static Property Stu_id = new Property(1, String.class, "stu_id", false, "STU_ID");
-        public final static Property Name = new Property(2, String.class, "name", false, "NAME");
-        public final static Property Phone = new Property(3, String.class, "phone", false, "PHONE");
+        public final static Property User_id = new Property(2, String.class, "user_id", false, "USER_ID");
+        public final static Property Name = new Property(3, String.class, "name", false, "NAME");
+        public final static Property Phone = new Property(4, String.class, "phone", false, "PHONE");
     };
 
     private Query<ContactParent> contactStudent_ParentQuery;
@@ -47,8 +48,9 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
         db.execSQL("CREATE TABLE " + constraint + "\"CONTACT_PARENT\" (" + //
                 "\"SP_ID\" TEXT," + // 0: sp_id
                 "\"STU_ID\" TEXT," + // 1: stu_id
-                "\"NAME\" TEXT," + // 2: name
-                "\"PHONE\" TEXT);"); // 3: phone
+                "\"USER_ID\" TEXT," + // 2: user_id
+                "\"NAME\" TEXT," + // 3: name
+                "\"PHONE\" TEXT);"); // 4: phone
     }
 
     /** Drops the underlying database table. */
@@ -71,14 +73,19 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
             stmt.bindString(2, stu_id);
         }
  
+        String user_id = entity.getUser_id();
+        if (user_id != null) {
+            stmt.bindString(3, user_id);
+        }
+ 
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(4, name);
         }
  
         String phone = entity.getPhone();
         if (phone != null) {
-            stmt.bindString(4, phone);
+            stmt.bindString(5, phone);
         }
     }
 
@@ -96,14 +103,19 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
             stmt.bindString(2, stu_id);
         }
  
+        String user_id = entity.getUser_id();
+        if (user_id != null) {
+            stmt.bindString(3, user_id);
+        }
+ 
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(3, name);
+            stmt.bindString(4, name);
         }
  
         String phone = entity.getPhone();
         if (phone != null) {
-            stmt.bindString(4, phone);
+            stmt.bindString(5, phone);
         }
     }
 
@@ -117,8 +129,9 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
         ContactParent entity = new ContactParent( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // sp_id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // stu_id
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // phone
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // user_id
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // phone
         );
         return entity;
     }
@@ -127,8 +140,9 @@ public class ContactParentDao extends AbstractDao<ContactParent, Void> {
     public void readEntity(Cursor cursor, ContactParent entity, int offset) {
         entity.setSp_id(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setStu_id(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setPhone(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setUser_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setPhone(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     @Override

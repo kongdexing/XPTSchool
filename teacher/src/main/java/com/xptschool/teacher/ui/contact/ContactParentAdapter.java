@@ -62,7 +62,7 @@ public class ContactParentAdapter extends BaseRecycleAdapter {
             @Override
             public void onClick(View view) {
                 if (phoneClickListener != null) {
-                    phoneClickListener.onPhoneClickListener(parent.getPhone());
+                    phoneClickListener.onPhoneClickListener(parent);
                 }
             }
         });
@@ -92,7 +92,7 @@ public class ContactParentAdapter extends BaseRecycleAdapter {
     }
 
     public interface OnParentPhoneClickListener {
-        void onPhoneClickListener(String phone);
+        void onPhoneClickListener(ContactParent parent);
     }
 
 }

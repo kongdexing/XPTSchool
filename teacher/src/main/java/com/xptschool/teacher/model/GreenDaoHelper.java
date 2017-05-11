@@ -339,4 +339,35 @@ public class GreenDaoHelper {
         return banners;
     }
 
+    //聊天记录
+
+    public void insertChat(BeanChat chat){
+        if (writeDaoSession != null) {
+            writeDaoSession.getBeanChatDao().insert(chat);
+        }
+    }
+
+    public void updateChat(BeanChat chat){
+        if (writeDaoSession != null) {
+            writeDaoSession.getBeanChatDao().update(chat);
+        }
+    }
+
+    /**
+     * 根据家长id，获取跟此家长的聊天记录
+     * @param parentId
+     * @return
+     */
+    public List<BeanChat> getChatsByParentId(String parentId) {
+        List<BeanChat> chats = null;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.ParentId.eq(parentId)).list();
+        }
+        if (chats == null) {
+            chats = new ArrayList<BeanChat>();
+        }
+        return chats;
+    }
+
 }

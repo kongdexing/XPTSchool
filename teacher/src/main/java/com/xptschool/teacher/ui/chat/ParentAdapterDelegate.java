@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.contact;
+package com.xptschool.teacher.ui.chat;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -15,11 +15,10 @@ import android.widget.TextView;
 
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
-import com.xptschool.parent.R;
-import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.util.ChatUtil;
+import com.xptschool.teacher.R;
+import com.xptschool.teacher.model.BeanChat;
+import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;
 import java.util.List;
@@ -53,10 +52,10 @@ public class ParentAdapterDelegate {
 
     public void onBindViewHolder(List items, int position, RecyclerView.ViewHolder holder) {
         final BeanChat chat = (BeanChat) items.get(position);
-        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-        if (parent == null) {
-            return;
-        }
+//        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
+//        if (parent == null) {
+//            return;
+//        }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
         Log.i(TAG, "onBindViewHolder status:" + chat.getSendStatus());
         Log.i(TAG, "onBindViewHolder chatId:" + chat.getChatId());
@@ -111,7 +110,6 @@ public class ParentAdapterDelegate {
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 
                         public void onCompletion(MediaPlayer mp) {
-                            Log.i(TAG, "onCompletion: " + file.getPath());
                             //播放完成后修改图片
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                         }

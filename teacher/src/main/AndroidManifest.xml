@@ -137,6 +137,8 @@
         <activity android:name=".ui.mine.SettingActivity" />
         <activity android:name=".ui.main.WebViewActivity"></activity>
 
+        <activity android:name=".ui.chat.ChatActivity"></activity>
+
         <service android:name=".server.SocketService" />
     </application>
 

@@ -191,10 +191,10 @@ public class AskQuestionActivity extends BaseActivity {
                 try {
                     BeanTeacher teacher = (BeanTeacher) spnTeacher.getSelectedItem();
 
-                    File file = new File(recorder.getFilePath());
-//                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
+//                    File file = new File(recorder.getFilePath());
+                    File file = new File("/storage/emulated/0/tencent/qqfile_recv/abc123.doc");
                     BaseMessage message = new BaseMessage();
-                    message.setType('2');
+                    message.setType(ChatUtil.TYPE_AMR);
                     message.setFilename(file.getName());
                     message.setSize((int) file.length());
                     message.setParentId(GreenDaoHelper.getInstance().getCurrentParent().getU_id());

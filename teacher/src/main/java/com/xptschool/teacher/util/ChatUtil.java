@@ -22,6 +22,8 @@ import java.util.Date;
 public class ChatUtil {
 
     public static int fileNameLength = 39;
+    public static int fileNameLength_receive = 59;
+
     public static int STATUS_SENDING = 0;
     public static int STATUS_SUCCESS = 1;
     public static int STATUS_FAILED = 2;

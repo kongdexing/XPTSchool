@@ -185,7 +185,7 @@ public class SocketService extends Service {
                         Log.i(TAG, "b_time:" + chat.getTime());
                     }
 
-                    byte[] b_filename = new byte[ChatUtil.fileNameLength];
+                    byte[] b_filename = new byte[ChatUtil.fileNameLength_receive];
                     if (mmInStream.read(b_filename) != -1) {
                         chat.setFileName(new String(b_filename));
                         Log.i(TAG, "b_filename:" + chat.getFileName());
@@ -259,12 +259,12 @@ public class SocketService extends Service {
             Log.i(TAG, "SocketSendThread run: ");
             Log.i(TAG, "write start ");
             //开始发送
-            Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
-            intent.putExtra("message", message);
-            XPTApplication.getInstance().sendBroadcast(intent);
+//            Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
+//            intent.putExtra("message", message);
+//            XPTApplication.getInstance().sendBroadcast(intent);
             try {
+//                Socket mSocket = new Socket("192.168.1.195", 5021);
                 Socket mSocket = new Socket(socketIP, socketPort);
-
                 if (mSocket == null || !mSocket.isConnected()) {
                     Log.i(TAG, "SocketSendThread run: socket is null or unconnected");
                     return;
@@ -273,14 +273,14 @@ public class SocketService extends Service {
                 outputStream.write(message.getAllData());
                 outputStream.flush();
                 //发送完成
-                intent = new Intent(BroadcastAction.MESSAGE_SEND_SUCCESS);
-                intent.putExtra("message", message);
-                XPTApplication.getInstance().sendBroadcast(intent);
+//                intent = new Intent(BroadcastAction.MESSAGE_SEND_SUCCESS);
+//                intent.putExtra("message", message);
+//                XPTApplication.getInstance().sendBroadcast(intent);
                 Log.i(TAG, "write success");
             } catch (Exception e) {
-                intent = new Intent(BroadcastAction.MESSAGE_SEND_FAILED);
-                intent.putExtra("message", message);
-                XPTApplication.getInstance().sendBroadcast(intent);
+//                intent = new Intent(BroadcastAction.MESSAGE_SEND_FAILED);
+//                intent.putExtra("message", message);
+//                XPTApplication.getInstance().sendBroadcast(intent);
                 //发送失败
                 Log.e(TAG, "Exception during write", e);
             }

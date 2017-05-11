@@ -14,13 +14,16 @@ public class ContactParent implements Serializable{
 
     private String sp_id;
     private String stu_id;
+    private String user_id;
     private String name;
     private String phone;
 
-    @Generated(hash = 1400039011)
-    public ContactParent(String sp_id, String stu_id, String name, String phone) {
+    @Generated(hash = 719658246)
+    public ContactParent(String sp_id, String stu_id, String user_id, String name,
+            String phone) {
         this.sp_id = sp_id;
         this.stu_id = stu_id;
+        this.user_id = user_id;
         this.name = name;
         this.phone = phone;
     }
@@ -35,6 +38,14 @@ public class ContactParent implements Serializable{
 
     public void setSp_id(String sp_id) {
         this.sp_id = sp_id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getStu_id() {

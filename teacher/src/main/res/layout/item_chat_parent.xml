@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlQuestionItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_5">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/llResend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/sendProgress"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:background="@drawable/icon_exclamation" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重新发送" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/sendProgress"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_8"
+            android:layout_toLeftOf="@+id/txtContent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_toLeftOf="@+id/imgUser"
+            android:background="@drawable/chatto_bg"
+            android:clickable="true"
+            android:gravity="left|center_vertical"
+            android:maxWidth="@dimen/dp_200"
+            android:text="223" />
+
+        <RelativeLayout
+            android:id="@+id/rlVoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/imgUser"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/id_recorder_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_5"
+                android:text="12'"
+                android:textColor="#ff777777" />
+
+            <RelativeLayout
+                android:id="@+id/id_recorder_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/id_recorder_time"
+                android:background="@drawable/chatto_bg_focused">
+
+                <View
+                    android:id="@+id/id_recorder_anim"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:background="@drawable/adj" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <com.android.widget.view.CircularImageView
+            android:id="@+id/imgUser"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/user_defaulthead" />
+    </RelativeLayout>
+</LinearLayout>

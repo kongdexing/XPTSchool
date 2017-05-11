@@ -188,7 +188,7 @@ public class SocketService extends Service {
                         Log.i(TAG, "b_time:" + chat.getTime());
                     }
 
-                    byte[] b_filename = new byte[ChatUtil.fileNameLength];
+                    byte[] b_filename = new byte[ChatUtil.fileNameLength_receive];
                     if (mmInStream.read(b_filename) != -1) {
                         chat.setFileName(new String(b_filename));
                         Log.i(TAG, "b_filename:" + chat.getFileName());

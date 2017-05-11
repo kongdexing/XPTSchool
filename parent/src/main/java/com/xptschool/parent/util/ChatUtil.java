@@ -22,6 +22,7 @@ import java.util.Date;
 public class ChatUtil {
 
     public static int fileNameLength = 39;
+    public static int fileNameLength_receive = 59;
     public static int STATUS_SENDING = 0;
     public static int STATUS_SUCCESS = 1;
     public static int STATUS_FAILED = 2;
@@ -41,13 +42,12 @@ public class ChatUtil {
         if (fileName.length() >= fileNameLength) {
             fileName = fileName.substring(fileName.length() - fileNameLength, fileName.length());
         } else {
-//            fileName =
-            String prefix = "";
-            for (int i = 0; i < fileNameLength - fileName.length(); i++) {
-                prefix += " ";
-            }
-            System.out.println("prefix length :" + prefix.length());
-            fileName = prefix + fileName;
+//            String prefix = "";
+//            for (int i = 0; i < fileNameLength - fileName.length(); i++) {
+//                prefix += "a";
+//            }
+//            System.out.println("prefix length :" + prefix.length());
+//            fileName = prefix + fileName;
         }
         return fileName;
     }
@@ -55,11 +55,11 @@ public class ChatUtil {
     public static String getCurrentDateHms() {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = sDateFormat.format(new Date());
-        String prefix = "";
-        for (int i = 0; i < fileNameLength - createTime.length(); i++) {
-            prefix += " ";
-        }
-        createTime = prefix + createTime;
+//        String prefix = "";
+//        for (int i = 0; i < fileNameLength - createTime.length(); i++) {
+//            prefix += " ";
+//        }
+//        createTime = prefix + createTime;
         return createTime;
     }
 
