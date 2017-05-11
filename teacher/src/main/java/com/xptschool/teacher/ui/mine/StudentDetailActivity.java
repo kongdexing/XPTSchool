@@ -29,6 +29,7 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.ui.contact.ContactParentAdapter;
 import com.xptschool.teacher.ui.main.BaseActivity;
 
@@ -69,7 +70,6 @@ public class StudentDetailActivity extends BaseActivity {
     RecyclerView recycleView;
 
     private BeanStudent currentStudent;
-    String currentPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,12 +92,12 @@ public class StudentDetailActivity extends BaseActivity {
         }
     }
 
-    private void call() {
+    private void call(String phone) {
         Log.i(TAG, "call: ");
         try {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:" + currentPhone));
+            intent.setData(Uri.parse("tel:" + phone));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception ex) {
@@ -153,9 +153,8 @@ public class StudentDetailActivity extends BaseActivity {
                                         ContactParentAdapter adapter = new ContactParentAdapter(StudentDetailActivity.this);
                                         adapter.setPhoneClickListener(new ContactParentAdapter.OnParentPhoneClickListener() {
                                             @Override
-                                            public void onPhoneClickListener(String phone) {
-                                                currentPhone = phone;
-                                                call();
+                                            public void onPhoneClickListener(ContactParent parent) {
+                                                call(parent.getPhone());
                                             }
                                         });
                                         adapter.refreshDate(studentDetail.getParent_phone());

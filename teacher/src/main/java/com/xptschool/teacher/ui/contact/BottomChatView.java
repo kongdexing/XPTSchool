@@ -47,12 +47,12 @@ public class BottomChatView extends LinearLayout implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rlAlbum:
+            case R.id.llCall:
                 if (clickListener != null) {
                     clickListener.onCallClick();
                 }
                 break;
-            case R.id.rlCamera:
+            case R.id.llChat:
                 if (clickListener != null) {
                     clickListener.onChatClick();
                 }
