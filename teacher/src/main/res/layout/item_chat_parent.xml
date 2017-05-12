@@ -49,7 +49,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/adj" />
+                    android:background="@drawable/adj_right" />
 
             </RelativeLayout>
 
@@ -60,7 +60,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_5"
                 android:layout_toRightOf="@+id/id_recorder_length"
-                android:text="'"
+                android:text=""
                 android:textColor="#ff777777" />
         </RelativeLayout>
     </RelativeLayout>

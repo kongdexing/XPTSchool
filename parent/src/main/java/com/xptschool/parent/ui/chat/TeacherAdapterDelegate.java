@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import butterknife.ButterKnife;
 
 public class TeacherAdapterDelegate extends ChatAdapterDelegate {
 
+    private String TAG = TeacherAdapterDelegate.class.getSimpleName();
     private int viewType;
     private Context mContext;
 
@@ -65,11 +67,13 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
         }
 
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
+            Log.i(TAG, "onBindViewHolder text:" + chat.getContent());
             viewHolder.txtContent.setVisibility(View.VISIBLE);
             viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
+            Log.i(TAG, "onBindViewHolder amr:" + chat.getFileName());
             //录音
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
@@ -109,6 +113,7 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
             });
         } else {
             //文件，图片
+            Log.i(TAG, "onBindViewHolder file");
 
         }
 

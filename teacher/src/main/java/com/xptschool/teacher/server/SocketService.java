@@ -157,7 +157,7 @@ public class SocketService extends Service {
                         Log.i(TAG, "b_size:" + chat.getSize());
                     }
 
-                    if (chat.getSize() == 0) {
+                    if (0 >= chat.getSize()) {
                         return;
                     }
 
