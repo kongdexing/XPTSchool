@@ -78,6 +78,7 @@ public class ChatActivity extends BaseActivity {
         filter.addAction(BroadcastAction.MESSAGE_SEND_START);
         filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
         filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
+        filter.addAction(BroadcastAction.MESSAGE_RECEIVED);
         this.registerReceiver(messageReceiver, filter);
     }
 
@@ -180,6 +181,7 @@ public class ChatActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             if (bundle == null) {
+                Log.i(TAG, "onReceive: bundle is null");
                 return;
             }
             String action = intent.getAction();
