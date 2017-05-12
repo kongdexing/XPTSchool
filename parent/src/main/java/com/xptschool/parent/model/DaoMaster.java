@@ -22,6 +22,7 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         BeanBannerDao.createTable(db, ifNotExists);
+        BeanChatDao.createTable(db, ifNotExists);
         BeanDeviceTokenDao.createTable(db, ifNotExists);
         BeanLearningModuleDao.createTable(db, ifNotExists);
         BeanParentDao.createTable(db, ifNotExists);
@@ -29,12 +30,12 @@ public class DaoMaster extends AbstractDaoMaster {
         ContactParentDao.createTable(db, ifNotExists);
         ContactSchoolDao.createTable(db, ifNotExists);
         ContactTeacherDao.createTable(db, ifNotExists);
-        BeanChatDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         BeanBannerDao.dropTable(db, ifExists);
+        BeanChatDao.dropTable(db, ifExists);
         BeanDeviceTokenDao.dropTable(db, ifExists);
         BeanLearningModuleDao.dropTable(db, ifExists);
         BeanParentDao.dropTable(db, ifExists);
@@ -42,7 +43,6 @@ public class DaoMaster extends AbstractDaoMaster {
         ContactParentDao.dropTable(db, ifExists);
         ContactSchoolDao.dropTable(db, ifExists);
         ContactTeacherDao.dropTable(db, ifExists);
-        BeanChatDao.dropTable(db, ifExists);
     }
 
     /**
@@ -62,6 +62,7 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(BeanBannerDao.class);
+        registerDaoClass(BeanChatDao.class);
         registerDaoClass(BeanDeviceTokenDao.class);
         registerDaoClass(BeanLearningModuleDao.class);
         registerDaoClass(BeanParentDao.class);
@@ -69,7 +70,6 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(ContactParentDao.class);
         registerDaoClass(ContactSchoolDao.class);
         registerDaoClass(ContactTeacherDao.class);
-        registerDaoClass(BeanChatDao.class);
     }
 
     public DaoSession newSession() {

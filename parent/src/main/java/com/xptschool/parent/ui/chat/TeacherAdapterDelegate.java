@@ -78,16 +78,21 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            viewHolder.id_recorder_time.setText(chat.getSeconds());
+            viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
             lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
+
+            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+            if (!file.exists()) {
+                viewHolder.error_file.setVisibility(View.VISIBLE);
+                return;
+            }
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
@@ -135,6 +140,9 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
 
         @BindView(R.id.id_recorder_anim)
         View img_recorder_anim;
+
+        @BindView(R.id.error_file)
+        View error_file;
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;

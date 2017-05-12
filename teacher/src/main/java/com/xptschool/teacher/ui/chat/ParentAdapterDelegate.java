@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.util.ChatUtil;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate extends ChatAdapterDelegate{
+public class ParentAdapterDelegate extends ChatAdapterDelegate {
 
     private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
@@ -57,8 +58,6 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate{
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
-        Log.i(TAG, "onBindViewHolder status:" + chat.getSendStatus());
-        Log.i(TAG, "onBindViewHolder chatId:" + chat.getChatId());
 
         if (parent.getSex().equals("1")) {
             viewHolder.imgUser.setImageResource(R.drawable.parent_father);
@@ -75,17 +74,24 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate{
             //录音
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
-
-            viewHolder.id_recorder_time.setText(chat.getSeconds());
+            Log.i(TAG, "amr second:" + chat.getSeconds() + " file:" + chat.getFileName());
+            viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
             lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
+
+            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+            if (!file.exists()) {
+                Log.i(TAG, "file not found");
+                viewHolder.error_file.setVisibility(View.VISIBLE);
+                return;
+            }
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final File file = new File(chat.getFileName());
+
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
@@ -131,6 +137,8 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate{
 
         @BindView(R.id.id_recorder_anim)
         View img_recorder_anim;
+        @BindView(R.id.error_file)
+        View error_file;
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;
