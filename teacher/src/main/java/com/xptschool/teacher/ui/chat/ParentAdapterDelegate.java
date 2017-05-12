@@ -19,6 +19,7 @@ import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
+import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;
@@ -87,6 +88,10 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
                 return;
             }
 
+            if (!chat.isHasRead()) {
+                viewHolder.view_unRead.setVisibility(View.VISIBLE);
+            }
+
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,6 +117,13 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                         }
                     });
+
+                    //未读标示为已读
+                    if (!chat.isHasRead()) {
+                        viewHolder.view_unRead.setVisibility(View.GONE);
+                        chat.setHasRead(false);
+                        GreenDaoHelper.getInstance().updateChat(chat);
+                    }
                 }
             });
         } else {
@@ -137,8 +149,12 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
 
         @BindView(R.id.id_recorder_anim)
         View img_recorder_anim;
+
         @BindView(R.id.error_file)
         View error_file;
+
+        @BindView(R.id.view_unRead)
+        View view_unRead;
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;

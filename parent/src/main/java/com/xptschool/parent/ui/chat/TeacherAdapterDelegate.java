@@ -89,6 +89,10 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
                 return;
             }
 
+            if (!chat.isHasRead()) {
+                viewHolder.view_unRead.setVisibility(View.VISIBLE);
+            }
+
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,6 +115,7 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
 
                     //未读标示为已读
                     if (!chat.isHasRead()) {
+                        viewHolder.view_unRead.setVisibility(View.GONE);
                         chat.setHasRead(false);
                         GreenDaoHelper.getInstance().updateChat(chat);
                     }
@@ -143,6 +148,9 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
 
         @BindView(R.id.error_file)
         View error_file;
+
+        @BindView(R.id.view_unRead)
+        View view_unRead;
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;

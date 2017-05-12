@@ -72,6 +72,15 @@
                 android:layout_toRightOf="@+id/id_recorder_length"
                 android:text=""
                 android:textColor="#ff777777" />
+
+            <View
+                android:id="@+id/view_unRead"
+                android:layout_width="@dimen/dp_8"
+                android:layout_height="@dimen/dp_8"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/id_recorder_time"
+                android:background="@drawable/bg_circle_dot"
+                android:visibility="visible" />
         </RelativeLayout>
     </RelativeLayout>
 
