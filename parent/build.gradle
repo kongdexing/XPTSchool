@@ -76,7 +76,8 @@ android {
         if (name == "official") {
             service_url = "http://school.xinpingtai.com"
         } else { // internal
-            service_url = "http://192.168.1.195:8011"
+            service_url = "http://school.xinpingtai.com"
+//            service_url = "http://192.168.1.195:8011"
         }
 
         buildConfigField "String", "SERVICE_URL", "\"$service_url\""
@@ -149,4 +150,6 @@ dependencies {
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    compile 'com.coolerfall:android-app-daemon:1.2.0'
 }
