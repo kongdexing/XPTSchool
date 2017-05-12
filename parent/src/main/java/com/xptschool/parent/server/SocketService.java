@@ -51,9 +51,6 @@ public class SocketService extends Service {
     //    private static Socket mSocket = null;
     private static SocketReceiveThread receiveThread;
     private static SocketSendThread sendThread;
-
-    private PendingIntent mPAlarmIntent;
-    private AlarmManager alarmManager;
     private Timer mTimer;
 
     public SocketService() {
@@ -72,18 +69,10 @@ public class SocketService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "onStartCommand: ");
-        if (alarmManager == null) {
-            mPAlarmIntent = PendingIntent.getBroadcast(this, 0, mAlarmIntent, 0);
-            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-            registerReceiver(mAlarmReceiver, new IntentFilter(RECONNECT_ALARM));
-//            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), 3 * 1000, mPAlarmIntent);
-        }
-
         if (mTimer == null) {
             mTimer = new Timer();
+            setTimerTask();
         }
-        setTimerTask();
         return START_STICKY;
     }
 
@@ -99,7 +88,7 @@ public class SocketService extends Service {
             public void run() {
                 receiveMessage();
             }
-        }, 3 * 1000, 1000);
+        }, 1000, 2 * 1000);
     }
 
     private void receiveMessage() {
@@ -112,12 +101,6 @@ public class SocketService extends Service {
     }
 
     private synchronized void disconnect() {
-        alarmManager.cancel(mPAlarmIntent);// 取消重连闹钟
-        try {
-            unregisterReceiver(mAlarmReceiver);// 注销广播监听
-        } catch (Exception ex) {
-            Log.e(TAG, "unregister alarmReceiver error " + ex.getMessage());
-        }
         if (mTimer != null) {
             mTimer.cancel();
         }
@@ -178,7 +161,6 @@ public class SocketService extends Service {
                 closeSocket(mSocket, outputStream, null);
             }
         }
-
     }
 
     private void closeSocket(Socket mSocket, OutputStream outputStream, InputStream mmInStream) {
@@ -211,12 +193,4 @@ public class SocketService extends Service {
         super.onDestroy();
         disconnect();
     }
-
-    BroadcastReceiver mAlarmReceiver = new BroadcastReceiver() {
-        public void onReceive(Context ctx, Intent intent) {
-            if (RECONNECT_ALARM.equals(intent.getAction())) {
-                receiveMessage();
-            }
-        }
-    };
 }

@@ -95,9 +95,9 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
                 public void onClick(View v) {
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
-                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
+                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                     }
-                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
+                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim_right);
                     AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                     animation.start();
                     // 播放录音
@@ -105,7 +105,7 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
 
                         public void onCompletion(MediaPlayer mp) {
                             //播放完成后修改图片
-                            viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
+                            viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                         }
                     });
 
