@@ -99,6 +99,7 @@
         <activity
             android:name=".ui.contact.ContactsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.setting.AboutActivity" />
         <activity android:name=".ui.contact.ContactsDetailActivity" />

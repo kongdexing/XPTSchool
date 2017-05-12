@@ -72,6 +72,7 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
+            updateReadStatus(chat, viewHolder);
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             Log.i(TAG, "onBindViewHolder amr:" + chat.getFileName());
             //录音
@@ -112,21 +113,23 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                         }
                     });
-
-                    //未读标示为已读
-                    if (!chat.isHasRead()) {
-                        viewHolder.view_unRead.setVisibility(View.GONE);
-                        chat.setHasRead(true);
-                        GreenDaoHelper.getInstance().updateChat(chat);
-                    }
+                    updateReadStatus(chat, viewHolder);
                 }
             });
         } else {
             //文件，图片
             Log.i(TAG, "onBindViewHolder file");
-
+            updateReadStatus(chat, viewHolder);
         }
+    }
 
+    private void updateReadStatus(BeanChat chat, MyViewHolder viewHolder) {
+        //未读标示为已读
+        if (!chat.isHasRead()) {
+            viewHolder.view_unRead.setVisibility(View.GONE);
+            chat.setHasRead(true);
+            GreenDaoHelper.getInstance().updateChat(chat);
+        }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

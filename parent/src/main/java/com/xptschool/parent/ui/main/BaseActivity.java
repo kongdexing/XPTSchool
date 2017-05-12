@@ -235,9 +235,6 @@ public class BaseActivity extends SwipeBackActivity {
                     .setContentText("您有新未读聊天消息，请注意查看")
                     .setContentIntent(mainPendingIntent)
                     .setDefaults(Notification.DEFAULT_ALL);
-            //设置通知时间，默认为系统发出通知的时间，通常不用设置
-            //.setWhen(System.currentTimeMillis());
-            //通过builder.build()方法生成Notification对象,并发送通知,id=1
             mNotifyManager.notify(1, builder.build());
         }
     }

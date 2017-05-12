@@ -234,4 +234,16 @@ public class GreenDaoHelper {
         return chats;
     }
 
+    public List<BeanChat> getUnReadChats() {
+        List<BeanChat> chats = null;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.HasRead.eq(false)).list();
+        }
+        if (chats == null) {
+            chats = new ArrayList<BeanChat>();
+        }
+        return chats;
+    }
+
 }

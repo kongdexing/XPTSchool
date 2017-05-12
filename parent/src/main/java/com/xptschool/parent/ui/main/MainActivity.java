@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -33,6 +34,7 @@ import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanBanner;
+import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.SocketManager;
@@ -313,8 +315,6 @@ public class MainActivity extends BaseActivity {
 
     private void getBanners() {
         Log.i(TAG, "getBanners: ");
-
-
         String url = HttpAction.HOME_Banner;
         VolleyHttpService.getInstance().sendPostRequest(url, new VolleyHttpParamsEntity()
                 .addParam("s_id", ParentUtil.getStuSid()), new MyVolleyRequestListener() {
@@ -370,6 +370,22 @@ public class MainActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    public void showMessageNotify(boolean show, BeanChat chat) {
+        Log.i(TAG, "showMessageNotify: " + show);
+        //判断是否为当前正在聊天家长发来的信息
+        super.showMessageNotify(show, chat);
+        loadUnReadMessage();
+    }
+
+    private void loadUnReadMessage(){
+        //读取未读条数
+        int num = GreenDaoHelper.getInstance().getUnReadChats().size();
+        TextView txtUnReadNum = (TextView) findViewById(R.id.txtUnReadNum);
+        txtUnReadNum.setVisibility(View.VISIBLE);
+        txtUnReadNum.setText(num + "");
+    }
 
     @Override
     protected void onDestroy() {

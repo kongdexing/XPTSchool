@@ -115,6 +115,8 @@ public class SocketReceiveThread extends Thread {
                 }
 
                 if (chat.getSize() > 0) {
+                    chat.setHasRead(false);
+
                     Log.i(TAG, "run: " + chat.getType());
                     char type = chat.getType().toCharArray()[0];
                     if (ChatUtil.TYPE_AMR == type) {
@@ -135,7 +137,6 @@ public class SocketReceiveThread extends Thread {
                                 break;
                             }
                         }
-                        chat.setHasRead(false);
                     } else if (ChatUtil.TYPE_FILE == type) {
 
                     } else if (ChatUtil.TYPE_TEXT == type) {

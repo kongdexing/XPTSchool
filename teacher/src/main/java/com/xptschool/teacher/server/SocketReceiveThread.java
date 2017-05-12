@@ -114,6 +114,7 @@ public class SocketReceiveThread extends Thread{
                 }
 
                 if (chat.getSize() > 0) {
+                    chat.setHasRead(false);
                     char type = chat.getType().toCharArray()[0];
                     if (ChatUtil.TYPE_AMR == type) {
                         //创建文件

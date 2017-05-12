@@ -225,6 +225,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showMessageNotify(boolean show, BeanChat chat) {
+        Log.i(TAG, "base showMessageNotify: " + show);
         if (show) {
             Intent mainIntent = new Intent(this, ContactsActivity.class);
             PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);

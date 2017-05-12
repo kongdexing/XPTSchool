@@ -177,6 +177,7 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     public void showMessageNotify(boolean show, BeanChat chat) {
+        Log.i(TAG, "showMessageNotify: " + show);
         //判断是否为当前正在聊天家长发来的信息
         if (chat.getParentId().equals(parent.getUser_id())) {
             adapter.addData(chat);
