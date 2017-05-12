@@ -159,6 +159,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        loadUnReadMessage();
+
         String cookie = CookieUtil.getCookie();
         if (cookie == null || cookie.isEmpty()) {
             Log.i(TAG, "onResume: cookie is null");
