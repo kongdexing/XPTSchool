@@ -78,7 +78,6 @@ public class ChatActivity extends BaseActivity {
         filter.addAction(BroadcastAction.MESSAGE_SEND_START);
         filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
         filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
-        filter.addAction(BroadcastAction.MESSAGE_RECEIVED);
         this.registerReceiver(messageReceiver, filter);
     }
 
@@ -176,6 +175,17 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void showMessageNotify(boolean show, BeanChat chat) {
+        //判断是否为当前正在聊天家长发来的信息
+        if (chat.getParentId().equals(parent.getUser_id())) {
+            adapter.addData(chat);
+            recycleView.smoothScrollToPosition(adapter.getItemCount());
+        } else {
+            super.showMessageNotify(false, chat);
+        }
+    }
+
     public BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -186,39 +196,27 @@ public class ChatActivity extends BaseActivity {
             }
             String action = intent.getAction();
             Log.i(TAG, "onReceive: " + action);
+            BaseMessage sendMsg = (BaseMessage) bundle.get("message");
+            BeanChat chat = new BeanChat();
+            chat.parseMessageToChat(sendMsg);
+            chat.setHasRead(true);
+            chat.setTime(CommonUtil.getCurrentDateHms());
 
-            if (action.equals(BroadcastAction.MESSAGE_RECEIVED)) {
-                BeanChat chat = (BeanChat) bundle.getSerializable("chat");
-                Log.i(TAG, "onReceive: " + chat.getParentId() + " " + parent.getUser_id() + "  " + chat.getContent());
-                //判断是否为当前正在聊天家长发来的信息
-                if (chat.getParentId().equals(parent.getUser_id())) {
-                    adapter.addData(chat);
-                    recycleView.smoothScrollToPosition(adapter.getItemCount());
-                }
-            } else {
-                BaseMessage sendMsg = (BaseMessage) bundle.get("message");
+            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+                chat.setSendStatus(ChatUtil.STATUS_SENDING);
+                adapter.addData(chat);
+                recycleView.smoothScrollToPosition(adapter.getItemCount());
+                GreenDaoHelper.getInstance().insertChat(chat);
+            } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
+                chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                adapter.updateData(chat);
+                GreenDaoHelper.getInstance().updateChat(chat);
 
-                BeanChat chat = new BeanChat();
-                chat.parseMessageToChat(sendMsg);
-                chat.setHasRead(true);
-                chat.setTime(CommonUtil.getCurrentDateHms());
+            } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+                chat.setSendStatus(ChatUtil.STATUS_FAILED);
+                adapter.updateData(chat);
+                GreenDaoHelper.getInstance().updateChat(chat);
 
-                if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
-                    chat.setSendStatus(ChatUtil.STATUS_SENDING);
-                    adapter.addData(chat);
-                    recycleView.smoothScrollToPosition(adapter.getItemCount());
-                    GreenDaoHelper.getInstance().insertChat(chat);
-                } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
-                    chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
-                    adapter.updateData(chat);
-                    GreenDaoHelper.getInstance().updateChat(chat);
-
-                } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
-                    chat.setSendStatus(ChatUtil.STATUS_FAILED);
-                    adapter.updateData(chat);
-                    GreenDaoHelper.getInstance().updateChat(chat);
-
-                }
             }
         }
     };

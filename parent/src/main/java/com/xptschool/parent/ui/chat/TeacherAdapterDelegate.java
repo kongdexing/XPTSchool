@@ -116,7 +116,7 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
                     //未读标示为已读
                     if (!chat.isHasRead()) {
                         viewHolder.view_unRead.setVisibility(View.GONE);
-                        chat.setHasRead(false);
+                        chat.setHasRead(true);
                         GreenDaoHelper.getInstance().updateChat(chat);
                     }
                 }
