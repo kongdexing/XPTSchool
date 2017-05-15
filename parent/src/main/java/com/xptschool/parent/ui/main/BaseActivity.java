@@ -234,7 +234,8 @@ public class BaseActivity extends SwipeBackActivity {
                     .setContentTitle("消息提醒")
                     .setContentText("您有新未读聊天消息，请注意查看")
                     .setContentIntent(mainPendingIntent)
-                    .setDefaults(Notification.DEFAULT_ALL);
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true);
             mNotifyManager.notify(1, builder.build());
         }
     }

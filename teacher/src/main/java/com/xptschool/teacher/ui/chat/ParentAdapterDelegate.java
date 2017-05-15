@@ -91,6 +91,8 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
 
             if (!chat.isHasRead()) {
                 viewHolder.view_unRead.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.view_unRead.setVisibility(View.GONE);
             }
 
             //点击播放
