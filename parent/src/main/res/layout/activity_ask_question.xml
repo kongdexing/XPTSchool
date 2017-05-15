@@ -137,46 +137,6 @@
                 android:layout_marginTop="@dimen/dp_20"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:id="@+id/rl_recorder_length"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/chatto_bg_focused"
-                    android:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/txt_recorder_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="3dp"
-                        android:layout_toLeftOf="@+id/img_recorder_anim"
-                        android:text="1'"
-                        android:textColor="#ff777777" />
-
-                    <ImageView
-                        android:id="@+id/img_recorder_anim"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="center_vertical|right"
-                        android:background="@drawable/adj" />
-
-                </RelativeLayout>
-
-                <com.android.widget.audiorecorder.AudioRecorderButton
-                    android:id="@+id/id_recorder_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:background="@drawable/btn_recorder_normal"
-                    android:gravity="center"
-                    android:minHeight="0dp"
-                    android:padding="5dp"
-                    android:text="@string/str_recorder_normal"
-                    android:textColor="#727272" />
-
                 <Button
                     android:id="@+id/btnSubmit"
                     android:layout_width="match_parent"

@@ -197,7 +197,6 @@ public class ChatActivity extends BaseActivity {
             }
 
             BaseMessage sendMsg = (BaseMessage) bundle.get("message");
-
             BeanChat chat = new BeanChat();
             chat.parseMessageToChat(sendMsg);
             chat.setHasRead(true);

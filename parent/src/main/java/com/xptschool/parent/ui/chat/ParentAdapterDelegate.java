@@ -33,14 +33,13 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate extends ChatAdapterDelegate {
+public class ParentAdapterDelegate {
 
     private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
     private Context mContext;
 
     public ParentAdapterDelegate(Context context, int viewType) {
-        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -53,15 +52,13 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
         return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_parent, parent, false));
     }
 
-    public void onBindViewHolder(List items, int position, RecyclerView.ViewHolder holder) {
+    public void onBindViewHolder(List items, final int position, RecyclerView.ViewHolder holder, final ChatAdapter.OnItemResendListener listener) {
         final BeanChat chat = (BeanChat) items.get(position);
         BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-        if (parent == null) {
+        if (parent == null || chat == null) {
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
-        Log.i(TAG, "onBindViewHolder status:" + chat.getSendStatus());
-        Log.i(TAG, "onBindViewHolder chatId:" + chat.getChatId());
 
         //家长提问，提问发送状态
         if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
@@ -69,8 +66,10 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    ((QuestionDetailActivity) mContext).sendAnswer(chat);
-
+                    if (listener != null) {
+                        listener.onResend(chat, position);
+                    }
+                    chat.onReSendChatToMessage();
                 }
             });
         } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
@@ -98,7 +97,7 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
-            lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
+            lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(chat.getSeconds()));
 
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             if (!file.exists()) {

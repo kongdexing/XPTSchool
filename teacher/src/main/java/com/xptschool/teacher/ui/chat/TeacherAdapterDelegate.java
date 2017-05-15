@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class TeacherAdapterDelegate extends ChatAdapterDelegate {
+public class TeacherAdapterDelegate {
 
     private String TAG = TeacherAdapterDelegate.class.getSimpleName();
     private int viewType;
@@ -41,7 +41,6 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
     private BeanTeacher teacher;
 
     public TeacherAdapterDelegate(Context context, int viewType) {
-        super(context);
         this.viewType = viewType;
         this.mContext = context;
         teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
@@ -96,7 +95,7 @@ public class TeacherAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
-            lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
+            lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(chat.getSeconds()));
 
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             if (!file.exists()) {

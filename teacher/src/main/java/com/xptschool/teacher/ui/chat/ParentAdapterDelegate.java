@@ -33,14 +33,13 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate extends ChatAdapterDelegate {
+public class ParentAdapterDelegate {
 
     private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
     private Context mContext;
 
     public ParentAdapterDelegate(Context context, int viewType) {
-        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -80,7 +79,7 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
-            lp.width = (int) (mMinWidth + (mMaxWidth / 60f) * Integer.parseInt(chat.getSeconds()));
+            lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(chat.getSeconds()));
 
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             if (!file.exists()) {

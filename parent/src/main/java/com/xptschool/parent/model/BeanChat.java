@@ -3,12 +3,17 @@ package com.xptschool.parent.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.chat.BaseMessage;
+import com.xptschool.parent.util.ChatUtil;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.Serializable;
 
 /**
@@ -169,8 +174,36 @@ public class BeanChat implements Serializable {
         this.setContent(sendMsg.getContent());
         this.setSeconds(sendMsg.getSecond() + "");
         this.setFileName(sendMsg.getFilename());
+        this.setSize(sendMsg.getSize());
         this.setTeacherId(sendMsg.getTeacherId());
         this.setParentId(sendMsg.getParentId());
+    }
+
+    public void onReSendChatToMessage() {
+        try {
+            BaseMessage message = new BaseMessage();
+            message.setType(this.getType().charAt(0));
+            message.setFilename(this.getFileName());
+            message.setSecond(Integer.parseInt(this.getSeconds()));
+            message.setSize(getSize());
+            message.setParentId(getParentId());
+            message.setTeacherId(getTeacherId());
+            byte[] allByte = null;
+            if (ChatUtil.TYPE_AMR == message.getType()) {
+                File file = new File(XPTApplication.getInstance().getCachePath() + "/" + getFileName());
+                FileInputStream inputStream = new FileInputStream(file);
+                allByte = message.packData(inputStream);
+                inputStream.close();
+            } else if (ChatUtil.TYPE_TEXT == message.getType()) {
+                allByte = message.packData(getContent());
+            }
+            if (allByte != null) {
+                message.setAllData(allByte);
+                SocketManager.getInstance().sendMessage(message);
+            }
+        } catch (Exception ex) {
+
+        }
     }
 
 }

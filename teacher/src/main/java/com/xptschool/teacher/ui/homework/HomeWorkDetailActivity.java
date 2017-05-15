@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.android.widget.audiorecorder.AudioRecorderButton;
+import com.android.widget.audiorecorder.Recorder;
 import com.android.widget.mygridview.MyGridView;
 import com.android.widget.spinner.MaterialSpinner;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -35,6 +40,7 @@ import com.xptschool.teacher.model.BeanCourse;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.album.AlbumActivity;
 import com.xptschool.teacher.ui.album.AlbumGridAdapter;
+import com.xptschool.teacher.util.ChatUtil;
 import com.xptschool.teacher.view.CustomDialog;
 import com.xptschool.teacher.view.TimePickerPopupWindow;
 import com.xptschool.teacher.view.imgloader.AlbumViewPager;
@@ -92,6 +98,16 @@ public class HomeWorkDetailActivity extends AlbumActivity {
 
     @BindView(R.id.albumviewpager)
     AlbumViewPager albumviewpager;
+
+    @BindView(R.id.id_recorder_button)
+    AudioRecorderButton mAudioRecorderButton;
+
+    @BindView(R.id.rl_recorder_length)
+    RelativeLayout rl_recorder_length;
+    @BindView(R.id.txt_recorder_time)
+    TextView txt_recorder_time;
+    @BindView(R.id.img_recorder_anim)
+    ImageView img_recorder_anim;
 
     private TimePickerPopupWindow pushDate, completeDate;
     private BeanHomeWork currentHomeWork;
@@ -164,8 +180,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                             return;
                         }
                         showAlbumSource(albumviewpager);
-                    }
-                    else {
+                    } else {
                         showViewPager(albumviewpager, position - 1);
                     }
                 }
@@ -252,6 +267,22 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             edtName.setText(spnCourse.getText() + "作业");
             edtName.setSelection(edtName.getText().length());
         }
+
+        mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
+
+            public void onFinish(float seconds, String filePath) {
+                Recorder recorder = new Recorder(seconds, filePath);
+
+                ViewGroup.LayoutParams lp = rl_recorder_length.getLayoutParams();
+                lp.width = (int) (ChatUtil.getChatMinWidth(HomeWorkDetailActivity.this) +
+                        (ChatUtil.getChatMaxWidth(HomeWorkDetailActivity.this) / 60f) * seconds);
+
+                File file = new File(filePath);
+                String str = Math.round(recorder.getTime()) + "\"" + filePath + " size:" + file.length();
+                rl_recorder_length.setVisibility(View.VISIBLE);
+                txt_recorder_time.setText(str);
+            }
+        });
     }
 
     private void loadCourseByClass(BeanClass item) {

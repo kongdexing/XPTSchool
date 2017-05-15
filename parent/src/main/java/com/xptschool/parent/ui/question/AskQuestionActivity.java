@@ -6,17 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
-import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.audiorecorder.Recorder;
 import com.android.widget.spinner.MaterialSpinner;
@@ -59,15 +55,6 @@ public class AskQuestionActivity extends BaseActivity {
     @BindView(R.id.edtQTitle)
     EditText edtQTitle;
 
-    @BindView(R.id.id_recorder_button)
-    AudioRecorderButton mAudioRecorderButton;
-
-    @BindView(R.id.rl_recorder_length)
-    RelativeLayout rl_recorder_length;
-    @BindView(R.id.txt_recorder_time)
-    TextView txt_recorder_time;
-    @BindView(R.id.img_recorder_anim)
-    ImageView img_recorder_anim;
     private Recorder recorder;
 
     @Override
@@ -89,18 +76,6 @@ public class AskQuestionActivity extends BaseActivity {
         });
 
         spnTeacher.setItems("正在获取老师信息");
-
-        mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
-
-            public void onFinish(float seconds, String filePath) {
-                recorder = new Recorder(seconds, filePath);
-
-                File file = new File(filePath);
-                String str = Math.round(recorder.getTime()) + "\"" + filePath + " size:" + file.length();
-                rl_recorder_length.setVisibility(View.VISIBLE);
-                txt_recorder_time.setText(str);
-            }
-        });
 
         getTeacherByStudent();
     }
@@ -150,29 +125,24 @@ public class AskQuestionActivity extends BaseActivity {
                 });
     }
 
-    @OnClick({R.id.rl_recorder_length, R.id.id_recorder_button, R.id.btnSubmit, R.id.btnUpload})
+    @OnClick({R.id.id_recorder_button, R.id.btnSubmit, R.id.btnUpload})
     void viewClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_recorder_length:
-                if (recorder == null) {
-                    return;
-                }
-                // 声音播放动画
-                if (img_recorder_anim != null) {
-                    img_recorder_anim.setBackgroundResource(R.drawable.adj);
-                }
-                img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
-                AnimationDrawable animation = (AnimationDrawable) img_recorder_anim.getBackground();
-                animation.start();
-                // 播放录音
-                MediaPlayerManager.playSound(recorder.getFilePath(), new MediaPlayer.OnCompletionListener() {
-
-                    public void onCompletion(MediaPlayer mp) {
-                        //播放完成后修改图片
-                        img_recorder_anim.setBackgroundResource(R.drawable.adj);
-                    }
-                });
-                break;
+            // 声音播放动画
+//                if (img_recorder_anim != null) {
+//                    img_recorder_anim.setBackgroundResource(R.drawable.adj);
+//                }
+//                img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
+//                AnimationDrawable animation = (AnimationDrawable) img_recorder_anim.getBackground();
+//                animation.start();
+//                // 播放录音
+//                MediaPlayerManager.playSound(recorder.getFilePath(), new MediaPlayer.OnCompletionListener() {
+//
+//                    public void onCompletion(MediaPlayer mp) {
+//                        //播放完成后修改图片
+//                        img_recorder_anim.setBackgroundResource(R.drawable.adj);
+//                    }
+//                });
             case R.id.id_recorder_button:
 
                 break;

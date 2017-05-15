@@ -2,7 +2,9 @@ package com.xptschool.parent.util;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.xptschool.parent.XPTApplication;
@@ -114,6 +116,24 @@ public class ChatUtil {
         System.arraycopy(data1, 0, data3, 0, data1.length);
         System.arraycopy(data2, 0, data3, data1.length, data2.length);
         return data3;
+    }
+
+    public static int getChatMinWidth(Context context) {
+        //获取屏幕的宽度
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        //最大宽度为屏幕宽度的百分之十五
+        return (int) (outMetrics.widthPixels * 0.15f);
+    }
+
+    public static int getChatMaxWidth(Context context) {
+        //获取屏幕的宽度
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        //最大宽度为屏幕宽度的百分之七十
+        return (int) (outMetrics.widthPixels * 0.7f);
     }
 
 }
