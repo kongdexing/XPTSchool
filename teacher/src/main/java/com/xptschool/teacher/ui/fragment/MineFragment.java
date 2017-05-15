@@ -39,6 +39,9 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.txtChangeAccount)
     TextView txtMineInfo;
 
+    @BindView(R.id.txtDot)
+    View txtDot;
+
     private Unbinder unbinder;
 
     DisplayImageOptions options;
@@ -83,6 +86,12 @@ public class MineFragment extends BaseFragment {
             } else {
                 imgHead.setImageResource(R.drawable.teacher_woman);
             }
+        }
+        int num = GreenDaoHelper.getInstance().getUnReadChats().size();
+        if (num > 0) {
+            txtDot.setVisibility(View.VISIBLE);
+        } else {
+            txtDot.setVisibility(View.GONE);
         }
     }
 

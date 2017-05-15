@@ -381,12 +381,14 @@ public class MainActivity extends BaseActivity {
         loadUnReadMessage();
     }
 
-    private void loadUnReadMessage(){
+    private void loadUnReadMessage() {
         //读取未读条数
         int num = GreenDaoHelper.getInstance().getUnReadChats().size();
-        TextView txtUnReadNum = (TextView) findViewById(R.id.txtUnReadNum);
-        txtUnReadNum.setVisibility(View.VISIBLE);
-        txtUnReadNum.setText(num + "");
+        if (num > 0) {
+            TextView txtUnReadNum = (TextView) findViewById(R.id.txtUnReadNum);
+            txtUnReadNum.setVisibility(View.VISIBLE);
+            txtUnReadNum.setText(num + "");
+        }
     }
 
     @Override

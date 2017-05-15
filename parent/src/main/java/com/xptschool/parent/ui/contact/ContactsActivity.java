@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
 import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.ContactSchool;
 import com.xptschool.parent.model.ContactTeacher;
@@ -102,6 +103,13 @@ public class ContactsActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
+
     private void setContact(ArrayList<Object> listTeacher, ArrayList<Object> listSchool) {
         LinkedHashMap<String, ArrayList<Object>> listContacts = new LinkedHashMap<>();
 
@@ -145,6 +153,12 @@ public class ContactsActivity extends BaseActivity {
         for (int i = 0; i < wrapperAdapter.getGroupCount(); i++) {
             expandableview.expandGroup(i);
         }
+    }
+
+    @Override
+    public void showMessageNotify(boolean show, BeanChat chat) {
+        super.showMessageNotify(show, chat);
+        adapter.notifyDataSetChanged();
     }
 
     @OnClick({R.id.btnSearch})

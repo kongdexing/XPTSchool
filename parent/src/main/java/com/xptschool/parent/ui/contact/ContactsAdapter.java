@@ -22,12 +22,16 @@ import com.xptschool.parent.bean.ContactType;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.ContactSchool;
 import com.xptschool.parent.model.ContactTeacher;
+import com.xptschool.parent.model.GreenDaoHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ContactsAdapter extends BaseExpandableListAdapter {
 
@@ -162,10 +166,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         ChildrenViewHolder viewHolder = null;
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.item_contacts, parent, false);
-            viewHolder = new ChildrenViewHolder();
-            viewHolder.llContacts = (RelativeLayout) convertView.findViewById(R.id.llContacts);
-            viewHolder.imgHead = (CircularImageView) convertView.findViewById(R.id.imgHead);
-            viewHolder.text = (TextView) convertView.findViewById(R.id.text);
+            viewHolder = new ChildrenViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ChildrenViewHolder) convertView.getTag();
@@ -185,6 +186,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
                     mContext.startActivity(intent);
                 }
             });
+            viewHolder.txtUnReadNum.setVisibility(View.GONE);
         } else {
             final ContactTeacher teacher = (ContactTeacher) object;
             if (teacher.getSex().equals("1")) {
@@ -202,6 +204,14 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
                     mContext.startActivity(intent);
                 }
             });
+            //读取老师未读消息
+            int unReadNum = GreenDaoHelper.getInstance().getUnReadNumByTeacherId(teacher.getU_id());
+            if (unReadNum > 0) {
+                viewHolder.txtUnReadNum.setText(unReadNum + "");
+                viewHolder.txtUnReadNum.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.txtUnReadNum.setVisibility(View.GONE);
+            }
         }
 
         return convertView;
@@ -223,9 +233,18 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
     }
 
     class ChildrenViewHolder {
+        @BindView(R.id.llContacts)
         RelativeLayout llContacts;
+        @BindView(R.id.imgHead)
         CircularImageView imgHead;
+        @BindView(R.id.txtUnReadNum)
+        TextView txtUnReadNum;
+        @BindView(R.id.text)
         TextView text;
+
+        public ChildrenViewHolder(View itemView) {
+            ButterKnife.bind(this, itemView);
+        }
     }
 
 }

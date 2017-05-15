@@ -36,7 +36,6 @@ import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanBanner;
 import com.xptschool.teacher.model.BeanChat;
-import com.xptschool.teacher.model.BeanClass;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
@@ -388,12 +387,14 @@ public class MainActivity extends BaseActivity {
         loadUnReadMessage();
     }
 
-    private void loadUnReadMessage(){
+    private void loadUnReadMessage() {
         //读取未读条数
         int num = GreenDaoHelper.getInstance().getUnReadChats().size();
-        TextView txtUnReadNum = (TextView) findViewById(R.id.txtUnReadNum);
-        txtUnReadNum.setVisibility(View.VISIBLE);
-        txtUnReadNum.setText(num + "");
+        if (num > 0) {
+            TextView txtUnReadNum = (TextView) findViewById(R.id.txtUnReadNum);
+            txtUnReadNum.setVisibility(View.VISIBLE);
+            txtUnReadNum.setText(num + "");
+        }
     }
 
     BroadcastReceiver MyBannerReceiver = new BroadcastReceiver() {

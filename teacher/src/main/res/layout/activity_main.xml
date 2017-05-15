@@ -65,19 +65,7 @@
                 android:padding="@dimen/dp_10"
                 android:src="@drawable/home_mine_selector" />
 
-            <TextView
-                android:id="@+id/txtUnReadNum"
-                android:layout_width="@dimen/dp_15"
-                android:layout_height="@dimen/dp_15"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_30"
-                android:layout_marginTop="@dimen/dp_4"
-                android:background="@drawable/bg_circle_dot"
-                android:gravity="center"
-                android:text="38"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_10"
-                android:visibility="gone" />
+            <include layout="@layout/layout_dot" />
 
         </RelativeLayout>
     </LinearLayout>

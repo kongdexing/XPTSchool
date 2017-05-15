@@ -18,6 +18,7 @@ import com.xptschool.parent.ui.contact.ContactsActivity;
 import com.xptschool.parent.ui.course.CourseActivity;
 import com.xptschool.parent.ui.fence.FenceListActivity;
 import com.xptschool.parent.ui.main.LoginActivity;
+import com.xptschool.parent.ui.main.MainActivity;
 import com.xptschool.parent.ui.mine.MyChildActivity;
 import com.xptschool.parent.ui.mine.MyInfoActivity;
 import com.xptschool.parent.ui.setting.SettingActivity;
@@ -41,6 +42,9 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.txtChangeAccount)
     TextView txtMineInfo;
 
+    @BindView(R.id.txtDot)
+    TextView txtDot;
+
     private Unbinder unbinder;
 
     public MineFragment() {
@@ -51,6 +55,7 @@ public class MineFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_mine, container, false);
         unbinder = ButterKnife.bind(this, mRootView);
+        txtDot = (TextView) mRootView.findViewById(R.id.txtDot);
         return mRootView;
     }
 
@@ -69,6 +74,12 @@ public class MineFragment extends BaseFragment {
             } else {
                 imgHead.setImageResource(R.drawable.parent_mother);
             }
+        }
+        int num = GreenDaoHelper.getInstance().getUnReadChats().size();
+        if (num > 0) {
+            txtDot.setVisibility(View.VISIBLE);
+        } else {
+            txtDot.setVisibility(View.GONE);
         }
     }
 

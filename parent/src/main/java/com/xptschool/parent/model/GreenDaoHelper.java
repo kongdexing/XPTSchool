@@ -205,13 +205,13 @@ public class GreenDaoHelper {
     }
 
     //聊天记录
-    public void insertChat(BeanChat chat){
+    public void insertChat(BeanChat chat) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanChatDao().insertOrReplace(chat);
         }
     }
 
-    public void updateChat(BeanChat chat){
+    public void updateChat(BeanChat chat) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanChatDao().update(chat);
         }
@@ -219,6 +219,7 @@ public class GreenDaoHelper {
 
     /**
      * 根据老师id，获取跟此老师的聊天记录
+     *
      * @param teacherId
      * @return
      */
@@ -244,6 +245,15 @@ public class GreenDaoHelper {
             chats = new ArrayList<BeanChat>();
         }
         return chats;
+    }
+
+    public int getUnReadNumByTeacherId(String tuId) {
+        long chats = 0;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.HasRead.eq(false), BeanChatDao.Properties.TeacherId.eq(tuId)).count();
+        }
+        return (int) chats;
     }
 
 }
