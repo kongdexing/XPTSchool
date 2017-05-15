@@ -158,7 +158,8 @@ public class ContactsActivity extends BaseActivity {
     @Override
     public void showMessageNotify(boolean show, BeanChat chat) {
         super.showMessageNotify(show, chat);
-        adapter.notifyDataSetChanged();
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
     }
 
     @OnClick({R.id.btnSearch})

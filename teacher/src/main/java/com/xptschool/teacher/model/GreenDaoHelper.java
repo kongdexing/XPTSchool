@@ -371,15 +371,31 @@ public class GreenDaoHelper {
         return chats;
     }
 
+    /**
+     * 读取当前账号未读消息个数
+     *
+     * @return
+     */
     public List<BeanChat> getUnReadChats() {
         List<BeanChat> chats = null;
         if (readDaoSession != null) {
             chats = readDaoSession.getBeanChatDao().queryBuilder()
-                    .where(BeanChatDao.Properties.HasRead.eq(false)).list();
+                    .where(BeanChatDao.Properties.HasRead.eq(false), BeanChatDao.Properties.TeacherId.eq(currentTeacher.getU_id())).list();
         }
         if (chats == null) {
             chats = new ArrayList<BeanChat>();
         }
         return chats;
+    }
+
+    public int getUnReadNumByParentId(String uId) {
+        long chats = 0;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.HasRead.eq(false),
+                            BeanChatDao.Properties.TeacherId.eq(currentTeacher.getU_id()),
+                            BeanChatDao.Properties.ParentId.eq(uId)).count();
+        }
+        return (int) chats;
     }
 }

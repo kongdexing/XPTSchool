@@ -93,7 +93,7 @@ public class ChatActivity extends BaseActivity {
         adapter.loadData(chats, parent);
 
         recycleView.setItemAnimator(new DefaultItemAnimator());
-        recycleView.smoothScrollToPosition(chats.size());
+        smoothBottom();
 
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
 
@@ -135,6 +135,7 @@ public class ChatActivity extends BaseActivity {
                     edtContent.requestFocus();
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
                     mAudioRecorderButton.setVisibility(View.GONE);
+                    smoothBottom();
                 } else {
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
@@ -187,6 +188,10 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
+    private void smoothBottom() {
+        recycleView.smoothScrollToPosition(adapter.getItemCount());
+    }
+
     public BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -206,7 +211,7 @@ public class ChatActivity extends BaseActivity {
             if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
                 chat.setSendStatus(ChatUtil.STATUS_SENDING);
                 adapter.addData(chat);
-                recycleView.smoothScrollToPosition(adapter.getItemCount());
+                smoothBottom();
                 GreenDaoHelper.getInstance().insertChat(chat);
             } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);

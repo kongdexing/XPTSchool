@@ -18,14 +18,19 @@ import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.bean.ContactType;
 import com.xptschool.teacher.common.ExtraKey;
+import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
+import com.xptschool.teacher.model.GreenDaoHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ContactsAdapter extends BaseExpandableListAdapter {
 
@@ -169,10 +174,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
         ChildrenViewHolder viewHolder = null;
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.item_contacts, parent, false);
-            viewHolder = new ChildrenViewHolder();
-            viewHolder.llContacts = (RelativeLayout) convertView.findViewById(R.id.llContacts);
-            viewHolder.imgHead = (CircularImageView) convertView.findViewById(R.id.imgHead);
-            viewHolder.text = (TextView) convertView.findViewById(R.id.text);
+            viewHolder = new ChildrenViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ChildrenViewHolder) convertView.getTag();
@@ -195,6 +197,7 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
                     mContext.startActivity(intent);
                 }
             });
+            viewHolder.txtUnReadNum.setVisibility(View.GONE);
         } else {
             final ContactStudent student = (ContactStudent) getChild(groupPosition, childPosition);
             viewHolder.text.setText(student.getStu_name());
@@ -212,6 +215,21 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
                     mContext.startActivity(intent);
                 }
             });
+            List<ContactParent> parents = student.getParent();
+            if (parents == null || parents.size() == 0) {
+                return convertView;
+            }
+
+            int unReadNum = 0;
+            for (int i = 0; i < parents.size(); i++) {
+                unReadNum += GreenDaoHelper.getInstance().getUnReadNumByParentId(parents.get(i).getUser_id());
+            }
+            if (unReadNum > 0) {
+                viewHolder.txtUnReadNum.setText(unReadNum + "");
+                viewHolder.txtUnReadNum.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.txtUnReadNum.setVisibility(View.GONE);
+            }
         }
         return convertView;
     }
@@ -233,9 +251,18 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
     }
 
     class ChildrenViewHolder {
+        @BindView(R.id.llContacts)
         RelativeLayout llContacts;
+        @BindView(R.id.imgHead)
         CircularImageView imgHead;
+        @BindView(R.id.txtUnReadNum)
+        TextView txtUnReadNum;
+        @BindView(R.id.text)
         TextView text;
+
+        public ChildrenViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 
 }

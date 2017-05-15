@@ -23,6 +23,7 @@ import com.xptschool.teacher.bean.ContactType;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
@@ -106,6 +107,13 @@ public class ContactsActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
+
     private void setContact(ArrayList<Object> listTeacher, ArrayList<Object> listStudent) {
         LinkedHashMap<String, ArrayList<Object>> listContacts = new LinkedHashMap<>();
         listContacts.put(ContactType.TEACHER.toString(), listTeacher);
@@ -129,6 +137,13 @@ public class ContactsActivity extends BaseActivity {
                 expandContactList();
                 break;
         }
+    }
+
+    @Override
+    public void showMessageNotify(boolean show, BeanChat chat) {
+        super.showMessageNotify(show, chat);
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
     }
 
     private void getContacts() {

@@ -85,6 +85,7 @@ public class ContactsDetailActivity extends BaseActivity {
     RecyclerView recycleView;
 
     private PopupWindow picPopup;
+    private String type = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,6 @@ public class ContactsDetailActivity extends BaseActivity {
         KenBurnsView mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
         mHeaderPicture.setResourceIds(R.drawable.bg_student, R.drawable.bg_student);
 
-        String type = "";
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             type = bundle.getString(ExtraKey.CONTACT_TYPE);
@@ -107,6 +107,14 @@ public class ContactsDetailActivity extends BaseActivity {
                 llStudent.setVisibility(View.VISIBLE);
                 setStudentInfo((ContactStudent) bundle.get(ExtraKey.CONTACT));
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (type.equals(ExtraKey.CONTACT_STUDENT)) {
+            recycleView.getAdapter().notifyDataSetChanged();
         }
     }
 
@@ -166,8 +174,6 @@ public class ContactsDetailActivity extends BaseActivity {
             @Override
             public void onPhoneClickListener(ContactParent parent) {
                 showBottomView(recycleView, parent);
-//                currentPhone = parent.getPhone();
-//                call();
             }
         });
 

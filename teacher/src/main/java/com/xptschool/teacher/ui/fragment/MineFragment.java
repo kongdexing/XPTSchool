@@ -74,6 +74,12 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        int num = GreenDaoHelper.getInstance().getUnReadChats().size();
+        if (num > 0) {
+            txtDot.setVisibility(View.VISIBLE);
+        } else {
+            txtDot.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -86,12 +92,6 @@ public class MineFragment extends BaseFragment {
             } else {
                 imgHead.setImageResource(R.drawable.teacher_woman);
             }
-        }
-        int num = GreenDaoHelper.getInstance().getUnReadChats().size();
-        if (num > 0) {
-            txtDot.setVisibility(View.VISIBLE);
-        } else {
-            txtDot.setVisibility(View.GONE);
         }
     }
 

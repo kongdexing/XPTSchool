@@ -97,7 +97,6 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
@@ -130,9 +129,12 @@ public class ParentAdapterDelegate extends ChatAdapterDelegate {
     private void updateReadStatus(BeanChat chat, MyViewHolder viewHolder) {
         //未读标示为已读
         if (!chat.isHasRead()) {
-            viewHolder.view_unRead.setVisibility(View.GONE);
             chat.setHasRead(true);
             GreenDaoHelper.getInstance().updateChat(chat);
+        }
+
+        if (chat.isHasRead()) {
+            viewHolder.view_unRead.setVisibility(View.GONE);
         }
     }
 

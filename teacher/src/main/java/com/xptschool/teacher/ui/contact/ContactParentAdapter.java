@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.BaseRecycleAdapter;
 import com.xptschool.teacher.adapter.RecyclerViewHolderBase;
 import com.xptschool.teacher.model.ContactParent;
+import com.xptschool.teacher.model.GreenDaoHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,15 @@ public class ContactParentAdapter extends BaseRecycleAdapter {
                 }
             }
         });
+
+        //读取老师未读消息
+        int unReadNum = GreenDaoHelper.getInstance().getUnReadNumByParentId(parent.getUser_id());
+        if (unReadNum > 0) {
+            mHolder.txtUnReadNum.setText(unReadNum + "");
+            mHolder.txtUnReadNum.setVisibility(View.VISIBLE);
+        } else {
+            mHolder.txtUnReadNum.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -76,13 +87,16 @@ public class ContactParentAdapter extends BaseRecycleAdapter {
     public class ViewHolder extends RecyclerViewHolderBase {
         private Unbinder unbinder;
         @BindView(R.id.llParent)
-        LinearLayout llParent;
+        RelativeLayout llParent;
 
         @BindView(R.id.txtParentName)
         TextView txtParentName;
 
         @BindView(R.id.txtParentPhone)
         TextView txtParentPhone;
+
+        @BindView(R.id.txtUnReadNum)
+        TextView txtUnReadNum;
 
         public ViewHolder(View itemView) {
             super(itemView);
