@@ -69,7 +69,6 @@ public class ParentAdapterDelegate {
                     if (listener != null) {
                         listener.onResend(chat, position);
                     }
-                    chat.onReSendChatToMessage();
                 }
             });
         } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {

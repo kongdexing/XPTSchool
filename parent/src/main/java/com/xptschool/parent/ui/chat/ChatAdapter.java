@@ -103,6 +103,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
             removeData(position);
+            chat.onReSendChatToMessage();
         }
     }
 

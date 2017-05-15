@@ -59,7 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         if (viewType == parentAdapterDelegate.getViewType()) {
             parentAdapterDelegate.onBindViewHolder(currentParent, listChat, position, holder);
         } else {
-            teacherAdapterDelegate.onBindViewHolder(listChat, position, holder);
+            teacherAdapterDelegate.onBindViewHolder(listChat, position, holder, new OnItemResendListener());
         }
     }
 
@@ -95,8 +95,15 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     //  删除数据
     public void removeData(int position) {
-        listChat.remove(listChat.size() - 1);
+        listChat.remove(position);
         notifyItemRemoved(listChat.size());
+    }
+
+    public class OnItemResendListener {
+        void onResend(BeanChat chat, int position) {
+            removeData(position);
+            chat.onReSendChatToMessage();
+        }
     }
 
 }

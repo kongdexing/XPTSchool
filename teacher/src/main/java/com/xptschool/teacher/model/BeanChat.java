@@ -1,11 +1,16 @@
 package com.xptschool.teacher.model;
 
+import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.server.SocketManager;
 import com.xptschool.teacher.ui.chat.BaseMessage;
+import com.xptschool.teacher.util.ChatUtil;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.Serializable;
 
 /**
@@ -168,6 +173,33 @@ public class BeanChat implements Serializable {
         this.setFileName(sendMsg.getFilename());
         this.setTeacherId(sendMsg.getTeacherId());
         this.setParentId(sendMsg.getParentId());
+    }
+
+    public void onReSendChatToMessage() {
+        try {
+            BaseMessage message = new BaseMessage();
+            message.setType(this.getType().charAt(0));
+            message.setFilename(this.getFileName());
+            message.setSecond(Integer.parseInt(this.getSeconds()));
+            message.setSize(getSize());
+            message.setParentId(getParentId());
+            message.setTeacherId(getTeacherId());
+            byte[] allByte = null;
+            if (ChatUtil.TYPE_AMR == message.getType()) {
+                File file = new File(XPTApplication.getInstance().getCachePath() + "/" + getFileName());
+                FileInputStream inputStream = new FileInputStream(file);
+                allByte = message.packData(inputStream);
+                inputStream.close();
+            } else if (ChatUtil.TYPE_TEXT == message.getType()) {
+                allByte = message.packData(getContent());
+            }
+            if (allByte != null) {
+                message.setAllData(allByte);
+                SocketManager.getInstance().sendMessage(message);
+            }
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override

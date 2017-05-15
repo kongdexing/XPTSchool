@@ -54,9 +54,9 @@ public class TeacherAdapterDelegate {
         return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_teacher, parent, false));
     }
 
-    public void onBindViewHolder(List items, int position, RecyclerView.ViewHolder holder) {
+    public void onBindViewHolder(List items, final int position, RecyclerView.ViewHolder holder, final ChatAdapter.OnItemResendListener listener) {
         final BeanChat chat = (BeanChat) items.get(position);
-        if (teacher == null) {
+        if (teacher == null || chat == null) {
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
@@ -66,8 +66,9 @@ public class TeacherAdapterDelegate {
             viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    ((QuestionDetailActivity) mContext).sendAnswer(chat);
-
+                    if (listener != null) {
+                        listener.onResend(chat, position);
+                    }
                 }
             });
         } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
