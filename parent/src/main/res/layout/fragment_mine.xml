@@ -139,6 +139,7 @@
                 android:clickable="true">
 
                 <TextView
+                    android:id="@+id/txtContact"
                     style="@style/mineText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,11 +147,10 @@
 
                 <TextView
                     android:id="@+id/txtDot"
-                    android:layout_width="@dimen/dp_5"
-                    android:layout_height="@dimen/dp_5"
-                    android:layout_alignParentRight="true"
+                    android:layout_width="@dimen/dp_6"
+                    android:layout_height="@dimen/dp_6"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_30"
+                    android:layout_toRightOf="@+id/txtContact"
                     android:background="@drawable/bg_circle_dot"
                     android:visibility="visible" />
 

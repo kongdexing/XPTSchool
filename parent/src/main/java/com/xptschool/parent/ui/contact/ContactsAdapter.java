@@ -23,6 +23,7 @@ import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.ContactSchool;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.ui.chat.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -198,10 +199,14 @@ public class ContactsAdapter extends BaseExpandableListAdapter {
             viewHolder.llContacts.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(mContext, ContactsDetailActivity.class);
-                    intent.putExtra(ExtraKey.CONTACT_TYPE, ExtraKey.CONTACT_TEACHER);
-                    intent.putExtra(ExtraKey.CONTACT, teacher);
+                    Intent intent = new Intent(mContext, ChatActivity.class);
+                    intent.putExtra(ExtraKey.CHAT_TEACHER, teacher);
                     mContext.startActivity(intent);
+
+//                    Intent intent = new Intent(mContext, ContactsDetailActivity.class);
+//                    intent.putExtra(ExtraKey.CONTACT_TYPE, ExtraKey.CONTACT_TEACHER);
+//                    intent.putExtra(ExtraKey.CONTACT, teacher);
+//                    mContext.startActivity(intent);
                 }
             });
             //读取老师未读消息
