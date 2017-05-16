@@ -196,6 +196,7 @@
     <string name="label_bill">清单</string>
     <string name="label_freeze">账户冻结</string>
     <string name="label_unfreeze">解除冻结</string>
+    <string name="label_freeze_unavailable">不可用</string>
     <string name="msg_freeze">确定要【冻结】该卡的消费功能吗？</string>
     <string name="msg_unfreeze">确定要【解冻】该卡的消费功能吗？</string>
     <string name="progress_freezing">正在冻结学生卡</string>

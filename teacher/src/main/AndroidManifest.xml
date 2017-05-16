@@ -136,8 +136,8 @@
 
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 
-        <activity android:name=".ui.mine.ChangePwdActivity" />
-        <activity android:name=".ui.mine.SettingActivity" />
+        <activity android:name=".ui.setting.ChangePwdActivity" />
+        <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.main.WebViewActivity"></activity>
 
         <activity android:name=".ui.chat.ChatActivity"></activity>

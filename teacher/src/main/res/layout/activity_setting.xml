@@ -103,6 +103,33 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rlCache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_1"
+                android:background="@drawable/mine_item_selector"
+                android:clickable="true">
+
+                <TextView
+                    style="@style/mineText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="清除缓存" />
+
+                <TextView
+                    android:id="@+id/txtCache"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:text=""
+                    android:textColor="@color/color_black_2"
+                    android:textSize="@dimen/sp_16" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rlChangePwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

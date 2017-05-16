@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.mine;
+package com.xptschool.teacher.ui.setting;
 
 import android.content.Intent;
 import android.os.Bundle;

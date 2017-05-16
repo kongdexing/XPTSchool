@@ -74,25 +74,25 @@ public class BalanceUtil {
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: error " + ex.getMessage());
                         } finally {
-                            List<BeanStudent> beanStudents = GreenDaoHelper.getInstance().getStudents();
-                            for (int i = 0; i < beanStudents.size(); i++) {
-                                BeanStudent student = beanStudents.get(i);
-                                BeanCardBalance cardBalance = null;
-                                for (int j = 0; j < cardBalances.size(); j++) {
-                                    if (student.getStu_id().equals(cardBalances.get(j).getStu_id())) {
-                                        Log.i(TAG, "stu_id: " + student.getStu_id());
-                                        cardBalance = cardBalances.get(j);
-                                    }
-                                }
-                                if (cardBalance == null) {
-                                    cardBalance = new BeanCardBalance();
-                                    cardBalance.setStudent(student);
-                                    cardBalance.setStu_id(student.getStu_id());
-                                    cardBalance.setFreeze("0");
-                                    cardBalance.setBalances("0.00");
-                                    cardBalances.add(cardBalance);
-                                }
-                            }
+//                            List<BeanStudent> beanStudents = GreenDaoHelper.getInstance().getStudents();
+//                            for (int i = 0; i < beanStudents.size(); i++) {
+//                                BeanStudent student = beanStudents.get(i);
+//                                BeanCardBalance cardBalance = null;
+//                                for (int j = 0; j < cardBalances.size(); j++) {
+//                                    if (student.getStu_id().equals(cardBalances.get(j).getStu_id())) {
+//                                        Log.i(TAG, "stu_id: " + student.getStu_id());
+//                                        cardBalance = cardBalances.get(j);
+//                                    }
+//                                }
+//                                if (cardBalance == null) {
+//                                    cardBalance = new BeanCardBalance();
+//                                    cardBalance.setStudent(student);
+//                                    cardBalance.setStu_id(student.getStu_id());
+//                                    cardBalance.setFreeze("0");
+//                                    cardBalance.setBalances("0.00");
+//                                    cardBalances.add(cardBalance);
+//                                }
+//                            }
                             if (callBack != null) {
                                 callBack.onSuccess();
                             }
@@ -123,14 +123,6 @@ public class BalanceUtil {
     public static List<BeanCardBalance> getCardBalances() {
         if (cardBalances == null) {
             return new ArrayList<>();
-        }
-        List<BeanStudent> beanStudents = GreenDaoHelper.getInstance().getStudents();
-        for (int i = 0; i < beanStudents.size(); i++) {
-            for (int j = 0; j < cardBalances.size(); j++) {
-                if (beanStudents.get(i).getStu_id().equals(cardBalances.get(j).getStu_id())) {
-                    cardBalances.get(j).setStudent(beanStudents.get(i));
-                }
-            }
         }
         return cardBalances;
     }

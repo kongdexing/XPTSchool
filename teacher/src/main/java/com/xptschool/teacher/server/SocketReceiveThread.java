@@ -24,7 +24,7 @@ import java.net.URLDecoder;
  * No1
  */
 
-public class SocketReceiveThread extends Thread{
+public class SocketReceiveThread extends Thread {
 
     private static String TAG = "TSocketService";
 

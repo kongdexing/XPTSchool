@@ -30,7 +30,7 @@ public class BeanStudentDao extends AbstractDao<BeanStudent, String> {
         public final static Property Stu_name = new Property(5, String.class, "stu_name", false, "STU_NAME");
         public final static Property Stu_no = new Property(6, String.class, "stu_no", false, "STU_NO");
         public final static Property Imei_id = new Property(7, String.class, "imei_id", false, "IMEI_ID");
-        public final static Property Stu_phone = new Property(8, String.class, "stu_phone", false, "STU_PHONE");
+        public final static Property Card_phone = new Property(8, String.class, "card_phone", false, "CARD_PHONE");
         public final static Property Birth_date = new Property(9, String.class, "birth_date", false, "BIRTH_DATE");
         public final static Property Rx_date = new Property(10, String.class, "rx_date", false, "RX_DATE");
         public final static Property Sex = new Property(11, String.class, "sex", false, "SEX");
@@ -64,7 +64,7 @@ public class BeanStudentDao extends AbstractDao<BeanStudent, String> {
                 "\"STU_NAME\" TEXT," + // 5: stu_name
                 "\"STU_NO\" TEXT," + // 6: stu_no
                 "\"IMEI_ID\" TEXT," + // 7: imei_id
-                "\"STU_PHONE\" TEXT," + // 8: stu_phone
+                "\"CARD_PHONE\" TEXT," + // 8: card_phone
                 "\"BIRTH_DATE\" TEXT," + // 9: birth_date
                 "\"RX_DATE\" TEXT," + // 10: rx_date
                 "\"SEX\" TEXT," + // 11: sex
@@ -127,9 +127,9 @@ public class BeanStudentDao extends AbstractDao<BeanStudent, String> {
             stmt.bindString(8, imei_id);
         }
  
-        String stu_phone = entity.getStu_phone();
-        if (stu_phone != null) {
-            stmt.bindString(9, stu_phone);
+        String card_phone = entity.getCard_phone();
+        if (card_phone != null) {
+            stmt.bindString(9, card_phone);
         }
  
         String birth_date = entity.getBirth_date();
@@ -227,9 +227,9 @@ public class BeanStudentDao extends AbstractDao<BeanStudent, String> {
             stmt.bindString(8, imei_id);
         }
  
-        String stu_phone = entity.getStu_phone();
-        if (stu_phone != null) {
-            stmt.bindString(9, stu_phone);
+        String card_phone = entity.getCard_phone();
+        if (card_phone != null) {
+            stmt.bindString(9, card_phone);
         }
  
         String birth_date = entity.getBirth_date();
@@ -299,7 +299,7 @@ public class BeanStudentDao extends AbstractDao<BeanStudent, String> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // stu_name
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // stu_no
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // imei_id
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // stu_phone
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // card_phone
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // birth_date
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // rx_date
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // sex
@@ -324,7 +324,7 @@ public class BeanStudentDao extends AbstractDao<BeanStudent, String> {
         entity.setStu_name(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setStu_no(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setImei_id(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setStu_phone(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setCard_phone(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setBirth_date(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setRx_date(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setSex(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));

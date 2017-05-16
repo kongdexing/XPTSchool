@@ -17,7 +17,6 @@ import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.ui.wallet.pocket.BalanceUtil;
@@ -29,7 +28,7 @@ import butterknife.BindView;
 /**
  * 学生卡管理
  */
-public class StuCardBalanceActivity extends BaseListActivity {
+public class StuCardActivity extends BaseListActivity {
 
     @BindView(R.id.recyclerview)
     LoadMoreRecyclerView recyclerView;
@@ -72,28 +71,14 @@ public class StuCardBalanceActivity extends BaseListActivity {
             public void onSuccess() {
                 List<BeanCardBalance> cardBalances = BalanceUtil.getCardBalances();
 
-                String stuName = "";
-                for (int i = 0; i < cardBalances.size(); i++) {
-                    BeanStudent student = cardBalances.get(i).getStudent();
-                    if (student != null && (student.getImei_id() == null ||
-                            student.getImei_id().isEmpty())) {
-                        stuName += student.getStu_name() + ",";
-                    }
-                }
-
-                if (!stuName.isEmpty()) {
-                    stuName = stuName.substring(0, stuName.length() - 1);
-                    Toast.makeText(StuCardBalanceActivity.this, "您的孩子【" + stuName + "】未绑定学生卡", Toast.LENGTH_SHORT).show();
-                } else {
-                    recyclerView.removeAllViews();
-                    adapter.reloadData(cardBalances);
-                }
+                recyclerView.removeAllViews();
+                adapter.reloadData(cardBalances, GreenDaoHelper.getInstance().getStudents());
             }
 
             @Override
             public void onFailed(String error) {
                 if (error != null && !error.isEmpty()) {
-                    Toast.makeText(StuCardBalanceActivity.this, error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StuCardActivity.this, error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -131,7 +116,7 @@ public class StuCardBalanceActivity extends BaseListActivity {
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
                         hideProgress();
-                        Toast.makeText(StuCardBalanceActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StuCardActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
                         switch (volleyHttpResult.getStatus()) {
                             case HttpAction.SUCCESS:
                                 getStuCardBalance();

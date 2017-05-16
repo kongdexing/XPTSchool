@@ -23,7 +23,7 @@ public class BeanStudent extends SpinnerModel implements Serializable {
     private String stu_name;
     private String stu_no;
     private String imei_id;
-    private String stu_phone;
+    private String card_phone;
     private String birth_date;
     private String rx_date;
     //0 女 1 男
@@ -36,11 +36,12 @@ public class BeanStudent extends SpinnerModel implements Serializable {
     private String whitelist;
     private String monitor;
 
-    @Generated(hash = 1532624452)
-    public BeanStudent(String s_id, String a_id, String g_id, String c_id, String stu_id,
-            String stu_name, String stu_no, String imei_id, String stu_phone,
-            String birth_date, String rx_date, String sex, String s_name, String a_name,
-            String g_name, String c_name, String sos, String whitelist, String monitor) {
+    @Generated(hash = 1606108849)
+    public BeanStudent(String s_id, String a_id, String g_id, String c_id,
+            String stu_id, String stu_name, String stu_no, String imei_id,
+            String card_phone, String birth_date, String rx_date, String sex,
+            String s_name, String a_name, String g_name, String c_name, String sos,
+            String whitelist, String monitor) {
         this.s_id = s_id;
         this.a_id = a_id;
         this.g_id = g_id;
@@ -49,7 +50,7 @@ public class BeanStudent extends SpinnerModel implements Serializable {
         this.stu_name = stu_name;
         this.stu_no = stu_no;
         this.imei_id = imei_id;
-        this.stu_phone = stu_phone;
+        this.card_phone = card_phone;
         this.birth_date = birth_date;
         this.rx_date = rx_date;
         this.sex = sex;
@@ -65,7 +66,6 @@ public class BeanStudent extends SpinnerModel implements Serializable {
     @Generated(hash = 1456032229)
     public BeanStudent() {
     }
-
 
     public String getS_id() {
         return s_id;
@@ -131,12 +131,12 @@ public class BeanStudent extends SpinnerModel implements Serializable {
         this.imei_id = imei_id;
     }
 
-    public String getStu_phone() {
-        return stu_phone;
+    public String getCard_phone() {
+        return card_phone;
     }
 
-    public void setStu_phone(String stu_phone) {
-        this.stu_phone = stu_phone;
+    public void setCard_phone(String card_phone) {
+        this.card_phone = card_phone;
     }
 
     public String getBirth_date() {

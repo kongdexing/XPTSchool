@@ -99,6 +99,17 @@ public class ChatAdapter extends RecyclerView.Adapter {
         notifyItemRemoved(listChat.size());
     }
 
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        if (teacherAdapterDelegate != null) {
+            teacherAdapterDelegate.onDetachedFromRecyclerView();
+        }
+        if (parentAdapterDelegate != null) {
+            parentAdapterDelegate.onDetachedFromRecyclerView();
+        }
+    }
+
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
             removeData(position);

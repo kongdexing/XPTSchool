@@ -18,4 +18,8 @@ public class BroadcastAction {
     public static String MESSAGE_SEND_FAILED = "com.xptschool.teacher.message.send.failed";
 
     public static String MESSAGE_RECEIVED = "com.xptschool.teacher.message.receive";
+
+    public static String PLAY_SOUND = "com.xptschool.teacher.play.sound";
+
+
 }

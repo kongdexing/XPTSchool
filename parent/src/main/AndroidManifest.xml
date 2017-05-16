@@ -188,7 +188,7 @@
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.wallet.card.StuCardBalanceActivity"
+            android:name=".ui.wallet.card.StuCardActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
             android:screenOrientation="portrait" />
         <activity

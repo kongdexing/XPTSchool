@@ -12,7 +12,6 @@ public class BeanCardBalance {
     private String balances;
     private String stu_id;
     private String freeze;
-    private BeanStudent student;
 
     public String getStu_id() {
         return stu_id;
@@ -38,11 +37,4 @@ public class BeanCardBalance {
         this.freeze = freeze;
     }
 
-    public BeanStudent getStudent() {
-        return student;
-    }
-
-    public void setStudent(BeanStudent student) {
-        this.student = student;
-    }
 }

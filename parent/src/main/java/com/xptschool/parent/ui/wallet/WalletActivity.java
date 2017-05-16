@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -15,18 +14,15 @@ import com.android.widget.mygridview.MyGridView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
-import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanLearningModule;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.wallet.bankcard.BankListActivity;
-import com.xptschool.parent.ui.wallet.card.StuCardBalanceActivity;
+import com.xptschool.parent.ui.wallet.card.StuCardActivity;
 import com.xptschool.parent.ui.wallet.pocket.BalanceUtil;
 import com.xptschool.parent.ui.wallet.pocket.PocketActivity;
 import com.xptschool.parent.util.ParentUtil;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -70,7 +66,7 @@ public class WalletActivity extends BaseActivity {
     void viewOnClick(View view) {
         switch (view.getId()) {
             case R.id.rl_stu_card:
-                startActivity(new Intent(this, StuCardBalanceActivity.class));
+                startActivity(new Intent(this, StuCardActivity.class));
                 break;
             case R.id.rlPocketMoney:
                 Intent intent = new Intent(this, PocketActivity.class);

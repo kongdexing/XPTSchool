@@ -1,6 +1,8 @@
 package com.xptschool.teacher.ui.chat;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -33,13 +36,12 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate {
+public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
-    private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
-    private Context mContext;
 
     public ParentAdapterDelegate(Context context, int viewType) {
+        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -53,7 +55,7 @@ public class ParentAdapterDelegate {
     }
 
     public void onBindViewHolder(ContactParent parent, List items, int position, RecyclerView.ViewHolder holder) {
-        final BeanChat chat = (BeanChat) items.get(position);
+        currentChat = (BeanChat) items.get(position);
         if (parent == null) {
             return;
         }
@@ -65,34 +67,38 @@ public class ParentAdapterDelegate {
             viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
         }
 
-        if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
+        if ((ChatUtil.TYPE_TEXT + "").equals(currentChat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
             viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
-            viewHolder.txtContent.setText(chat.getContent());
-            updateReadStatus(chat, viewHolder);
-        } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
+            viewHolder.txtContent.setText(currentChat.getContent());
+            updateReadStatus(currentChat, viewHolder);
+        } else if ((ChatUtil.TYPE_AMR + "").equals(currentChat.getType())) {
             //录音
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
-            Log.i(TAG, "amr second:" + chat.getSeconds() + " file:" + chat.getFileName());
-            viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
+            Log.i(TAG, "amr second:" + currentChat.getSeconds() + " file:" + currentChat.getFileName());
+            viewHolder.id_recorder_time.setText(currentChat.getSeconds() + "'");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
-            lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(chat.getSeconds()));
+            lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(currentChat.getSeconds()));
 
-            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + currentChat.getFileName());
             if (!file.exists()) {
                 Log.i(TAG, "file not found");
                 viewHolder.error_file.setVisibility(View.VISIBLE);
                 return;
             }
 
-            if (!chat.isHasRead()) {
+            if (!currentChat.isHasRead()) {
                 viewHolder.view_unRead.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.view_unRead.setVisibility(View.GONE);
             }
+
+            IntentFilter filter = new IntentFilter(BroadcastAction.PLAY_SOUND);
+            mContext.registerReceiver(playSoundReceiver, filter);
+            playSoundViews.add(viewHolder.img_recorder_anim);
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
@@ -108,8 +114,14 @@ public class ParentAdapterDelegate {
                         return;
                     }
                     viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim_right);
-                    AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
+                    animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                     animation.start();
+
+                    Intent intent = new Intent(BroadcastAction.PLAY_SOUND);
+                    intent.putExtra("chat", currentChat);
+                    mContext.sendBroadcast(intent);
+                    viewHolder.img_recorder_anim.setTag(currentChat);
+
                     // 播放录音
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 
@@ -118,12 +130,12 @@ public class ParentAdapterDelegate {
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                         }
                     });
-                    updateReadStatus(chat, viewHolder);
+                    updateReadStatus(currentChat, viewHolder);
                 }
             });
         } else {
             //文件，图片
-            updateReadStatus(chat, viewHolder);
+            updateReadStatus(currentChat, viewHolder);
         }
     }
 

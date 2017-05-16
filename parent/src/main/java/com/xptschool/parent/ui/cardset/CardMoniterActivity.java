@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.xptschool.parent.R;
@@ -102,10 +101,16 @@ public class CardMoniterActivity extends CardSetBaseActivity {
                     @Override
                     public void onPositiveClick() {
                         //call phone
+                        String phone = currentStudent.getCard_phone();
+                        Log.i(TAG, "onPositiveClick phone: " + phone);
+                        if (phone == null || phone.isEmpty()) {
+                            Toast.makeText(CardMoniterActivity.this, "学生卡号码为空", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         try {
                             Intent intent = new Intent();
                             intent.setAction(Intent.ACTION_DIAL);
-                            intent.setData(Uri.parse("tel:" + currentStudent.getStu_phone()));
+                            intent.setData(Uri.parse("tel:" + currentStudent.getCard_phone()));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             CardMoniterActivity.this.startActivity(intent);
                         } catch (Exception ex) {

@@ -37,14 +37,25 @@ import butterknife.Unbinder;
 
 public class BalanceAdapter extends BaseRecycleAdapter {
 
-    private List<BeanCardBalance> beanStudents = new ArrayList<>();
+    private List<BeanCardBalance> beanCardStudents = new ArrayList<>();
+    private List<BeanStudent> beanStudents = new ArrayList<>();
 
     public BalanceAdapter(Context context) {
         super(context);
     }
 
-    public void reloadData(List<BeanCardBalance> students) {
+    public void reloadData(List<BeanCardBalance> cardStudents, List<BeanStudent> students) {
+        beanCardStudents = cardStudents;
         beanStudents = students;
+    }
+
+    private BeanCardBalance findBalanceByStuId(String stuId) {
+        for (int i = 0; i < beanCardStudents.size(); i++) {
+            if (beanCardStudents.get(i).getStu_id().equals(stuId)) {
+                return beanCardStudents.get(i);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -57,16 +68,16 @@ public class BalanceAdapter extends BaseRecycleAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder mHolder = (ViewHolder) holder;
-        final BeanCardBalance balance = beanStudents.get(position);
-        if (balance == null) {
-            mHolder.fl_Content.setVisibility(View.GONE);
-            return;
-        }
-        final BeanStudent student = balance.getStudent();
+        final BeanStudent student = beanStudents.get(position);
         if (student == null) {
             mHolder.fl_Content.setVisibility(View.GONE);
             return;
         }
+        final BeanCardBalance balance = findBalanceByStuId(student.getStu_id());
+//        if (balance == null) {
+//            mHolder.fl_Content.setVisibility(View.GONE);
+//            return;
+//        }
 
         //弹起操作项动画
         final TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
@@ -89,7 +100,7 @@ public class BalanceAdapter extends BaseRecycleAdapter {
         }
         mHolder.txtStuName.setText(student.getStu_name());
         mHolder.txtIMEI.setText(student.getImei_id());
-        mHolder.txt_balance.setText(balance.getBalances());
+        mHolder.txt_balance.setText(balance == null ? "0.00" : balance.getBalances());
         mHolder.txt_classname.setText("班级：" + student.getG_name() + student.getC_name());
         mHolder.txt_birthday.setText("出生日期：" + student.getBirth_date());
         mHolder.txt_school_time.setText("入学时间：" + student.getRx_date());
@@ -114,8 +125,8 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
                 Intent intent = new Intent(mContext, CardRechargeActivity.class);
-                intent.putExtra("stu_id", balance.getStu_id());
-                intent.putExtra("balance", balance.getBalances());
+                intent.putExtra("stu_id", student.getStu_id());
+                intent.putExtra("balance", balance == null ? "0.00" : balance.getBalances());
                 mContext.startActivity(intent);
             }
         });
@@ -125,54 +136,58 @@ public class BalanceAdapter extends BaseRecycleAdapter {
                 mHolder.ll_bottom.startAnimation(mDismissAction);
                 mHolder.ll_bottom.setVisibility(View.GONE);
                 Intent intent = new Intent(mContext, BillActivity.class);
-                intent.putExtra("stu_id", balance.getStu_id());
+                intent.putExtra("stu_id", student.getStu_id());
                 mContext.startActivity(intent);
             }
         });
 
-        final String freeze_status = balance.getFreeze();
-        mHolder.txt_freeze.setText(freeze_status.equals("0") ?
-                mContext.getResources().getString(R.string.label_freeze) : mContext.getResources().getString(R.string.label_unfreeze));
+        if (balance == null) {
+            mHolder.txt_freeze.setText(mContext.getResources().getString(R.string.label_freeze_unavailable));
+        } else {
+            final String freeze_status = balance.getFreeze();
+            mHolder.txt_freeze.setText(freeze_status.equals("0") ?
+                    mContext.getResources().getString(R.string.label_freeze) : mContext.getResources().getString(R.string.label_unfreeze));
 
-        mHolder.txt_freeze.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mHolder.ll_bottom.startAnimation(mDismissAction);
-                mHolder.ll_bottom.setVisibility(View.GONE);
-                if (Double.parseDouble(balance.getBalances()) == 0) {
-                    ToastUtils.showToast(mContext, "当前卡余额为0，不可操作！");
-                    return;
+            mHolder.txt_freeze.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mHolder.ll_bottom.startAnimation(mDismissAction);
+                    mHolder.ll_bottom.setVisibility(View.GONE);
+                    if (Double.parseDouble(balance.getBalances()) == 0) {
+                        ToastUtils.showToast(mContext, "当前卡余额为0，不可操作！");
+                        return;
+                    }
+                    CustomDialog dialog = new CustomDialog(mContext);
+                    if (freeze_status.equals("0")) {
+                        dialog.setTitle(R.string.label_freeze);
+                        dialog.setMessage(R.string.msg_freeze);
+                        dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+                            @Override
+                            public void onPositiveClick() {
+                                //冻结学生卡
+                                Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
+                                intent.putExtra("stu_id", student.getStu_id());
+                                intent.putExtra("freeze", "1");
+                                mContext.sendBroadcast(intent);
+                            }
+                        });
+                    } else {
+                        dialog.setTitle(R.string.label_unfreeze);
+                        dialog.setMessage(R.string.msg_unfreeze);
+                        dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+                            @Override
+                            public void onPositiveClick() {
+                                //解冻学生卡
+                                Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
+                                intent.putExtra("stu_id", student.getStu_id());
+                                intent.putExtra("freeze", "0");
+                                mContext.sendBroadcast(intent);
+                            }
+                        });
+                    }
                 }
-                CustomDialog dialog = new CustomDialog(mContext);
-                if (freeze_status.equals("0")) {
-                    dialog.setTitle(R.string.label_freeze);
-                    dialog.setMessage(R.string.msg_freeze);
-                    dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
-                        @Override
-                        public void onPositiveClick() {
-                            //冻结学生卡
-                            Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
-                            intent.putExtra("stu_id", balance.getStu_id());
-                            intent.putExtra("freeze", "1");
-                            mContext.sendBroadcast(intent);
-                        }
-                    });
-                } else {
-                    dialog.setTitle(R.string.label_unfreeze);
-                    dialog.setMessage(R.string.msg_unfreeze);
-                    dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
-                        @Override
-                        public void onPositiveClick() {
-                            //解冻学生卡
-                            Intent intent = new Intent(BroadcastAction.CARD_FREEZE);
-                            intent.putExtra("stu_id", balance.getStu_id());
-                            intent.putExtra("freeze", "0");
-                            mContext.sendBroadcast(intent);
-                        }
-                    });
-                }
-            }
-        });
+            });
+        }
     }
 
     @Override
