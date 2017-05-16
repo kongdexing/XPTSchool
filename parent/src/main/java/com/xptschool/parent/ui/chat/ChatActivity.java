@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
+import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.audiorecorder.Recorder;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
@@ -134,13 +135,17 @@ public class ChatActivity extends BaseActivity {
                     edtContent.setVisibility(View.VISIBLE);
                     btnSend.setVisibility(View.VISIBLE);
                     edtContent.requestFocus();
+                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_input);
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
+                    smoothBottom();
                     mAudioRecorderButton.setVisibility(View.GONE);
                 } else {
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
                     mAudioRecorderButton.setVisibility(View.VISIBLE);
+                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_voice);
                     ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
+                    smoothBottom();
                 }
                 break;
             case R.id.btnSend:
@@ -163,6 +168,16 @@ public class ChatActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    private void smoothBottom() {
+        recycleView.smoothScrollToPosition(adapter.getItemCount());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SoundPlayHelper.getInstance().stopPlay();
     }
 
     @Override
@@ -205,7 +220,7 @@ public class ChatActivity extends BaseActivity {
             if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
                 chat.setSendStatus(ChatUtil.STATUS_SENDING);
                 adapter.addData(chat);
-                recycleView.smoothScrollToPosition(adapter.getItemCount());
+                smoothBottom();
                 GreenDaoHelper.getInstance().insertChat(chat);
             } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);

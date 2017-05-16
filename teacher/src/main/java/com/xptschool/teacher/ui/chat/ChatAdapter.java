@@ -36,6 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     public ChatAdapter(Context context) {
         parentAdapterDelegate = new ParentAdapterDelegate(context, VIEW_PARENT);
         teacherAdapterDelegate = new TeacherAdapterDelegate(context, VIEW_TEACHER);
+        SoundPlayHelper.getInstance().setPlaySoundViews(null);
     }
 
     @Override
@@ -97,17 +98,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
     public void removeData(int position) {
         listChat.remove(position);
         notifyItemRemoved(listChat.size());
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        if (teacherAdapterDelegate != null) {
-            teacherAdapterDelegate.onDetachedFromRecyclerView();
-        }
-        if (parentAdapterDelegate != null) {
-            parentAdapterDelegate.onDetachedFromRecyclerView();
-        }
     }
 
     public class OnItemResendListener {

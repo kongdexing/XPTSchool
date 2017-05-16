@@ -149,19 +149,6 @@
                     android:text="@string/push"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp_20" />
-
-                <Button
-                    android:id="@+id/btnUpload"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_40"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@drawable/btn_bg_normal"
-                    android:padding="@dimen/dp_5"
-                    android:text="上传"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/sp_20" />
             </LinearLayout>
         </LinearLayout>
 

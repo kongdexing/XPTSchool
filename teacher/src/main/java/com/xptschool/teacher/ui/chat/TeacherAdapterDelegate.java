@@ -1,6 +1,5 @@
 package com.xptschool.teacher.ui.chat;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -58,23 +57,23 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
     }
 
     public void onBindViewHolder(List items, final int position, RecyclerView.ViewHolder holder, final ChatAdapter.OnItemResendListener listener) {
-        currentChat = (BeanChat) items.get(position);
-        if (teacher == null || currentChat == null) {
+        final BeanChat chat = (BeanChat) items.get(position);
+        if (teacher == null || chat == null) {
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
 
-        if (currentChat.getSendStatus() == ChatUtil.STATUS_FAILED) {
+        if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
             viewHolder.llResend.setVisibility(View.VISIBLE);
             viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
-                        listener.onResend(currentChat, position);
+                        listener.onResend(chat, position);
                     }
                 }
             });
-        } else if (currentChat.getSendStatus() == ChatUtil.STATUS_SENDING) {
+        } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
             viewHolder.sendProgress.setVisibility(View.VISIBLE);
         } else {
             viewHolder.sendProgress.setVisibility(View.GONE);
@@ -86,31 +85,32 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             viewHolder.imgUser.setImageResource(R.drawable.teacher_woman);
         }
 
-        if ((ChatUtil.TYPE_TEXT + "").equals(currentChat.getType())) {
+        if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
             viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
-            viewHolder.txtContent.setText(currentChat.getContent());
-        } else if ((ChatUtil.TYPE_AMR + "").equals(currentChat.getType())) {
+            viewHolder.txtContent.setText(chat.getContent());
+        } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             //录音
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            viewHolder.id_recorder_time.setText(currentChat.getSeconds() + "'");
+            viewHolder.id_recorder_time.setText(chat.getSeconds() + "\"");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
-            lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(currentChat.getSeconds()));
+            lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(chat.getSeconds()));
 
-            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + currentChat.getFileName());
+            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             if (!file.exists()) {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
                 return;
             }
 
-            IntentFilter filter = new IntentFilter(BroadcastAction.PLAY_SOUND);
-            mContext.registerReceiver(playSoundReceiver, filter);
+//            IntentFilter filter = new IntentFilter(BroadcastAction.PLAY_STOP_OTHER);
+//            mContext.registerReceiver(playSoundReceiver, filter);
 
-            playSoundViews.add(viewHolder.img_recorder_anim);
+            viewHolder.img_recorder_anim.setTag(chat);
+            SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
 
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
@@ -126,14 +126,11 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                         return;
                     }
 
-                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
-                    animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
-                    animation.start();
+                    SoundPlayHelper.getInstance().stopPlay();
 
-                    Intent intent = new Intent(BroadcastAction.PLAY_SOUND);
-                    intent.putExtra("chat", currentChat);
-                    mContext.sendBroadcast(intent);
-                    viewHolder.img_recorder_anim.setTag(currentChat);
+                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
+                    AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
+                    animation.start();
 
                     // 播放录音
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {

@@ -33,13 +33,13 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class ParentAdapterDelegate {
+public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
-    private String TAG = ParentAdapterDelegate.class.getSimpleName();
     private int viewType;
-    private Context mContext;
+    public AnimationDrawable animation;
 
     public ParentAdapterDelegate(Context context, int viewType) {
+        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -89,11 +89,12 @@ public class ParentAdapterDelegate {
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
+            Log.i(TAG, "onBindViewHolder amr:" + chat.getFileName());
             //录音
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
+            viewHolder.id_recorder_time.setText(chat.getSeconds() + "\"");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
             lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(chat.getSeconds()));
@@ -103,6 +104,10 @@ public class ParentAdapterDelegate {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
                 return;
             }
+
+            viewHolder.img_recorder_anim.setTag(chat);
+            SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
+            Log.i(TAG, "onBindViewHolder: parent playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,9 +116,14 @@ public class ParentAdapterDelegate {
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                     }
+
+                    SoundPlayHelper.getInstance().stopPlay();
+
                     viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
-                    AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
+                    animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                     animation.start();
+
+                    Log.i(TAG, "onClick: parent playSound");
                     // 播放录音
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 
@@ -129,7 +139,6 @@ public class ParentAdapterDelegate {
             //文件，图片
 
         }
-
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

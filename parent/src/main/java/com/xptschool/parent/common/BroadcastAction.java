@@ -28,5 +28,10 @@ public class BroadcastAction {
 
     public static String MESSAGE_RECEIVED = "com.xptschool.parent.message.receive";
 
+    public static String PLAY_STOP_PARENT_OTHER = "com.xptschool.teacher.play.stop.parent.other";
+    public static String PLAY_STOP_TEACHER_OTHER = "com.xptschool.teacher.play.stop.teacher.other";
+
+    public static String PLAY_STOP = "com.xptschool.teacher.play.stop";
+
 
 }

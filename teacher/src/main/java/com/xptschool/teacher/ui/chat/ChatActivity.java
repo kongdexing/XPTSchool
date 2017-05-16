@@ -133,6 +133,7 @@ public class ChatActivity extends BaseActivity {
                     edtContent.setVisibility(View.VISIBLE);
                     btnSend.setVisibility(View.VISIBLE);
                     edtContent.requestFocus();
+                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_input);
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
                     mAudioRecorderButton.setVisibility(View.GONE);
                     smoothBottom();
@@ -140,6 +141,7 @@ public class ChatActivity extends BaseActivity {
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
                     mAudioRecorderButton.setVisibility(View.VISIBLE);
+                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_voice);
                     ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
                 }
                 break;
@@ -164,6 +166,12 @@ public class ChatActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SoundPlayHelper.getInstance().stopPlay();
     }
 
     @Override

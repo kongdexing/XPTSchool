@@ -1,6 +1,9 @@
 package com.xptschool.parent.ui.chat;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +18,14 @@ import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.util.ChatUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,13 +36,13 @@ import butterknife.ButterKnife;
  * No1
  */
 
-public class TeacherAdapterDelegate {
+public class TeacherAdapterDelegate extends BaseAdapterDelegate {
 
-    private String TAG = TeacherAdapterDelegate.class.getSimpleName();
     private int viewType;
-    private Context mContext;
+//    public AnimationDrawable animation;
 
     public TeacherAdapterDelegate(Context context, int viewType) {
+        super(context);
         this.viewType = viewType;
         this.mContext = context;
     }
@@ -76,7 +81,7 @@ public class TeacherAdapterDelegate {
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
-            viewHolder.id_recorder_time.setText(chat.getSeconds() + "'");
+            viewHolder.id_recorder_time.setText(chat.getSeconds() + "\"");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
             lp.width = (int) (ChatUtil.getChatMinWidth(mContext) + (ChatUtil.getChatMaxWidth(mContext) / 60f) * Integer.parseInt(chat.getSeconds()));
@@ -86,6 +91,10 @@ public class TeacherAdapterDelegate {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
                 return;
             }
+
+            viewHolder.img_recorder_anim.setTag(chat);
+            SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
+            Log.i(TAG, "onBindViewHolder: teacher playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
 
             if (!chat.isHasRead()) {
                 viewHolder.view_unRead.setVisibility(View.VISIBLE);
@@ -101,9 +110,15 @@ public class TeacherAdapterDelegate {
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                     }
+
+                    SoundPlayHelper.getInstance().stopPlay();
+
                     viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim_right);
                     AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                     animation.start();
+
+                    Log.i(TAG, "onClick: teacher playSound");
+
                     // 播放录音
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 

@@ -19,7 +19,8 @@ public class BroadcastAction {
 
     public static String MESSAGE_RECEIVED = "com.xptschool.teacher.message.receive";
 
-    public static String PLAY_SOUND = "com.xptschool.teacher.play.sound";
+    public static String PLAY_STOP_OTHER = "com.xptschool.teacher.play.stop.other";
+
 
 
 }

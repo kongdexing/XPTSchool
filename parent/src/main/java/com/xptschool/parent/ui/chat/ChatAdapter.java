@@ -37,6 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     public ChatAdapter(Context context) {
         parentAdapterDelegate = new ParentAdapterDelegate(context, VIEW_PARENT);
         teacherAdapterDelegate = new TeacherAdapterDelegate(context, VIEW_TEACHER);
+        SoundPlayHelper.getInstance().setPlaySoundViews(null);
     }
 
     @Override
