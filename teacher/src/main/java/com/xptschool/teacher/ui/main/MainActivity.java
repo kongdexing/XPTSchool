@@ -50,6 +50,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import permissions.dispatcher.NeedsPermission;
@@ -69,6 +70,8 @@ public class MainActivity extends BaseActivity {
     private FragmentManager mFgtManager;
     private FragmentTransaction mFgtTransaction;
     private long mExitTime;
+    @BindView(R.id.txtUnReadNum)
+    TextView txtUnReadNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -391,9 +394,10 @@ public class MainActivity extends BaseActivity {
         //读取未读条数
         int num = GreenDaoHelper.getInstance().getUnReadChats().size();
         if (num > 0) {
-            TextView txtUnReadNum = (TextView) findViewById(R.id.txtUnReadNum);
             txtUnReadNum.setVisibility(View.VISIBLE);
             txtUnReadNum.setText(num + "");
+        } else {
+            txtUnReadNum.setVisibility(View.GONE);
         }
     }
 

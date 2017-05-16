@@ -2,6 +2,7 @@ package com.xptschool.teacher.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -340,7 +341,6 @@ public class GreenDaoHelper {
     }
 
     //聊天记录
-
     public void insertChat(BeanChat chat) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanChatDao().insertOrReplace(chat);

@@ -112,6 +112,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
     private TimePickerPopupWindow pushDate, completeDate;
     private BeanHomeWork currentHomeWork;
     private boolean canModify = false;
+    private Recorder recorder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,14 +272,13 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
 
             public void onFinish(float seconds, String filePath) {
-                Recorder recorder = new Recorder(seconds, filePath);
+                recorder = new Recorder(seconds, filePath);
 
                 ViewGroup.LayoutParams lp = rl_recorder_length.getLayoutParams();
                 lp.width = (int) (ChatUtil.getChatMinWidth(HomeWorkDetailActivity.this) +
                         (ChatUtil.getChatMaxWidth(HomeWorkDetailActivity.this) / 60f) * seconds);
 
-                File file = new File(filePath);
-                String str = Math.round(recorder.getTime()) + "\"" + filePath + " size:" + file.length();
+                String str = Math.round(recorder.getTime()) + "\"";
                 rl_recorder_length.setVisibility(View.VISIBLE);
                 txt_recorder_time.setText(str);
             }
@@ -416,6 +416,10 @@ public class HomeWorkDetailActivity extends AlbumActivity {
 //                uploadFile.add(checkFile);
 //            }
 //        }
+
+        if (recorder != null) {
+            uploadFile.add(recorder.getFilePath());
+        }
 
         for (int i = 0; i < uploadFile.size(); i++) {
             File file1 = new File(uploadFile.get(i));
