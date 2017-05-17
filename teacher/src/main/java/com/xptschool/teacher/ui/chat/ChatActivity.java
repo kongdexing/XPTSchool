@@ -116,15 +116,14 @@ public class ChatActivity extends BaseActivity {
                     inputStream.close();
                     if (allByte != null) {
                         message.setAllData(allByte);
+                        addSendingMsg(message);
                         SocketManager.getInstance().sendMessage(message);
                     }
                 } catch (Exception ex) {
                     Log.i(TAG, "viewClick: " + ex.getMessage());
                 }
-
             }
         });
-
     }
 
     @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend})
@@ -164,10 +163,22 @@ public class ChatActivity extends BaseActivity {
                 if (allByte != null) {
                     message.setAllData(allByte);
                     edtContent.setText("");
+                    addSendingMsg(message);
                     SocketManager.getInstance().sendMessage(message);
                 }
                 break;
         }
+    }
+
+    private void addSendingMsg(BaseMessage message) {
+        BeanChat chat = new BeanChat();
+        chat.parseMessageToChat(message);
+        chat.setHasRead(true);
+        chat.setTime(CommonUtil.getCurrentDateHms());
+        chat.setSendStatus(ChatUtil.STATUS_SENDING);
+        adapter.addData(chat);
+        smoothBottom();
+        GreenDaoHelper.getInstance().insertChat(chat);
     }
 
     @Override

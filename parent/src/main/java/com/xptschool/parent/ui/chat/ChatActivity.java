@@ -129,6 +129,7 @@ public class ChatActivity extends BaseActivity {
                     inputStream.close();
                     if (allByte != null) {
                         message.setAllData(allByte);
+                        addSendingMsg(message);
                         SocketManager.getInstance().sendMessage(message);
                     }
                 } catch (Exception ex) {
@@ -177,19 +178,22 @@ public class ChatActivity extends BaseActivity {
                 if (allByte != null) {
                     message.setAllData(allByte);
                     edtContent.setText("");
+                    addSendingMsg(message);
                     SocketManager.getInstance().sendMessage(message);
-
-                    BeanChat chat = new BeanChat();
-                    chat.parseMessageToChat(message);
-                    chat.setHasRead(true);
-                    chat.setTime(CommonUtil.getCurrentDateHms());
-                    chat.setSendStatus(ChatUtil.STATUS_SENDING);
-                    adapter.addData(chat);
-                    smoothBottom();
-                    GreenDaoHelper.getInstance().insertChat(chat);
                 }
                 break;
         }
+    }
+
+    private void addSendingMsg(BaseMessage message) {
+        BeanChat chat = new BeanChat();
+        chat.parseMessageToChat(message);
+        chat.setHasRead(true);
+        chat.setTime(CommonUtil.getCurrentDateHms());
+        chat.setSendStatus(ChatUtil.STATUS_SENDING);
+        adapter.addData(chat);
+        smoothBottom();
+        GreenDaoHelper.getInstance().insertChat(chat);
     }
 
     private void smoothBottom() {

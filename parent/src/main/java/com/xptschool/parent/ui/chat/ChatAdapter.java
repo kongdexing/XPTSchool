@@ -13,6 +13,8 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanTeacher;
 import com.xptschool.parent.model.ContactTeacher;
+import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.util.ChatUtil;
 
 import java.util.List;
 
@@ -103,7 +105,10 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
-            removeData(position);
+//            removeData(position);
+            chat.setSendStatus(ChatUtil.STATUS_SENDING);
+            updateData(chat);
+            GreenDaoHelper.getInstance().updateChat(chat);
             chat.onReSendChatToMessage();
         }
     }

@@ -132,8 +132,8 @@ public class SocketService extends Service {
             Log.i(TAG, "write start ");
             //开始发送
             Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
-            intent.putExtra("message", message);
-            XPTApplication.getInstance().sendBroadcast(intent);
+//            intent.putExtra("message", message);
+//            XPTApplication.getInstance().sendBroadcast(intent);
             Socket mSocket = null;
             OutputStream outputStream = null;
             try {

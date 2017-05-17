@@ -63,6 +63,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         //家长提问，提问发送状态
         if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
             viewHolder.llResend.setVisibility(View.VISIBLE);
+            viewHolder.sendProgress.setVisibility(View.GONE);
             viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -73,8 +74,10 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             });
         } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
             viewHolder.sendProgress.setVisibility(View.VISIBLE);
+            viewHolder.llResend.setVisibility(View.GONE);
         } else {
             viewHolder.sendProgress.setVisibility(View.GONE);
+            viewHolder.llResend.setVisibility(View.GONE);
         }
 
         if (parent.getSex().equals("1")) {
