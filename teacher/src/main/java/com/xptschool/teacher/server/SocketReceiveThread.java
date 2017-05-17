@@ -122,7 +122,7 @@ public class SocketReceiveThread extends Thread {
                         if (!file.exists()) {
                             file.createNewFile();
                         }
-                        byte[] buffer = new byte[chat.getSize()];
+                        byte[] buffer = new byte[10 * 1024];
                         FileOutputStream os = new FileOutputStream(file);
 
                         while (mmInStream.read(buffer) != -1) {

@@ -46,10 +46,7 @@ public class SocketService extends Service {
     public static String socketIP = "chat.pcuion.com";
     public static int socketPort = 50300;
     public static int socketReceiverPort = 50301;
-    private static final String RECONNECT_ALARM = "com.xptschool.parent.RECONNECT_ALARM";
-    private Intent mAlarmIntent = new Intent(RECONNECT_ALARM);
-    //    private static Socket mSocket = null;
-    private static SocketReceiveThread receiveThread;
+    //    private static SocketReceiveThread receiveThread;
     private static SocketSendThread sendThread;
     private Timer mTimer;
 
@@ -92,11 +89,7 @@ public class SocketService extends Service {
     }
 
     private void receiveMessage() {
-        //线程池稍后添加
-        if (receiveThread != null) {
-            receiveThread = null;
-        }
-        receiveThread = new SocketReceiveThread();
+        SocketReceiveThread receiveThread = new SocketReceiveThread();
         receiveThread.start();
     }
 

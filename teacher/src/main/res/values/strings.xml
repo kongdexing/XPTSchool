@@ -75,6 +75,7 @@
     <string name="label_content">内容：</string>
     <string name="label_content_option">内容：\n%1$s</string>
     <string name="label_camera">拍照</string>
+    <string name="label_voice">录音</string>
     <string name="label_album">选择照片</string>
     <string name="label_back">返回</string>
     <string name="homework_start_end_time">发布时间：%1$s\n完成时间：%2$s</string>

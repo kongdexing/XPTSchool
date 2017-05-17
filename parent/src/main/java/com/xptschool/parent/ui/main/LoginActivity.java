@@ -140,13 +140,15 @@ public class LoginActivity extends BaseActivity {
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
-                        progress.setVisibility(View.VISIBLE);
+                        if (progress != null)
+                            progress.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onResponse(VolleyHttpResult httpResult) {
                         super.onResponse(httpResult);
-                        progress.setVisibility(View.INVISIBLE);
+                        if (progress != null)
+                            progress.setVisibility(View.INVISIBLE);
                         switch (httpResult.getStatus()) {
                             case HttpAction.SUCCESS:
                                 if (!SharedPreferencesUtil.getData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
@@ -179,7 +181,8 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
-                        progress.setVisibility(View.INVISIBLE);
+                        if (progress != null)
+                            progress.setVisibility(View.INVISIBLE);
                         btnLogin.setEnabled(true);
                         Log.i(TAG, "onErrorResponse: " + error.getMessage());
                     }
