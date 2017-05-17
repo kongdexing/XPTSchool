@@ -53,7 +53,7 @@ public class UpushTokenHelper {
             object.put("device_token_teacher", device_token);
             object.put("mobtype", "2");
             object.put("techer_mobile", teacher.getPhone());
-            object.put("teacher_id", teacher.getT_id());
+            object.put("teacher_id", teacher.getU_id());
             jsonArray.put(object);
             param = jsonArray.toString();
         } catch (Exception ex) {
@@ -152,7 +152,7 @@ public class UpushTokenHelper {
             object.put("device_token_teacher", local_device_token);
             object.put("mobtype", "2");
             object.put("techer_mobile", teacher.getPhone());
-            object.put("teacher_id", teacher.getT_id());
+            object.put("teacher_id", teacher.getU_id());
             jsonArray.put(object);
             param = jsonArray.toString();
         } catch (Exception ex) {

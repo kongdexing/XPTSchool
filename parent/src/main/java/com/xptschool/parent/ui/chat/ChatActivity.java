@@ -104,6 +104,11 @@ public class ChatActivity extends BaseActivity {
         recycleView.setAdapter(adapter);
 
         List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByTeacherId(teacher.getU_id());
+        for (int i = 0; i < chats.size(); i++) {
+            if (chats.get(i).getSendStatus() == ChatUtil.STATUS_SENDING) {
+                chats.get(i).setSendStatus(ChatUtil.STATUS_FAILED);
+            }
+        }
         adapter.loadData(chats, teacher);
 
         recycleView.setItemAnimator(new DefaultItemAnimator());

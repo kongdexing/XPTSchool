@@ -24,7 +24,7 @@ import java.net.URLDecoder;
  * No1
  */
 
-public class SocketReceiveThread extends Thread {
+public class SocketReceiveThread implements Runnable, Cloneable {
 
     private String TAG = "PSocketService";
 
@@ -32,9 +32,16 @@ public class SocketReceiveThread extends Thread {
         super();
     }
 
+    public SocketReceiveThread cloneReceiveThread() {
+        try {
+            return (SocketReceiveThread) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
     @Override
     public void run() {
-        super.run();
         Socket mSocket = null;
         OutputStream outputStream = null;
         InputStream mmInStream = null;
@@ -127,10 +134,10 @@ public class SocketReceiveThread extends Thread {
                         }
                         byte[] buffer = new byte[10 * 1024];
                         FileOutputStream os = new FileOutputStream(file);
-
-                        while (mmInStream.read(buffer) != -1) {
+                        int n = 0;
+                        while ((n = mmInStream.read(buffer)) != -1) {
                             try {
-                                os.write(buffer);
+                                os.write(buffer, 0, n);
                                 // Send the obtained bytes to the UI Activity
                             } catch (Exception e) {
                                 System.out.println("disconnected " + e.getMessage());

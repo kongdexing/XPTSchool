@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.coolerfall.daemon.Daemon;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.ui.chat.BaseMessage;
@@ -15,6 +16,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by dexing on 2017/5/8.
@@ -30,9 +33,10 @@ public class SocketService extends Service {
     public static String socketIP = "chat.pcuion.com";
     public static int socketPort = 50300;
     public static int socketReceiverPort = 50301;
-    //    private static Socket mSocket = null;
-    private static SocketSendThread sendThread;
     private Timer mTimer;
+    private SocketReceiveThread socketReceiveThread;
+    private ExecutorService receiverThreadPool = Executors.newFixedThreadPool(5);
+    private ExecutorService sendThreadPool = Executors.newFixedThreadPool(5);
 
     public SocketService() {
         super();
@@ -43,6 +47,8 @@ public class SocketService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate: ");
+        Daemon.run(SocketService.this,
+                SocketService.class, Daemon.INTERVAL_ONE_MINUTE);
     }
 
     @Override
@@ -62,6 +68,7 @@ public class SocketService extends Service {
     }
 
     private void setTimerTask() {
+        socketReceiveThread = new SocketReceiveThread();
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -72,8 +79,10 @@ public class SocketService extends Service {
 
     private void receiveMessage() {
         Log.i(TAG, "receiveMessage: ");
-        SocketReceiveThread receiveThread = new SocketReceiveThread();
-        receiveThread.start();
+        SocketReceiveThread receiveThread = socketReceiveThread.cloneReceiveThread();
+        receiverThreadPool.execute(receiveThread);
+//        SocketReceiveThread receiveThread = new SocketReceiveThread();
+//        receiveThread.start();
     }
 
     private synchronized void disconnect() {
@@ -84,12 +93,10 @@ public class SocketService extends Service {
 
     public void sendMessage(BaseMessage message) {
         Log.i(TAG, "sendMessage: " + message.getAllData().length);
-        if (sendThread == null) {
-            sendThread = new SocketSendThread(message);
-        }
-        if (!sendThread.isAlive()) {
-            sendThread.start();
-        }
+//        SocketSendThread sendThread = new SocketSendThread(message);
+//        sendThread.start();
+
+        sendThreadPool.execute(new SocketSendThread(message));
     }
 
     private class SocketSendThread extends Thread {

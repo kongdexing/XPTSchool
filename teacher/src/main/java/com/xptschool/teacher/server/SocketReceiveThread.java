@@ -24,7 +24,7 @@ import java.net.URLDecoder;
  * No1
  */
 
-public class SocketReceiveThread extends Thread {
+public class SocketReceiveThread implements Runnable, Cloneable {
 
     private static String TAG = "TSocketService";
 
@@ -32,9 +32,16 @@ public class SocketReceiveThread extends Thread {
         super();
     }
 
+    public SocketReceiveThread cloneReceiveThread() {
+        try {
+            return (SocketReceiveThread) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
     @Override
     public void run() {
-        super.run();
         Socket mSocket = null;
         OutputStream outputStream = null;
         InputStream mmInStream = null;
@@ -122,15 +129,17 @@ public class SocketReceiveThread extends Thread {
                         if (!file.exists()) {
                             file.createNewFile();
                         }
-                        byte[] buffer = new byte[10 * 1024];
+                        byte[] buffer = new byte[20 * 1024];
                         FileOutputStream os = new FileOutputStream(file);
-
-                        while (mmInStream.read(buffer) != -1) {
+                        int sum = 0;
+                        int n = 0;
+                        while ((n = mmInStream.read(buffer)) != -1) {
                             try {
-                                os.write(buffer);
+                                sum += n;
+                                os.write(buffer, 0, n);
+                                Log.i(TAG, "receiver sum : " + sum);
                                 // Send the obtained bytes to the UI Activity
                             } catch (Exception e) {
-                                System.out.println("disconnected " + e.getMessage());
                                 break;
                             }
                         }
