@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.util.ChatUtil;
 
 import java.io.ByteArrayInputStream;
@@ -70,6 +71,16 @@ public class BaseMessage implements Parcelable {
         Log.i(TAG, "packData: b_tId size " + b_tId.length + "  " + ChatUtil.byteArrayToInt(b_tId));
         byte[] b_second = ChatUtil.intToByteArray(second);
         Log.i(TAG, "packData: b_second size " + b_second.length + "  " + ChatUtil.byteArrayToInt(b_second));
+
+        byte[] b_username = new byte[ChatUtil.userNameLength];
+        try {
+            String userName = GreenDaoHelper.getInstance().getCurrentParent().getParent_name();
+            ByteArrayInputStream bs_name = new ByteArrayInputStream(URLEncoder.encode(userName, "utf-8").getBytes());
+            bs_name.read(b_username);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         byte[] b_filename = new byte[ChatUtil.fileNameLength];
         // 将流与字节数组关联
         ByteArrayInputStream bs = new ByteArrayInputStream(filename.toString()
@@ -93,6 +104,8 @@ public class BaseMessage implements Parcelable {
         allData = ChatUtil.addBytes(allData, b_tId);
         Log.i(TAG, "packData tid: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_second);
+        Log.i(TAG, "packData fn: " + allData.length);
+        allData = ChatUtil.addBytes(allData, b_username);
         Log.i(TAG, "packData fn: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_filename);
         Log.i(TAG, "packData fn: " + allData.length);
