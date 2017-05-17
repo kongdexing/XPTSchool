@@ -23,10 +23,11 @@
         android:id="@+id/rlSend"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/llAttachment"
         android:background="#f5f5f6"
         android:paddingBottom="@dimen/dp_2"
-        android:paddingTop="@dimen/dp_2">
+        android:paddingTop="@dimen/dp_2"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/imgVoiceOrText"
@@ -51,7 +52,7 @@
             android:padding="5dp"
             android:text="@string/str_recorder_normal"
             android:textColor="#727272"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <EditText
             android:id="@+id/edtContent"
@@ -64,7 +65,7 @@
             android:padding="@dimen/dp_5"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_14"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btnSend"
@@ -72,9 +73,75 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/dp_5"
+            android:layout_toLeftOf="@+id/imgPlus"
             android:background="@drawable/btn_bg_normal"
-            android:text="@string/btn_send" />
+            android:text="@string/btn_send"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/imgPlus"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5"
+            android:background="@drawable/icon_msg_voice"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/llAttachment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:layout_above="@+id/view_bottom"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/llAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/user_defaulthead" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相册"
+                android:textColor="@color/color_black_2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llCamera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/user_defaulthead" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相机"
+                android:textColor="@color/color_black_2" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

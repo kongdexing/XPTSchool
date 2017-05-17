@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
@@ -52,6 +55,12 @@ public class ChatActivity extends BaseActivity {
 
     @BindView(R.id.btnSend)
     Button btnSend;
+
+    @BindView(R.id.imgPlus)
+    ImageView imgPlus;
+
+    @BindView(R.id.llAttachment)
+    LinearLayout llAttachment;
 
     private ChatAdapter adapter = null;
     private ContactParent parent;
@@ -103,7 +112,6 @@ public class ChatActivity extends BaseActivity {
                 Recorder recorder = new Recorder(seconds, filePath);
                 File file = new File(recorder.getFilePath());
                 try {
-//                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
                     BaseMessage message = new BaseMessage();
                     message.setType(ChatUtil.TYPE_AMR);
                     message.setFilename(file.getName());
@@ -124,15 +132,37 @@ public class ChatActivity extends BaseActivity {
                 }
             }
         });
+
+        edtContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (edtContent.getText().toString().length() > 0) {
+                    imgPlus.setVisibility(View.GONE);
+                } else {
+                    
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
-    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend})
+    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.imgVoiceOrText:
                 if (edtContent.getVisibility() == View.GONE) {
                     edtContent.setVisibility(View.VISIBLE);
                     btnSend.setVisibility(View.VISIBLE);
+                    imgPlus.setVisibility(View.GONE);
                     edtContent.requestFocus();
                     imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_input);
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
@@ -141,6 +171,7 @@ public class ChatActivity extends BaseActivity {
                 } else {
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
+                    imgPlus.setVisibility(View.VISIBLE);
                     mAudioRecorderButton.setVisibility(View.VISIBLE);
                     imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_voice);
                     ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
@@ -151,7 +182,6 @@ public class ChatActivity extends BaseActivity {
                 if (msg.isEmpty()) {
                     return;
                 }
-
                 BaseMessage message = new BaseMessage();
                 message.setType(ChatUtil.TYPE_TEXT);
                 message.setFilename(ChatUtil.getCurrentDateHms());
@@ -166,6 +196,9 @@ public class ChatActivity extends BaseActivity {
                     addSendingMsg(message);
                     SocketManager.getInstance().sendMessage(message);
                 }
+                break;
+            case R.id.imgPlus:
+                llAttachment.setVisibility(llAttachment.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 break;
         }
     }

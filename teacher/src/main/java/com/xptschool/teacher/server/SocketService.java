@@ -90,12 +90,12 @@ public class SocketService extends Service {
 
     public void sendMessage(BaseMessage message) {
         Log.i(TAG, "sendMessage: " + message.getAllData().length);
-        if (sendThread != null) {
-            Log.i(TAG, "sendMessage sendThread is null ");
-            sendThread = null;
+        if (sendThread == null) {
+            sendThread = new SocketSendThread(message);
         }
-        sendThread = new SocketSendThread(message);
-        sendThread.start();
+        if (!sendThread.isAlive()) {
+            sendThread.start();
+        }
     }
 
     private class SocketSendThread extends Thread {
