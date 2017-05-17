@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NotificationCompat;
@@ -47,6 +48,7 @@ public class BaseActivity extends SwipeBackActivity {
     private ImageView imgBack;
     private TextView txtTitle, txtRight;
     private Button btnRight;
+    private ImageView imgRight;
     private Dialog progressDialog;
     public Unbinder unbinder;
 
@@ -81,6 +83,7 @@ public class BaseActivity extends SwipeBackActivity {
         txtTitle = (TextView) parentView.findViewById(R.id.txtTitle);
         txtRight = (TextView) parentView.findViewById(R.id.txtRight);
         btnRight = (Button) parentView.findViewById(R.id.btnRight);
+        imgRight = (ImageView) parentView.findViewById(R.id.imgRight);
         llContent = (LinearLayout) parentView.findViewById(R.id.llContent);
 
         btnRight.setVisibility(View.GONE);
@@ -146,6 +149,17 @@ public class BaseActivity extends SwipeBackActivity {
             btnRight.setOnClickListener(listener);
     }
 
+    public void setRightImage(int resId) {
+        if (imgRight != null) {
+            imgRight.setVisibility(View.VISIBLE);
+            imgRight.setBackgroundResource(resId);
+        }
+    }
+
+    public void setRightImageViewClickListener(View.OnClickListener listener) {
+        if (imgRight != null)
+            imgRight.setOnClickListener(listener);
+    }
 
     public void showActionBar(boolean show) {
         if (llActionBar != null) {

@@ -26,6 +26,7 @@ import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.ui.contact.ContactsDetailActivity;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.util.ChatUtil;
 
@@ -62,8 +63,6 @@ public class ChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             teacher = (ContactTeacher) bundle.get(ExtraKey.CHAT_TEACHER);
@@ -75,6 +74,18 @@ public class ChatActivity extends BaseActivity {
         if (currentParent == null || teacher == null) {
             return;
         }
+
+        setRightImage(R.drawable.user_defaulthead);
+        setRightImageViewClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatActivity.this, ContactsDetailActivity.class);
+                intent.putExtra(ExtraKey.CONTACT_TYPE, ExtraKey.CONTACT_TEACHER);
+                intent.putExtra(ExtraKey.CONTACT, teacher);
+                ChatActivity.this.startActivity(intent);
+            }
+        });
+
         initView();
 
         IntentFilter filter = new IntentFilter();

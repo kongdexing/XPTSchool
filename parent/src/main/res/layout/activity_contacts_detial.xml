@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_contacts_detial"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/dp_10">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -134,6 +133,7 @@
         android:padding="@dimen/dp_5"
         android:text="@string/label_send_message"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/sp_18" />
+        android:textSize="@dimen/sp_18"
+        android:visibility="gone" />
 
 </RelativeLayout>

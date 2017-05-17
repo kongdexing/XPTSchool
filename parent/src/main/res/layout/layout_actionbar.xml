@@ -57,7 +57,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/dp_20"
-        android:background="@drawable/icon_right_head"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -47,6 +47,7 @@
         android:background="@drawable/btn_topright_bg"
         android:padding="@dimen/dp_5"
         android:text="@string/complete_percent"
+        android:visibility="gone"
         android:textSize="@dimen/sp_16" />
 
 </RelativeLayout>

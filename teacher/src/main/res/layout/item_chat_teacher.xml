@@ -84,7 +84,7 @@
                     android:id="@+id/id_recorder_anim"
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
-                    android:layout_toLeftOf="@+id/error_file"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/adj" />
 
@@ -92,8 +92,8 @@
                     android:id="@+id/error_file"
                     android:layout_width="@dimen/dp_15"
                     android:layout_height="@dimen/dp_15"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/id_recorder_anim"
                     android:background="@drawable/icon_error_filenotfound"
                     android:visibility="gone" />
             </RelativeLayout>

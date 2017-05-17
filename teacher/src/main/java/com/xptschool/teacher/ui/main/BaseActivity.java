@@ -146,7 +146,6 @@ public class BaseActivity extends AppCompatActivity {
             btnRight.setOnClickListener(listener);
     }
 
-
     public void showActionBar(boolean show) {
         if (llActionBar != null) {
             llActionBar.setVisibility(show ? View.VISIBLE : View.GONE);

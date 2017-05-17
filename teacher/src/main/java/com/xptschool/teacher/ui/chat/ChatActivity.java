@@ -25,6 +25,7 @@ import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
+import com.xptschool.teacher.ui.contact.ContactsDetailActivity;
 import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.util.ChatUtil;
 
@@ -72,6 +73,7 @@ public class ChatActivity extends BaseActivity {
         if (currentTeacher == null || parent == null) {
             return;
         }
+
         initView();
 
         IntentFilter filter = new IntentFilter();
