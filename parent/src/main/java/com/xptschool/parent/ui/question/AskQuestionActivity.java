@@ -45,8 +45,6 @@ public class AskQuestionActivity extends BaseActivity {
     @BindView(R.id.edtQTitle)
     EditText edtQTitle;
 
-    private Recorder recorder;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

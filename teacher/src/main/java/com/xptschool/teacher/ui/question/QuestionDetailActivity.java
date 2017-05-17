@@ -73,7 +73,7 @@ public class QuestionDetailActivity extends BaseActivity {
         listview.setAdapter(adapter);
     }
 
-    @OnClick({R.id.imgVoiceOrText, R.id.btnSend})
+    @OnClick({R.id.btnSend})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btnSend:
