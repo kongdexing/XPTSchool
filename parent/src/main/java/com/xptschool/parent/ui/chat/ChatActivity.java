@@ -75,7 +75,7 @@ public class ChatActivity extends BaseActivity {
             return;
         }
 
-        setRightImage(R.drawable.user_defaulthead);
+        setRightImage(R.drawable.icon_right_head);
         setRightImageViewClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

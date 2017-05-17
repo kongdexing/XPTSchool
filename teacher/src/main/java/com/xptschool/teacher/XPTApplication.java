@@ -75,9 +75,12 @@ public class XPTApplication extends Application {
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
+        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯
+        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);//振动
+
         mPushAgent.setDisplayNotificationNumber(0);
         mPushAgent.setMessageHandler(new MyUmengMessageHandler());
-
+        mPushAgent.setDebugMode(false);
         /**
          * 自定义行为的回调处理
          * UmengNotificationClickHandler是在BroadcastReceiver中被调用，故
