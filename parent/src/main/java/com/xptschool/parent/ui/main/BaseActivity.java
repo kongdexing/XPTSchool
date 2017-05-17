@@ -12,6 +12,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ import butterknife.Unbinder;
  * Created by Administrator on 2016/10/18 0018.
  */
 
-public class BaseActivity extends SwipeBackActivity {
+public class BaseActivity extends AppCompatActivity {
 
     public String TAG = "";
     //应用是否销毁标志

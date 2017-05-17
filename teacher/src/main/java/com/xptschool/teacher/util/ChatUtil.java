@@ -134,7 +134,7 @@ public class ChatUtil {
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         //最大宽度为屏幕宽度的百分之七十
-        return (int) (outMetrics.widthPixels * 0.7f);
+        return (int) (outMetrics.widthPixels * 0.5f);
     }
 
 }

@@ -12,6 +12,8 @@ import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
+import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.util.ChatUtil;
 
 import java.util.List;
 
@@ -102,7 +104,11 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
-            removeData(position);
+            Log.i(TAG, "onResend: position " + position + " " + chat.toString());
+//            removeData(position);
+            chat.setSendStatus(ChatUtil.STATUS_SENDING);
+            updateData(chat);
+            GreenDaoHelper.getInstance().updateChat(chat);
             chat.onReSendChatToMessage();
         }
     }

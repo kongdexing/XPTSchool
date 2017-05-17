@@ -65,6 +65,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
 
         if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
             viewHolder.llResend.setVisibility(View.VISIBLE);
+            viewHolder.sendProgress.setVisibility(View.GONE);
             viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -75,8 +76,10 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             });
         } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
             viewHolder.sendProgress.setVisibility(View.VISIBLE);
-        } else {
+            viewHolder.llResend.setVisibility(View.GONE);
+        } else if (chat.getSendStatus() == ChatUtil.STATUS_SUCCESS) {
             viewHolder.sendProgress.setVisibility(View.GONE);
+            viewHolder.llResend.setVisibility(View.GONE);
         }
 
         if (teacher.getSex().equals("1")) {

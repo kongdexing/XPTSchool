@@ -178,6 +178,15 @@ public class ChatActivity extends BaseActivity {
                     message.setAllData(allByte);
                     edtContent.setText("");
                     SocketManager.getInstance().sendMessage(message);
+
+                    BeanChat chat = new BeanChat();
+                    chat.parseMessageToChat(message);
+                    chat.setHasRead(true);
+                    chat.setTime(CommonUtil.getCurrentDateHms());
+                    chat.setSendStatus(ChatUtil.STATUS_SENDING);
+                    adapter.addData(chat);
+                    smoothBottom();
+                    GreenDaoHelper.getInstance().insertChat(chat);
                 }
                 break;
         }
@@ -230,16 +239,16 @@ public class ChatActivity extends BaseActivity {
             chat.setHasRead(true);
             chat.setTime(CommonUtil.getCurrentDateHms());
 
-            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
-                chat.setSendStatus(ChatUtil.STATUS_SENDING);
-                adapter.addData(chat);
-                smoothBottom();
-                GreenDaoHelper.getInstance().insertChat(chat);
-            } else if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
+//            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+//                chat.setSendStatus(ChatUtil.STATUS_SENDING);
+//                adapter.addData(chat);
+//                smoothBottom();
+//                GreenDaoHelper.getInstance().insertChat(chat);
+//            } else
+            if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
                 adapter.updateData(chat);
                 GreenDaoHelper.getInstance().updateChat(chat);
-
             } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
                 chat.setSendStatus(ChatUtil.STATUS_FAILED);
                 adapter.updateData(chat);
