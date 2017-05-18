@@ -62,7 +62,7 @@ public class AlbumSourceView extends LinearLayout implements View.OnClickListene
                 break;
             case R.id.rlVoice:
                 if (clickListener != null) {
-//                    clickListener.onCameraClick();
+                    clickListener.onVoiceClick();
                 }
                 break;
             case R.id.rlBack:
@@ -77,6 +77,8 @@ public class AlbumSourceView extends LinearLayout implements View.OnClickListene
         void onAlbumClick();
 
         void onCameraClick();
+
+        void onVoiceClick();
 
         void onBack();
     }

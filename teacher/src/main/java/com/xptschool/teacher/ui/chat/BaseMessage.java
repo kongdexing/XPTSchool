@@ -81,6 +81,7 @@ public class BaseMessage implements Parcelable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.i(TAG, "packData: b_username size " + b_username.length + "  " + new String(b_username));
 
         byte[] b_filename = new byte[ChatUtil.fileNameLength];
         // 将流与字节数组关联
@@ -104,9 +105,9 @@ public class BaseMessage implements Parcelable {
         allData = ChatUtil.addBytes(allData, b_tId);
         Log.i(TAG, "packData tid: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_second);
-        Log.i(TAG, "packData fn: " + allData.length);
+        Log.i(TAG, "packData second: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_username);
-        Log.i(TAG, "packData fn: " + allData.length);
+        Log.i(TAG, "packData name: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_filename);
         Log.i(TAG, "packData fn: " + allData.length);
         byte[] b_zero = new byte[2];

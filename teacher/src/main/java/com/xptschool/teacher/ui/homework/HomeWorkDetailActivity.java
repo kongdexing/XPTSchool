@@ -3,6 +3,7 @@ package com.xptschool.teacher.ui.homework;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.android.volley.common.VolleyHttpService;
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
 import com.android.widget.mygridview.MyGridView;
+import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
 import com.android.widget.spinner.MaterialSpinner;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xptschool.teacher.R;
@@ -41,6 +43,7 @@ import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.album.AlbumActivity;
 import com.xptschool.teacher.ui.album.AlbumGridAdapter;
 import com.xptschool.teacher.util.ChatUtil;
+import com.xptschool.teacher.util.ToastUtils;
 import com.xptschool.teacher.view.CustomDialog;
 import com.xptschool.teacher.view.TimePickerPopupWindow;
 import com.xptschool.teacher.view.imgloader.AlbumViewPager;
@@ -98,16 +101,6 @@ public class HomeWorkDetailActivity extends AlbumActivity {
 
     @BindView(R.id.albumviewpager)
     AlbumViewPager albumviewpager;
-
-    @BindView(R.id.id_recorder_button)
-    AudioRecorderButton mAudioRecorderButton;
-
-    @BindView(R.id.rl_recorder_length)
-    RelativeLayout rl_recorder_length;
-    @BindView(R.id.txt_recorder_time)
-    TextView txt_recorder_time;
-    @BindView(R.id.img_recorder_anim)
-    ImageView img_recorder_anim;
 
     private TimePickerPopupWindow pushDate, completeDate;
     private BeanHomeWork currentHomeWork;
@@ -269,20 +262,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             edtName.setSelection(edtName.getText().length());
         }
 
-        mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
-
-            public void onFinish(float seconds, String filePath) {
-                recorder = new Recorder(seconds, filePath);
-
-                ViewGroup.LayoutParams lp = rl_recorder_length.getLayoutParams();
-                lp.width = (int) (ChatUtil.getChatMinWidth(HomeWorkDetailActivity.this) +
-                        (ChatUtil.getChatMaxWidth(HomeWorkDetailActivity.this) / 60f) * seconds);
-
-                String str = Math.round(recorder.getTime()) + "\"";
-                rl_recorder_length.setVisibility(View.VISIBLE);
-                txt_recorder_time.setText(str);
-            }
-        });
+        initProgress();
     }
 
     private void loadCourseByClass(BeanClass item) {
@@ -312,9 +292,12 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         myPicGridAdapter.initDate(currentHomeWork.getFile_path(), enable);
     }
 
-    @OnClick({R.id.txtCompleteTime, R.id.btnSubmit, R.id.btnDelete})
+    @OnClick({R.id.imgMic, R.id.txtCompleteTime, R.id.btnSubmit, R.id.btnDelete})
     void viewClick(View view) {
         switch (view.getId()) {
+            case R.id.imgMic:
+                recorderOrPlayVoice();
+                break;
             case R.id.btnSubmit:
                 String name = edtName.getText().toString().trim();
                 String content = edtContent.getText().toString().trim();

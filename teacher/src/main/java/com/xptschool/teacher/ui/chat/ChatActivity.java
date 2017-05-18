@@ -17,9 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.widget.audiorecorder.AudioManager;
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
@@ -144,7 +146,7 @@ public class ChatActivity extends BaseActivity {
                 if (edtContent.getText().toString().length() > 0) {
                     imgPlus.setVisibility(View.GONE);
                 } else {
-                    
+
                 }
             }
 

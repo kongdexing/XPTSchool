@@ -29,13 +29,14 @@ import com.xptschool.teacher.model.BeanClass;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.album.AlbumActivity;
 import com.xptschool.teacher.ui.album.AlbumGridAdapter;
+import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.view.CustomDialog;
 import com.xptschool.teacher.view.imgloader.AlbumViewPager;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class NoticeDetailActivity extends AlbumActivity {
+public class NoticeDetailActivity extends BaseActivity {
 
     @BindView(R.id.scrollView)
     ScrollView scrollView;
@@ -81,8 +82,6 @@ public class NoticeDetailActivity extends AlbumActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_detail);
 
-        mScrollView = scrollView;
-
         setTitle(R.string.home_notice);
 
         Bundle bundle = getIntent().getExtras();
@@ -102,8 +101,7 @@ public class NoticeDetailActivity extends AlbumActivity {
         initData();
     }
 
-    private void initData() {
-
+    public void initData() {
         if (currentNotice != null) {
             spnClasses.setItems(currentNotice.getClassInfo());
 
@@ -129,21 +127,21 @@ public class NoticeDetailActivity extends AlbumActivity {
         }
 
         //绑定相册
-        myPicGridAdapter = new AlbumGridAdapter(this, new AlbumGridAdapter.MyGridViewClickListener() {
-            @Override
-            public void onGridViewItemClick(int position, String imgPath) {
-                if (position == 0) {
-                    if (LocalImageHelper.getInstance().getLocalCheckedImgs().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
-                        Toast.makeText(NoticeDetailActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    showAlbumSource(albumviewpager);
-                } else {
-                    showViewPager(albumviewpager, position - 1);
-                }
-            }
-        });
-        grdvAlbum.setAdapter(myPicGridAdapter);
+//        myPicGridAdapter = new AlbumGridAdapter(this, new AlbumGridAdapter.MyGridViewClickListener() {
+//            @Override
+//            public void onGridViewItemClick(int position, String imgPath) {
+//                if (position == 0) {
+//                    if (LocalImageHelper.getInstance().getLocalCheckedImgs().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
+//                        Toast.makeText(NoticeDetailActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                    showAlbumSource(albumviewpager);
+//                } else {
+//                    showViewPager(albumviewpager, position - 1);
+//                }
+//            }
+//        });
+//        grdvAlbum.setAdapter(myPicGridAdapter);
     }
 
     @OnClick({R.id.btnSubmit, R.id.btnDelete})

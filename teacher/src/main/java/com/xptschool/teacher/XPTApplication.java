@@ -98,7 +98,7 @@ public class XPTApplication extends Application {
         //CustomNotificationHandler notificationClickHandler = new CustomNotificationHandler();
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
-        AudioManager.getInstance(getCachePath());
+        AudioManager.getInstance(XPTApplication.getInstance().getCachePath());
     }
 
     private void initBugly() {

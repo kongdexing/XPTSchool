@@ -71,6 +71,7 @@ public class HttpAction {
 
     //上传upush devices_token
     public static String Push_Token = BuildConfig.SERVICE_URL + "/parenttoken.php";
+    public static String Push_Token_ForChat = BuildConfig.SERVICE_URL + "/chattoken.php";
 
     //广告位
     public static String HOME_Banner = HEAD + "Banner/query";

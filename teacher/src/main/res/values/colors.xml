@@ -46,5 +46,9 @@
 
     <color name="color_power">#2bdfd6</color>
     <color name="color_signal">#35ace7</color>
+    
+    <color name="color_rcBackgroundColor">#e9eaec</color>
+    <color name="color_rcSecondaryProgressColor">#15948d</color>
+
 
 </resources>

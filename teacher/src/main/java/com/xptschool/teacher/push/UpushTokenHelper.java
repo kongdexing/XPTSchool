@@ -7,6 +7,7 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
@@ -76,16 +77,14 @@ public class UpushTokenHelper {
 
     private static void pushTokenOnline(String url, final BeanDeviceToken deviceToken) {
         Log.i(TAG, "pushTokenOnline: " + url);
-        VolleyHttpService.getInstance().sendGetRequest(url, new MyVolleyRequestListener() {
+        VolleyHttpService.getInstance().sendGetRequest(url, new VolleyRequestListener() {
             @Override
             public void onStart() {
-                super.onStart();
                 Log.i(TAG, "onStart: ");
             }
 
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
-                super.onResponse(volleyHttpResult);
                 Log.i(TAG, "onResponse: " + volleyHttpResult.toString());
                 try {
                     Log.i(TAG, "onResponse: info " + volleyHttpResult.getInfo().toString());
@@ -100,7 +99,6 @@ public class UpushTokenHelper {
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                super.onErrorResponse(volleyError);
                 Log.i(TAG, "onErrorResponse: ");
             }
         });

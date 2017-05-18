@@ -30,6 +30,7 @@ import com.xptschool.teacher.model.ContactTeacher;
 import com.xptschool.teacher.ui.album.AlbumActivity;
 import com.xptschool.teacher.ui.chat.ChatActivity;
 import com.xptschool.teacher.ui.main.BaseActivity;
+import com.xptschool.teacher.util.ToastUtils;
 import com.xptschool.teacher.view.AlbumSourceView;
 
 import java.io.File;
@@ -187,39 +188,38 @@ public class ContactsDetailActivity extends BaseActivity {
 
     public void showBottomView(View view, final ContactParent parent) {
         //选择相片来源
-        if (picPopup == null) {
-            BottomChatView albumSourceView = new BottomChatView(ContactsDetailActivity.this);
-            albumSourceView.setOnBottomChatClickListener(new BottomChatView.OnBottomChatClickListener() {
-                @Override
-                public void onCallClick() {
-                    call(parent.getPhone());
-                    picPopup.dismiss();
-                }
+        BottomChatView albumSourceView = new BottomChatView(ContactsDetailActivity.this);
+        albumSourceView.setOnBottomChatClickListener(new BottomChatView.OnBottomChatClickListener() {
+            @Override
+            public void onCallClick() {
+                call(parent.getPhone());
+                picPopup.dismiss();
+            }
 
-                @Override
-                public void onChatClick() {
-                    Intent intent = new Intent(ContactsDetailActivity.this, ChatActivity.class);
-                    intent.putExtra(ExtraKey.CHAT_PARENT, parent);
-                    startActivity(intent);
-                    picPopup.dismiss();
-                }
+            @Override
+            public void onChatClick() {
+                Intent intent = new Intent(ContactsDetailActivity.this, ChatActivity.class);
+                intent.putExtra(ExtraKey.CHAT_PARENT, parent);
+                startActivity(intent);
 
-                @Override
-                public void onBack() {
-                    picPopup.dismiss();
-                }
-            });
-            picPopup = new PopupWindow(albumSourceView,
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-            picPopup.setTouchable(true);
-            picPopup.setBackgroundDrawable(new ColorDrawable());
-            picPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    backgroundAlpha(1.0f);
-                }
-            });
-        }
+                picPopup.dismiss();
+            }
+
+            @Override
+            public void onBack() {
+                picPopup.dismiss();
+            }
+        });
+        picPopup = new PopupWindow(albumSourceView,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        picPopup.setTouchable(true);
+        picPopup.setBackgroundDrawable(new ColorDrawable());
+        picPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1.0f);
+            }
+        });
         backgroundAlpha(0.5f);
         picPopup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }

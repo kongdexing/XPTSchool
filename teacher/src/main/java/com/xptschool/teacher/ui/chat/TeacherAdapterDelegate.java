@@ -106,47 +106,47 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             if (!file.exists()) {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
-                return;
-            }
-
+            } else {
+                viewHolder.error_file.setVisibility(View.GONE);
 //            IntentFilter filter = new IntentFilter(BroadcastAction.PLAY_STOP_OTHER);
 //            mContext.registerReceiver(playSoundReceiver, filter);
 
-            viewHolder.img_recorder_anim.setTag(chat);
-            SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
+                viewHolder.img_recorder_anim.setTag(chat);
+                SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
 
-            //点击播放
-            viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 声音播放动画
-                    if (viewHolder.img_recorder_anim != null) {
-                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
-                    }
-                    Log.i(TAG, "onCompletion: " + file.getPath() + " size:" + file.length());
-                    if (!file.exists()) {
-                        Log.i(TAG, "file not found ");
-                        return;
-                    }
-
-                    SoundPlayHelper.getInstance().stopPlay();
-
-                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
-                    AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
-                    animation.start();
-
-                    // 播放录音
-                    MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
-
-                        public void onCompletion(MediaPlayer mp) {
-                            //播放完成后修改图片
+                //点击播放
+                viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 声音播放动画
+                        if (viewHolder.img_recorder_anim != null) {
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                         }
-                    });
+                        Log.i(TAG, "onCompletion: " + file.getPath() + " size:" + file.length());
+                        if (!file.exists()) {
+                            Log.i(TAG, "file not found ");
+                            return;
+                        }
+
+                        SoundPlayHelper.getInstance().stopPlay();
+
+                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
+                        AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
+                        animation.start();
+
+                        // 播放录音
+                        MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
+
+                            public void onCompletion(MediaPlayer mp) {
+                                //播放完成后修改图片
+                                viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
+                            }
+                        });
 
 
-                }
-            });
+                    }
+                });
+            }
         } else {
             //文件，图片
 

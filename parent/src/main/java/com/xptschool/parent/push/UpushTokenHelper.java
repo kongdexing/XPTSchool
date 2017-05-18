@@ -8,6 +8,7 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
@@ -64,13 +65,6 @@ public class UpushTokenHelper {
             return;
         }
 
-//        //判断与本地device_token是否相同
-//        String local_device_paramtoken = GreenDaoHelper.getInstance().getParamTokenByPhone(parent.getParent_phone());
-//        Log.i(TAG, "uploadDevicesToken: local param " + local_device_paramtoken);
-//        if (local_device_paramtoken.equals(param)) {
-//            Log.i(TAG, "uploadDevicesToken: local equal");
-//            return;
-//        }
         BeanDeviceToken deviceToken = new BeanDeviceToken();
         deviceToken.setPhone(parent.getParent_phone());
         deviceToken.setDeviceToken(device_token);
@@ -78,6 +72,21 @@ public class UpushTokenHelper {
         Log.i(TAG, "uploadDevicesToken param : " + param);
         //上传成功后保存device_token
         pushTokenOnline(HttpAction.Push_Token + "?type=1&data=" + deviceToken.getParamToken(), deviceToken);
+
+        try {
+            JSONArray chatArray = new JSONArray();
+            JSONObject chatObject = new JSONObject();
+            chatObject.put("mobilenumber", parent.getParent_phone());
+            chatObject.put("mobtype", "1");
+            chatObject.put("devicetoken", device_token);
+            chatObject.put("parentid", parent.getU_id());
+            chatObject.put("token", CommonUtil.md5(device_token + parent.getParent_phone() + "shuhaixinxi"));
+            chatArray.put(chatObject);
+
+            pushTokenOnline(HttpAction.Push_Token_ForChat + "?data=" + chatArray.toString(), null);
+        } catch (Exception ex) {
+
+        }
     }
 
     private static void pushTokenOnline(String url, final BeanDeviceToken deviceToken) {
@@ -87,23 +96,26 @@ public class UpushTokenHelper {
 //            return;
 //        }
         Log.i(TAG, "pushTokenOnline: " + url);
+        if (url == null || url.isEmpty()) {
+            return;
+        }
 
-        VolleyHttpService.getInstance().sendGetRequest(url, new MyVolleyRequestListener() {
+        VolleyHttpService.getInstance().sendGetRequest(url, new VolleyRequestListener() {
             @Override
             public void onStart() {
-                super.onStart();
                 Log.i(TAG, "onStart: ");
             }
 
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
-                super.onResponse(volleyHttpResult);
                 Log.i(TAG, "onResponse: " + volleyHttpResult.toString());
                 try {
                     Log.i(TAG, "onResponse: info " + volleyHttpResult.toString());
                     if (volleyHttpResult.getInfo().contains("SUCCESS")) {
-                        Log.i(TAG, "onResponse: success insert db");
-                        GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
+                        if (deviceToken != null) {
+                            Log.i(TAG, "onResponse: success insert db");
+                            GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
+                        }
                     }
                 } catch (Exception ex) {
                     Log.i(TAG, "onResponse: error " + ex.getMessage());
