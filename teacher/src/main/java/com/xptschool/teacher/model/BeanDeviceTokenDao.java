@@ -22,7 +22,7 @@ public class BeanDeviceTokenDao extends AbstractDao<BeanDeviceToken, String> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Phone = new Property(0, String.class, "phone", true, "PHONE");
+        public final static Property UserId = new Property(0, String.class, "userId", true, "USER_ID");
         public final static Property DeviceToken = new Property(1, String.class, "deviceToken", false, "DEVICE_TOKEN");
         public final static Property ParamToken = new Property(2, String.class, "paramToken", false, "PARAM_TOKEN");
     };
@@ -40,7 +40,7 @@ public class BeanDeviceTokenDao extends AbstractDao<BeanDeviceToken, String> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BEAN_DEVICE_TOKEN\" (" + //
-                "\"PHONE\" TEXT PRIMARY KEY NOT NULL ," + // 0: phone
+                "\"USER_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: userId
                 "\"DEVICE_TOKEN\" TEXT," + // 1: deviceToken
                 "\"PARAM_TOKEN\" TEXT);"); // 2: paramToken
     }
@@ -55,9 +55,9 @@ public class BeanDeviceTokenDao extends AbstractDao<BeanDeviceToken, String> {
     protected final void bindValues(DatabaseStatement stmt, BeanDeviceToken entity) {
         stmt.clearBindings();
  
-        String phone = entity.getPhone();
-        if (phone != null) {
-            stmt.bindString(1, phone);
+        String userId = entity.getUserId();
+        if (userId != null) {
+            stmt.bindString(1, userId);
         }
  
         String deviceToken = entity.getDeviceToken();
@@ -75,9 +75,9 @@ public class BeanDeviceTokenDao extends AbstractDao<BeanDeviceToken, String> {
     protected final void bindValues(SQLiteStatement stmt, BeanDeviceToken entity) {
         stmt.clearBindings();
  
-        String phone = entity.getPhone();
-        if (phone != null) {
-            stmt.bindString(1, phone);
+        String userId = entity.getUserId();
+        if (userId != null) {
+            stmt.bindString(1, userId);
         }
  
         String deviceToken = entity.getDeviceToken();
@@ -99,7 +99,7 @@ public class BeanDeviceTokenDao extends AbstractDao<BeanDeviceToken, String> {
     @Override
     public BeanDeviceToken readEntity(Cursor cursor, int offset) {
         BeanDeviceToken entity = new BeanDeviceToken( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // phone
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // userId
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // deviceToken
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // paramToken
         );
@@ -108,20 +108,20 @@ public class BeanDeviceTokenDao extends AbstractDao<BeanDeviceToken, String> {
      
     @Override
     public void readEntity(Cursor cursor, BeanDeviceToken entity, int offset) {
-        entity.setPhone(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setUserId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setDeviceToken(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setParamToken(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
      }
     
     @Override
     protected final String updateKeyAfterInsert(BeanDeviceToken entity, long rowId) {
-        return entity.getPhone();
+        return entity.getUserId();
     }
     
     @Override
     public String getKey(BeanDeviceToken entity) {
         if(entity != null) {
-            return entity.getPhone();
+            return entity.getUserId();
         } else {
             return null;
         }

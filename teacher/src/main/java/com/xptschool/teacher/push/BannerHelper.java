@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
@@ -47,7 +48,7 @@ public class BannerHelper {
                 + "&sid=" + s_id + "&type=" + statisticsType
                 + "&mac=" + CommonUtil.getDeviceId() + "&mobile=" + phone + "&rand=" + random_int + "&token=" + token;
 
-        VolleyHttpService.getInstance().sendGetRequest(url, new MyVolleyRequestListener() {
+        VolleyHttpService.getInstance().sendGetRequest(url, new VolleyRequestListener() {
             @Override
             public void onStart() {
                 Log.i(TAG, "onStart: " + url);
@@ -65,7 +66,6 @@ public class BannerHelper {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.i(TAG, "onErrorResponse: " + volleyError.getMessage());
-
             }
         });
     }

@@ -95,7 +95,7 @@
                     android:layout_marginRight="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_5"
                     android:hint="@string/label_tutelage_hint_phone"
-                    android:inputType="phone"
+                    android:inputType="userId"
                     android:lines="1"
                     android:textSize="@dimen/sp_16"
                     app:met_clearButton="true" />

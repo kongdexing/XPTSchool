@@ -10,7 +10,6 @@ import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.http.HttpAction;
-import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanDeviceToken;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -67,7 +66,7 @@ public class UpushTokenHelper {
         }
 
         BeanDeviceToken deviceToken = new BeanDeviceToken();
-        deviceToken.setPhone(teacher.getPhone());
+        deviceToken.setUserId(teacher.getU_id());
         deviceToken.setDeviceToken(device_token);
         deviceToken.setParamToken(param);
         Log.i(TAG, "uploadDevicesToken param : " + param);
@@ -116,10 +115,10 @@ public class UpushTokenHelper {
             Log.i(TAG, "exitAccount: teacher is null");
             return;
         }
-        String local_device_token = GreenDaoHelper.getInstance().getTokenByPhone(teacher.getPhone());
+        String local_device_token = GreenDaoHelper.getInstance().getTokenByUID(teacher.getU_id());
 
         BeanDeviceToken deviceToken = new BeanDeviceToken();
-        deviceToken.setPhone(teacher.getPhone());
+        deviceToken.setUserId(teacher.getU_id());
         deviceToken.setDeviceToken(local_device_token);
         deviceToken.setParamToken(param);
         GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
@@ -144,7 +143,7 @@ public class UpushTokenHelper {
         try {
 //            TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
 //            String DEVICE_ID = tm.getDeviceId();
-            local_device_token = GreenDaoHelper.getInstance().getTokenByPhone(teacher.getPhone());
+            local_device_token = GreenDaoHelper.getInstance().getTokenByUID(teacher.getU_id());
             JSONObject object = new JSONObject();
 
             object.put("device_token_teacher", local_device_token);
@@ -163,7 +162,7 @@ public class UpushTokenHelper {
         }
 
         BeanDeviceToken deviceToken = new BeanDeviceToken();
-        deviceToken.setPhone(teacher.getPhone());
+        deviceToken.setUserId(teacher.getU_id());
         deviceToken.setDeviceToken(local_device_token);
         deviceToken.setParamToken(param);
         GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);

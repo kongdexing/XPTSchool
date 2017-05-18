@@ -1,5 +1,6 @@
 package com.xptschool.teacher.ui.album;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.LayoutRes;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -29,6 +31,9 @@ import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.LocalImageHelper;
@@ -37,6 +42,8 @@ import com.xptschool.teacher.view.AlbumSourceView;
 import com.xptschool.teacher.view.imgloader.AlbumViewPager;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,9 +58,9 @@ public class AlbumActivity extends TakePhotoActivity {
     private PopupWindow picPopup;
     public AlbumGridAdapter myPicGridAdapter;
     public int Voice_UnRecord = 0;
-    public int Voice_Recording = Voice_UnRecord + 1;
-    public int Voice_Stop = Voice_Recording + 1;
-    public int Voice_Play = Voice_Stop + 1;
+    public final int Voice_Recording = Voice_UnRecord + 1;
+    public final int Voice_Stop = Voice_Recording + 1;
+    public final int Voice_Play = Voice_Stop + 1;
     public int VoiceStatus = Voice_UnRecord;
     //录音准备
     private static final int MSG_AUDIO_PREPARED = 0x110;
@@ -74,7 +81,7 @@ public class AlbumActivity extends TakePhotoActivity {
     TextView txtProgress;
 
     //录音管理工具类
-    private AudioManager mAudioManager;
+    public AudioManager mAudioManager;
     //是否开始录音标志
     private boolean isRecording = false;
     //是否开始播放标志
@@ -84,12 +91,19 @@ public class AlbumActivity extends TakePhotoActivity {
     //记录播放时间
     private float mPlayTime;
     private int maxLength = 120;
+    public String localAmrFile = null;
+
+    @Override
+    public boolean navigateUpTo(Intent upIntent) {
+        return super.navigateUpTo(upIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LocalImageHelper.getInstance().getLocalCheckedImgs().clear();
         mAudioManager = AudioManager.getInstance(XPTApplication.getInstance().getCachePath());
+        Log.i(TAG, "onCreate: " + mAudioManager.getCurrentFilePath());
     }
 
     public void initProgress() {
@@ -99,7 +113,7 @@ public class AlbumActivity extends TakePhotoActivity {
 //        voiceBar.setSecondaryProgress(voiceBar.getMax());
         voiceBar.setSecondaryProgressColor(this.getResources().getColor(R.color.color_rcBackgroundColor));
         voiceBar.setSecondaryProgress(voiceBar.getMax());
-
+        voiceBar.setProgress(0);
         voiceBar.setProgressColor(this.getResources().getColor(R.color.colorPrimaryDark));
     }
 
@@ -326,6 +340,7 @@ public class AlbumActivity extends TakePhotoActivity {
                     }
                     if (isRecording) {
                         voiceBar.setProgress(mTime);
+                        txtProgress.setVisibility(View.VISIBLE);
                         txtProgress.setText(Math.round(mTime) + "\"/" + maxLength + "\"");
                     }
                     break;
@@ -383,23 +398,23 @@ public class AlbumActivity extends TakePhotoActivity {
                     //停止录制
                     imgDelete.setVisibility(View.VISIBLE);
                     maxLength = Math.round(mTime);
-                    voiceBar.setProgress(maxLength);
-                    txtProgress.setText(Math.round(mTime) + "\"");
                     initProgress();
+                    voiceBar.setProgress(maxLength);
+                    txtProgress.setVisibility(View.VISIBLE);
+                    txtProgress.setText(Math.round(mTime) + "\"");
+
                     reset();
                 }
             });
 
             mAudioManager.prepareAudio();
-            imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
-            VoiceStatus = Voice_Recording;
+            setImgMicStatus(Voice_Recording);
         } else if (VoiceStatus == Voice_Recording) {
             if (!isRecording || mTime < 0.6f) {//如果时间少于0.6s，则提示录音过短
                 mAudioManager.cancel();
                 // 延迟显示对话框
                 ToastUtils.showToast(this, "录音过短，请重新录制");
-                imgMic.setBackgroundResource(R.drawable.selector_micphone);
-                VoiceStatus = Voice_UnRecord;
+                setImgMicStatus(Voice_UnRecord);
             } else {
                 //stop record
                 stopRecord();
@@ -408,8 +423,11 @@ public class AlbumActivity extends TakePhotoActivity {
             //play voice
             //开始播放动画
 
-            String filePath = XPTApplication.getInstance().getCachePath() + "/" + mAudioManager.getCurrentFilePath();
-            Log.i(TAG, "recorderOrPlayVoice: Voice_Stop play voice "+filePath);
+            String filePath = mAudioManager.getCurrentFilePath();
+            if (filePath == null) {
+                filePath = localAmrFile;
+            }
+            Log.i(TAG, "recorderOrPlayVoice: Voice_Stop play voice " + filePath);
 
             // 播放录音
             MediaPlayerManager.playSound(filePath, new MediaPlayer.OnCompletionListener() {
@@ -423,23 +441,34 @@ public class AlbumActivity extends TakePhotoActivity {
             });
 
             //改为停止状态
-            imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
-            VoiceStatus = Voice_Play;
+            setImgMicStatus(Voice_Stop);
         } else if (VoiceStatus == Voice_Play) {
             //stop play
+            MediaPlayerManager.pause();
 
             //改为播放状态
-            imgMic.setBackgroundResource(R.drawable.selector_voice_play);
-            VoiceStatus = Voice_Stop;
+            setImgMicStatus(Voice_Play);
         }
+    }
+
+    public void deleteOldVoice() {
+        File file = new File(mAudioManager.getCurrentFilePath());
+        if (file.exists()) {
+            file.delete();
+        }
+        MediaPlayerManager.pause();
+        imgDelete.setVisibility(View.GONE);
+        txtProgress.setVisibility(View.GONE);
+        maxLength = 120;
+        initProgress();
+        setImgMicStatus(Voice_UnRecord);
     }
 
     private void stopRecord() {
         Log.i(TAG, "stopRecord: ");
         mAudioManager.release();
 
-        imgMic.setBackgroundResource(R.drawable.selector_voice_play);
-        VoiceStatus = Voice_Stop;
+        setImgMicStatus(Voice_Play);
     }
 
     private void reset() {
@@ -448,6 +477,131 @@ public class AlbumActivity extends TakePhotoActivity {
         mTime = 0;
         isPlaying = false;
         mPlayTime = 0;
+    }
+
+    private void setImgMicStatus(int status) {
+        if (status == Voice_Play) {
+            imgMic.setBackgroundResource(R.drawable.selector_voice_play);
+            VoiceStatus = Voice_Stop;
+        } else if (status == Voice_Stop) {
+            imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
+            VoiceStatus = Voice_Play;
+        } else if (status == Voice_UnRecord) {
+            imgMic.setBackgroundResource(R.drawable.selector_micphone);
+            VoiceStatus = Voice_UnRecord;
+        } else if (status == Voice_Recording) {
+            imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
+            VoiceStatus = Voice_Recording;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MediaPlayerManager.pause();
+    }
+
+    public FileDownloadListener createListener() {
+        return new FileDownloadListener() {
+
+            @Override
+            protected boolean isInvalid() {
+                return isFinishing();
+            }
+
+            @Override
+            protected void pending(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                updateDisplay(String.format("[pending] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+            }
+
+            @Override
+            protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+                updateDisplay(String.format("[connected] id[%d] %s %B %d/%d", task.getId(), etag, isContinue, soFarBytes, totalBytes));
+            }
+
+            @Override
+            protected void progress(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                updateDisplay(String.format("[progress] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+            }
+
+            @Override
+            protected void blockComplete(final BaseDownloadTask task) {
+            }
+
+            @Override
+            protected void retry(BaseDownloadTask task, Throwable ex, int retryingTimes, int soFarBytes) {
+                super.retry(task, ex, retryingTimes, soFarBytes);
+                updateDisplay(String.format("[retry] id[%d] %s %d %d",
+                        task.getId(), ex, retryingTimes, soFarBytes));
+            }
+
+            @Override
+            protected void completed(BaseDownloadTask task) {
+                int duration = getAmrDuration(task.getPath());
+                txtProgress.setText(duration + "\"");
+                maxLength = duration;
+                initProgress();
+                voiceBar.setProgress(duration);
+                //
+                setImgMicStatus(Voice_Play);
+
+                Log.i(TAG, "completed: " + task.getPath() + " " + task.getTargetFilePath());
+                updateDisplay(String.format("[completed] id[%d] oldFile[%B]",
+                        task.getId(),
+                        task.isReusedOldFile()));
+                updateDisplay(String.format("---------------------------------- %d", (Integer) task.getTag()));
+            }
+
+            @Override
+            protected void paused(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                updateDisplay(String.format("[paused] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+                updateDisplay(String.format("############################## %d", (Integer) task.getTag()));
+            }
+
+            @Override
+            protected void error(BaseDownloadTask task, Throwable e) {
+                updateDisplay(Html.fromHtml(String.format("[error] id[%d] %s %s",
+                        task.getId(),
+                        e,
+                        FileDownloadUtils.getStack(e.getStackTrace(), false))));
+
+                updateDisplay(String.format("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d", (Integer) task.getTag()));
+            }
+
+            @Override
+            protected void warn(BaseDownloadTask task) {
+                updateDisplay(String.format("[warn] id[%d]", task.getId()));
+                updateDisplay(String.format("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ %d", (Integer) task.getTag()));
+            }
+        };
+    }
+
+    private void updateDisplay(final CharSequence msg) {
+//        if (downloadMsgTv.getLineCount() > 2500) {
+//            downloadMsgTv.setText("");
+//        }
+//        downloadMsgTv.append(String.format("\n %s", msg));
+//        tipMsgTv.setText(String.format("%d/%d", finalCounts, totalCounts));
+//        if (needAuto2Bottom) {
+//            scrollView.post(scroll2Bottom);
+//        }
+        Log.i(TAG, "updateDisplay: " + msg);
+    }
+
+    private int getAmrDuration(String path) {
+        int duration = 0;
+        try {
+            localAmrFile = path;
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(path);
+            mediaPlayer.prepare();
+            float dur = (float) mediaPlayer.getDuration() / 1000;
+            duration = Math.round(dur);
+        } catch (Exception ex) {
+
+        }
+        return duration;
     }
 
     @Override

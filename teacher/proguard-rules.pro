@@ -234,4 +234,4 @@
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
--dontwarn com.alipay.android.phone.mrpc.core.**
+-dontwarn com.alipay.android.userId.mrpc.core.**

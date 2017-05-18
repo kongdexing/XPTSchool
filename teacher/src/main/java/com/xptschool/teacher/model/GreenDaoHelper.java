@@ -2,7 +2,6 @@ package com.xptschool.teacher.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -278,7 +277,7 @@ public class GreenDaoHelper {
         BeanDeviceToken deviceToken = null;
         if (readDaoSession != null) {
             deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).unique();
+                    .where(BeanDeviceTokenDao.Properties.UserId.eq(phone)).unique();
         }
         if (deviceToken == null) {
             return "";
@@ -286,11 +285,11 @@ public class GreenDaoHelper {
         return deviceToken.getParamToken();
     }
 
-    public String getTokenByPhone(String phone) {
+    public String getTokenByUID(String userId) {
         BeanDeviceToken deviceToken = null;
         if (readDaoSession != null) {
             deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).unique();
+                    .where(BeanDeviceTokenDao.Properties.UserId.eq(userId)).unique();
         }
         if (deviceToken == null) {
             return null;
@@ -302,7 +301,7 @@ public class GreenDaoHelper {
         if (deviceToken == null) {
             return;
         }
-        String token = getTokenByPhone(deviceToken.getPhone());
+        String token = getTokenByUID(deviceToken.getUserId());
         if (token == null) {
             insertToken(deviceToken);
         } else {

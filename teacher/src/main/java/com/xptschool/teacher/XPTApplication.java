@@ -11,6 +11,9 @@ import android.view.WindowManager;
 import com.android.volley.common.VolleyHttpService;
 import com.android.widget.audiorecorder.AudioManager;
 import com.baidu.mapapi.SDKInitializer;
+import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
+import com.liulishuo.filedownloader.services.DownloadMgrInitialParams;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,6 +33,7 @@ import com.xptschool.teacher.push.MyUmengMessageHandler;
 import com.xptschool.teacher.ui.main.MainActivity;
 
 import java.io.File;
+import java.net.Proxy;
 
 /**
  * Created by Administrator on 2016/10/18 0018.
@@ -99,6 +103,13 @@ public class XPTApplication extends Application {
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
         AudioManager.getInstance(XPTApplication.getInstance().getCachePath());
+        FileDownloader.init(getApplicationContext(), new DownloadMgrInitialParams.InitCustomMaker()
+                .connectionCreator(new FileDownloadUrlConnection
+                        .Creator(new FileDownloadUrlConnection.Configuration()
+                        .connectTimeout(15_000) // set connection timeout.
+                        .readTimeout(15_000) // set read timeout.
+                        .proxy(Proxy.NO_PROXY) // set proxy
+                )));
     }
 
     private void initBugly() {

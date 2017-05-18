@@ -27,8 +27,11 @@ import com.android.widget.audiorecorder.Recorder;
 import com.android.widget.mygridview.MyGridView;
 import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
 import com.android.widget.spinner.MaterialSpinner;
+import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.bean.BeanHomeWork;
 import com.xptschool.teacher.common.ActivityResultCode;
 import com.xptschool.teacher.common.BroadcastAction;
@@ -105,7 +108,6 @@ public class HomeWorkDetailActivity extends AlbumActivity {
     private TimePickerPopupWindow pushDate, completeDate;
     private BeanHomeWork currentHomeWork;
     private boolean canModify = false;
-    private Recorder recorder = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,7 +264,19 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             edtName.setSelection(edtName.getText().length());
         }
 
-        initProgress();
+        if (currentHomeWork == null) {
+            initProgress();
+        } else {
+            //取amr文件
+            String amr_file = currentHomeWork.getAmr_file();
+            Log.i(TAG, "amr file : " + amr_file);
+            if (amr_file != null) {
+                FileDownloader.getImpl().create(amr_file)
+                        .setListener(createListener())
+                        .setTag(1)
+                        .start();
+            }
+        }
     }
 
     private void loadCourseByClass(BeanClass item) {
@@ -292,11 +306,14 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         myPicGridAdapter.initDate(currentHomeWork.getFile_path(), enable);
     }
 
-    @OnClick({R.id.imgMic, R.id.txtCompleteTime, R.id.btnSubmit, R.id.btnDelete})
+    @OnClick({R.id.imgMic, R.id.imgDelete, R.id.txtCompleteTime, R.id.btnSubmit, R.id.btnDelete})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.imgMic:
                 recorderOrPlayVoice();
+                break;
+            case R.id.imgDelete:
+                deleteOldVoice();
                 break;
             case R.id.btnSubmit:
                 String name = edtName.getText().toString().trim();
@@ -400,8 +417,12 @@ public class HomeWorkDetailActivity extends AlbumActivity {
 //            }
 //        }
 
-        if (recorder != null) {
-            uploadFile.add(recorder.getFilePath());
+        String amrPath = localAmrFile;
+        if (amrPath == null) {
+            amrPath = mAudioManager.getCurrentFilePath();
+        }
+        if (amrPath != null) {
+            uploadFile.add(amrPath);
         }
 
         for (int i = 0; i < uploadFile.size(); i++) {

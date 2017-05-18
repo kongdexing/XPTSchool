@@ -110,7 +110,7 @@ android {
 }
 
 greendao {
-    schemaVersion 7
+    schemaVersion 8
     targetGenDir 'src/main/java'
 }
 
@@ -144,4 +144,5 @@ dependencies {
     compile 'com.tencent.bugly:crashreport_upgrade:1.2.3'
 
     compile 'com.coolerfall:android-app-daemon:1.2.0'
+    compile 'com.liulishuo.filedownloader:library:1.4.3'
 }

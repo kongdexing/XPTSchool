@@ -6,9 +6,11 @@ package com.xptschool.teacher.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.xptschool.teacher.BuildConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +35,7 @@ public class BeanHomeWork implements Parcelable {
     private String user_name;
     private int subjectBgColor;
     private List<String> file_path;
+    private String amr_file;
 
     public String getH_id() {
         return h_id;
@@ -140,6 +143,9 @@ public class BeanHomeWork implements Parcelable {
     }
 
     public List<String> getFile_path() {
+        Log.i("HomeWork", "getFile_path: " + file_path.size());
+        setFile_path(this.file_path);
+        Log.i("HomeWork", "after set: " + file_path.size() + " content:" + getWork_content() + " amr:" + amr_file);
         for (int i = 0; i < file_path.size(); i++) {
             if (!file_path.get(i).contains(BuildConfig.SERVICE_URL)) {
                 this.file_path.set(i, BuildConfig.SERVICE_URL + file_path.get(i));
@@ -149,7 +155,28 @@ public class BeanHomeWork implements Parcelable {
     }
 
     public void setFile_path(List<String> file_path) {
-        this.file_path = file_path;
+        Log.i("HomeWork", "setFile_path: " + file_path.size());
+        List<String> temp_files = new ArrayList<>();
+        for (int i = 0; i < file_path.size(); i++) {
+            if (file_path.get(i).contains(".amr")) {
+                setAmr_file(file_path.get(i));
+                file_path.remove(i);
+            } else {
+                temp_files.add(file_path.get(i));
+            }
+        }
+        this.file_path = temp_files;
+    }
+
+    public String getAmr_file() {
+        if (amr_file != null && !amr_file.contains(BuildConfig.SERVICE_URL)) {
+            this.amr_file = BuildConfig.SERVICE_URL + this.amr_file;
+        }
+        return amr_file;
+    }
+
+    public void setAmr_file(String amr_file) {
+        this.amr_file = amr_file;
     }
 
     public String getG_name() {
@@ -200,6 +227,7 @@ public class BeanHomeWork implements Parcelable {
         dest.writeString(this.user_name);
         dest.writeInt(this.subjectBgColor);
         dest.writeStringList(this.file_path);
+        dest.writeString(this.amr_file);
     }
 
     public BeanHomeWork() {
@@ -223,6 +251,7 @@ public class BeanHomeWork implements Parcelable {
         this.user_name = in.readString();
         this.subjectBgColor = in.readInt();
         this.file_path = in.createStringArrayList();
+        this.amr_file = in.readString();
     }
 
     public static final Creator<BeanHomeWork> CREATOR = new Creator<BeanHomeWork>() {
@@ -257,6 +286,7 @@ public class BeanHomeWork implements Parcelable {
                 ", user_name='" + user_name + '\'' +
                 ", subjectBgColor=" + subjectBgColor +
                 ", file_path=" + file_path +
+                ", amr_file='" + amr_file + '\'' +
                 '}';
     }
 }
