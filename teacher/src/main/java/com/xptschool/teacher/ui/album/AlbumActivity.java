@@ -33,9 +33,11 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.bean.BeanHomeWork;
 import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.util.ToastUtils;
 import com.xptschool.teacher.view.AlbumSourceView;
@@ -106,14 +108,40 @@ public class AlbumActivity extends TakePhotoActivity {
         Log.i(TAG, "onCreate: " + mAudioManager.getCurrentFilePath());
     }
 
-    public void initProgress() {
+    public void initVoice(BeanHomeWork homeWork) {
+        if (homeWork == null) {
+            imgMic.setEnabled(true);
+            initProgress(0);
+        } else {
+            //取amr文件
+            String amr_file = homeWork.getAmr_file();
+            Log.i(TAG, "amr file : " + amr_file);
+            if (amr_file != null) {
+                FileDownloader.getImpl().create(amr_file)
+                        .setListener(createListener())
+                        .setTag(1)
+                        .start();
+            } else {
+                imgMic.setEnabled(false);
+                initProgress(0);
+            }
+        }
+    }
+
+    public void showVoiceDel(boolean show) {
+        imgMic.setEnabled(true);
+        if (localAmrFile != null) {
+            imgDelete.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    public void initProgress(int progress) {
         voiceBar.setProgressBackgroundColor(this.getResources().getColor(R.color.colorPrimaryDark));
         voiceBar.setMax(maxLength);
         voiceBar.setPadding(3);
-//        voiceBar.setSecondaryProgress(voiceBar.getMax());
         voiceBar.setSecondaryProgressColor(this.getResources().getColor(R.color.color_rcBackgroundColor));
         voiceBar.setSecondaryProgress(voiceBar.getMax());
-        voiceBar.setProgress(0);
+        voiceBar.setProgress(progress);
         voiceBar.setProgressColor(this.getResources().getColor(R.color.colorPrimaryDark));
     }
 
@@ -330,7 +358,7 @@ public class AlbumActivity extends TakePhotoActivity {
                     new Thread(mGetVoiceLevelRunnable).start();
                     imgDelete.setVisibility(View.GONE);
                     maxLength = 120;
-                    initProgress();
+                    initProgress(0);
                     break;
                 case MSG_VOICE_CHANGED:
                     Log.i(TAG, "handleMessage: MSG_VOICE_CHANGED");
@@ -398,8 +426,7 @@ public class AlbumActivity extends TakePhotoActivity {
                     //停止录制
                     imgDelete.setVisibility(View.VISIBLE);
                     maxLength = Math.round(mTime);
-                    initProgress();
-                    voiceBar.setProgress(maxLength);
+                    initProgress(maxLength);
                     txtProgress.setVisibility(View.VISIBLE);
                     txtProgress.setText(Math.round(mTime) + "\"");
 
@@ -460,7 +487,7 @@ public class AlbumActivity extends TakePhotoActivity {
         imgDelete.setVisibility(View.GONE);
         txtProgress.setVisibility(View.GONE);
         maxLength = 120;
-        initProgress();
+        initProgress(0);
         setImgMicStatus(Voice_UnRecord);
     }
 
@@ -541,8 +568,7 @@ public class AlbumActivity extends TakePhotoActivity {
                 int duration = getAmrDuration(task.getPath());
                 txtProgress.setText(duration + "\"");
                 maxLength = duration;
-                initProgress();
-                voiceBar.setProgress(duration);
+                initProgress(duration);
                 //
                 setImgMicStatus(Voice_Play);
 

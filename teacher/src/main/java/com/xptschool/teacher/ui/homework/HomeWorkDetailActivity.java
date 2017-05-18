@@ -201,31 +201,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                 setTextRightClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        setViewEnable(true);
-
-                        spnClasses.setItems(beanClasses);
-                        for (int i = 0; i < beanClasses.size(); i++) {
-                            BeanClass beanClass = beanClasses.get(i);
-                            if (beanClass.getG_id().equals(currentHomeWork.getG_id())
-                                    && beanClass.getC_id().equals(currentHomeWork.getC_id())) {
-                                spnClasses.setSelectedIndex(i);
-                                break;
-                            }
-                        }
-
-                        spnCourse.setItems(allCourse);
-                        for (int i = 0; i < allCourse.size(); i++) {
-                            if (allCourse.get(i).getId().equals(currentHomeWork.getCrs_id())) {
-                                spnClasses.setSelectedIndex(i);
-                                break;
-                            }
-                        }
-
-                        hideViewPager(albumviewpager);
-                        btnSubmit.setVisibility(View.VISIBLE);
-                        btnSubmit.setText("重新发布");
-                        setTxtRight("");
-                        edtName.setSelection(edtName.getText().toString().length());
+                        availableEdit(beanClasses, allCourse);
                     }
                 });
             } else {
@@ -257,26 +233,43 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             } else {
                 spnCourse.setItems(courseName);
             }
-
         } else {
             llCreateTime.setVisibility(View.GONE);
             edtName.setText(spnCourse.getText() + "作业");
             edtName.setSelection(edtName.getText().length());
         }
 
-        if (currentHomeWork == null) {
-            initProgress();
-        } else {
-            //取amr文件
-            String amr_file = currentHomeWork.getAmr_file();
-            Log.i(TAG, "amr file : " + amr_file);
-            if (amr_file != null) {
-                FileDownloader.getImpl().create(amr_file)
-                        .setListener(createListener())
-                        .setTag(1)
-                        .start();
+        initVoice(currentHomeWork);
+    }
+
+    private void availableEdit(List<BeanClass> beanClasses, List<BeanCourse> allCourse) {
+        setViewEnable(true);
+
+        spnClasses.setItems(beanClasses);
+        for (int i = 0; i < beanClasses.size(); i++) {
+            BeanClass beanClass = beanClasses.get(i);
+            if (beanClass.getG_id().equals(currentHomeWork.getG_id())
+                    && beanClass.getC_id().equals(currentHomeWork.getC_id())) {
+                spnClasses.setSelectedIndex(i);
+                break;
             }
         }
+
+        spnCourse.setItems(allCourse);
+        for (int i = 0; i < allCourse.size(); i++) {
+            if (allCourse.get(i).getId().equals(currentHomeWork.getCrs_id())) {
+                spnClasses.setSelectedIndex(i);
+                break;
+            }
+        }
+
+        hideViewPager(albumviewpager);
+        btnSubmit.setVisibility(View.VISIBLE);
+        btnSubmit.setText("重新发布");
+        setTxtRight("");
+        edtName.setSelection(edtName.getText().toString().length());
+
+        showVoiceDel(true);
     }
 
     private void loadCourseByClass(BeanClass item) {

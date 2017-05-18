@@ -191,11 +191,16 @@
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text="语音文件"
+                android:textColor="@color/color_black_3" />
             <!--声音文件-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_6">
+                android:layout_height="wrap_content">
 
                 <com.android.widget.roundcornerprogressbar.RoundCornerProgressBar
                     android:id="@+id/voiceBar"
