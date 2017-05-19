@@ -88,9 +88,12 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
             //取amr文件
             String amr_file = homeWork.getAmr_file();
             Log.i(TAG, "amr file : " + amr_file);
+            String fileName = amr_file.substring(amr_file.lastIndexOf('/') + 1);
+
             if (amr_file != null) {
                 FileDownloader.getImpl().create(amr_file)
                         .setListener(createListener())
+                        .setPath(XPTApplication.getInstance().getCachePath() + "/" + fileName)
                         .setTag(1)
                         .start();
             } else {

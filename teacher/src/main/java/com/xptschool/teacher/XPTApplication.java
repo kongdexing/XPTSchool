@@ -108,6 +108,7 @@ public class XPTApplication extends Application {
 //        mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
         AudioManager.getInstance(XPTApplication.getInstance().getCachePath());
+
         FileDownloader.init(getApplicationContext(), new DownloadMgrInitialParams.InitCustomMaker()
                 .connectionCreator(new FileDownloadUrlConnection
                         .Creator(new FileDownloadUrlConnection.Configuration()
