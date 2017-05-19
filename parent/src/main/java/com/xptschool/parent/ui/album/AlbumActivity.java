@@ -6,6 +6,7 @@ import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.Log;
@@ -68,8 +69,15 @@ public class AlbumActivity extends BaseActivity {
     ImageView imgVoice;
     @BindView(R.id.txtProgress)
     TextView txtProgress;
-
+    //是否开始播放标志
+    private boolean isPlaying = false;
+    //记录播放时间
+    private float mPlayTime;
     public String localAmrFile = null;
+    //停止录音
+    private static final int MSG_AUDIO_STOP = 0x112;
+    //播放录音
+    private static final int MSG_VOICE_PLAY = 0x113;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -143,24 +151,58 @@ public class AlbumActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.imgVoice:
                 if (VoiceStatus == Voice_Play) {
+                    isPlaying = true;
+                    mPlayTime = 0;
+                    new Thread(playVoiceRunnable).start();
                     // 播放录音
                     MediaPlayerManager.playSound(localAmrFile, new MediaPlayer.OnCompletionListener() {
 
                         public void onCompletion(MediaPlayer mp) {
                             //播放完成后改为播放状态
                             setImgMicStatus(Voice_Play);
+                            isPlaying = false;
                         }
                     });
                     //改为停止状态
                     setImgMicStatus(Voice_Stop);
                 } else if (VoiceStatus == Voice_Stop) {
                     MediaPlayerManager.pause();
+                    isPlaying = false;
                     //改为播放状态
                     setImgMicStatus(Voice_Play);
                 }
                 break;
         }
     }
+
+    private Runnable playVoiceRunnable = new Runnable() {
+
+        public void run() {
+            while (isPlaying) {
+                try {
+                    Thread.sleep(100);
+                    mPlayTime += 0.1f;//录音时间计算
+                    mHandler.sendEmptyMessage(MSG_VOICE_PLAY);//每0.1秒发送消息
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_VOICE_PLAY:
+                    Log.i(TAG, "handleMessage: " + mPlayTime);
+                    voiceBar.setProgress(mPlayTime);
+                    break;
+            }
+        }
+    };
 
     //显示大图pager
     public void showViewPager(AlbumViewPager albumviewpager, int index) {

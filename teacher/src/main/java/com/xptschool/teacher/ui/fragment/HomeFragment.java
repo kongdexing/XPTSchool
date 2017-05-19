@@ -77,7 +77,7 @@ public class HomeFragment extends BaseFragment {
                 if (topBanners.size() > position) {
                     BeanBanner banner = topBanners.get(position);
                     Log.i(TAG, "onPageSelected: banner type " + banner.getType());
-                    if (banner != null) {
+                    if (banner != null && tipTitle != null) {
                         tipTitle.setText(banner.getTitle());
                         BannerHelper.postShowBanner(banner, "1");
                     }
@@ -156,7 +156,9 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        viewPagerTop.stopAutoScroll();
+        if (viewPagerTop != null) {
+            viewPagerTop.stopAutoScroll();
+        }
         Log.i(TAG, "onPause: ");
     }
 
