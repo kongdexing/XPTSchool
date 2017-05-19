@@ -20,7 +20,6 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.bean.BeanHomeWork;
-import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.ui.album.AlbumActivity;
 import com.xptschool.teacher.util.ToastUtils;
 
@@ -108,13 +107,6 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         } else {
 
         }
-
-//        if (show) {
-//            imgMic.setEnabled(true);
-//            setImgMicStatus(Voice_UnRecord);
-//        } else {
-//            setImgMicStatus(Voice_Play);
-//        }
     }
 
     public void hideVoiceDel() {

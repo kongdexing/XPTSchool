@@ -119,6 +119,7 @@
     <string name="permission_readphonestate_rationale">请求授予读取手机信息权限</string>
     <string name="permission_readphonestate_never_askagain">已禁止该应用的读取手机信息权限，请去设置中进行设置</string>
 
+    <string name="toast_record_unstop">请完成录音后再发布作业</string>
     <string name="toast_homework_empty">请将作业名称，完成时间及作业内容填写完整</string>
     <string name="toast_choose_student">请选择一名学生</string>
     <string name="toast_choose_time">请选择起止日期</string>

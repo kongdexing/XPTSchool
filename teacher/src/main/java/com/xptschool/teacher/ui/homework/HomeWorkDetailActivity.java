@@ -310,23 +310,28 @@ public class HomeWorkDetailActivity extends VoiceRecordActivity {
                 deleteOldVoice();
                 break;
             case R.id.btnSubmit:
+                if (VoiceStatus == Voice_Recording) {
+                    ToastUtils.showToast(this, R.string.toast_record_unstop);
+                    return;
+                }
+
                 String name = edtName.getText().toString().trim();
                 String content = edtContent.getText().toString().trim();
                 String finishTime = txtCompleteTime.getText().toString();
                 if (name.isEmpty() || content.isEmpty() || finishTime.isEmpty()) {
-                    Toast.makeText(this, R.string.toast_homework_empty, Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast(this, R.string.toast_homework_empty);
                     return;
                 }
 
                 BeanHomeWork homeWork = new BeanHomeWork();
                 BeanClass currentClass = (BeanClass) spnClasses.getSelectedItem();
                 if (currentClass == null) {
-                    Toast.makeText(this, "请选择班级", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast(this, "请选择班级");
                     return;
                 }
                 BeanCourse course = (BeanCourse) spnCourse.getSelectedItem();
                 if (course == null) {
-                    Toast.makeText(this, "请选择科目", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast(this, "请选择科目");
                     return;
                 }
                 homeWork.setCrs_id(course.getId());

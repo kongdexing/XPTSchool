@@ -16,7 +16,7 @@ import com.xptschool.parent.view.imgloader.AlbumViewPager;
 
 import butterknife.BindView;
 
-public class HomeWorkDetailActivity extends AlbumActivity {
+public class HomeWorkDetailActivity extends VoicePlayActivity {
 
     @BindView(R.id.scrollView)
     ScrollView scrollView;
