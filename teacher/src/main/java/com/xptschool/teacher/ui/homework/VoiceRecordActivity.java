@@ -48,6 +48,8 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     //播放录音
     private static final int MSG_VOICE_PLAY = 0x113;
 
+    private static final int MSG_VOICE_RELEASE = 0x114;
+
     @BindView(R.id.voiceBar)
     RoundCornerProgressBar voiceBar;
     @BindView(R.id.imgDelete)
@@ -67,7 +69,8 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     private float mTime;
     //记录播放时间
     private float mPlayTime;
-    private int maxLength = 120;
+    private int MaxLength = 120;
+    private int maxLength = MaxLength;
     public String localAmrFile = null;
 
     @Override
@@ -140,23 +143,22 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                     // 开启一个线程计算录音时间
                     new Thread(mGetVoiceLevelRunnable).start();
                     imgDelete.setVisibility(View.GONE);
-                    maxLength = 120;
+                    maxLength = MaxLength;
                     initProgress(0);
                     break;
                 case MSG_VOICE_CHANGED:
-                    Log.i(TAG, "handleMessage: MSG_VOICE_CHANGED");
-                    if (voiceBar == null) {
+                    if (!isRecording || voiceBar == null) {
                         break;
                     }
-                    //更新声音
-                    if (mTime > voiceBar.getMax()) {
+
+                    if (mTime >= voiceBar.getMax()) {
+                        mTime = voiceBar.getMax();
                         stopRecord();
                     }
-                    if (isRecording) {
-                        voiceBar.setProgress(mTime);
-                        txtProgress.setVisibility(View.VISIBLE);
-                        txtProgress.setText(Math.round(mTime) + "\"/" + maxLength + "\"");
-                    }
+                    //更新声音
+                    voiceBar.setProgress(mTime);
+                    txtProgress.setVisibility(View.VISIBLE);
+                    txtProgress.setText(Math.round(mTime) + "\"/" + maxLength + "\"");
                     break;
                 case MSG_AUDIO_STOP:
                     Log.i(TAG, "handleMessage: MSG_AUDIO_STOP");
@@ -165,6 +167,15 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                     if (isPlaying && voiceBar != null) {
                         voiceBar.setProgress(mPlayTime);
                     }
+                    break;
+                case MSG_VOICE_RELEASE:
+                    imgDelete.setVisibility(View.VISIBLE);
+                    maxLength = Math.round(mTime);
+                    initProgress(0);
+                    txtProgress.setVisibility(View.VISIBLE);
+                    txtProgress.setText(maxLength + "\"");
+                    reset();
+                    setImgMicStatus(Voice_Play);
                     break;
             }
             super.handleMessage(msg);
@@ -225,13 +236,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                 Log.i(TAG, "onRelease: ");
 //                    mHandler.sendEmptyMessage(MSG_AUDIO_STOP);
                 //停止录制
-                imgDelete.setVisibility(View.VISIBLE);
-                maxLength = Math.round(mTime);
-                initProgress(0);
-                txtProgress.setVisibility(View.VISIBLE);
-                txtProgress.setText(Math.round(mTime) + "\"");
-
-                reset();
+                mHandler.sendEmptyMessage(MSG_VOICE_RELEASE);
             }
         });
 
@@ -311,7 +316,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
             onStopPlay();
         }
         reset();
-        maxLength = 120;
+        maxLength = MaxLength;
         initProgress(0);
         setImgMicStatus(Voice_UnRecord);
     }
@@ -319,8 +324,6 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     private void stopRecord() {
         Log.i(TAG, "stopRecord: ");
         mAudioManager.release();
-
-        setImgMicStatus(Voice_Play);
     }
 
     private void reset() {
@@ -440,7 +443,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         } catch (Exception ex) {
 
         }
-        return duration;
+        return duration > maxLength ? maxLength : duration;
     }
 
 }

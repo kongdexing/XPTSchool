@@ -252,7 +252,7 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
         } catch (Exception ex) {
 
         }
-        return duration;
+        return duration > 120 ? 120 : duration;
     }
 
     @Override
