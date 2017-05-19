@@ -29,6 +29,7 @@ import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.push.MyPushIntentService;
 import com.xptschool.teacher.push.MyUmengMessageHandler;
 import com.xptschool.teacher.ui.main.MainActivity;
 
@@ -78,13 +79,17 @@ public class XPTApplication extends Application {
         MobclickAgent.enableEncrypt(true);
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
-        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯
-        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);//振动
-
-        mPushAgent.setDisplayNotificationNumber(0);
-        mPushAgent.setMessageHandler(new MyUmengMessageHandler());
+        //使用自定义消息
+        mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
         mPushAgent.setDebugMode(false);
+
+//        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
+//        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯
+//        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);//振动
+//
+//        mPushAgent.setDisplayNotificationNumber(0);
+//        mPushAgent.setMessageHandler(new MyUmengMessageHandler());
+//        mPushAgent.setDebugMode(false);
         /**
          * 自定义行为的回调处理
          * UmengNotificationClickHandler是在BroadcastReceiver中被调用，故
@@ -100,7 +105,7 @@ public class XPTApplication extends Application {
         //使用自定义的NotificationHandler，来结合友盟统计处理消息通知
         //参考http://bbs.umeng.com/thread-11112-1-1.html
         //CustomNotificationHandler notificationClickHandler = new CustomNotificationHandler();
-        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+//        mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
         AudioManager.getInstance(XPTApplication.getInstance().getCachePath());
         FileDownloader.init(getApplicationContext(), new DownloadMgrInitialParams.InitCustomMaker()

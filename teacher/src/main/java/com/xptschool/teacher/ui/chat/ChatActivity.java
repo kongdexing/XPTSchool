@@ -85,6 +85,7 @@ public class ChatActivity extends BaseActivity {
             return;
         }
 
+        ChatUtil.currentChatParent = parent;
         initView();
 
         IntentFilter filter = new IntentFilter();
@@ -225,6 +226,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ChatUtil.currentChatParent = null;
         try {
             unregisterReceiver(messageReceiver);
         } catch (Exception ex) {

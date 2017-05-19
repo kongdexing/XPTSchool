@@ -273,6 +273,14 @@ public class GreenDaoHelper {
         return new ArrayList<ContactParent>();
     }
 
+    public ContactParent getStudentParentByPUId(String pu_id) {
+        if (readDaoSession != null) {
+            return readDaoSession.getContactParentDao().queryBuilder()
+                    .where(ContactParentDao.Properties.User_id.eq(pu_id)).limit(1).unique();
+        }
+        return null;
+    }
+
     public String getParamTokenByPhone(String phone) {
         BeanDeviceToken deviceToken = null;
         if (readDaoSession != null) {
@@ -350,6 +358,15 @@ public class GreenDaoHelper {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanChatDao().update(chat);
         }
+    }
+
+    public int getChatCountByChatId(String chatId) {
+        long chats = 0;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.ChatId.eq(chatId)).count();
+        }
+        return (int) chats;
     }
 
     /**

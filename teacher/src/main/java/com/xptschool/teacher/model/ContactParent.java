@@ -81,4 +81,16 @@ public class ContactParent implements Serializable {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
+    @Override
+    public String toString() {
+        return "ContactParent{" +
+                "sp_id='" + sp_id + '\'' +
+                ", stu_id='" + stu_id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
+    }
 }

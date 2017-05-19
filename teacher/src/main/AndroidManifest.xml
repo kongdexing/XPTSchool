@@ -57,6 +57,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.WelcomeActivity"
@@ -116,6 +117,8 @@
         <activity
             android:name=".ui.main.SplashActivity"
             android:theme="@style/AppTheme.Translucent" />
+
+        <service android:name=".push.MyPushIntentService" />
 
         <!-- 必须配置 -->
         <activity

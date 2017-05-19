@@ -1,4 +1,4 @@
-package com.xptschool.parent.push;
+package com.xptschool.teacher.push;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,16 +9,15 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.umeng.message.UmengMessageService;
-import com.umeng.message.common.UmLog;
 import com.umeng.message.entity.UMessage;
-import com.xptschool.parent.R;
-import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.model.ContactTeacher;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.chat.ChatActivity;
-import com.xptschool.parent.ui.contact.ContactsActivity;
-import com.xptschool.parent.ui.main.MainActivity;
-import com.xptschool.parent.util.ChatUtil;
+import com.xptschool.teacher.R;
+import com.xptschool.teacher.common.ExtraKey;
+import com.xptschool.teacher.model.ContactParent;
+import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.ui.chat.ChatActivity;
+import com.xptschool.teacher.ui.contact.ContactsActivity;
+import com.xptschool.teacher.ui.main.MainActivity;
+import com.xptschool.teacher.util.ChatUtil;
 
 import org.android.agoo.common.AgooConstants;
 import org.json.JSONObject;
@@ -63,27 +62,30 @@ public class MyPushIntentService extends UmengMessageService {
                                 notify = false;
                                 return;
                             }
-                            //查询联系人
-                            ContactTeacher teacher = GreenDaoHelper.getInstance().getContactByTeacher(vals[0]);
-                            if (teacher == null || ChatUtil.currentChatTeacher == null) {
+                            //查询联系人(家长)
+                            ContactParent parent = GreenDaoHelper.getInstance().getStudentParentByPUId(vals[0]);
+                            if (parent == null || ChatUtil.currentChatParent == null) {
                                 mainIntent = new Intent(this, ContactsActivity.class);
                             } else {
-                                //判断当前正在聊天的老师
-                                if (teacher.getU_id().equals(ChatUtil.currentChatTeacher.getU_id())) {
+                                Log.i(TAG, "parent: " + parent.toString());
+                                Log.i(TAG, "currentChatParent: " + ChatUtil.currentChatParent.toString());
+
+                                //判断当前正在聊天的家长
+                                if (parent.getUser_id().equals(ChatUtil.currentChatParent.getUser_id())) {
                                     notify = false;
                                     return;
                                 }
                                 mainIntent = new Intent(this, ChatActivity.class);
-                                mainIntent.putExtra(ExtraKey.CHAT_TEACHER, teacher);
+                                mainIntent.putExtra(ExtraKey.CHAT_PARENT, parent);
                             }
                         }
                     }
                 } catch (Exception ex) {
-
+                    Log.i(TAG, "onMessage: mapExtra " + ex.getMessage());
                 }
             }
         } catch (Exception ex) {
-            Log.i(TAG, "onMessage: " + ex.getMessage());
+            Log.i(TAG, "onMessage: UMessage " + ex.getMessage());
         } finally {
             if (notify) {
                 PendingIntent mainPendingIntent = PendingIntent.getActivity(this, notifyId++, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
