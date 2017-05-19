@@ -2,17 +2,14 @@ package com.xptschool.parent.ui.homework;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.widget.mygridview.MyGridView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.ui.album.AlbumActivity;
 import com.xptschool.parent.ui.album.AlbumGridAdapter;
 import com.xptschool.parent.view.imgloader.AlbumViewPager;
@@ -82,11 +79,11 @@ public class HomeWorkDetailActivity extends AlbumActivity {
                     showNetImgViewPager(albumviewpager, currentHomeWork.getFile_path(), position);
                 } else {
                     if (position == 0) {
-                        if (LocalImageHelper.getInstance().getCheckedItems().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
-                            Toast.makeText(HomeWorkDetailActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        showAlbumSource(albumviewpager);
+//                        if (LocalImageHelper.getInstance().getCheckedItems().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
+//                            Toast.makeText(HomeWorkDetailActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
+//                        showAlbumSource(albumviewpager);
                     } else {
                         showViewPager(albumviewpager, position - 1);
                     }
@@ -108,6 +105,8 @@ public class HomeWorkDetailActivity extends AlbumActivity {
             txtClassName.setText(currentHomeWork.getG_name() + currentHomeWork.getC_name());
             txtSubject.setText(currentHomeWork.getCrs_name());
         }
+
+        initVoice(currentHomeWork);
     }
 
     @Override

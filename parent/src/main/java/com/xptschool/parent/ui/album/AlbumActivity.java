@@ -2,30 +2,36 @@ package com.xptschool.parent.ui.album;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.widget.audiorecorder.MediaPlayerManager;
+import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xptschool.parent.R;
+import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.ImageUtils;
 import com.xptschool.parent.common.LocalFile;
 import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.common.StringUtils;
 import com.xptschool.parent.ui.main.BaseActivity;
-import com.xptschool.parent.view.AlbumSourceView;
 import com.xptschool.parent.view.imgloader.AlbumViewPager;
 
 import java.io.File;
@@ -33,6 +39,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -47,8 +55,21 @@ import permissions.dispatcher.RuntimePermissions;
 public class AlbumActivity extends BaseActivity {
 
     public ScrollView mScrollView;
-    private PopupWindow picPopup;
     public AlbumGridAdapter myPicGridAdapter;
+    public int Voice_Play = 0;
+    public final int Voice_Stop = Voice_Play + 1;
+    public int VoiceStatus = Voice_Stop;
+
+    @BindView(R.id.llVoice)
+    LinearLayout llVoice;
+    @BindView(R.id.voiceBar)
+    RoundCornerProgressBar voiceBar;
+    @BindView(R.id.imgVoice)
+    ImageView imgVoice;
+    @BindView(R.id.txtProgress)
+    TextView txtProgress;
+
+    public String localAmrFile = null;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -83,90 +104,62 @@ public class AlbumActivity extends BaseActivity {
         Toast.makeText(this, R.string.permission_storage_never_askagain, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case ImageUtils.REQUEST_CODE_GETIMAGE_BYCROP:
-                refreshGridView();
-                break;
-            case ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA:
-                mScrollView.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
-                String cameraPath = LocalImageHelper.getInstance().getCameraImgPath();
-                if (StringUtils.isEmpty(cameraPath)) {
-                    return;
-                }
-                File file = new File(cameraPath);
-                if (file.exists()) {
-                    Uri uri = Uri.fromFile(file);
-                    LocalFile localFile = new LocalFile();
-                    localFile.setThumbnailUri(uri.toString());
-                    localFile.setOriginalUri(uri.toString());
-                    localFile.setOrientation(getBitmapDegree(cameraPath));
-                    localFile.setParentFileName(StringUtils.getParentPath(cameraPath));
-                    LocalImageHelper.getInstance().getCheckedItems().add(localFile);
-                    LocalImageHelper.getInstance().setResultOk(true);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshGridView();
-                        }
-                    }, 300);
-                } else {
-                    Toast.makeText(this, R.string.image_loadfailed, Toast.LENGTH_SHORT).show();
-                }
-                break;
+    public void initVoice(BeanHomeWork homeWork) {
+        //取amr文件
+        String amr_file = homeWork.getAmr_file();
+        Log.i(TAG, "amr file : " + amr_file);
+        if (amr_file != null) {
+            llVoice.setVisibility(View.VISIBLE);
+            FileDownloader.getImpl().create(amr_file)
+                    .setListener(createListener())
+                    .setTag(1)
+                    .start();
+        } else {
+            llVoice.setVisibility(View.GONE);
         }
     }
 
-    public void showAlbumSource(View view) {
-        //选择相片来源
-        if (picPopup == null) {
-            AlbumSourceView albumSourceView = new AlbumSourceView(AlbumActivity.this);
-            albumSourceView.setOnAlbumSourceClickListener(new AlbumSourceView.OnAlbumSourceClickListener() {
-                @Override
-                public void onAlbumClick() {
-                    AlbumActivityPermissionsDispatcher.toLocalAlbumWithCheck(AlbumActivity.this);
-                    picPopup.dismiss();
-                }
+    public void initProgress(int progress) {
+        voiceBar.setProgressBackgroundColor(this.getResources().getColor(R.color.colorPrimaryDark));
+        voiceBar.setMax(progress);
+        voiceBar.setPadding(3);
+        voiceBar.setSecondaryProgressColor(this.getResources().getColor(R.color.color_rcBackgroundColor));
+        voiceBar.setSecondaryProgress(voiceBar.getMax());
+        voiceBar.setProgress(progress);
+        voiceBar.setProgressColor(this.getResources().getColor(R.color.colorPrimaryDark));
+    }
 
-                @Override
-                public void onCameraClick() {
-                    if (LocalImageHelper.getInstance().getCheckedItems().size() >= LocalImageHelper.getInstance().getMaxChoiceSize()) {
-                        Toast.makeText(AlbumActivity.this, getString(R.string.image_upline, LocalImageHelper.getInstance().getMaxChoiceSize()), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    try {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //  拍照后保存图片的绝对路径
-                        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
-                        File file = new File(cameraPath);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                        startActivityForResult(intent,
-                                ImageUtils.REQUEST_CODE_GETIMAGE_BYCAMERA);
-                    } catch (Exception ex) {
-                        Toast.makeText(AlbumActivity.this, R.string.toast_camera_failed, Toast.LENGTH_SHORT).show();
-                    }
-                    picPopup.dismiss();
-                }
-
-                @Override
-                public void onBack() {
-                    picPopup.dismiss();
-                }
-            });
-            picPopup = new PopupWindow(albumSourceView,
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-            picPopup.setTouchable(true);
-            picPopup.setBackgroundDrawable(new ColorDrawable());
-            picPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    backgroundAlpha(1.0f);
-                }
-            });
+    private void setImgMicStatus(int status) {
+        if (status == Voice_Play) {
+            imgVoice.setBackgroundResource(R.drawable.selector_voice_play);
+        } else if (status == Voice_Stop) {
+            imgVoice.setBackgroundResource(R.drawable.selector_voice_stop);
         }
-        backgroundAlpha(0.5f);
-        picPopup.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        VoiceStatus = status;
+    }
+
+    @OnClick({R.id.imgVoice})
+    void viewOnClick(View view) {
+        switch (view.getId()) {
+            case R.id.imgVoice:
+                if (VoiceStatus == Voice_Play) {
+                    // 播放录音
+                    MediaPlayerManager.playSound(localAmrFile, new MediaPlayer.OnCompletionListener() {
+
+                        public void onCompletion(MediaPlayer mp) {
+                            //播放完成后改为播放状态
+                            setImgMicStatus(Voice_Play);
+                        }
+                    });
+                    //改为停止状态
+                    setImgMicStatus(Voice_Stop);
+                } else if (VoiceStatus == Voice_Stop) {
+                    MediaPlayerManager.pause();
+                    //改为播放状态
+                    setImgMicStatus(Voice_Play);
+                }
+                break;
+        }
     }
 
     //显示大图pager
@@ -218,47 +211,103 @@ public class AlbumActivity extends BaseActivity {
         albumviewpager.startAnimation(set);
     }
 
-    /**
-     * 读取图片的旋转的角度，还是三星的问题，需要根据图片的旋转角度正确显示
-     *
-     * @param path 图片绝对路径
-     * @return 图片的旋转角度
-     */
-    private int getBitmapDegree(String path) {
-        int degree = 0;
-        try {
-            // 从指定路径下读取图片，并获取其EXIF信息
-            ExifInterface exifInterface = new ExifInterface(path);
-            // 获取图片的旋转信息
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
-            switch (orientation) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    degree = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    degree = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    degree = 270;
-                    break;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return degree;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MediaPlayerManager.pause();
     }
 
-    private void refreshGridView() {
-        if (LocalImageHelper.getInstance().isResultOk()) {
-            LocalImageHelper.getInstance().setResultOk(false);
-            List<String> imgs = new ArrayList<>();
-            List<LocalFile> checkedItems = LocalImageHelper.getInstance().getCheckedItems();
-            for (LocalFile file : checkedItems) {
-                imgs.add(file.getOriginalUri());
+    public FileDownloadListener createListener() {
+        return new FileDownloadListener() {
+
+            @Override
+            protected boolean isInvalid() {
+                return isFinishing();
             }
-            myPicGridAdapter.reloadPicture(imgs);
+
+            @Override
+            protected void pending(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                updateDisplay(String.format("[pending] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+            }
+
+            @Override
+            protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                super.connected(task, etag, isContinue, soFarBytes, totalBytes);
+                updateDisplay(String.format("[connected] id[%d] %s %B %d/%d", task.getId(), etag, isContinue, soFarBytes, totalBytes));
+            }
+
+            @Override
+            protected void progress(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                updateDisplay(String.format("[progress] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+            }
+
+            @Override
+            protected void blockComplete(final BaseDownloadTask task) {
+            }
+
+            @Override
+            protected void retry(BaseDownloadTask task, Throwable ex, int retryingTimes, int soFarBytes) {
+                super.retry(task, ex, retryingTimes, soFarBytes);
+                updateDisplay(String.format("[retry] id[%d] %s %d %d",
+                        task.getId(), ex, retryingTimes, soFarBytes));
+            }
+
+            @Override
+            protected void completed(BaseDownloadTask task) {
+                int duration = getAmrDuration(task.getPath());
+                txtProgress.setText(duration + "\"");
+                initProgress(duration);
+                //
+                setImgMicStatus(Voice_Play);
+
+                Log.i(TAG, "completed: " + task.getPath() + " " + task.getTargetFilePath());
+                updateDisplay(String.format("[completed] id[%d] oldFile[%B]",
+                        task.getId(),
+                        task.isReusedOldFile()));
+                updateDisplay(String.format("---------------------------------- %d", (Integer) task.getTag()));
+            }
+
+            @Override
+            protected void paused(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
+                updateDisplay(String.format("[paused] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+                updateDisplay(String.format("############################## %d", (Integer) task.getTag()));
+            }
+
+            @Override
+            protected void error(BaseDownloadTask task, Throwable e) {
+                updateDisplay(Html.fromHtml(String.format("[error] id[%d] %s %s",
+                        task.getId(),
+                        e,
+                        FileDownloadUtils.getStack(e.getStackTrace(), false))));
+
+                updateDisplay(String.format("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d", (Integer) task.getTag()));
+            }
+
+            @Override
+            protected void warn(BaseDownloadTask task) {
+                updateDisplay(String.format("[warn] id[%d]", task.getId()));
+                updateDisplay(String.format("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ %d", (Integer) task.getTag()));
+            }
+        };
+    }
+
+    private void updateDisplay(final CharSequence msg) {
+        Log.i(TAG, "updateDisplay: " + msg);
+    }
+
+    private int getAmrDuration(String path) {
+        int duration = 0;
+        try {
+            localAmrFile = path;
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(path);
+            mediaPlayer.prepare();
+            float dur = (float) mediaPlayer.getDuration() / 1000;
+            duration = Math.round(dur);
+        } catch (Exception ex) {
+
         }
+        return duration;
     }
 
     @Override

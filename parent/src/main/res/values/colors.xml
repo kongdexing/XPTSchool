@@ -65,4 +65,7 @@
     <color name="color_leave_0">#03a8e3</color>
     <color name="navpage">#FFE1E8EB</color>
 
+    <color name="color_rcBackgroundColor">#e9eaec</color>
+    <color name="color_rcSecondaryProgressColor">#15948d</color>
+
 </resources>

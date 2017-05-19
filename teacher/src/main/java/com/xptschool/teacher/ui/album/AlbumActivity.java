@@ -195,12 +195,6 @@ public class AlbumActivity extends TakePhotoActivity {
                 }
 
                 @Override
-                public void onVoiceClick() {
-                    picPopup.dismiss();
-
-                }
-
-                @Override
                 public void onBack() {
                     picPopup.dismiss();
                 }
@@ -446,7 +440,7 @@ public class AlbumActivity extends TakePhotoActivity {
                 //stop record
                 stopRecord();
             }
-        } else if (VoiceStatus == Voice_Stop) {
+        } else if (VoiceStatus == Voice_Play) {
             //play voice
             //开始播放动画
 
@@ -461,15 +455,14 @@ public class AlbumActivity extends TakePhotoActivity {
 
                 public void onCompletion(MediaPlayer mp) {
                     //播放完成后改为播放状态
-                    imgMic.setBackgroundResource(R.drawable.selector_voice_play);
-                    VoiceStatus = Voice_Stop;
+                    setImgMicStatus(Voice_Play);
                     reset();
                 }
             });
 
             //改为停止状态
             setImgMicStatus(Voice_Stop);
-        } else if (VoiceStatus == Voice_Play) {
+        } else if (VoiceStatus == Voice_Stop) {
             //stop play
             MediaPlayerManager.pause();
 
@@ -509,17 +502,14 @@ public class AlbumActivity extends TakePhotoActivity {
     private void setImgMicStatus(int status) {
         if (status == Voice_Play) {
             imgMic.setBackgroundResource(R.drawable.selector_voice_play);
-            VoiceStatus = Voice_Stop;
         } else if (status == Voice_Stop) {
             imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
-            VoiceStatus = Voice_Play;
         } else if (status == Voice_UnRecord) {
             imgMic.setBackgroundResource(R.drawable.selector_micphone);
-            VoiceStatus = Voice_UnRecord;
         } else if (status == Voice_Recording) {
             imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
-            VoiceStatus = Voice_Recording;
         }
+        VoiceStatus = status;
     }
 
     @Override
@@ -604,14 +594,6 @@ public class AlbumActivity extends TakePhotoActivity {
     }
 
     private void updateDisplay(final CharSequence msg) {
-//        if (downloadMsgTv.getLineCount() > 2500) {
-//            downloadMsgTv.setText("");
-//        }
-//        downloadMsgTv.append(String.format("\n %s", msg));
-//        tipMsgTv.setText(String.format("%d/%d", finalCounts, totalCounts));
-//        if (needAuto2Bottom) {
-//            scrollView.post(scroll2Bottom);
-//        }
         Log.i(TAG, "updateDisplay: " + msg);
     }
 

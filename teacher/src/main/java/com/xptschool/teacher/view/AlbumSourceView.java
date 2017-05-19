@@ -18,7 +18,6 @@ public class AlbumSourceView extends LinearLayout implements View.OnClickListene
     private String TAG = AlbumSourceView.class.getSimpleName();
     private LinearLayout rlAlbum;
     private LinearLayout rlCamera;
-    private LinearLayout rlVoice;
     private LinearLayout rlBack;
     private OnAlbumSourceClickListener clickListener;
 
@@ -32,11 +31,9 @@ public class AlbumSourceView extends LinearLayout implements View.OnClickListene
         try {
             rlAlbum = (LinearLayout) view.findViewById(R.id.rlAlbum);
             rlCamera = (LinearLayout) view.findViewById(R.id.rlCamera);
-            rlVoice = (LinearLayout) view.findViewById(R.id.rlVoice);
             rlBack = (LinearLayout) view.findViewById(R.id.rlBack);
             rlAlbum.setOnClickListener(this);
             rlCamera.setOnClickListener(this);
-            rlVoice.setOnClickListener(this);
             rlBack.setOnClickListener(this);
         } catch (Exception ex) {
             Log.i(TAG, "AlbumSourceView: " + ex.getMessage());
@@ -60,11 +57,6 @@ public class AlbumSourceView extends LinearLayout implements View.OnClickListene
                     clickListener.onCameraClick();
                 }
                 break;
-            case R.id.rlVoice:
-                if (clickListener != null) {
-                    clickListener.onVoiceClick();
-                }
-                break;
             case R.id.rlBack:
                 if (clickListener != null) {
                     clickListener.onBack();
@@ -77,8 +69,6 @@ public class AlbumSourceView extends LinearLayout implements View.OnClickListene
         void onAlbumClick();
 
         void onCameraClick();
-
-        void onVoiceClick();
 
         void onBack();
     }
