@@ -75,6 +75,8 @@ public class ChatActivity extends BaseActivity {
             return;
         }
 
+        ChatUtil.currentChatTeacher = teacher;
+
         setRightImage(R.drawable.icon_right_head);
         setRightImageViewClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +216,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ChatUtil.currentChatTeacher = null;
         try {
             unregisterReceiver(messageReceiver);
         } catch (Exception ex) {

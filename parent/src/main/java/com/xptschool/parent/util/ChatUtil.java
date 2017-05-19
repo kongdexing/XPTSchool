@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.model.ContactTeacher;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -33,6 +34,7 @@ public class ChatUtil {
     public static char TYPE_TEXT = '0'; //0文字，1文件，2语音
     public static char TYPE_FILE = '1';
     public static char TYPE_AMR = '2';
+    public static ContactTeacher currentChatTeacher = null;
 
     public static String getCurrentDateHms() {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

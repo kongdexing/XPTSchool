@@ -56,6 +56,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.main.WelcomeActivity">
             <intent-filter>
@@ -142,8 +143,8 @@
         <!-- 必须配置 -->
 
 
-        <!-- <service android:name=".push.UmengNotificationService" /> -->
-        <!-- <service android:name=".push.MyNotificationService" /> -->
+        <service android:name=".push.MyPushIntentService" />
+        <service android:name=".push.MyNotificationService" />
 
         <activity android:name=".ui.fence.FenceDrawActivity" />
         <activity android:name=".ui.fence.FenceShowActivity" />

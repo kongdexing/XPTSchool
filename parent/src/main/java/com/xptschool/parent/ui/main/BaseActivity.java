@@ -238,19 +238,19 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showMessageNotify(boolean show, BeanChat chat) {
         if (show) {
-            Intent mainIntent = new Intent(this, ContactsActivity.class);
-            PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            //消息提醒
-            NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("消息提醒")
-                    .setContentText("您有新未读聊天消息，请注意查看")
-                    .setContentIntent(mainPendingIntent)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true);
-            mNotifyManager.notify(1, builder.build());
+//            Intent mainIntent = new Intent(this, ContactsActivity.class);
+//            PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//            //消息提醒
+//            NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+//                    .setSmallIcon(R.mipmap.ic_launcher)
+//                    .setContentTitle("消息提醒")
+//                    .setContentText("您有新未读聊天消息，请注意查看")
+//                    .setContentIntent(mainPendingIntent)
+//                    .setDefaults(Notification.DEFAULT_ALL)
+//                    .setAutoCancel(true);
+//            mNotifyManager.notify(1, builder.build());
         }
     }
 

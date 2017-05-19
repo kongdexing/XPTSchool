@@ -17,6 +17,8 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.ui.alarm.AlarmMapActivity;
 
+import java.util.Map;
+
 /**
  * Created by dexing on 2017/1/19.
  * No1
@@ -32,10 +34,19 @@ public class MyUmengMessageHandler extends UmengMessageHandler {
      */
     @Override
     public Notification getNotification(Context context, UMessage msg) {
-        Log.i(TAG, "getNotification: builder_id=" + msg.builder_id + " text=" + msg.text + msg.title);
+        Map<String, String> mapExtra = msg.extra;
+        for (Map.Entry<String, String> entry : mapExtra.entrySet()) {
+            Log.i(TAG, "getNotification: key=" + entry.getKey() + ", Value = " + entry.getValue());
+        }
+
+        Log.i(TAG, "getNotification: builder_id=" + msg.builder_id + " text=" + msg.text + msg.title + " msg:" + msg.extra);
         try {
             switch (msg.builder_id) {
                 case 1:
+                    String go_type = mapExtra.get("go_type");
+                    if (go_type.equals("1")) {
+                        return super.getNotification(context, msg);
+                    }
                     //判断通知类型
                     Intent openintent = new Intent(context, AlarmMapActivity.class);
                     openintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

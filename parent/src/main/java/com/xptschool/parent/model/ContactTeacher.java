@@ -190,4 +190,25 @@ public class ContactTeacher implements Serializable {
         this.g_id = g_id;
         this.c_id = c_id;
     }
+
+    @Override
+    public String toString() {
+        return "ContactTeacher{" +
+                "t_id='" + t_id + '\'' +
+                ", u_id='" + u_id + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", s_id='" + s_id + '\'' +
+                ", s_name='" + s_name + '\'' +
+                ", a_id='" + a_id + '\'' +
+                ", a_name='" + a_name + '\'' +
+                ", d_name='" + d_name + '\'' +
+                ", education='" + education + '\'' +
+                ", sex='" + sex + '\'' +
+                ", email='" + email + '\'' +
+                ", charge='" + charge + '\'' +
+                ", g_id='" + g_id + '\'' +
+                ", c_id='" + c_id + '\'' +
+                '}';
+    }
 }

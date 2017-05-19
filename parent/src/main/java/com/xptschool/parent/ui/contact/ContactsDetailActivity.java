@@ -78,9 +78,6 @@ public class ContactsDetailActivity extends BaseActivity {
     @BindView(R.id.RlViceLeader)
     RelativeLayout RlViceLeader;
 
-    @BindView(R.id.btnSendMsg)
-    Button btnSendMsg;
-
     String currentPhone;
 
     private ContactTeacher contactTeacher;
@@ -98,13 +95,11 @@ public class ContactsDetailActivity extends BaseActivity {
             if (type.equals(ExtraKey.CONTACT_TEACHER)) {
                 llTeacher.setVisibility(View.VISIBLE);
                 llSchool.setVisibility(View.GONE);
-                btnSendMsg.setVisibility(View.VISIBLE);
                 setTeacherInfo((ContactTeacher) bundle.get(ExtraKey.CONTACT));
             } else {
                 llTeacher.setVisibility(View.GONE);
                 llSchool.setVisibility(View.VISIBLE);
                 rlTeacherPhone.setVisibility(View.GONE);
-                btnSendMsg.setVisibility(View.GONE);
                 setSchoolInfo((ContactSchool) bundle.get(ExtraKey.CONTACT));
             }
         }
@@ -112,17 +107,6 @@ public class ContactsDetailActivity extends BaseActivity {
         KenBurnsView mHeaderPicture = (KenBurnsView) findViewById(R.id.header_picture);
         mHeaderPicture.setResourceIds(R.drawable.bg_student, R.drawable.bg_student);
 
-    }
-
-    @OnClick({R.id.btnSendMsg})
-    public void viewClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnSendMsg:
-                Intent intent = new Intent(this, ChatActivity.class);
-                intent.putExtra(ExtraKey.CHAT_TEACHER, contactTeacher);
-                startActivity(intent);
-                break;
-        }
     }
 
     private void setTeacherInfo(final ContactTeacher teacher) {

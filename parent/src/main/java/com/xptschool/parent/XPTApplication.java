@@ -2,6 +2,7 @@ package com.xptschool.parent;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -29,14 +30,19 @@ import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
+import com.xptschool.parent.common.ActivityTaskHelper;
 import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.push.MyNotificationService;
+import com.xptschool.parent.push.MyPushIntentService;
 import com.xptschool.parent.push.MyUmengMessageHandler;
 import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.ui.contact.ContactsActivity;
 import com.xptschool.parent.ui.main.MainActivity;
 
 import java.io.File;
 import java.net.Proxy;
+import java.util.Map;
 
 /**
  * Created by dexing on 2016/12/18.
@@ -55,26 +61,7 @@ public class XPTApplication extends Application {
         super.onCreate();
         mInstance = this;
         init();
-
         initBugly();
-    }
-
-    private void initBugly() {
-        // 设置开发设备
-        Bugly.setIsDevelopmentDevice(this, true);
-        // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
-
-        Beta.autoInit = true;
-        Beta.autoCheckUpgrade = true;
-        Beta.initDelay = 3 * 1000;
-        Beta.largeIconId = R.mipmap.ic_launcher;
-        Beta.smallIconId = R.mipmap.ic_launcher;
-        Beta.defaultBannerId = R.mipmap.ic_launcher;
-        Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        Beta.showInterruptedStrategy = true;
-        Beta.canShowUpgradeActs.add(MainActivity.class);
-        Beta.autoDownloadOnWifi = false;
-        Bugly.init(this, APP_ID, true);
     }
 
     public static XPTApplication getInstance() {
@@ -100,15 +87,16 @@ public class XPTApplication extends Application {
         //日志加密设置
         MobclickAgent.enableEncrypt(true);
 
-        final PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);//声音
-        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯
-        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);//振动
+        startService(new Intent(this, MyNotificationService.class));
+
+//        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);//声音
+//        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯
+//        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);//振动
 
         //通知栏数量显示
-        mPushAgent.setDisplayNotificationNumber(0);
-        mPushAgent.setMessageHandler(new MyUmengMessageHandler());
-        mPushAgent.setDebugMode(false);
+//        mPushAgent.setDisplayNotificationNumber(0);
+//        mPushAgent.setMessageHandler(new MyUmengMessageHandler());
+//        mPushAgent.setDebugMode(false);
         /**
          * 自定义行为的回调处理
          * UmengNotificationClickHandler是在BroadcastReceiver中被调用，故
@@ -119,29 +107,12 @@ public class XPTApplication extends Application {
             public void dealWithCustomAction(Context context, UMessage msg) {
                 Log.i(TAG, "dealWithCustomAction: " + msg.text);
                 //根据msg类型判断
-
-                Log.i(TAG, "MainActivity simpleName: " + MainActivity.class.getSimpleName());
-                //判断Activity是否存在
-//                if (!ActivityTaskHelper.isAppRunning(context)) {
-//                    Intent[] intents = new Intent[3];
-//                    intents[0] = new Intent(context, MainActivity.class);
-//                    intents[1] = new Intent(context, AlarmActivity.class);
-//                    intents[2] = new Intent(context, AlarmMapActivity.class);
-//                    intents[0].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    intents[1].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    intents[2].setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivities(intents);
-//                } else {
-//                    Intent intent = new Intent(context, AlarmMapActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    context.startActivity(intent);
-//                }
             }
         };
         //使用自定义的NotificationHandler，来结合友盟统计处理消息通知
         //参考http://bbs.umeng.com/thread-11112-1-1.html
         //CustomNotificationHandler notificationClickHandler = new CustomNotificationHandler();
-        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+//        mPushAgent.setNotificationClickHandler(notificationClickHandler);
 
         AudioManager.getInstance(getCachePath());
         FileDownloader.init(getApplicationContext(), new DownloadMgrInitialParams.InitCustomMaker()
@@ -151,6 +122,23 @@ public class XPTApplication extends Application {
                         .readTimeout(15_000) // set read timeout.
                         .proxy(Proxy.NO_PROXY) // set proxy
                 )));
+    }
+
+    private void initBugly() {
+        // 设置开发设备
+        Bugly.setIsDevelopmentDevice(this, true);
+        // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
+        Beta.autoInit = true;
+        Beta.autoCheckUpgrade = true;
+        Beta.initDelay = 3 * 1000;
+        Beta.largeIconId = R.mipmap.ic_launcher;
+        Beta.smallIconId = R.mipmap.ic_launcher;
+        Beta.defaultBannerId = R.mipmap.ic_launcher;
+        Beta.storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        Beta.showInterruptedStrategy = true;
+        Beta.canShowUpgradeActs.add(MainActivity.class);
+        Beta.autoDownloadOnWifi = false;
+        Bugly.init(this, APP_ID, true);
     }
 
     // Initialize the image loader stratetry

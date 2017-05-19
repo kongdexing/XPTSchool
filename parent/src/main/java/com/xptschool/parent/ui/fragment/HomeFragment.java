@@ -157,7 +157,7 @@ public class HomeFragment extends BaseFragment {
         if (topAdapter != null) {
             topBanners = banners;
             BeanBanner banner = banners.get(0);
-            if (banner != null) {
+            if (banner != null && tipTitle != null) {
                 tipTitle.setText(banner.getTitle());
             }
             topAdapter.reloadData(banners);

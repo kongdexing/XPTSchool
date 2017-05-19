@@ -142,6 +142,14 @@ public class GreenDaoHelper {
         return new ArrayList<ContactTeacher>();
     }
 
+    public ContactTeacher getContactByTeacher(String t_u_id) {
+        if (readDaoSession != null) {
+            return readDaoSession.getContactTeacherDao().queryBuilder()
+                    .where(ContactTeacherDao.Properties.U_id.eq(t_u_id)).unique();
+        }
+        return null;
+    }
+
     public List<ContactSchool> getSchoolInfo() {
         if (readDaoSession != null) {
             return readDaoSession.getContactSchoolDao().loadAll();
@@ -233,6 +241,15 @@ public class GreenDaoHelper {
             chats = new ArrayList<BeanChat>();
         }
         return chats;
+    }
+
+    public int getChatCountByChatId(String chatId) {
+        long chats = 0;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.ChatId.eq(chatId)).count();
+        }
+        return (int) chats;
     }
 
     public List<BeanChat> getUnReadChats() {
