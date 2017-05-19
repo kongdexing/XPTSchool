@@ -129,9 +129,13 @@ public class AlbumActivity extends TakePhotoActivity {
     }
 
     public void showVoiceDel(boolean show) {
-        imgMic.setEnabled(true);
-        if (localAmrFile != null) {
-            imgDelete.setVisibility(show ? View.VISIBLE : View.GONE);
+        imgDelete.setVisibility(show ? View.VISIBLE : View.GONE);
+        MediaPlayerManager.pause();
+        if (show) {
+            imgMic.setEnabled(true);
+            setImgMicStatus(Voice_UnRecord);
+        } else {
+            setImgMicStatus(Voice_Play);
         }
     }
 
@@ -356,6 +360,9 @@ public class AlbumActivity extends TakePhotoActivity {
                     break;
                 case MSG_VOICE_CHANGED:
                     Log.i(TAG, "handleMessage: MSG_VOICE_CHANGED");
+                    if (voiceBar == null) {
+                        break;
+                    }
                     //更新声音
                     if (mTime > voiceBar.getMax()) {
                         stopRecord();
@@ -408,6 +415,7 @@ public class AlbumActivity extends TakePhotoActivity {
             //start record
             Log.i(TAG, "recorderOrPlayVoice: start record");
             isRecording = true;
+            localAmrFile = null;
             mAudioManager.setOnAudioStateListener(new AudioManager.AudioStateListener() {
                 public void wellPrepared() {
                     Log.i(TAG, "wellPrepared: ");
@@ -465,18 +473,26 @@ public class AlbumActivity extends TakePhotoActivity {
         } else if (VoiceStatus == Voice_Stop) {
             //stop play
             MediaPlayerManager.pause();
-
             //改为播放状态
             setImgMicStatus(Voice_Play);
         }
     }
 
     public void deleteOldVoice() {
-        File file = new File(mAudioManager.getCurrentFilePath());
-        if (file.exists()) {
-            file.delete();
+        try {
+            MediaPlayerManager.pause();
+
+            String filePath = localAmrFile;
+            if (filePath == null) {
+                filePath = mAudioManager.getCurrentFilePath();
+            }
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
+        } catch (Exception ex) {
+
         }
-        MediaPlayerManager.pause();
         imgDelete.setVisibility(View.GONE);
         txtProgress.setVisibility(View.GONE);
         maxLength = 120;

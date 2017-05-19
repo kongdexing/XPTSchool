@@ -240,6 +240,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         }
 
         initVoice(currentHomeWork);
+        showVoiceDel(false);
     }
 
     private void availableEdit(List<BeanClass> beanClasses, List<BeanCourse> allCourse) {
