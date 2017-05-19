@@ -61,7 +61,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeWorkDetailActivity extends AlbumActivity {
+public class HomeWorkDetailActivity extends VoiceRecordActivity {
 
     @BindView(R.id.scrollView)
     ScrollView scrollView;
@@ -240,7 +240,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         }
 
         initVoice(currentHomeWork);
-        showVoiceDel(false);
+        hideVoiceDel();
     }
 
     private void availableEdit(List<BeanClass> beanClasses, List<BeanCourse> allCourse) {
@@ -270,7 +270,7 @@ public class HomeWorkDetailActivity extends AlbumActivity {
         setTxtRight("");
         edtName.setSelection(edtName.getText().toString().length());
 
-        showVoiceDel(true);
+        showVoiceDel();
     }
 
     private void loadCourseByClass(BeanClass item) {
