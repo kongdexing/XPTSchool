@@ -48,6 +48,7 @@
     <string name="title_detail">学生详情</string>
     <string name="setting_change_pwd">修改密码</string>
     <string name="setting_add_tutelage">添加监护人</string>
+    <string name="setting_help">使用帮助</string>
     <string name="label_old_pwd">旧密码</string>
     <string name="label_new_pwd1">新密码</string>
     <string name="label_new_pwd2">确认密码</string>

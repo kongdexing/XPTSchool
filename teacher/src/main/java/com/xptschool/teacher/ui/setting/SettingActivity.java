@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.message.IUmengCallback;
 import com.umeng.message.PushAgent;
+import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
@@ -20,6 +21,7 @@ import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
 import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.ui.main.LoginActivity;
+import com.xptschool.teacher.ui.main.WebViewActivity;
 import com.xptschool.teacher.view.CustomDialog;
 
 import butterknife.BindView;
@@ -45,7 +47,7 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.rlChangePwd, R.id.rlExit, R.id.rlTel, R.id.rlUpdate})
+    @OnClick({R.id.rlChangePwd, R.id.rlExit, R.id.rlTel, R.id.rlUpdate, R.id.rlHelp})
     void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.rlTel:
@@ -96,6 +98,11 @@ public class SettingActivity extends BaseActivity {
                         startActivity(intent);
                     }
                 });
+                break;
+            case R.id.rlHelp:
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra(ExtraKey.WEB_URL, BuildConfig.SERVICE_URL + "/html/app-help/index.html");
+                startActivity(intent);
                 break;
         }
     }
