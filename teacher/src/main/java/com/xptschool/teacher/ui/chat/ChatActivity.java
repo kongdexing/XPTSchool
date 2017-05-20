@@ -171,7 +171,6 @@ public class ChatActivity extends BaseActivity {
                 int heightDiff = RlParent.getRootView().getHeight();
                 int height = RlParent.getHeight();
                 int diff = heightDiff - height;
-                Log.i(TAG, "onGlobalLayout  rootH " + heightDiff + "  height:" + height + " diff:" + diff);
                 if (diff > 400) {
                     //键盘弹起
                     isInputWindowShow = true;

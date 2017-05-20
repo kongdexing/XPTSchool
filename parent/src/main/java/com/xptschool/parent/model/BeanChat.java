@@ -195,6 +195,7 @@ public class BeanChat implements Serializable {
                 allByte = message.packData(inputStream);
                 inputStream.close();
             } else if (ChatUtil.TYPE_TEXT == message.getType()) {
+                message.setContent(getContent());
                 allByte = message.packData(getContent());
             }
             if (allByte != null) {
