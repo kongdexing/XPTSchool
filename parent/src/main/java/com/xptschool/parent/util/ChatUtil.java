@@ -126,7 +126,7 @@ public class ChatUtil {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
-        //最大宽度为屏幕宽度的百分之十五
+        //最小宽度为屏幕宽度的百分之十五
         return (int) (outMetrics.widthPixels * 0.15f);
     }
 
@@ -135,8 +135,8 @@ public class ChatUtil {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
-        //最大宽度为屏幕宽度的百分之七十
-        return (int) (outMetrics.widthPixels * 0.5f);
+        //最大宽度为屏幕宽度的百分之
+        return (int) (outMetrics.widthPixels * 0.4f);
     }
 
 }

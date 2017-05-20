@@ -235,7 +235,7 @@ public class GreenDaoHelper {
         List<BeanChat> chats = null;
         if (readDaoSession != null) {
             chats = readDaoSession.getBeanChatDao().queryBuilder()
-                    .where(BeanChatDao.Properties.TeacherId.eq(teacherId)).list();
+                    .where(BeanChatDao.Properties.TeacherId.eq(teacherId), BeanChatDao.Properties.ParentId.eq(currentParent.getU_id())).list();
         }
         if (chats == null) {
             chats = new ArrayList<BeanChat>();

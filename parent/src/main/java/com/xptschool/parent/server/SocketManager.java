@@ -19,9 +19,13 @@ public class SocketManager {
         return mInstance;
     }
 
-    public void init(Context context) {
+    public void startService(Context context) {
         Intent intent = new Intent(context, SocketService.class);
         context.startService(intent);
+    }
+
+    public void stopService(Context context) {
+        context.stopService(new Intent(context, SocketService.class));
     }
 
     public void sendMessage(BaseMessage message) {

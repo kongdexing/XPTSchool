@@ -152,4 +152,5 @@ dependencies {
     compile 'com.liulishuo.filedownloader:library:1.4.3'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'io.github.rockerhieu:emojicon:1.4.1'
 }

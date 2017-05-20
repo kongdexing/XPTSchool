@@ -85,11 +85,11 @@ public class MainActivity extends BaseActivity {
 
         mPushAgent = PushAgent.getInstance(this);
         mPushAgent.setDebugMode(false);
-        Log.i(TAG, "init: register ");
+        Log.i(TAG, "startService: register ");
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.i(TAG, "init: register start");
+                Log.i(TAG, "startService: register start");
                 //注册推送服务，每次调用register方法都会回调该接口
                 mPushAgent.register(new IUmengRegisterCallback() {
 
@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        SocketManager.getInstance().init(this);
+        SocketManager.getInstance().startService(this);
     }
 
     private void initView() {

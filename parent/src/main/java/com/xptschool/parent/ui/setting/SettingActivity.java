@@ -20,6 +20,7 @@ import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
+import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.main.LoginActivity;
 import com.xptschool.parent.ui.main.WebViewActivity;
@@ -89,6 +90,9 @@ public class SettingActivity extends BaseActivity {
                         //清除upush信息
                         UpushTokenHelper.exitAccount();
                         GreenDaoHelper.getInstance().clearData();
+
+                        SocketManager.getInstance().stopService(SettingActivity.this);
+
                         //拒收通知
                         PushAgent mPushAgent = PushAgent.getInstance(SettingActivity.this);
                         mPushAgent.disable(new IUmengCallback() {

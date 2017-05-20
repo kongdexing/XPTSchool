@@ -36,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.github.rockerhieu.emojicon.EmojiconEditText;
 
 public class ChatActivity extends BaseActivity {
 
@@ -49,7 +50,7 @@ public class ChatActivity extends BaseActivity {
     AudioRecorderButton mAudioRecorderButton;
 
     @BindView(R.id.edtContent)
-    EditText edtContent;
+    EmojiconEditText edtContent;
 
     @BindView(R.id.btnSend)
     Button btnSend;
@@ -211,6 +212,7 @@ public class ChatActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         SoundPlayHelper.getInstance().stopPlay();
+        ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
     }
 
     @Override

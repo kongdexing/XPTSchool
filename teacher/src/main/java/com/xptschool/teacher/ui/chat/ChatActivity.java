@@ -222,6 +222,7 @@ public class ChatActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         SoundPlayHelper.getInstance().stopPlay();
+        ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
     }
 
     @Override

@@ -49,7 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/imgUser">
 
-            <TextView
+            <io.github.rockerhieu.emojicon.EmojiconTextView
                 android:id="@+id/txtContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,6 +59,7 @@
                 android:gravity="left|center_vertical"
                 android:maxWidth="@dimen/dp_200"
                 android:text=""
+                android:textSize="@dimen/sp_16"
                 android:visibility="gone" />
 
             <RelativeLayout
