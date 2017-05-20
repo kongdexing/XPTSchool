@@ -70,6 +70,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     //记录播放时间
     private float mPlayTime;
     private int MaxLength = 120;
+    private int MiniLength = 10;
     private int maxLength = MaxLength;
     public String localAmrFile = null;
 
@@ -103,6 +104,11 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     }
 
     public void showVoiceDel() {
+        if (mAudioManager.getCurrentFilePath() == null && localAmrFile == null) {
+            setImgMicStatus(Voice_UnRecord);
+            return;
+        }
+
         imgDelete.setVisibility(View.VISIBLE);
         if (VoiceStatus == Voice_Recording) {
             onStopRecording();
@@ -171,13 +177,23 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                     }
                     break;
                 case MSG_VOICE_RELEASE:
-                    imgDelete.setVisibility(View.VISIBLE);
-                    maxLength = Math.round(mTime);
-                    initProgress(0);
-                    txtProgress.setVisibility(View.VISIBLE);
-                    txtProgress.setText(maxLength + "\"");
-                    reset();
-                    setImgMicStatus(Voice_Play);
+                    if (mTime < MiniLength) {
+                        // 延迟显示对话框
+                        ToastUtils.showToast(VoiceRecordActivity.this, "录音文件不得少于" + MiniLength + "秒，请重新录制");
+                        setImgMicStatus(Voice_UnRecord);
+                        initProgress(0);
+                        imgDelete.setVisibility(View.GONE);
+                        txtProgress.setVisibility(View.GONE);
+                        reset();
+                    } else {
+                        imgDelete.setVisibility(View.VISIBLE);
+                        maxLength = Math.round(mTime);
+                        initProgress(0);
+                        txtProgress.setVisibility(View.VISIBLE);
+                        txtProgress.setText(maxLength + "\"");
+                        reset();
+                        setImgMicStatus(Voice_Play);
+                    }
                     break;
             }
             super.handleMessage(msg);
@@ -236,7 +252,6 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
 
             public void onRelease() {
                 Log.i(TAG, "onRelease: ");
-//                    mHandler.sendEmptyMessage(MSG_AUDIO_STOP);
                 //停止录制
                 mHandler.sendEmptyMessage(MSG_VOICE_RELEASE);
             }
@@ -249,11 +264,8 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     @Override
     public void onStopRecording() {
         if (VoiceStatus == Voice_Recording) {
-            if (!isRecording || mTime < 2) {//如果时间少于2s，则提示录音过短
+            if (!isRecording || mTime < MiniLength) {//如果时间少，则提示录音过短
                 mAudioManager.cancel();
-                // 延迟显示对话框
-                ToastUtils.showToast(this, "录音过短，请重新录制");
-                setImgMicStatus(Voice_UnRecord);
             } else {
                 //stop record
                 stopRecord();
@@ -263,7 +275,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
 
     @Override
     public void onPlayVoice() {
-//开始播放动画
+        //开始播放动画
         isPlaying = true;
         mPlayTime = 0;
         new Thread(mGetVoiceLevelRunnable).start();
@@ -342,6 +354,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
             imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
         } else if (status == Voice_UnRecord) {
             imgMic.setBackgroundResource(R.drawable.selector_micphone);
+            imgMic.setEnabled(true);
         } else if (status == Voice_Recording) {
             imgMic.setBackgroundResource(R.drawable.selector_voice_stop);
         }
