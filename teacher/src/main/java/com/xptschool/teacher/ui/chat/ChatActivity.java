@@ -40,6 +40,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.github.rockerhieu.emojicon.EmojiconEditText;
 
 public class ChatActivity extends BaseActivity {
 
@@ -53,7 +54,7 @@ public class ChatActivity extends BaseActivity {
     AudioRecorderButton mAudioRecorderButton;
 
     @BindView(R.id.edtContent)
-    EditText edtContent;
+    EmojiconEditText edtContent;
 
     @BindView(R.id.btnSend)
     Button btnSend;
@@ -174,7 +175,7 @@ public class ChatActivity extends BaseActivity {
                 } else {
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
-                    imgPlus.setVisibility(View.VISIBLE);
+//                    imgPlus.setVisibility(View.VISIBLE);
                     mAudioRecorderButton.setVisibility(View.VISIBLE);
                     imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_voice);
                     ChatUtil.hideInputWindow(ChatActivity.this, edtContent);

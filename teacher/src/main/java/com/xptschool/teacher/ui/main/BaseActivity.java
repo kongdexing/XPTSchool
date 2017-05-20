@@ -228,22 +228,22 @@ public class BaseActivity extends AppCompatActivity {
     public void showMessageNotify(boolean show, BeanChat chat) {
         Log.i(TAG, "base showMessageNotify: " + show);
         if (show) {
-            Intent mainIntent = new Intent(this, ContactsActivity.class);
-            PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            //消息提醒
-            NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("消息提醒")
-                    .setContentText("您有新未读聊天消息，请注意查看")
-                    .setContentIntent(mainPendingIntent)
-                    .setDefaults(Notification.DEFAULT_ALL)
-                    .setAutoCancel(true);
-            //设置通知时间，默认为系统发出通知的时间，通常不用设置
-            //.setWhen(System.currentTimeMillis());
-            //通过builder.build()方法生成Notification对象,并发送通知,id=1
-            mNotifyManager.notify(1, builder.build());
+//            Intent mainIntent = new Intent(this, ContactsActivity.class);
+//            PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//            //消息提醒
+//            NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+//                    .setSmallIcon(R.mipmap.ic_launcher)
+//                    .setContentTitle("消息提醒")
+//                    .setContentText("您有新未读聊天消息，请注意查看")
+//                    .setContentIntent(mainPendingIntent)
+//                    .setDefaults(Notification.DEFAULT_ALL)
+//                    .setAutoCancel(true);
+//            //设置通知时间，默认为系统发出通知的时间，通常不用设置
+//            //.setWhen(System.currentTimeMillis());
+//            //通过builder.build()方法生成Notification对象,并发送通知,id=1
+//            mNotifyManager.notify(1, builder.build());
         }
     }
 

@@ -145,4 +145,5 @@ dependencies {
 
     compile 'com.coolerfall:android-app-daemon:1.2.0'
     compile 'com.liulishuo.filedownloader:library:1.4.3'
+    compile 'io.github.rockerhieu:emojicon:1.4.1'
 }

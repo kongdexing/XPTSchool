@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.rockerhieu.emojicon.EmojiconTextView;
 
 /**
  * Created by dexing on 2017/5/10.
@@ -160,7 +161,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         CircularImageView imgUser;
 
         @BindView(R.id.txtContent)
-        TextView txtContent;
+        EmojiconTextView txtContent;
 
         @BindView(R.id.rlVoice)
         RelativeLayout rlVoice;
