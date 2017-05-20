@@ -152,8 +152,9 @@ public class XPTApplication extends Application {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 //            File sdCardDir = Environment.getExternalStorageDirectory();//获取SDCard目录
 //            config.diskCache(new UnlimitedDiskCache(new File(sdCardDir.getAbsolutePath() + "/XPTteacher")));
-            config.diskCache(new UnlimitedDiskCache(new File(XPTApplication.getInstance().getCachePath())));
         }
+
+        config.diskCache(new UnlimitedDiskCache(new File(XPTApplication.getInstance().getCachePath())));
 
         config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
         // the disk cache size : here is 100M
@@ -167,11 +168,19 @@ public class XPTApplication extends Application {
     }
 
     public String getCachePath() {
-        File cacheDir;
-        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED))
+        File cacheDir = null;
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
             cacheDir = getExternalCacheDir();
-        else
+        } else {
             cacheDir = getCacheDir();
+        }
+        File sdCardDir = Environment.getExternalStorageDirectory();//获取SDCard目录
+//            config.diskCache(new UnlimitedDiskCache(new File(sdCardDir.getAbsolutePath() + "/XPTteacher")));
+        if (cacheDir == null) {
+            cacheDir = new File(sdCardDir.getAbsolutePath() + "/XPTteacher");
+            Log.i(TAG, "cacheDir is null " + cacheDir.getAbsolutePath());
+        }
+
         if (!cacheDir.exists())
             cacheDir.mkdirs();
         return cacheDir.getAbsolutePath();

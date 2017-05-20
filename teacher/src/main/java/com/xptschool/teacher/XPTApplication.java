@@ -160,16 +160,6 @@ public class XPTApplication extends Application {
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config.build());
 
-//        File file = ImageLoader.getInstance().getDiskCache().getDirectory();
-//        if (file.exists()) {
-//            if (file.isDirectory()) {
-//                File[] files = file.listFiles();
-//                for (int i = 0; i < files.length; i++) {
-//                    Log.i(TAG, "initImageLoader: " + files[i].getAbsolutePath());
-//                }
-//            }
-//        }
-
     }
 
     public String getCachePath() {
@@ -178,6 +168,12 @@ public class XPTApplication extends Application {
             cacheDir = getExternalCacheDir();
         else
             cacheDir = getCacheDir();
+        File sdCardDir = Environment.getExternalStorageDirectory();//获取SDCard目录
+//            config.diskCache(new UnlimitedDiskCache(new File(sdCardDir.getAbsolutePath() + "/XPTteacher")));
+        if (cacheDir == null) {
+            cacheDir = new File(sdCardDir.getAbsolutePath() + "/XPTteacher");
+            Log.i(TAG, "cacheDir is null " + cacheDir.getAbsolutePath());
+        }
         if (!cacheDir.exists())
             cacheDir.mkdirs();
         return cacheDir.getAbsolutePath();

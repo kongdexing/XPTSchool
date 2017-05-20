@@ -219,7 +219,9 @@
 
         <service android:name=".server.SocketService" />
 
-        <activity android:name=".ui.chat.ChatActivity" />
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.wallet.TelephoneFareActivity"></activity>
     </application>
 
