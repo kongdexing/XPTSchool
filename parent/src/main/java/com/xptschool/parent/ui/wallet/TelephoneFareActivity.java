@@ -219,6 +219,6 @@ public class TelephoneFareActivity extends ContractClickActivity {
         view.setBackground(getResources().getDrawable(R.color.colorPrimary));
         view.setTextColor(getResources().getColor(R.color.white));
         recharge_limit = Integer.parseInt(view.getTag().toString());
-//        recharge_limit = 1;
+        recharge_limit = 1;
     }
 }
