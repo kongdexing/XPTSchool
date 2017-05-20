@@ -101,7 +101,6 @@ public class HttpAction {
     //学生卡消费记录
     public static String STU_CARD_BILL = HEAD + "OrderBalance/getStuCardBill";
 
-
     //获取订单信息
     public static String GET_OrderInfo = HEAD + "Order/getOrder";
 
@@ -110,5 +109,8 @@ public class HttpAction {
     public static String Add_BankCard = HEAD + "BankCard/add";
     public static String Delete_BankCard = HEAD + "BankCard/del";
 
+    //手机话费充值
+    public static String GET_TEL_RECHARGE_ORDER = HEAD + "TelCharge/getTelCharge";
+    public static String TEL_RECHARGE = HEAD + "TelCharge/telTopUp";
 
 }

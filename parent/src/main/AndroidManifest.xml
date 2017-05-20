@@ -142,7 +142,6 @@
         </provider>
         <!-- 必须配置 -->
 
-
         <service android:name=".push.MyPushIntentService" />
         <service android:name=".push.MyNotificationService" />
 
@@ -220,7 +219,8 @@
 
         <service android:name=".server.SocketService" />
 
-        <activity android:name=".ui.chat.ChatActivity"></activity>
+        <activity android:name=".ui.chat.ChatActivity" />
+        <activity android:name=".ui.wallet.TelephoneFareActivity"></activity>
     </application>
 
 </manifest>

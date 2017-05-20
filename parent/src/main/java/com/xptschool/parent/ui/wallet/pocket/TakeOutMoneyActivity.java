@@ -130,7 +130,7 @@ public class TakeOutMoneyActivity extends BaseActivity {
                         if (value.equals(password)) {
                             takeoutMoney(money, bankCard.getId());
                         } else {
-                            Toast.makeText(TakeOutMoneyActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TakeOutMoneyActivity.this, R.string.error_toast_password, Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }

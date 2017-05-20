@@ -129,9 +129,9 @@ public class AddBankCardActivity extends BaseActivity {
 
         if (verify) {
             CustomEditDialog editDialog = new CustomEditDialog(this);
-            editDialog.setTitle("用户验证");
+            editDialog.setTitle(R.string.title_user_verify);
             editDialog.setEdtInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            editDialog.setHintEdit("请输入当前用户登录密码");
+            editDialog.setHintEdit(R.string.msg_input_password);
             editDialog.setAlertDialogClickListener(new CustomEditDialog.DialogClickListener() {
                 @Override
                 public void onPositiveClick(String value) {
@@ -139,7 +139,7 @@ public class AddBankCardActivity extends BaseActivity {
                     if (value.equals(password)) {
                         addBankCardInfo(username, card, bankname, false);
                     } else {
-                        Toast.makeText(AddBankCardActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddBankCardActivity.this, R.string.error_toast_password, Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

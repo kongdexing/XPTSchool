@@ -29,6 +29,7 @@ public class CustomEditDialog implements View.OnClickListener {
     private AlertDialog alertDialog;
 
     public CustomEditDialog(Context context) {
+        mContext = context;
         alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setView(new EditText(context));
         alertDialog.show();
@@ -69,7 +70,7 @@ public class CustomEditDialog implements View.OnClickListener {
         edtMessage.setHint(message);
     }
 
-    public void setEdtInputType(int type){
+    public void setEdtInputType(int type) {
         edtMessage.setInputType(type);
     }
 

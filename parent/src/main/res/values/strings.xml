@@ -234,6 +234,9 @@
     <string name="label_tutelage_work_unit">工作地址：</string>
     <string name="label_tutelage_hint_work_unit">请输入工作地址</string>
 
+    <string name="title_user_verify">用户验证</string>
+    <string name="msg_input_password">请输入当前用户登录密码</string>
+    <string name="error_toast_password">密码输入错误</string>
 
     <!--聊天-->
     <string name="label_send_message">发信息</string>

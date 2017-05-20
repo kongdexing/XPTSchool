@@ -3,12 +3,14 @@ package com.xptschool.parent.model;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by dexing on 2017/4/7.
  * No1
  */
 @Entity
-public class BeanLearningModule {
+public class BeanLearningModule implements Serializable {
 
     private String title;
     private String icon_url;
@@ -48,4 +50,5 @@ public class BeanLearningModule {
     public void setWeb_url(String web_url) {
         this.web_url = web_url;
     }
+
 }

@@ -155,9 +155,9 @@ public class TutelageActivity extends BaseActivity {
                 final String relation_str = relation_int + "";
 
                 CustomEditDialog editDialog = new CustomEditDialog(this);
-                editDialog.setTitle("用户验证");
+                editDialog.setTitle(R.string.title_user_verify);
                 editDialog.setEdtInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                editDialog.setHintEdit("请输入当前用户登录密码");
+                editDialog.setHintEdit(R.string.msg_input_password);
                 editDialog.setAlertDialogClickListener(new CustomEditDialog.DialogClickListener() {
                     @Override
                     public void onPositiveClick(String value) {
@@ -165,7 +165,7 @@ public class TutelageActivity extends BaseActivity {
                         if (value.equals(password)) {
                             putTutelageInfo(username, name, phone, email, relation_str, home_address, work_address, home_phone);
                         } else {
-                            Toast.makeText(TutelageActivity.this, "密码输入错误", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TutelageActivity.this, R.string.error_toast_password, Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }

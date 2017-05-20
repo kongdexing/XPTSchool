@@ -88,9 +88,8 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
             //取amr文件
             String amr_file = homeWork.getAmr_file();
             Log.i(TAG, "amr file : " + amr_file);
-            String fileName = amr_file.substring(amr_file.lastIndexOf('/') + 1);
-
             if (amr_file != null) {
+                String fileName = amr_file.substring(amr_file.lastIndexOf('/') + 1);
                 FileDownloader.getImpl().create(amr_file)
                         .setListener(createListener())
                         .setPath(XPTApplication.getInstance().getCachePath() + "/" + fileName)
@@ -250,7 +249,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     @Override
     public void onStopRecording() {
         if (VoiceStatus == Voice_Recording) {
-            if (!isRecording || mTime < 0.6f) {//如果时间少于0.6s，则提示录音过短
+            if (!isRecording || mTime < 2) {//如果时间少于2s，则提示录音过短
                 mAudioManager.cancel();
                 // 延迟显示对话框
                 ToastUtils.showToast(this, "录音过短，请重新录制");

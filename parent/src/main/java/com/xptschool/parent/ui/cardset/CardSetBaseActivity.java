@@ -38,8 +38,7 @@ import permissions.dispatcher.OnShowRationale;
 import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
-@RuntimePermissions
-public class CardSetBaseActivity extends BaseActivity {
+public class CardSetBaseActivity extends ContractClickActivity {
 
     public Button btnSubmit;
     public static String CARD_SOS = "sos";
@@ -50,116 +49,22 @@ public class CardSetBaseActivity extends BaseActivity {
     public String spKey = "";
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // NOTE: delegate the permission handling to generated method
-        if (permissions != null && permissions.length > 0) {
-            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
+    public void onChooseContractResult(String[] contacts) {
+        super.onChooseContractResult(contacts);
+        Intent intent = new Intent();
+        if (CardType.equals(CARD_SOS)) {
+            intent.setAction(BroadcastAction.SOS_CONTACTS);
+            intent.putExtra("phone", contacts[1]);
+        } else if (CardType.equals(CARD_WHITELIST)) {
+            intent.setAction(BroadcastAction.WHITELIST_CONTACTS);
+            intent.putExtra("name", contacts[0]);
+            intent.putExtra("phone", contacts[1]);
+        } else if (CardType.equals(CARD_MONITER)) {
+            intent.setAction(BroadcastAction.WHITELIST_CONTACTS);
+            intent.putExtra("name", contacts[0]);
+            intent.putExtra("phone", contacts[1]);
         }
-        CardSetBaseActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
-
-    @NeedsPermission(Manifest.permission.READ_CONTACTS)
-    void goToChooseContracts() {
-        Log.i(TAG, "goToChooseContracts: ");
-
-        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
-        startActivityForResult(intent, 0);
-    }
-
-    @OnPermissionDenied(Manifest.permission.READ_CONTACTS)
-    void onContactsDenied() {
-        Log.i(TAG, "onContactsDenied: ");
-        // NOTE: Deal with a denied permission, e.g. by showing specific UI
-        // or disabling certain functionality
-        Toast.makeText(this, R.string.permission_contracts_denied, Toast.LENGTH_SHORT).show();
-    }
-
-    @OnShowRationale(Manifest.permission.READ_CONTACTS)
-    void showRationaleForContacts(PermissionRequest request) {
-        // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
-        // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
-        Log.i(TAG, "showRationaleForContacts: ");
-        request.proceed();
-    }
-
-    @OnNeverAskAgain(Manifest.permission.READ_CONTACTS)
-    void onContactsNeverAskAgain() {
-        Log.i(TAG, "onContactsNeverAskAgain: ");
-        Toast.makeText(this, R.string.permission_contracts_never_askagain, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 0:
-                if (data == null) {
-                    return;
-                }
-                try {
-                    //处理返回的data,获取选择的联系人信息
-                    Uri uri = data.getData();
-                    String[] contacts = getPhoneContacts(uri);
-                    if (contacts == null) {
-                        Toast.makeText(this, R.string.toast_get_phone_null, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Intent intent = new Intent();
-                    if (CardType.equals(CARD_SOS)) {
-                        intent.setAction(BroadcastAction.SOS_CONTACTS);
-                        intent.putExtra("phone", contacts[1]);
-                    } else if (CardType.equals(CARD_WHITELIST)) {
-                        intent.setAction(BroadcastAction.WHITELIST_CONTACTS);
-                        intent.putExtra("name", contacts[0]);
-                        intent.putExtra("phone", contacts[1]);
-                    } else if (CardType.equals(CARD_MONITER)) {
-                        intent.setAction(BroadcastAction.WHITELIST_CONTACTS);
-                        intent.putExtra("name", contacts[0]);
-                        intent.putExtra("phone", contacts[1]);
-                    }
-                    sendBroadcast(intent);
-                } catch (Exception ex) {
-                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-
-    private String[] getPhoneContacts(Uri uri) {
-        try {
-            String[] contact = new String[2];
-            //得到ContentResolver对象
-            ContentResolver cr = getContentResolver();
-            //取得电话本中开始一项的光标
-            Cursor cursor = cr.query(uri, null, null, null, null);
-            if (cursor != null) {
-                cursor.moveToFirst();
-                //取得联系人姓名
-                int nameFieldColumnIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                contact[0] = cursor.getString(nameFieldColumnIndex);
-                //取得电话号码
-                String ContactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-
-                Cursor phone = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                        ContactsContract.CommonDataKinds.Phone._ID + "=" + ContactId, null, null);
-
-                if (phone != null) {
-                    phone.moveToFirst();
-                    int phoneNumberIndex = phone
-                            .getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                    contact[1] = phone.getString(phoneNumberIndex);
-                }
-                phone.close();
-                cursor.close();
-            } else {
-                return null;
-            }
-            return contact;
-        } catch (Exception ex) {
-            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-            return null;
-        }
+        sendBroadcast(intent);
     }
 
     public void setCardPhone(final String values) {
@@ -305,13 +210,6 @@ public class CardSetBaseActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
-    public ContractClickListener contractChooseListener = new ContractClickListener() {
-        @Override
-        public void onContractClick() {
-            CardSetBaseActivityPermissionsDispatcher.goToChooseContractsWithCheck(CardSetBaseActivity.this);
-        }
-    };
 
     protected void setViewData(String value) {
         if (currentStudent != null) {

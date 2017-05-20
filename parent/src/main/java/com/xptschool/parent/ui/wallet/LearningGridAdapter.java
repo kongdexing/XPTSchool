@@ -90,9 +90,17 @@ public class LearningGridAdapter extends BaseAdapter {
         viewHolder.rlModule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, WebViewActivity.class);
-                intent.putExtra(ExtraKey.WEB_URL, module.getWeb_url());
-                mContext.startActivity(intent);
+                if (3 > module.getWeb_url().length()) {
+                    if ("1".equals(module.getWeb_url())) {
+                        Intent intent = new Intent(mContext, TelephoneFareActivity.class);
+                        intent.putExtra(ExtraKey.LEARNING_MODEL, module);
+                        mContext.startActivity(intent);
+                    }
+                } else {
+                    Intent intent = new Intent(mContext, WebViewActivity.class);
+                    intent.putExtra(ExtraKey.WEB_URL, module.getWeb_url());
+                    mContext.startActivity(intent);
+                }
             }
         });
         return convertView;
