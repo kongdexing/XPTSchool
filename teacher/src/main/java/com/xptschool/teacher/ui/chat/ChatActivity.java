@@ -12,10 +12,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.widget.audiorecorder.AudioManager;
 import com.android.widget.audiorecorder.AudioRecorderButton;
@@ -44,6 +46,9 @@ import io.github.rockerhieu.emojicon.EmojiconEditText;
 
 public class ChatActivity extends BaseActivity {
 
+    @BindView(R.id.RlParent)
+    RelativeLayout RlParent;
+
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
 
@@ -68,6 +73,7 @@ public class ChatActivity extends BaseActivity {
     private ChatAdapter adapter = null;
     private ContactParent parent;
     private BeanTeacher currentTeacher;
+    private boolean isInputWindowShow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +106,7 @@ public class ChatActivity extends BaseActivity {
         ChatUtil.showInputWindow(ChatActivity.this, edtContent);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
         recycleView.setLayoutManager(linearLayoutManager);
         adapter = new ChatAdapter(this);
         recycleView.setAdapter(adapter);
@@ -157,9 +164,25 @@ public class ChatActivity extends BaseActivity {
 
             }
         });
+
+        RlParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = RlParent.getRootView().getHeight();
+                int height = RlParent.getHeight();
+                int diff = heightDiff - height;
+                Log.i(TAG, "onGlobalLayout  rootH " + heightDiff + "  height:" + height + " diff:" + diff);
+                if (diff > 400) {
+                    //键盘弹起
+                    isInputWindowShow = true;
+                } else {
+                    isInputWindowShow = false;
+                }
+            }
+        });
     }
 
-    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus})
+    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus, R.id.edtContent})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.imgVoiceOrText:
@@ -179,6 +202,11 @@ public class ChatActivity extends BaseActivity {
                     mAudioRecorderButton.setVisibility(View.VISIBLE);
                     imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_voice);
                     ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
+                }
+                break;
+            case R.id.edtContent:
+                if (!isInputWindowShow) {
+                    smoothBottom();
                 }
                 break;
             case R.id.btnSend:

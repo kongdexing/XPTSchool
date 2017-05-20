@@ -143,7 +143,9 @@
         <activity android:name=".ui.setting.SettingActivity" />
         <activity android:name=".ui.main.WebViewActivity"></activity>
 
-        <activity android:name=".ui.chat.ChatActivity"></activity>
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
         <service android:name=".server.SocketService" />
     </application>

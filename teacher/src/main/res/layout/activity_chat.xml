@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_question_detail"
+    android:id="@+id/RlParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,12 +22,12 @@
         android:id="@+id/rlSend"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
+        android:layout_above="@+id/view_bottom"
+        android:layout_alignParentStart="true"
         android:background="#f5f5f6"
         android:paddingBottom="@dimen/dp_2"
         android:paddingTop="@dimen/dp_2"
-        android:visibility="visible"
-        android:layout_above="@+id/view_bottom"
-        android:layout_alignParentStart="true">
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/imgVoiceOrText"
