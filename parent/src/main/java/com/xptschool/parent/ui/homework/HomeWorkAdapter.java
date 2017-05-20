@@ -24,6 +24,8 @@ import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.ui.chat.ChatActivity;
+import com.xptschool.parent.util.ChatUtil;
 import com.xptschool.parent.view.CustomDialog;
 
 import java.util.ArrayList;
@@ -112,7 +114,11 @@ public class HomeWorkAdapter extends BaseRecycleAdapter {
         mHolder.txtTeacher.setText(mContext.getString(R.string.label_teacher_option, work.getUser_name()));
         mHolder.txtTitle.setText(mContext.getString(R.string.label_homework_title_option, work.getName()));
         mHolder.txtTime.setText(mContext.getString(R.string.homework_start_end_time, work.getCreate_time(), work.getFinish_time()));
-        mHolder.txtContent.setText(work.getWork_content());
+        String content = work.getWork_content();
+        if (content.length() > 100) {
+            content = content.substring(0, 100);
+        }
+        mHolder.txtContent.setText(content);
 
         mHolder.llhomeworkItem.setOnClickListener(new View.OnClickListener() {
             @Override

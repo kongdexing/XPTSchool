@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_2"
-                    android:text="完成时间：20160612"
+                    android:text="完成时间："
                     android:textColor="@color/color_black_3"
                     android:textSize="@dimen/sp_16" />
 
@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="1.akdjad\n2.全文背诵\nsdf"
+                        android:text=""
                         android:textColor="@color/color_black_2"
                         android:textSize="@dimen/sp_16" />
                 </LinearLayout>

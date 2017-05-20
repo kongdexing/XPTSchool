@@ -113,7 +113,11 @@ public class HomeWorkAdapter extends BaseRecycleAdapter {
         mHolder.txtTeacher.setText(mContext.getString(R.string.label_teacher_option, work.getUser_name()));
         mHolder.txtTitle.setText(mContext.getString(R.string.label_homework_title_option, work.getName()));
         mHolder.txtTime.setText(mContext.getString(R.string.homework_start_end_time, work.getCreate_time(), work.getFinish_time()));
-        mHolder.txtContent.setText(work.getWork_content());
+        String content = work.getWork_content();
+        if (content.length() > 100) {
+            content = content.substring(0, 100);
+        }
+        mHolder.txtContent.setText(content);
 
         mHolder.llhomeworkItem.setOnClickListener(new View.OnClickListener() {
             @Override

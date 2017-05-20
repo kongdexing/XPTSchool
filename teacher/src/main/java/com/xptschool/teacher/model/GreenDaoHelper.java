@@ -379,7 +379,8 @@ public class GreenDaoHelper {
         List<BeanChat> chats = null;
         if (readDaoSession != null) {
             chats = readDaoSession.getBeanChatDao().queryBuilder()
-                    .where(BeanChatDao.Properties.ParentId.eq(parentId)).list();
+                    .where(BeanChatDao.Properties.ParentId.eq(parentId),
+                            BeanChatDao.Properties.TeacherId.eq(currentTeacher.getU_id())).list();
         }
         if (chats == null) {
             chats = new ArrayList<BeanChat>();
@@ -396,7 +397,8 @@ public class GreenDaoHelper {
         List<BeanChat> chats = null;
         if (readDaoSession != null) {
             chats = readDaoSession.getBeanChatDao().queryBuilder()
-                    .where(BeanChatDao.Properties.HasRead.eq(false), BeanChatDao.Properties.TeacherId.eq(currentTeacher.getU_id())).list();
+                    .where(BeanChatDao.Properties.HasRead.eq(false),
+                            BeanChatDao.Properties.TeacherId.eq(currentTeacher.getU_id())).list();
         }
         if (chats == null) {
             chats = new ArrayList<BeanChat>();

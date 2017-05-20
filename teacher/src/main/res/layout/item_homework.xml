@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="1.akdjad\n2.全文背诵\nsdf"
+                        android:text=""
                         android:textColor="@color/color_black_2"
                         android:textSize="@dimen/sp_16" />
                 </LinearLayout>

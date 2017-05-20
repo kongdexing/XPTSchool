@@ -94,7 +94,7 @@ public class BeanHomeWork implements Parcelable {
     }
 
     public String getWork_content() {
-        return work_content;
+        return work_content == null ? "" : work_content;
     }
 
     public void setWork_content(String work_content) {
