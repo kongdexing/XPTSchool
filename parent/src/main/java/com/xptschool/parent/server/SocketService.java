@@ -129,9 +129,8 @@ public class SocketService extends Service {
             Log.i(TAG, "SocketSendThread run: ");
             Log.i(TAG, "write start ");
             //开始发送
-            Intent intent = new Intent(BroadcastAction.MESSAGE_SEND_START);
-//            intent.putExtra("message", message);
-//            XPTApplication.getInstance().sendBroadcast(intent);
+            Intent intent = new Intent();
+            intent.putExtra("message", message);
             Socket mSocket = null;
             OutputStream outputStream = null;
             try {
@@ -139,24 +138,22 @@ public class SocketService extends Service {
                 mSocket = new Socket(socketIP, socketPort);
                 if (mSocket == null || !mSocket.isConnected()) {
                     Log.i(TAG, "SocketSendThread run: socket is null or unconnected");
+                    intent.setAction(BroadcastAction.MESSAGE_SEND_FAILED);
                     return;
                 }
                 outputStream = mSocket.getOutputStream();
                 outputStream.write(message.getAllData());
                 outputStream.flush();
                 //发送完成
-                intent = new Intent(BroadcastAction.MESSAGE_SEND_SUCCESS);
-                intent.putExtra("message", message);
-                XPTApplication.getInstance().sendBroadcast(intent);
+                intent.setAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
                 Log.i(TAG, "write success");
             } catch (Exception e) {
-                intent = new Intent(BroadcastAction.MESSAGE_SEND_FAILED);
-                intent.putExtra("message", message);
-                XPTApplication.getInstance().sendBroadcast(intent);
+                intent.setAction(BroadcastAction.MESSAGE_SEND_FAILED);
                 //发送失败
                 Log.e(TAG, "Exception during write", e);
             } finally {
                 closeSocket(mSocket, outputStream, null);
+                XPTApplication.getInstance().sendBroadcast(intent);
             }
         }
     }
