@@ -123,7 +123,6 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                         if (viewHolder.img_recorder_anim != null) {
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                         }
-                        Log.i(TAG, "onCompletion: " + file.getPath() + " size:" + file.length());
                         if (!file.exists()) {
                             Log.i(TAG, "file not found ");
                             return;

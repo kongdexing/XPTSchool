@@ -9,11 +9,13 @@ public class ResultPage {
     private int total_page;      //总页数
     private int total_count;     //总个数
     private int page;        //当前页索引
+    private int page_count;
 
-    public ResultPage(){
+    public ResultPage() {
         total_page = 1;
         total_count = 0;
         page = 1;
+        page_count = 15;
     }
 
     public int getTotal_page() {
@@ -38,5 +40,13 @@ public class ResultPage {
 
     public void setPage(int page) {
         this.page = page;
+    }
+
+    public int getPage_count() {
+        return page_count;
+    }
+
+    public void setPage_count(int page_count) {
+        this.page_count = page_count;
     }
 }

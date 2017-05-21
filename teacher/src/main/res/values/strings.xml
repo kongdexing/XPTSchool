@@ -144,5 +144,6 @@
 
     <string name="label_call">打电话</string>
     <string name="label_chat">发消息</string>
+    <string name="toast_no_history_message">没有历史消息了</string>
 
 </resources>

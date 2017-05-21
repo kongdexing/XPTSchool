@@ -1,6 +1,7 @@
 package com.xptschool.teacher.ui.main;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -16,18 +17,25 @@ import com.xptschool.teacher.bean.ResultPage;
 public class BaseListActivity extends BaseActivity {
 
     public ResultPage resultPage = new ResultPage();
+    private WrapContentLinearLayoutManager mLayoutManager;
 
-    public void initRecyclerView(RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout){
+    public void initRecyclerView(RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout) {
         recyclerView.setHasFixedSize(true);
-        final WrapContentLinearLayoutManager mLayoutManager = new WrapContentLinearLayoutManager(this);
+        mLayoutManager = new WrapContentLinearLayoutManager(this);
+        mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this,
                 LinearLayoutManager.VERTICAL, R.drawable.line_dotted));
         swipeRefreshLayout.setColorSchemeColors(getResources().getIntArray(R.array.google_colors));
-
 //        swipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
 //                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
 //                        .getDisplayMetrics()));
     }
+
+    public WrapContentLinearLayoutManager getLayoutManager(){
+        return mLayoutManager;
+    }
+
 
 }

@@ -70,7 +70,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     //记录播放时间
     private float mPlayTime;
     private int MaxLength = 120;
-    private int MiniLength = 10;
+    private int MiniLength = 5;
     private int maxLength = MaxLength;
     public String localAmrFile = null;
 

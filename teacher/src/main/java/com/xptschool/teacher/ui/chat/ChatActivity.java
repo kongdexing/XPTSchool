@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,8 @@ import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.adapter.WrapContentLinearLayoutManager;
+import com.xptschool.teacher.bean.ResultPage;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
@@ -34,7 +37,9 @@ import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
 import com.xptschool.teacher.ui.contact.ContactsDetailActivity;
 import com.xptschool.teacher.ui.main.BaseActivity;
+import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
+import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,10 +49,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.rockerhieu.emojicon.EmojiconEditText;
 
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseListActivity {
 
     @BindView(R.id.RlParent)
     RelativeLayout RlParent;
+
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
@@ -74,6 +82,8 @@ public class ChatActivity extends BaseActivity {
     private ContactParent parent;
     private BeanTeacher currentTeacher;
     private boolean isInputWindowShow = false;
+    private List<BeanChat> allChatList;
+    private int lastOffset, lastPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,17 +115,54 @@ public class ChatActivity extends BaseActivity {
     private void initView() {
         ChatUtil.showInputWindow(ChatActivity.this, edtContent);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setStackFromEnd(true);
-        recycleView.setLayoutManager(linearLayoutManager);
+        initRecyclerView(recycleView, swipeRefreshLayout);
+
         adapter = new ChatAdapter(this);
         recycleView.setAdapter(adapter);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                int currentPage = resultPage.getPage();
+                if (1 >= currentPage) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    ToastUtils.showToast(ChatActivity.this, R.string.toast_no_history_message);
+                    return;
+                }
+                resultPage.setPage(currentPage - 1);
+                getChatList(false);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
-        List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByParentId(parent.getUser_id());
-        adapter.loadData(chats, parent);
+        recycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                Log.i(TAG, "onScrollStateChanged: " + newState);
+            }
 
-        recycleView.setItemAnimator(new DefaultItemAnimator());
-        smoothBottom();
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                View topView = getLayoutManager().getChildAt(0);          //获取可视的第一个view
+                lastOffset = topView.getTop();                                   //获取与该view的顶部的偏移量
+                lastPosition = getLayoutManager().getPosition(topView);  //得到该View的数组位置
+                Log.i(TAG, "onScrolled: " + lastOffset + "  " + lastPosition);
+            }
+        });
+
+        allChatList = GreenDaoHelper.getInstance().getChatsByParentId(parent.getUser_id());
+        resultPage.setTotal_count(allChatList.size());
+        int page = resultPage.getTotal_count() % resultPage.getPage_count();
+        if (page > 0) {
+            page = resultPage.getTotal_count() / resultPage.getPage_count() + 1;
+        } else {
+            page = resultPage.getTotal_count() / resultPage.getPage_count();
+        }
+        resultPage.setTotal_page(page);
+        //初始显示最后一页内容
+        resultPage.setPage(page);
+        getChatList(true);
 
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
 
@@ -179,6 +226,32 @@ public class ChatActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void getChatList(boolean toLast) {
+        int currentPage = resultPage.getPage();
+        int residue = resultPage.getPage_count() - resultPage.getTotal_count() % resultPage.getPage_count();
+        int start = (currentPage - 1) * resultPage.getPage_count() - residue;
+        int end = currentPage * resultPage.getPage_count() - 1 - residue;
+        if (start < 0) {
+            start = 0;
+        }
+        if (end > resultPage.getTotal_count()) {
+            end = resultPage.getTotal_count() - 1;
+        }
+//        int lastVisibleItemPosition = end - start + 5;
+//        Log.i(TAG, "getChatList: " + lastVisibleItemPosition);
+
+        List<BeanChat> chats = allChatList.subList(start, end);
+        adapter.appendData(chats, parent);
+
+        if (toLast) {
+            smoothBottom();
+        } else {
+            //滑到当前顶部位置
+//            recycleView.smoothScrollToPosition(lastVisibleItemPosition);
+            (getLayoutManager()).scrollToPositionWithOffset(lastPosition, lastOffset);
+        }
     }
 
     @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus, R.id.edtContent})

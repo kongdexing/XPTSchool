@@ -76,7 +76,6 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             //录音
             viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
-            Log.i(TAG, "amr second:" + chat.getSeconds() + " file:" + chat.getFileName());
             viewHolder.id_recorder_time.setText(chat.getSeconds() + "\"");
 
             ViewGroup.LayoutParams lp = viewHolder.id_recorder_length.getLayoutParams();
@@ -84,9 +83,10 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             if (!file.exists()) {
-                Log.i(TAG, "file not found");
                 viewHolder.error_file.setVisibility(View.VISIBLE);
                 return;
+            } else {
+                viewHolder.error_file.setVisibility(View.GONE);
             }
 
             if (!chat.isHasRead()) {
@@ -106,7 +106,6 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                     if (viewHolder.img_recorder_anim != null) {
                         viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                     }
-                    Log.i(TAG, "onCompletion: " + file.getPath() + " size:" + file.length());
                     if (!file.exists()) {
                         Log.i(TAG, "file not found ");
                         return;

@@ -15,6 +15,8 @@ import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,7 +30,7 @@ import butterknife.ButterKnife;
 public class ChatAdapter extends RecyclerView.Adapter {
 
     private String TAG = ChatAdapter.class.getSimpleName();
-    private List<BeanChat> listChat;
+    private List<BeanChat> listChat = new ArrayList<>();
     private int VIEW_PARENT = 0;
     private int VIEW_TEACHER = 1;
     private ParentAdapterDelegate parentAdapterDelegate;
@@ -58,7 +60,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int viewType = holder.getItemViewType();
-        Log.i(TAG, "onBindViewHolder position:" + position + " viewType:" + viewType);
         if (viewType == parentAdapterDelegate.getViewType()) {
             parentAdapterDelegate.onBindViewHolder(currentParent, listChat, position, holder);
         } else {
@@ -77,18 +78,29 @@ public class ChatAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void appendData(List<BeanChat> chats, ContactParent parent) {
+        if (listChat.size() == 0) {
+            listChat = chats;
+        } else {
+            List<BeanChat> newList = new ArrayList<BeanChat>();
+            for (Iterator<BeanChat> it = chats.iterator(); it.hasNext(); ) {
+                newList.add(it.next());
+            }
+            listChat.addAll(0, newList);
+        }
+        currentParent = parent;
+        notifyDataSetChanged();
+    }
+
     //  添加数据
     public void addData(BeanChat chat) {
-        Log.i(TAG, "addData: " + chat.getChatId() + " content:" + chat.getContent());
         listChat.add(listChat.size(), chat);
         notifyItemInserted(listChat.size());
     }
 
     public void updateData(BeanChat chat) {
-        Log.i(TAG, "updateData: ");
         for (int i = 0; i < listChat.size(); i++) {
             if (listChat.get(i).getChatId().equals(chat.getChatId())) {
-                Log.i(TAG, "updateData chatId : " + chat.getChatId() + "  position:" + i);
                 listChat.set(i, chat);
                 notifyItemChanged(i);
                 break;
@@ -104,7 +116,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
-            Log.i(TAG, "onResend: position " + position + " " + chat.toString());
 //            removeData(position);
             chat.setSendStatus(ChatUtil.STATUS_SENDING);
             updateData(chat);
