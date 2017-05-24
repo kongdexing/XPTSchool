@@ -62,14 +62,14 @@
                 android:maxWidth="@dimen/dp_200"
                 android:text=""
                 android:textSize="@dimen/sp_16"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:id="@+id/rlVoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/imgUser"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/id_recorder_time"

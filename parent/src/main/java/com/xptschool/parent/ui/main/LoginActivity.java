@@ -95,6 +95,7 @@ public class LoginActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.imgDel:
                 edtAccount.setText("");
+                edtAccount.requestFocus();
                 break;
             case R.id.imgToggle:
                 showPassword(!showPassword);
