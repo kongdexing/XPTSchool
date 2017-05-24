@@ -21,6 +21,7 @@ import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.util.ToastUtils;
 import com.xptschool.parent.view.CustomDialog;
 import com.xptschool.parent.view.CustomEditDialog;
 
@@ -104,18 +105,18 @@ public class AddBankCardActivity extends BaseActivity {
                 final String cardName = edt_username.getText().toString().trim();
                 final String bankName = edt_bankname.getText().toString().trim();
                 if (cardNum.isEmpty() || cardName.isEmpty() || bankName.isEmpty()) {
-                    Toast.makeText(this, "请将信息填写完整", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast(this, "请将信息填写完整");
                     return;
                 }
 
                 if (!checkBankCard(cardNum)) {
                     CustomDialog dialog = new CustomDialog(AddBankCardActivity.this);
                     dialog.setTitle("银行卡验证");
-                    dialog.setMessage("您输入的银行卡有误，请重新输入，继续添加？");
+                    dialog.setMessage("您输入的银行卡有误，请重新输入!");
                     dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
                         @Override
                         public void onPositiveClick() {
-                            addBankCardInfo(cardName, cardNum, bankName, true);
+//                            addBankCardInfo(cardName, cardNum, bankName, true);
                         }
                     });
                 } else {
@@ -139,7 +140,7 @@ public class AddBankCardActivity extends BaseActivity {
                     if (value.equals(password)) {
                         addBankCardInfo(username, card, bankname, false);
                     } else {
-                        Toast.makeText(AddBankCardActivity.this, R.string.error_toast_password, Toast.LENGTH_SHORT).show();
+                        ToastUtils.showToast(AddBankCardActivity.this, R.string.error_toast_password);
                         return;
                     }
                 }
@@ -180,7 +181,7 @@ public class AddBankCardActivity extends BaseActivity {
                                     finish();
                                     break;
                                 default:
-                                    Toast.makeText(AddBankCardActivity.this, volleyHttpResult.getInfo(), Toast.LENGTH_SHORT).show();
+                                    ToastUtils.showToast(AddBankCardActivity.this, volleyHttpResult.getInfo());
                                     break;
                             }
                         }
