@@ -26,10 +26,10 @@
             android:layout_toRightOf="@+id/imgUser"
             android:background="@drawable/chatfrom_bg"
             android:clickable="true"
-            android:gravity="left|center_vertical"
+            android:gravity="center|center_vertical"
             android:text=""
             android:textSize="@dimen/sp_16"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/rlVoice"

@@ -56,7 +56,7 @@
                 android:layout_marginRight="@dimen/dp_5"
                 android:background="@drawable/chatto_bg"
                 android:clickable="true"
-                android:gravity="left|center_vertical"
+                android:gravity="center|center_vertical"
                 android:maxWidth="@dimen/dp_200"
                 android:text=""
                 android:textSize="@dimen/sp_16"
