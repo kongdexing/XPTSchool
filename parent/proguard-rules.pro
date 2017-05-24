@@ -221,3 +221,7 @@
 ###银联支付
 -keep class com.unionpay.mobile.android.**{*;}
 -dontwarn com.unionpay.mobile.android.**
+
+###alipay
+-dontwarn android.net.**
+-keep class android.net.SSLCertificateSocketFactory{*;}

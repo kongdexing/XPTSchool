@@ -81,7 +81,7 @@ public class XPTApplication extends Application {
         final PushAgent mPushAgent = PushAgent.getInstance(this);
         //使用自定义消息
         mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
-        mPushAgent.setDebugMode(false);
+        mPushAgent.setDebugMode(true);
 
 //        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
 //        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯

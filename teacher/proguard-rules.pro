@@ -147,6 +147,15 @@
 -keep public class **.R$*{
    public static final int *;
 }
+-dontwarn com.umeng.message.common.**
+
+#（可选）避免Log打印输出
+-assumenosideeffects class android.util.Log {
+   public static *** v(...);
+   public static *** d(...);
+   public static *** i(...);
+   public static *** w(...);
+ }
 
 #-ButterKnife 7.0
  -keep class butterknife.** { *; }
@@ -228,10 +237,7 @@
 -keep class android.databinding.**{*;}
 -dontwarn android.databinding.**
 
--keep class com.alipay.android.app.IAlixPay{*;}
--keep class com.alipay.android.app.IAlixPay$Stub{*;}
--keep class com.alipay.android.app.IRemoteServiceCallback{*;}
--keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
--keep class com.alipay.sdk.app.PayTask{ public *;}
--keep class com.alipay.sdk.app.AuthTask{ public *;}
--dontwarn com.alipay.android.userId.mrpc.core.**
+-keep class com.alibaba.sdk.android.httpdns.**{*;}
+-dontwarn com.alibaba.sdk.android.httpdns.**
+
+#-keep com.umeng.message.common.**{*;}

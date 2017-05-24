@@ -33,12 +33,6 @@ import butterknife.OnClick;
 
 public class TelephoneFareActivity extends ContractClickActivity {
 
-    @BindView(R.id.txt_recharge_10)
-    TextView txt_recharge_10;
-
-    @BindView(R.id.txt_recharge_20)
-    TextView txt_recharge_20;
-
     @BindView(R.id.txt_recharge_30)
     TextView txt_recharge_30;
 
@@ -50,6 +44,12 @@ public class TelephoneFareActivity extends ContractClickActivity {
 
     @BindView(R.id.txt_recharge_200)
     TextView txt_recharge_200;
+
+    @BindView(R.id.txt_recharge_300)
+    TextView txt_recharge_300;
+
+    @BindView(R.id.txt_recharge_500)
+    TextView txt_recharge_500;
 
     @BindView(R.id.edtPhone)
     EditText edtPhone;
@@ -78,24 +78,24 @@ public class TelephoneFareActivity extends ContractClickActivity {
 
     private void initView() {
         rechargeUI.clear();
-        rechargeUI.add(txt_recharge_10);
-        rechargeUI.add(txt_recharge_20);
         rechargeUI.add(txt_recharge_30);
         rechargeUI.add(txt_recharge_50);
         rechargeUI.add(txt_recharge_100);
         rechargeUI.add(txt_recharge_200);
+        rechargeUI.add(txt_recharge_300);
+        rechargeUI.add(txt_recharge_500);
     }
 
-    @OnClick({R.id.txt_recharge_10, R.id.txt_recharge_20, R.id.txt_recharge_30,
-            R.id.txt_recharge_50, R.id.txt_recharge_100, R.id.txt_recharge_200, R.id.imgSelect})
+    @OnClick({R.id.txt_recharge_30, R.id.txt_recharge_50, R.id.txt_recharge_100,
+            R.id.txt_recharge_200, R.id.txt_recharge_300, R.id.txt_recharge_500, R.id.imgSelect})
     void viewOnClick(View view) {
         switch (view.getId()) {
-            case R.id.txt_recharge_10:
-            case R.id.txt_recharge_20:
             case R.id.txt_recharge_30:
             case R.id.txt_recharge_50:
             case R.id.txt_recharge_100:
             case R.id.txt_recharge_200:
+            case R.id.txt_recharge_300:
+            case R.id.txt_recharge_500:
                 final String phone = edtPhone.getText().toString().trim();
                 if (phone.isEmpty()) {
                     return;
@@ -162,7 +162,7 @@ public class TelephoneFareActivity extends ContractClickActivity {
                                     String in_price = object.getString("inprice");
                                     String access_token = CommonUtil.md5(notice_sn + "shuhaixinxi_phone_recharge_order" +
                                             GreenDaoHelper.getInstance().getCurrentParent().getU_id() + in_price);
-                                    doTelTopUp(access_token, notice_sn);
+//                                    doTelTopUp(access_token, notice_sn);
                                 } catch (Exception ex) {
                                     hideProgress();
                                     ToastUtils.showToast(TelephoneFareActivity.this, "充值失败");

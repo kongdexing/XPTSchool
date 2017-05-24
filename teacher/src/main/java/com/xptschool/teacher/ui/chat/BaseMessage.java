@@ -26,6 +26,7 @@ public class BaseMessage implements Parcelable {
     private int second = 0;
     private String parentId;
     private String teacherId;
+    private String time;
     private String content;
     private byte[] allData;
 
@@ -190,6 +191,14 @@ public class BaseMessage implements Parcelable {
         this.allData = allData;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -204,6 +213,7 @@ public class BaseMessage implements Parcelable {
         dest.writeInt(this.second);
         dest.writeString(this.parentId);
         dest.writeString(this.teacherId);
+        dest.writeString(this.time);
         dest.writeString(this.content);
         dest.writeByteArray(this.allData);
     }
@@ -219,6 +229,7 @@ public class BaseMessage implements Parcelable {
         this.second = in.readInt();
         this.parentId = in.readString();
         this.teacherId = in.readString();
+        this.time = in.readString();
         this.content = in.readString();
         this.allData = in.createByteArray();
     }

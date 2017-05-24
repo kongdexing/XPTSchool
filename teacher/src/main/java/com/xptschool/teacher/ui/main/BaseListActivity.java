@@ -22,7 +22,6 @@ public class BaseListActivity extends BaseActivity {
     public void initRecyclerView(RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout) {
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new WrapContentLinearLayoutManager(this);
-        mLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this,

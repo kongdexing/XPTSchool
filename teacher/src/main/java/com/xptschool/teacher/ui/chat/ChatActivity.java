@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,18 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.android.widget.audiorecorder.AudioManager;
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.adapter.WrapContentLinearLayoutManager;
-import com.xptschool.teacher.bean.ResultPage;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
@@ -35,14 +28,13 @@ import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
-import com.xptschool.teacher.ui.contact.ContactsDetailActivity;
-import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
 import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -82,8 +74,9 @@ public class ChatActivity extends BaseListActivity {
     private ContactParent parent;
     private BeanTeacher currentTeacher;
     private boolean isInputWindowShow = false;
-    private List<BeanChat> allChatList;
+    private List<BeanChat> pageChatList;
     private int lastOffset, lastPosition;
+    private int currentOffset = 0, currentPage = 0, localDataCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,19 +109,18 @@ public class ChatActivity extends BaseListActivity {
         ChatUtil.showInputWindow(ChatActivity.this, edtContent);
 
         initRecyclerView(recycleView, swipeRefreshLayout);
+//        getLayoutManager().setStackFromEnd(true);
 
         adapter = new ChatAdapter(this);
         recycleView.setAdapter(adapter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                int currentPage = resultPage.getPage();
-                if (1 >= currentPage) {
+                if (15 >= localDataCount) {
                     swipeRefreshLayout.setRefreshing(false);
-                    ToastUtils.showToast(ChatActivity.this, R.string.toast_no_history_message);
                     return;
                 }
-                resultPage.setPage(currentPage - 1);
+                currentPage++;
                 getChatList(false);
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -138,7 +130,6 @@ public class ChatActivity extends BaseListActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                Log.i(TAG, "onScrollStateChanged: " + newState);
             }
 
             @Override
@@ -147,21 +138,12 @@ public class ChatActivity extends BaseListActivity {
                 View topView = getLayoutManager().getChildAt(0);          //获取可视的第一个view
                 lastOffset = topView.getTop();                                   //获取与该view的顶部的偏移量
                 lastPosition = getLayoutManager().getPosition(topView);  //得到该View的数组位置
-                Log.i(TAG, "onScrolled: " + lastOffset + "  " + lastPosition);
+//                Log.i(TAG, "onScrolled: " + lastOffset + "  " + lastPosition);
             }
         });
 
-        allChatList = GreenDaoHelper.getInstance().getChatsByParentId(parent.getUser_id());
-        resultPage.setTotal_count(allChatList.size());
-        int page = resultPage.getTotal_count() % resultPage.getPage_count();
-        if (page > 0) {
-            page = resultPage.getTotal_count() / resultPage.getPage_count() + 1;
-        } else {
-            page = resultPage.getTotal_count() / resultPage.getPage_count();
-        }
-        resultPage.setTotal_page(page);
-        //初始显示最后一页内容
-        resultPage.setPage(page);
+        localDataCount = GreenDaoHelper.getInstance().getChatsByParentId(parent.getUser_id()).size();
+        Log.i(TAG, "initView: localDataCount " + localDataCount);
         getChatList(true);
 
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
@@ -177,6 +159,7 @@ public class ChatActivity extends BaseListActivity {
                     message.setSize((int) file.length());
                     message.setParentId(parent.getUser_id());
                     message.setTeacherId(currentTeacher.getU_id());
+                    message.setTime(CommonUtil.getCurrentDateHms());
                     FileInputStream inputStream = new FileInputStream(file);
                     final byte[] allByte = message.packData(inputStream);
                     inputStream.close();
@@ -229,28 +212,26 @@ public class ChatActivity extends BaseListActivity {
     }
 
     private void getChatList(boolean toLast) {
-        int currentPage = resultPage.getPage();
-        int residue = resultPage.getPage_count() - resultPage.getTotal_count() % resultPage.getPage_count();
-        int start = (currentPage - 1) * resultPage.getPage_count() - residue;
-        int end = currentPage * resultPage.getPage_count() - 1 - residue;
-        if (start < 0) {
-            start = 0;
+        pageChatList = GreenDaoHelper.getInstance().getPageChatsByParentId(parent.getUser_id(), currentOffset);
+        if (pageChatList.size() == 0) {
+            currentPage--;
+            return;
         }
-        if (end > resultPage.getTotal_count()) {
-            end = resultPage.getTotal_count() - 1;
+        List<BeanChat> chats = new ArrayList<>();
+        for (int i = pageChatList.size() - 1; i > -1; i--) {
+            chats.add(pageChatList.get(i));
         }
-//        int lastVisibleItemPosition = end - start + 5;
-//        Log.i(TAG, "getChatList: " + lastVisibleItemPosition);
-
-        List<BeanChat> chats = allChatList.subList(start, end);
         adapter.appendData(chats, parent);
-
+        currentOffset = adapter.getItemCount();
         if (toLast) {
             smoothBottom();
         } else {
-            //滑到当前顶部位置
-//            recycleView.smoothScrollToPosition(lastVisibleItemPosition);
-            (getLayoutManager()).scrollToPositionWithOffset(lastPosition, lastOffset);
+            int position = pageChatList.size() - 1;
+            View topView = getLayoutManager().getChildAt(position);          //获取可视的第一个view
+            int topY = topView.getTop();
+            Log.i(TAG, "last top view Top: " + topY);
+
+            recycleView.smoothScrollBy(0, topY);
         }
     }
 
@@ -264,9 +245,9 @@ public class ChatActivity extends BaseListActivity {
                     imgPlus.setVisibility(View.GONE);
                     edtContent.requestFocus();
                     imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_input);
+                    getLayoutManager().setStackFromEnd(true);
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
                     mAudioRecorderButton.setVisibility(View.GONE);
-                    smoothBottom();
                 } else {
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
@@ -293,6 +274,7 @@ public class ChatActivity extends BaseListActivity {
                 message.setParentId(parent.getUser_id());
                 message.setTeacherId(currentTeacher.getU_id());
                 message.setContent(msg);
+                message.setTime(CommonUtil.getCurrentDateHms());
                 final byte[] allByte = message.packData(msg);
                 if (allByte != null) {
                     message.setAllData(allByte);
@@ -311,7 +293,6 @@ public class ChatActivity extends BaseListActivity {
         BeanChat chat = new BeanChat();
         chat.parseMessageToChat(message);
         chat.setHasRead(true);
-        chat.setTime(CommonUtil.getCurrentDateHms());
         chat.setSendStatus(ChatUtil.STATUS_SENDING);
         adapter.addData(chat);
         smoothBottom();
@@ -366,7 +347,6 @@ public class ChatActivity extends BaseListActivity {
             BeanChat chat = new BeanChat();
             chat.parseMessageToChat(sendMsg);
             chat.setHasRead(true);
-            chat.setTime(CommonUtil.getCurrentDateHms());
 
 //            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
 //                chat.setSendStatus(ChatUtil.STATUS_SENDING);

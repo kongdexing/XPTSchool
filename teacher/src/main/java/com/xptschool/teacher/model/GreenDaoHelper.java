@@ -388,6 +388,22 @@ public class GreenDaoHelper {
         return chats;
     }
 
+    public List<BeanChat> getPageChatsByParentId(String parentId, int offset) {
+        List<BeanChat> chats = null;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.ParentId.eq(parentId),
+                            BeanChatDao.Properties.TeacherId.eq(currentTeacher == null ? "" : currentTeacher.getU_id()))
+                    .orderDesc(BeanChatDao.Properties.Time)
+                    .offset(offset)
+                    .limit(15).list();
+        }
+        if (chats == null) {
+            chats = new ArrayList<BeanChat>();
+        }
+        return chats;
+    }
+
     /**
      * 读取当前账号未读消息个数
      *

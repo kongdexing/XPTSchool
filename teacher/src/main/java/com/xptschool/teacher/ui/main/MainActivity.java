@@ -411,6 +411,16 @@ public class MainActivity extends BaseActivity {
     };
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            this.unregisterReceiver(MyBannerReceiver);
+        } catch (Exception ex) {
+
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
             Toast.makeText(this, R.string.toast_exit, Toast.LENGTH_SHORT).show();
