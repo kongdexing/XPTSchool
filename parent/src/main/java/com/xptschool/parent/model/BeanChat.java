@@ -177,6 +177,7 @@ public class BeanChat implements Serializable {
         this.setSize(sendMsg.getSize());
         this.setTeacherId(sendMsg.getTeacherId());
         this.setParentId(sendMsg.getParentId());
+        this.setTime(sendMsg.getTime());
     }
 
     public void onReSendChatToMessage() {
@@ -188,6 +189,7 @@ public class BeanChat implements Serializable {
             message.setSize(getSize());
             message.setParentId(getParentId());
             message.setTeacherId(getTeacherId());
+            message.setTime(getTime());
             byte[] allByte = null;
             if (ChatUtil.TYPE_AMR == message.getType()) {
                 File file = new File(XPTApplication.getInstance().getCachePath() + "/" + getFileName());

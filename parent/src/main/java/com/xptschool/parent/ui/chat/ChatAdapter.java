@@ -16,6 +16,8 @@ import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.util.ChatUtil;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
 public class ChatAdapter extends RecyclerView.Adapter {
 
     private String TAG = ChatAdapter.class.getSimpleName();
-    private List<BeanChat> listChat;
+    private List<BeanChat> listChat = new ArrayList<>();
     private int VIEW_PARENT = 0;
     private int VIEW_TEACHER = 1;
     private ParentAdapterDelegate parentAdapterDelegate;
@@ -72,9 +74,20 @@ public class ChatAdapter extends RecyclerView.Adapter {
         return listChat == null ? 0 : listChat.size();
     }
 
-    public void loadData(List<BeanChat> chats, ContactTeacher teacher) {
-        listChat = chats;
-        currentTeacher = teacher;
+    public void setCurrentTeacher(ContactTeacher currentTeacher) {
+        this.currentTeacher = currentTeacher;
+    }
+
+    public void appendData(List<BeanChat> chats) {
+        if (listChat.size() == 0) {
+            listChat = chats;
+        } else {
+            List<BeanChat> newList = new ArrayList<BeanChat>();
+            for (Iterator<BeanChat> it = chats.iterator(); it.hasNext(); ) {
+                newList.add(it.next());
+            }
+            listChat.addAll(0, newList);
+        }
         notifyDataSetChanged();
     }
 

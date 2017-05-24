@@ -30,7 +30,6 @@ import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
-import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,8 +74,7 @@ public class ChatActivity extends BaseListActivity {
     private BeanTeacher currentTeacher;
     private boolean isInputWindowShow = false;
     private List<BeanChat> pageChatList;
-    private int lastOffset, lastPosition;
-    private int currentOffset = 0, currentPage = 0, localDataCount = 0;
+    private int currentOffset = 0, localDataCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,10 +107,11 @@ public class ChatActivity extends BaseListActivity {
         ChatUtil.showInputWindow(ChatActivity.this, edtContent);
 
         initRecyclerView(recycleView, swipeRefreshLayout);
-//        getLayoutManager().setStackFromEnd(true);
 
         adapter = new ChatAdapter(this);
+        adapter.setCurrentParent(parent);
         recycleView.setAdapter(adapter);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -120,25 +119,8 @@ public class ChatActivity extends BaseListActivity {
                     swipeRefreshLayout.setRefreshing(false);
                     return;
                 }
-                currentPage++;
                 getChatList(false);
                 swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        recycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                View topView = getLayoutManager().getChildAt(0);          //获取可视的第一个view
-                lastOffset = topView.getTop();                                   //获取与该view的顶部的偏移量
-                lastPosition = getLayoutManager().getPosition(topView);  //得到该View的数组位置
-//                Log.i(TAG, "onScrolled: " + lastOffset + "  " + lastPosition);
             }
         });
 
@@ -214,14 +196,13 @@ public class ChatActivity extends BaseListActivity {
     private void getChatList(boolean toLast) {
         pageChatList = GreenDaoHelper.getInstance().getPageChatsByParentId(parent.getUser_id(), currentOffset);
         if (pageChatList.size() == 0) {
-            currentPage--;
             return;
         }
         List<BeanChat> chats = new ArrayList<>();
         for (int i = pageChatList.size() - 1; i > -1; i--) {
             chats.add(pageChatList.get(i));
         }
-        adapter.appendData(chats, parent);
+        adapter.appendData(chats);
         currentOffset = adapter.getItemCount();
         if (toLast) {
             smoothBottom();
@@ -229,7 +210,6 @@ public class ChatActivity extends BaseListActivity {
             int position = pageChatList.size() - 1;
             View topView = getLayoutManager().getChildAt(position);          //获取可视的第一个view
             int topY = topView.getTop();
-            Log.i(TAG, "last top view Top: " + topY);
 
             recycleView.smoothScrollBy(0, topY);
         }

@@ -244,6 +244,22 @@ public class GreenDaoHelper {
         return chats;
     }
 
+    public List<BeanChat> getPageChatsByTeacherId(String teacherId,int offset) {
+        List<BeanChat> chats = null;
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.TeacherId.eq(teacherId),
+                            BeanChatDao.Properties.ParentId.eq(currentParent == null ? "" : currentParent.getU_id()))
+                    .orderDesc(BeanChatDao.Properties.Time)
+                    .offset(offset)
+                    .limit(15).list();
+        }
+        if (chats == null) {
+            chats = new ArrayList<BeanChat>();
+        }
+        return chats;
+    }
+
     public int getChatCountByChatId(String chatId) {
         long chats = 0;
         if (readDaoSession != null) {

@@ -110,7 +110,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
 
                 byte[] b_time = new byte[20];
                 if (mmInStream.read(b_time) != -1) {
-                    chat.setTime(new String(b_time));
+                    chat.setTime("20" + new String(b_time).trim());
                     Log.i(TAG, "b_time:" + chat.getTime());
                 }
 

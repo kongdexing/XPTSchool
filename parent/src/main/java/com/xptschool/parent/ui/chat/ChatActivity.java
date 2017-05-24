@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,20 +31,26 @@ import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.contact.ContactsDetailActivity;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.util.ChatUtil;
+import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.rockerhieu.emojicon.EmojiconEditText;
 
-public class ChatActivity extends BaseActivity {
+public class ChatActivity extends BaseListActivity {
 
     @BindView(R.id.RlParent)
     RelativeLayout RlParent;
+
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
@@ -65,6 +72,8 @@ public class ChatActivity extends BaseActivity {
     private ChatAdapter adapter = null;
     private ContactTeacher teacher;
     private BeanParent currentParent;
+    private List<BeanChat> pageChatList;
+    private int currentOffset = 0, localDataCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,22 +117,27 @@ public class ChatActivity extends BaseActivity {
     private void initView() {
         ChatUtil.showInputWindow(ChatActivity.this, edtContent);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setStackFromEnd(true); //关键
-        recycleView.setLayoutManager(linearLayoutManager);
+        initRecyclerView(recycleView, swipeRefreshLayout);
+
         adapter = new ChatAdapter(this);
+        adapter.setCurrentTeacher(teacher);
         recycleView.setAdapter(adapter);
 
-        List<BeanChat> chats = GreenDaoHelper.getInstance().getChatsByTeacherId(teacher.getU_id());
-        for (int i = 0; i < chats.size(); i++) {
-            if (chats.get(i).getSendStatus() == ChatUtil.STATUS_SENDING) {
-                chats.get(i).setSendStatus(ChatUtil.STATUS_FAILED);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (15 >= localDataCount) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    return;
+                }
+                getChatList(false);
+                swipeRefreshLayout.setRefreshing(false);
             }
-        }
-        adapter.loadData(chats, teacher);
+        });
 
-        recycleView.setItemAnimator(new DefaultItemAnimator());
-        recycleView.smoothScrollToPosition(chats.size());
+        localDataCount = GreenDaoHelper.getInstance().getChatsByTeacherId(teacher.getU_id()).size();
+        Log.i(TAG, "initView: localDataCount " + localDataCount);
+        getChatList(true);
 
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
 
@@ -140,6 +154,7 @@ public class ChatActivity extends BaseActivity {
                     message.setSize((int) file.length());
                     message.setParentId(currentParent.getU_id());
                     message.setTeacherId(teacher.getU_id());
+                    message.setTime(CommonUtil.getCurrentDateHms());
                     FileInputStream inputStream = new FileInputStream(file);
                     final byte[] allByte = message.packData(inputStream);
                     inputStream.close();
@@ -181,8 +196,9 @@ public class ChatActivity extends BaseActivity {
                     btnSend.setVisibility(View.VISIBLE);
                     edtContent.requestFocus();
                     imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_input);
+                    getLayoutManager().setStackFromEnd(true);
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
-                    smoothBottom();
+
                     mAudioRecorderButton.setVisibility(View.GONE);
                 } else {
                     edtContent.setVisibility(View.GONE);
@@ -209,6 +225,7 @@ public class ChatActivity extends BaseActivity {
                 message.setSize(msg.length());
                 message.setParentId(currentParent.getU_id());
                 message.setTeacherId(teacher.getU_id());
+                message.setTime(CommonUtil.getCurrentDateHms());
                 final byte[] allByte = message.packData(msg);
                 if (allByte != null) {
                     message.setAllData(allByte);
@@ -220,11 +237,32 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
+    private void getChatList(boolean toLast) {
+        pageChatList = GreenDaoHelper.getInstance().getPageChatsByTeacherId(teacher.getU_id(), currentOffset);
+        if (pageChatList.size() == 0) {
+            return;
+        }
+        List<BeanChat> chats = new ArrayList<>();
+        for (int i = pageChatList.size() - 1; i > -1; i--) {
+            chats.add(pageChatList.get(i));
+        }
+        adapter.appendData(chats);
+        currentOffset = adapter.getItemCount();
+        if (toLast) {
+            smoothBottom();
+        } else {
+            int position = pageChatList.size() - 1;
+            View topView = getLayoutManager().getChildAt(position);
+            int topY = topView.getTop();
+
+            recycleView.smoothScrollBy(0, topY);
+        }
+    }
+
     private void addSendingMsg(BaseMessage message) {
         BeanChat chat = new BeanChat();
         chat.parseMessageToChat(message);
         chat.setHasRead(true);
-        chat.setTime(CommonUtil.getCurrentDateHms());
         chat.setSendStatus(ChatUtil.STATUS_SENDING);
         adapter.addData(chat);
         smoothBottom();
@@ -278,7 +316,6 @@ public class ChatActivity extends BaseActivity {
             BeanChat chat = new BeanChat();
             chat.parseMessageToChat(sendMsg);
             chat.setHasRead(true);
-            chat.setTime(CommonUtil.getCurrentDateHms());
 
 //            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
 //                chat.setSendStatus(ChatUtil.STATUS_SENDING);

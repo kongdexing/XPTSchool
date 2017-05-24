@@ -240,5 +240,6 @@
 
     <!--聊天-->
     <string name="label_send_message">发信息</string>
+    <string name="toast_no_history_msg">无</string>
 
 </resources>

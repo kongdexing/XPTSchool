@@ -12,11 +12,12 @@ import com.xptschool.parent.bean.ResultPage;
 public class BaseListActivity extends BaseActivity {
 
     public ResultPage resultPage = new ResultPage();
+    private WrapContentLinearLayoutManager mLayoutManager;
 
     public void initRecyclerView(RecyclerView recyclerView, SwipeRefreshLayout swipeRefreshLayout) {
         if (recyclerView != null) {
             recyclerView.setHasFixedSize(true);
-            final WrapContentLinearLayoutManager mLayoutManager = new WrapContentLinearLayoutManager(this);
+            mLayoutManager = new WrapContentLinearLayoutManager(this);
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.addItemDecoration(new DividerItemDecoration(this,
                     LinearLayoutManager.VERTICAL, R.drawable.line_dotted));
@@ -28,5 +29,10 @@ public class BaseListActivity extends BaseActivity {
 //                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
 //                        .getDisplayMetrics()));
     }
+
+    public WrapContentLinearLayoutManager getLayoutManager(){
+        return mLayoutManager;
+    }
+
 
 }

@@ -72,13 +72,11 @@ public class ChatAdapter extends RecyclerView.Adapter {
         return listChat == null ? 0 : listChat.size();
     }
 
-    public void loadData(List<BeanChat> chats, ContactParent parent) {
-        listChat = chats;
-        currentParent = parent;
-        notifyDataSetChanged();
+    public void setCurrentParent(ContactParent currentParent) {
+        this.currentParent = currentParent;
     }
 
-    public void appendData(List<BeanChat> chats, ContactParent parent) {
+    public void appendData(List<BeanChat> chats) {
         if (listChat.size() == 0) {
             listChat = chats;
         } else {
@@ -88,7 +86,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
             }
             listChat.addAll(0, newList);
         }
-        currentParent = parent;
         notifyDataSetChanged();
     }
 
