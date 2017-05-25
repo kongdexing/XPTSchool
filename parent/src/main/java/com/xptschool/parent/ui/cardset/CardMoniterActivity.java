@@ -1,14 +1,18 @@
 package com.xptschool.parent.ui.cardset;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -60,6 +64,10 @@ public class CardMoniterActivity extends CardSetBaseActivity {
             if (value == null || value.isEmpty()) {
                 value = "";
             }
+            if (value == null) {
+                return;
+            }
+
             mMoniterCardView.bindData(value, contractChooseListener);
         } catch (Exception ex) {
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();

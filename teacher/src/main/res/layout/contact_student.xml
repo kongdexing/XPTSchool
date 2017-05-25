@@ -78,8 +78,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:background="@drawable/mine_item_normal">
+        android:layout_marginTop="@dimen/dp_10">
 
         <TextView
             android:id="@+id/txtParentCount"

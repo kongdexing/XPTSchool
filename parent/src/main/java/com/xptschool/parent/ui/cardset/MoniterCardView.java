@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.telephony.TelephonyManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.util.ContractClickListener;
@@ -63,7 +65,13 @@ public class MoniterCardView extends LinearLayout implements View.OnClickListene
             edtPhoneName.setHint("联系人");
             if (value.contains(",")) {
                 String[] values = value.split(",");
-                edtPhoneName.setText(values[0]);
+                String name = values[0];
+                int index = name.lastIndexOf("(");
+                if (index == -1) {
+                    index = name.length();
+                }
+
+                edtPhoneName.setText(name.substring(0, index));
                 edtPhone.setText(values[1]);
                 edtPhone.requestFocus();
                 edtPhone.setSelection(edtPhone.getText().toString().length());
@@ -93,6 +101,11 @@ public class MoniterCardView extends LinearLayout implements View.OnClickListene
             edtPhone.setError(mContext.getString(R.string.input_error_phone));
             return null;
         }
+
+        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+        String DEVICE_ID = tm.getDeviceId();
+        //监听号码md5加密
+        name += "(" + CommonUtil.md5(DEVICE_ID + CommonUtil.getCurrentDateHmsSSS()) + ")";
 
         return name + "," + phone;
     }

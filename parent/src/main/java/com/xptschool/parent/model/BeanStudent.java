@@ -38,10 +38,10 @@ public class BeanStudent extends SpinnerModel implements Serializable {
 
     @Generated(hash = 1606108849)
     public BeanStudent(String s_id, String a_id, String g_id, String c_id,
-            String stu_id, String stu_name, String stu_no, String imei_id,
-            String card_phone, String birth_date, String rx_date, String sex,
-            String s_name, String a_name, String g_name, String c_name, String sos,
-            String whitelist, String monitor) {
+                       String stu_id, String stu_name, String stu_no, String imei_id,
+                       String card_phone, String birth_date, String rx_date, String sex,
+                       String s_name, String a_name, String g_name, String c_name, String sos,
+                       String whitelist, String monitor) {
         this.s_id = s_id;
         this.a_id = a_id;
         this.g_id = g_id;

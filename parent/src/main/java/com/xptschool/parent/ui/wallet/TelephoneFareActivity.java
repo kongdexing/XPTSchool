@@ -162,7 +162,7 @@ public class TelephoneFareActivity extends ContractClickActivity {
                                     String in_price = object.getString("inprice");
                                     String access_token = CommonUtil.md5(notice_sn + "shuhaixinxi_phone_recharge_order" +
                                             GreenDaoHelper.getInstance().getCurrentParent().getU_id() + in_price);
-//                                    doTelTopUp(access_token, notice_sn);
+                                    doTelTopUp(access_token, notice_sn);
                                 } catch (Exception ex) {
                                     hideProgress();
                                     ToastUtils.showToast(TelephoneFareActivity.this, "充值失败");
@@ -219,6 +219,6 @@ public class TelephoneFareActivity extends ContractClickActivity {
         view.setBackground(getResources().getDrawable(R.color.colorPrimary));
         view.setTextColor(getResources().getColor(R.color.white));
         recharge_limit = Integer.parseInt(view.getTag().toString());
-//        recharge_limit = 1;
+        recharge_limit = 1;
     }
 }

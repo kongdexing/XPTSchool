@@ -230,7 +230,7 @@
                 android:id="@+id/gridview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_15"
                 android:horizontalSpacing="7.5dip"
                 android:listSelector="@null"
                 android:numColumns="3"

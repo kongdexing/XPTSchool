@@ -62,6 +62,11 @@ public class CommonUtil {
         return sDateFormat.format(new Date());
     }
 
+    public static String getCurrentDateHmsSSS() {
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        return sDateFormat.format(new Date());
+    }
+
     public static String getDate2StrBefore(int day) {
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
