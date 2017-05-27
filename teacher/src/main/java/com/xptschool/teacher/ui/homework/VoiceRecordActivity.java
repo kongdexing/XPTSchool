@@ -1,14 +1,16 @@
 package com.xptschool.teacher.ui.homework;
 
+import android.Manifest;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Html;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioManager;
 import com.android.widget.audiorecorder.MediaPlayerManager;
@@ -16,22 +18,29 @@ import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
-import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.bean.BeanHomeWork;
+import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.ui.album.AlbumActivity;
+import com.android.widget.MyPermissionUtil;
 import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;
 
 import butterknife.BindView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by dexing on 2017/5/19.
  * No1
  */
-
+@RuntimePermissions
 public class VoiceRecordActivity extends AlbumActivity implements VoiceListener {
 
     public int Voice_UnRecord = 0;
@@ -94,7 +103,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                 FileDownloader.getImpl().create(amr_file)
                         .setListener(createListener())
                         .setPath(XPTApplication.getInstance().getCachePath() + "/" + fileName)
-                        .setTag(1)
+                        .setTag(fileName)
                         .start();
             } else {
                 imgMic.setEnabled(false);
@@ -163,6 +172,9 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                         mTime = voiceBar.getMax();
                         stopRecord();
                     }
+//                    if (mTime > 3) {
+//
+//                    }
                     //更新声音
                     voiceBar.setProgress(mTime);
                     txtProgress.setVisibility(View.VISIBLE);
@@ -185,7 +197,22 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                         imgDelete.setVisibility(View.GONE);
                         txtProgress.setVisibility(View.GONE);
                         reset();
-                    } else {
+                    }
+//                    else if (miniLevel == 1) {
+//                        //无效录音
+//                        ToastUtils.showToast(VoiceRecordActivity.this, "无效录音");
+//                        try {
+//                            mAudioManager.cancel();
+//                        } catch (Exception ex) {
+//
+//                        }
+//                        maxLength = MaxLength;
+//                        initProgress(0);
+//                        txtProgress.setVisibility(View.GONE);
+//                        reset();
+//                        setImgMicStatus(Voice_UnRecord);
+//                    }
+                    else {
                         imgDelete.setVisibility(View.VISIBLE);
                         maxLength = Math.round(mTime);
                         initProgress(0);
@@ -224,11 +251,29 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         }
     };
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissions != null && permissions.length > 0) {
+            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
+        }
+        VoiceRecordActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
     public void recorderOrPlayVoice() {
         if (VoiceStatus == Voice_UnRecord) {
+            int result = MyPermissionUtil.checkOp(this, MyPermissionUtil.OP_RECORD_AUDIO);
+            //0 允许,4 询问,1 拒绝,-1 <4.4.4
+            if (result == 1) {
+                Toast.makeText(this, R.string.permission_voice_never_askagain, Toast.LENGTH_SHORT).show();
+                CommonUtil.goAppDetailSettingIntent(this);
+            } else {
+                VoiceRecordActivityPermissionsDispatcher.onStartRecordingWithCheck(this);
+            }
+            Log.i(TAG, "recorderOrPlayVoice: check permission result " + result);
             //start record
-            Log.i(TAG, "recorderOrPlayVoice: start record");
-            onStartRecording();
+//            Log.i(TAG, "recorderOrPlayVoice: start record");
+//            VoiceRecordActivityPermissionsDispatcher.onStartRecordingWithCheck(this);
         } else if (VoiceStatus == Voice_Recording) {
             onStopRecording();
         } else if (VoiceStatus == Voice_Play) {
@@ -240,8 +285,10 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         }
     }
 
+    @NeedsPermission({Manifest.permission.RECORD_AUDIO})
     @Override
     public void onStartRecording() {
+        Log.i(TAG, "onStartRecording: ");
         isRecording = true;
         localAmrFile = null;
         mAudioManager.setOnAudioStateListener(new AudioManager.AudioStateListener() {
@@ -257,7 +304,12 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
             }
         });
 
-        mAudioManager.prepareAudio();
+        try {
+            mAudioManager.prepareAudio();
+        } catch (Exception ex) {
+            Log.i(TAG, "onStartRecording: error " + ex.getMessage());
+        }
+
         setImgMicStatus(Voice_Recording);
     }
 
@@ -265,12 +317,35 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     public void onStopRecording() {
         if (VoiceStatus == Voice_Recording) {
             if (!isRecording || mTime < MiniLength) {//如果时间少，则提示录音过短
-                mAudioManager.cancel();
+                try {
+                    mAudioManager.cancel();
+                } catch (Exception ex) {
+
+                }
             } else {
                 //stop record
                 stopRecord();
             }
         }
+    }
+
+    @OnPermissionDenied({Manifest.permission.RECORD_AUDIO})
+    void onStartRecordingDenied() {
+        Log.i(TAG, "onStartRecordingDenied: ");
+        Toast.makeText(this, R.string.permission_voice_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale({Manifest.permission.RECORD_AUDIO})
+    void showRationaleForStartRecording(PermissionRequest request) {
+        Log.i(TAG, "showRationaleForStartRecording: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.RECORD_AUDIO})
+    void onStartRecordingNeverAskAgain() {
+        Log.i(TAG, "onStartRecordingNeverAskAgain: ");
+        Toast.makeText(this, R.string.permission_voice_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
     }
 
     @Override
@@ -378,18 +453,18 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
 
             @Override
             protected void pending(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
-                updateDisplay(String.format("[pending] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+//                updateDisplay(String.format("[pending] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
             }
 
             @Override
             protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
                 super.connected(task, etag, isContinue, soFarBytes, totalBytes);
-                updateDisplay(String.format("[connected] id[%d] %s %B %d/%d", task.getId(), etag, isContinue, soFarBytes, totalBytes));
+//                updateDisplay(String.format("[connected] id[%d] %s %B %d/%d", task.getId(), etag, isContinue, soFarBytes, totalBytes));
             }
 
             @Override
             protected void progress(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
-                updateDisplay(String.format("[progress] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
+//                updateDisplay(String.format("[progress] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
             }
 
             @Override
@@ -399,8 +474,6 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
             @Override
             protected void retry(BaseDownloadTask task, Throwable ex, int retryingTimes, int soFarBytes) {
                 super.retry(task, ex, retryingTimes, soFarBytes);
-                updateDisplay(String.format("[retry] id[%d] %s %d %d",
-                        task.getId(), ex, retryingTimes, soFarBytes));
             }
 
             @Override
@@ -410,34 +483,18 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                 maxLength = duration;
                 initProgress(0);
                 setImgMicStatus(Voice_Play);
-
-                Log.i(TAG, "completed: " + task.getPath() + " " + task.getTargetFilePath());
-                updateDisplay(String.format("[completed] id[%d] oldFile[%B]",
-                        task.getId(),
-                        task.isReusedOldFile()));
-                updateDisplay(String.format("---------------------------------- %d", (Integer) task.getTag()));
             }
 
             @Override
             protected void paused(final BaseDownloadTask task, final int soFarBytes, final int totalBytes) {
-                updateDisplay(String.format("[paused] id[%d] %d/%d", task.getId(), soFarBytes, totalBytes));
-                updateDisplay(String.format("############################## %d", (Integer) task.getTag()));
             }
 
             @Override
             protected void error(BaseDownloadTask task, Throwable e) {
-                updateDisplay(Html.fromHtml(String.format("[error] id[%d] %s %s",
-                        task.getId(),
-                        e,
-                        FileDownloadUtils.getStack(e.getStackTrace(), false))));
-
-                updateDisplay(String.format("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %d", (Integer) task.getTag()));
             }
 
             @Override
             protected void warn(BaseDownloadTask task) {
-                updateDisplay(String.format("[warn] id[%d]", task.getId()));
-                updateDisplay(String.format("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ %d", (Integer) task.getTag()));
             }
         };
     }

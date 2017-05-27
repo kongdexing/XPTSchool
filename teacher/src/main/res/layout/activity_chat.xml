@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_5"
             android:layout_marginRight="@dimen/dp_5"
-            android:background="@drawable/icon_msg_voice" />
+            android:background="@drawable/icon_msg_input" />
 
         <com.android.widget.audiorecorder.AudioRecorderButton
             android:id="@+id/id_recorder_button"
@@ -58,7 +58,7 @@
             android:padding="5dp"
             android:text="@string/str_recorder_normal"
             android:textColor="#727272"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <io.github.rockerhieu.emojicon.EmojiconEditText
             android:id="@+id/edtContent"
@@ -71,7 +71,7 @@
             android:padding="@dimen/dp_5"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_16"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/btnSend"
@@ -82,7 +82,7 @@
             android:layout_toLeftOf="@+id/imgPlus"
             android:background="@drawable/btn_bg_normal"
             android:text="@string/btn_send"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/imgPlus"

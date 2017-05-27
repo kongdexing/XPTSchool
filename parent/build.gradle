@@ -129,11 +129,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'volley', ext: 'aar')
-    compile(name: 'widget', ext: 'aar')
+//    compile(name: 'widget', ext: 'aar')
     compile(project(':library')) { exclude group: 'com.android.support', module: 'support-v13' }
     provided project(':processor')
     compile project(':viewpagerindicator')
     compile project(':PushSDK')
+    compile project(':widget')
     //compile 'com.umeng.analytics:analytics:latest.integration'
 
     // 多dex配置

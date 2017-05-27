@@ -1,10 +1,13 @@
 package com.xptschool.teacher.ui.chat;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
@@ -30,6 +34,8 @@ import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
+import com.android.widget.MyPermissionUtil;
+import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +45,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.rockerhieu.emojicon.EmojiconEditText;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class ChatActivity extends BaseListActivity {
 
     @BindView(R.id.RlParent)
@@ -101,6 +114,7 @@ public class ChatActivity extends BaseListActivity {
         filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
         filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
         this.registerReceiver(messageReceiver, filter);
+
     }
 
     private void initView() {
@@ -129,6 +143,28 @@ public class ChatActivity extends BaseListActivity {
         getChatList(true);
 
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
+
+            @Override
+            public void onPermissionAsk() {
+                final int version = Build.VERSION.SDK_INT;
+                if (version >= 19) {
+                    ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
+                } else {
+                    ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_rationale);
+                    CommonUtil.goAppDetailSettingIntent(ChatActivity.this);
+                }
+            }
+
+            @Override
+            public void onPermissionDenied() {
+                final int version = Build.VERSION.SDK_INT;
+                if (version >= 19) {
+                    ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
+                } else {
+                    ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_never_askagain);
+                    CommonUtil.goAppDetailSettingIntent(ChatActivity.this);
+                }
+            }
 
             public void onFinish(float seconds, String filePath) {
                 Recorder recorder = new Recorder(seconds, filePath);
@@ -193,6 +229,38 @@ public class ChatActivity extends BaseListActivity {
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissions != null && permissions.length > 0) {
+            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
+        }
+        ChatActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission({Manifest.permission.RECORD_AUDIO})
+    void onStartRecording() {
+
+    }
+
+    @OnPermissionDenied({Manifest.permission.RECORD_AUDIO})
+    void onStartRecordingDenied() {
+        Log.i(TAG, "onStartRecordingDenied: ");
+        Toast.makeText(this, R.string.permission_voice_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale({Manifest.permission.RECORD_AUDIO})
+    void showRationaleForStartRecording(PermissionRequest request) {
+        Log.i(TAG, "showRationaleForStartRecording: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.RECORD_AUDIO})
+    void onStartRecordingNeverAskAgain() {
+        Toast.makeText(this, R.string.permission_voice_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
+    }
+
     private void getChatList(boolean toLast) {
         pageChatList = GreenDaoHelper.getInstance().getPageChatsByParentId(parent.getUser_id(), currentOffset);
         if (pageChatList.size() == 0) {
@@ -220,6 +288,7 @@ public class ChatActivity extends BaseListActivity {
         switch (view.getId()) {
             case R.id.imgVoiceOrText:
                 if (edtContent.getVisibility() == View.GONE) {
+                    //文字
                     edtContent.setVisibility(View.VISIBLE);
                     btnSend.setVisibility(View.VISIBLE);
                     imgPlus.setVisibility(View.GONE);
@@ -229,6 +298,7 @@ public class ChatActivity extends BaseListActivity {
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
                     mAudioRecorderButton.setVisibility(View.GONE);
                 } else {
+                    //语音
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
 //                    imgPlus.setVisibility(View.VISIBLE);

@@ -1,10 +1,13 @@
 package com.xptschool.parent.ui.chat;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.MediaPlayerManager;
@@ -43,7 +47,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.github.rockerhieu.emojicon.EmojiconEditText;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class ChatActivity extends BaseListActivity {
 
     @BindView(R.id.RlParent)
@@ -141,6 +152,30 @@ public class ChatActivity extends BaseListActivity {
 
         mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
 
+            @Override
+            public void onPermissionAsk() {
+                Log.i(TAG, "onPermissionAsk: ");
+                final int version = Build.VERSION.SDK_INT;
+                if (version > 19) {
+                    ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
+                } else {
+                    ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_rationale);
+                    CommonUtil.goAppDetailSettingIntent(ChatActivity.this);
+                }
+            }
+
+            @Override
+            public void onPermissionDenied() {
+                Log.i(TAG, "onPermissionDenied: ");
+                final int version = Build.VERSION.SDK_INT;
+                if (version > 19) {
+                    ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
+                } else {
+                    ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_never_askagain);
+                    CommonUtil.goAppDetailSettingIntent(ChatActivity.this);
+                }
+            }
+
             public void onFinish(float seconds, String filePath) {
                 Recorder recorder = new Recorder(seconds, filePath);
                 File file = new File(recorder.getFilePath());
@@ -184,7 +219,38 @@ public class ChatActivity extends BaseListActivity {
                 }
             }
         });
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissions != null && permissions.length > 0) {
+            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
+        }
+        ChatActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission({Manifest.permission.RECORD_AUDIO})
+    void onStartRecording() {
+
+    }
+
+    @OnPermissionDenied({Manifest.permission.RECORD_AUDIO})
+    void onStartRecordingDenied() {
+        Log.i(TAG, "onStartRecordingDenied: ");
+        Toast.makeText(this, R.string.permission_voice_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale({Manifest.permission.RECORD_AUDIO})
+    void showRationaleForStartRecording(PermissionRequest request) {
+        Log.i(TAG, "showRationaleForStartRecording: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.RECORD_AUDIO})
+    void onStartRecordingNeverAskAgain() {
+        Toast.makeText(this, R.string.permission_voice_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
     }
 
     @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.edtContent})

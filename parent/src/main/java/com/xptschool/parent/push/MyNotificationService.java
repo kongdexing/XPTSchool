@@ -28,7 +28,7 @@ public class MyNotificationService extends Service {
         //使用自定义消息
         mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
         mPushAgent.setDebugMode(false);
-
+        mPushAgent.setDisplayNotificationNumber(10);
         return START_STICKY;
     }
 

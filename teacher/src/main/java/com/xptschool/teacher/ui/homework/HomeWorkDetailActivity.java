@@ -418,18 +418,22 @@ public class HomeWorkDetailActivity extends VoiceRecordActivity {
 
         String amrPath = localAmrFile;
         if (amrPath == null) {
+            Log.i(TAG, "createHomework amrPath: " + amrPath);
             amrPath = mAudioManager.getCurrentFilePath();
         }
         if (amrPath != null) {
             uploadFile.add(amrPath);
         }
+        Log.i(TAG, "createHomework amrPath: " + amrPath);
 
-        for (int i = 0; i < uploadFile.size(); i++) {
+        for (int i = uploadFile.size() - 1; i >= 0; i--) {
             File file1 = new File(uploadFile.get(i));
             Log.i(TAG, "uploadFile: " + file1.getPath() + " size:" + file1.length());
             if (file1.length() > 2 * 1024 * 1024) {
                 Toast.makeText(this, "存在大于2MB的文件，请删除后重新添加", Toast.LENGTH_SHORT).show();
                 return;
+            } else if (file1.length() == 0) {
+                uploadFile.remove(i);
             }
         }
 

@@ -1,15 +1,10 @@
 package com.xptschool.parent.ui.main;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -103,7 +98,8 @@ public class WelcomeActivity extends BaseActivity {
             Manifest.permission.RECORD_AUDIO})
     void onReadPhoneStateNeverAskAgain() {
         Log.i(TAG, "onReadPhoneStateNeverAskAgain: ");
-        Toast.makeText(this, R.string.permission_readphonestate_never_askagain, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.permission_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
     }
 
     private void login(final String account, final String password) {

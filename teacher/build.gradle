@@ -122,13 +122,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'volley', ext: 'aar')
-    compile(name: 'widget', ext: 'aar')
+//    compile(name: 'widget', ext: 'aar')
 //    compile(name: 'takephoto', ext: 'aar')
     compile(project(':library')) { exclude group: 'com.android.support', module: 'support-v13' }
     provided project(':processor')
     compile project(':viewpagerindicator')
     compile project(':PushSDK')
     compile project(':takephoto_library')
+    compile project(':widget')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:design:24.2.1'

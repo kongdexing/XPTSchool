@@ -96,16 +96,12 @@ public class WelcomeActivity extends BaseActivity {
             Manifest.permission.RECORD_AUDIO})
     void onReadPhoneStateDenied() {
         Log.i(TAG, "onReadPhoneStateDenied: ");
-        // NOTE: Deal with a denied permission, e.g. by showing specific UI
-        // or disabling certain functionality
         Toast.makeText(this, R.string.permission_readphonestate_denied, Toast.LENGTH_SHORT).show();
     }
 
     @OnShowRationale({Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO})
     void showRationaleForReadPhoneState(PermissionRequest request) {
-        // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
-        // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
         Log.i(TAG, "showRationaleForReadPhoneState: ");
         request.proceed();
     }
@@ -114,7 +110,8 @@ public class WelcomeActivity extends BaseActivity {
             Manifest.permission.RECORD_AUDIO})
     void onReadPhoneStateNeverAskAgain() {
         Log.i(TAG, "onReadPhoneStateNeverAskAgain: ");
-        Toast.makeText(this, R.string.permission_readphonestate_never_askagain, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.permission_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
     }
 
     private void login(final String account, final String password) {
