@@ -147,7 +147,7 @@ public class ChatActivity extends BaseListActivity {
             @Override
             public void onPermissionAsk() {
                 final int version = Build.VERSION.SDK_INT;
-                if (version >= 19) {
+                if (version > 19) {
                     ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
                 } else {
                     ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_rationale);
@@ -158,7 +158,7 @@ public class ChatActivity extends BaseListActivity {
             @Override
             public void onPermissionDenied() {
                 final int version = Build.VERSION.SDK_INT;
-                if (version >= 19) {
+                if (version > 19) {
                     ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
                 } else {
                     ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_never_askagain);
@@ -169,6 +169,9 @@ public class ChatActivity extends BaseListActivity {
             public void onFinish(float seconds, String filePath) {
                 Recorder recorder = new Recorder(seconds, filePath);
                 File file = new File(recorder.getFilePath());
+                if (file.length() == 0) {
+                    return;
+                }
                 try {
                     BaseMessage message = new BaseMessage();
                     message.setType(ChatUtil.TYPE_AMR);

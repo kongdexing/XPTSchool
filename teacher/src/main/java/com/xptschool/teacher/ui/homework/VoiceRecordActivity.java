@@ -172,9 +172,6 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                         mTime = voiceBar.getMax();
                         stopRecord();
                     }
-//                    if (mTime > 3) {
-//
-//                    }
                     //更新声音
                     voiceBar.setProgress(mTime);
                     txtProgress.setVisibility(View.VISIBLE);
@@ -192,40 +189,36 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                     if (mTime < MiniLength) {
                         // 延迟显示对话框
                         ToastUtils.showToast(VoiceRecordActivity.this, "录音文件不得少于" + MiniLength + "秒，请重新录制");
-                        setImgMicStatus(Voice_UnRecord);
-                        initProgress(0);
-                        imgDelete.setVisibility(View.GONE);
-                        txtProgress.setVisibility(View.GONE);
-                        reset();
-                    }
-//                    else if (miniLevel == 1) {
-//                        //无效录音
-//                        ToastUtils.showToast(VoiceRecordActivity.this, "无效录音");
-//                        try {
-//                            mAudioManager.cancel();
-//                        } catch (Exception ex) {
-//
-//                        }
-//                        maxLength = MaxLength;
-//                        initProgress(0);
-//                        txtProgress.setVisibility(View.GONE);
-//                        reset();
-//                        setImgMicStatus(Voice_UnRecord);
-//                    }
-                    else {
-                        imgDelete.setVisibility(View.VISIBLE);
-                        maxLength = Math.round(mTime);
-                        initProgress(0);
-                        txtProgress.setVisibility(View.VISIBLE);
-                        txtProgress.setText(maxLength + "\"");
-                        reset();
-                        setImgMicStatus(Voice_Play);
+                        resetUnRecord();
+                    } else {
+                        //检测录音文件
+                        File file = new File(mAudioManager.getCurrentFilePath());
+                        if (file.length() == 0) {
+                            ToastUtils.showToast(VoiceRecordActivity.this, "录音无效");
+                            resetUnRecord();
+                        } else {
+                            imgDelete.setVisibility(View.VISIBLE);
+                            maxLength = Math.round(mTime);
+                            initProgress(0);
+                            txtProgress.setVisibility(View.VISIBLE);
+                            txtProgress.setText(maxLength + "\"");
+                            reset();
+                            setImgMicStatus(Voice_Play);
+                        }
                     }
                     break;
             }
             super.handleMessage(msg);
         }
     };
+
+    private void resetUnRecord() {
+        setImgMicStatus(Voice_UnRecord);
+        initProgress(0);
+        imgDelete.setVisibility(View.GONE);
+        txtProgress.setVisibility(View.GONE);
+        reset();
+    }
 
     private Runnable mGetVoiceLevelRunnable = new Runnable() {
 

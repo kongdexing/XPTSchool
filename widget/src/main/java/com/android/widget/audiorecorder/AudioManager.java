@@ -141,6 +141,7 @@ public class AudioManager {
                 return maxlevel * mMediaRecorder.getMaxAmplitude() / 32768 + 1;//返回结果1-7之间
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.i(TAG, "getVoiceLevel: " + e.getMessage());
             }
         }
         return 1;

@@ -180,6 +180,9 @@ public class ChatActivity extends BaseListActivity {
                 Recorder recorder = new Recorder(seconds, filePath);
                 File file = new File(recorder.getFilePath());
                 Log.i(TAG, "onFinish: " + recorder.getFilePath());
+                if (file.length() == 0) {
+                    return;
+                }
                 try {
 //                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
                     BaseMessage message = new BaseMessage();
