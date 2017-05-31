@@ -137,7 +137,10 @@ public class AudioRecorderButton extends Button {
      * @description 录音完成后的回调
      * @time 2016/6/25 11:18
      */
-    public interface AudioFinishRecorderCallBack {
+    public interface AudioRecorderCallBack {
+
+        void onStartRecord();
+
         void onFinish(float seconds, String filePath);
 
         void onPermissionAsk();
@@ -145,10 +148,10 @@ public class AudioRecorderButton extends Button {
         void onPermissionDenied();
     }
 
-    private AudioFinishRecorderCallBack finishRecorderCallBack;
+    private AudioRecorderCallBack audioRecorderCallBack;
 
-    public void setFinishRecorderCallBack(AudioFinishRecorderCallBack listener) {
-        finishRecorderCallBack = listener;
+    public void setAudioRecorderCallBack(AudioRecorderCallBack listener) {
+        audioRecorderCallBack = listener;
     }
 
     /**
@@ -179,13 +182,16 @@ public class AudioRecorderButton extends Button {
                 int result = MyPermissionUtil.checkOp(this.getContext(), MyPermissionUtil.OP_RECORD_AUDIO);
                 Log.i("Chat", "permission : " + result);
                 //0 允许,4 询问,1 拒绝,-1 <4.4.4
-                if (result == 4 && finishRecorderCallBack != null) {
-                    finishRecorderCallBack.onPermissionAsk();
+                if (result == 4 && audioRecorderCallBack != null) {
+                    audioRecorderCallBack.onPermissionAsk();
                     return true;
-                } else if (result == 1 && finishRecorderCallBack != null) {
-                    finishRecorderCallBack.onPermissionDenied();
+                } else if (result == 1 && audioRecorderCallBack != null) {
+                    audioRecorderCallBack.onPermissionDenied();
                     return true;
                 } else {
+                    if (audioRecorderCallBack != null) {
+                        audioRecorderCallBack.onStartRecord();
+                    }
                     changeState(STATE_RECORDING);
                 }
                 break;
@@ -215,8 +221,8 @@ public class AudioRecorderButton extends Button {
                     mDialogManager.dimissDialog();
                     mAudioManager.release();
 
-                    if (finishRecorderCallBack != null) {
-                        finishRecorderCallBack.onFinish(mTime, mAudioManager.getCurrentFilePath());
+                    if (audioRecorderCallBack != null) {
+                        audioRecorderCallBack.onFinish(mTime, mAudioManager.getCurrentFilePath());
                     }
 
                 } else if (mCurrentState == STATE_CANCEL) { // 想要取消

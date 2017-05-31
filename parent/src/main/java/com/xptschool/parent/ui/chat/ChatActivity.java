@@ -9,20 +9,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
-import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.audiorecorder.Recorder;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
@@ -34,7 +30,6 @@ import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.contact.ContactsDetailActivity;
-import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.util.ChatUtil;
 import com.xptschool.parent.util.ToastUtils;
@@ -150,7 +145,12 @@ public class ChatActivity extends BaseListActivity {
         Log.i(TAG, "initView: localDataCount " + localDataCount);
         getChatList(true);
 
-        mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
+        mAudioRecorderButton.setAudioRecorderCallBack(new AudioRecorderButton.AudioRecorderCallBack() {
+
+            @Override
+            public void onStartRecord() {
+                SoundPlayHelper.getInstance().stopPlay();
+            }
 
             @Override
             public void onPermissionAsk() {

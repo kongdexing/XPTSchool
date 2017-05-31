@@ -34,7 +34,6 @@ import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
-import com.android.widget.MyPermissionUtil;
 import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;
@@ -142,7 +141,12 @@ public class ChatActivity extends BaseListActivity {
         Log.i(TAG, "initView: localDataCount " + localDataCount);
         getChatList(true);
 
-        mAudioRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
+        mAudioRecorderButton.setAudioRecorderCallBack(new AudioRecorderButton.AudioRecorderCallBack() {
+
+            @Override
+            public void onStartRecord() {
+                SoundPlayHelper.getInstance().stopPlay();
+            }
 
             @Override
             public void onPermissionAsk() {

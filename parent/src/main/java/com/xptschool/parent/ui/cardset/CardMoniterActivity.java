@@ -23,7 +23,6 @@ import butterknife.OnClick;
 
 public class CardMoniterActivity extends CardSetBaseActivity {
 
-
     @BindView(R.id.moniterCardView)
     MoniterCardView mMoniterCardView;
     @BindView(R.id.btnOk)
