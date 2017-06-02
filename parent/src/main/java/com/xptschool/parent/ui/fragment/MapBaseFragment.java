@@ -372,7 +372,6 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                         }
                         Log.i(TAG, "track:  points size " + points.size());
                         if (points.size() > 0) {
-
                             if (mBlueTexture == null) {
                                 mBlueTexture = BitmapDescriptorFactory.fromAsset("icon_road_blue_arrow.png");
                             }

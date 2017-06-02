@@ -138,7 +138,7 @@ public class XPTApplication extends Application {
         Beta.showInterruptedStrategy = true;
         Beta.canShowUpgradeActs.add(MainActivity.class);
         Beta.autoDownloadOnWifi = false;
-        Bugly.init(this, APP_ID, true);
+        Bugly.init(this, APP_ID, false);
     }
 
     // Initialize the image loader stratetry

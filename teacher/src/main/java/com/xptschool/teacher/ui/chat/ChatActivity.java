@@ -209,8 +209,11 @@ public class ChatActivity extends BaseListActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (edtContent.getText().toString().length() > 0) {
                     imgPlus.setVisibility(View.GONE);
+                    btnSend.setVisibility(View.VISIBLE);
+                    llAttachment.setVisibility(View.GONE);
                 } else {
-
+                    imgPlus.setVisibility(View.VISIBLE);
+                    btnSend.setVisibility(View.GONE);
                 }
             }
 
@@ -297,10 +300,16 @@ public class ChatActivity extends BaseListActivity {
                 if (edtContent.getVisibility() == View.GONE) {
                     //文字
                     edtContent.setVisibility(View.VISIBLE);
-                    btnSend.setVisibility(View.VISIBLE);
-                    imgPlus.setVisibility(View.GONE);
+                    if (edtContent.getText().toString().length() > 0) {
+                        btnSend.setVisibility(View.VISIBLE);
+                        imgPlus.setVisibility(View.GONE);
+                    } else {
+                        btnSend.setVisibility(View.GONE);
+                        imgPlus.setVisibility(View.VISIBLE);
+                    }
+                    llAttachment.setVisibility(View.GONE);
                     edtContent.requestFocus();
-                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_input);
+                    imgVoiceOrText.setBackgroundResource(R.drawable.chat_input_voice_selector);
                     getLayoutManager().setStackFromEnd(true);
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
                     mAudioRecorderButton.setVisibility(View.GONE);
@@ -308,9 +317,10 @@ public class ChatActivity extends BaseListActivity {
                     //语音
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
-//                    imgPlus.setVisibility(View.VISIBLE);
+                    imgPlus.setVisibility(View.VISIBLE);
+                    llAttachment.setVisibility(View.GONE);
                     mAudioRecorderButton.setVisibility(View.VISIBLE);
-                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_voice);
+                    imgVoiceOrText.setBackgroundResource(R.drawable.chat_input_keyboard_selector);
                     ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
                 }
                 break;

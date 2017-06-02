@@ -201,7 +201,6 @@ public class ContactsDetailActivity extends BaseActivity {
                 Intent intent = new Intent(ContactsDetailActivity.this, ChatActivity.class);
                 intent.putExtra(ExtraKey.CHAT_PARENT, parent);
                 startActivity(intent);
-
                 picPopup.dismiss();
             }
 
