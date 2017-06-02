@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlQuestionItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
             android:gravity="center|center_vertical"
             android:text=""
             android:textSize="@dimen/sp_16"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/rlVoice"
@@ -36,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_60"
-            android:layout_toRightOf="@+id/imgUser">
+            android:layout_toRightOf="@+id/imgUser"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/id_recorder_length"
@@ -83,6 +85,18 @@
                 android:background="@drawable/bg_circle_dot"
                 android:visibility="visible" />
         </RelativeLayout>
+
+        <com.github.siyamed.shapeimageview.BubbleImageView
+            android:id="@+id/bubImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_100"
+            android:layout_toRightOf="@+id/imgUser"
+            android:src="@drawable/logo_welcome"
+            android:visibility="gone"
+            app:siArrowPosition="left"
+            app:siSquare="true" />
     </RelativeLayout>
 
 </LinearLayout>

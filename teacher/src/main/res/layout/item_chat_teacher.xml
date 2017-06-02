@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlQuestionItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,7 +21,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="@dimen/dp_20"
@@ -41,14 +42,15 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_toLeftOf="@+id/llContent"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/llContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/imgUser">
+            android:layout_toLeftOf="@+id/imgUser"
+            android:visibility="visible">
 
             <io.github.rockerhieu.emojicon.EmojiconTextView
                 android:id="@+id/txtContent"
@@ -62,7 +64,7 @@
                 android:maxWidth="@dimen/dp_200"
                 android:text=""
                 android:textSize="@dimen/sp_16"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/rlVoice"
@@ -107,6 +109,17 @@
                         android:visibility="gone" />
                 </RelativeLayout>
             </RelativeLayout>
+
+            <com.github.siyamed.shapeimageview.BubbleImageView
+                android:id="@+id/bubImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_100"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_toRightOf="@+id/imgUser"
+                android:visibility="gone"
+                app:siArrowPosition="right"
+                app:siSquare="true" />
         </LinearLayout>
 
         <com.android.widget.view.CircularImageView

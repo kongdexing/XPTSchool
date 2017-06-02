@@ -239,5 +239,6 @@
 
 -keep class com.alibaba.sdk.android.httpdns.**{*;}
 -dontwarn com.alibaba.sdk.android.httpdns.**
-
+-dontwarn com.github.siyamed.**
+-keep class com.github.siyamed.shapeimageview.**{*;}
 #-keep com.umeng.message.common.**{*;}

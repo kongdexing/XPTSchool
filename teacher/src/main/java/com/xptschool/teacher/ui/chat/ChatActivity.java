@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
+import com.jph.takephoto.model.TResult;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
@@ -52,7 +53,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class ChatActivity extends BaseListActivity {
+public class ChatActivity extends ChatAppendixActivity {
 
     @BindView(R.id.RlParent)
     RelativeLayout RlParent;
@@ -293,7 +294,8 @@ public class ChatActivity extends BaseListActivity {
         }
     }
 
-    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus, R.id.edtContent})
+    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus, R.id.edtContent,
+            R.id.llAlbum, R.id.llCamera, R.id.llVideo})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.imgVoiceOrText:
@@ -353,6 +355,47 @@ public class ChatActivity extends BaseListActivity {
             case R.id.imgPlus:
                 llAttachment.setVisibility(llAttachment.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 break;
+            case R.id.llAlbum:
+                llAttachment.setVisibility(View.GONE);
+                pickPhoto();
+                break;
+            case R.id.llCamera:
+                llAttachment.setVisibility(View.GONE);
+                takePhoto();
+                break;
+            case R.id.llVideo:
+                llAttachment.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        Log.i(TAG, "takeSuccess：" + result.getImage().getCompressPath());
+        //send picture
+        File file = new File(result.getImage().getCompressPath());
+        if (file.length() == 0) {
+            return;
+        }
+        try {
+            BaseMessage message = new BaseMessage();
+            message.setType(ChatUtil.TYPE_FILE);
+            message.setFilename(file.getName());
+            message.setSecond(0);
+            message.setSize((int) file.length());
+            message.setParentId(parent.getUser_id());
+            message.setTeacherId(currentTeacher.getU_id());
+            message.setTime(CommonUtil.getCurrentDateHms());
+            FileInputStream inputStream = new FileInputStream(file);
+            final byte[] allByte = message.packData(inputStream);
+            inputStream.close();
+            if (allByte != null) {
+                message.setAllData(allByte);
+                addSendingMsg(message);
+                SocketManager.getInstance().sendMessage(message);
+            }
+        } catch (Exception ex) {
+            Log.i(TAG, "viewClick: " + ex.getMessage());
         }
     }
 
@@ -398,6 +441,7 @@ public class ChatActivity extends BaseListActivity {
 
     private void smoothBottom() {
         recycleView.smoothScrollToPosition(adapter.getItemCount());
+        llAttachment.setVisibility(View.GONE);
     }
 
     public BroadcastReceiver messageReceiver = new BroadcastReceiver() {

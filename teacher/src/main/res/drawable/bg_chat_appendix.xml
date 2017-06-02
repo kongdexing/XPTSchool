@@ -4,23 +4,31 @@
         <shape>
             <corners android:radius="@dimen/dp_5" />
             <solid android:color="@color/white" />
-            <stroke android:width="@dimen/dp_1" android:color="@color/text_grey" />
+            <stroke android:width="@dimen/dp_0.5" android:color="@color/text_grey" />
         </shape>
     </item>
 
     <item android:state_selected="true">
         <shape>
             <corners android:radius="@dimen/dp_5" />
-            <solid android:color="@color/white" />
-            <stroke android:width="@dimen/dp_1" android:color="@color/text_white" />
+            <solid android:color="@color/text_white" />
+            <stroke android:width="@dimen/dp_0.5" android:color="@color/text_white" />
         </shape>
     </item>
 
     <item android:state_pressed="true">
         <shape>
             <corners android:radius="@dimen/dp_5" />
-            <solid android:color="@color/white" />
-            <stroke android:width="@dimen/dp_1" android:color="@color/text_white" />
+            <solid android:color="@color/text_white" />
+            <stroke android:width="@dimen/dp_0.5" android:color="@color/text_white" />
+        </shape>
+    </item>
+
+    <item android:state_focused="true">
+        <shape>
+            <corners android:radius="@dimen/dp_5" />
+            <solid android:color="@color/text_white" />
+            <stroke android:width="@dimen/dp_0.5" android:color="@color/text_white" />
         </shape>
     </item>
 </selector>
