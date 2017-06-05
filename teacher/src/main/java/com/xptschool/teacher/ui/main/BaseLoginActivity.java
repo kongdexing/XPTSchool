@@ -26,8 +26,11 @@ import org.json.JSONObject;
  */
 public class BaseLoginActivity extends BaseActivity {
 
-    public void login(final String account, final String password) {
+    //login video chat server
 
+    
+
+    public void login(final String account, final String password) {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.LOGIN,
                 new VolleyHttpParamsEntity()
                         .addParam("username", account)
@@ -36,7 +39,7 @@ public class BaseLoginActivity extends BaseActivity {
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
-
+                        onStartLogin();
                     }
 
                     @Override
@@ -59,25 +62,21 @@ public class BaseLoginActivity extends BaseActivity {
                                     GreenDaoHelper.getInstance().insertTeacher(teacher);
                                     //删除联系人
                                     GreenDaoHelper.getInstance().deleteContacts();
-
-                                    Intent intent = new Intent(BaseLoginActivity.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
+                                    onLoginSuccess();
                                 } catch (Exception ex) {
                                     Log.i(TAG, "onResponse: exception " + ex.getMessage());
-                                    Toast.makeText(BaseLoginActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                    onLoginFailed("登录失败");
                                 }
                                 break;
                             default:
-                                Toast.makeText(BaseLoginActivity.this, httpResult.getInfo(), Toast.LENGTH_SHORT).show();
+                                onLoginFailed(httpResult.getInfo());
                                 break;
                         }
                     }
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        onLoginFailed("登录失败");
                     }
                 });
     }
@@ -90,7 +89,7 @@ public class BaseLoginActivity extends BaseActivity {
 
     }
 
-    protected void onLoginFailed() {
+    protected void onLoginFailed(String msg) {
 
     }
 }

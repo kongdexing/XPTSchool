@@ -129,16 +129,18 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'volley', ext: 'aar')
-//    compile(name: 'widget', ext: 'aar')
+    //    compile(name: 'widget', ext: 'aar')
     compile(project(':library')) { exclude group: 'com.android.support', module: 'support-v13' }
     provided project(':processor')
     compile project(':viewpagerindicator')
     compile project(':PushSDK')
     compile project(':widget')
     compile project(':takephoto_library')
+    compile project(':android-ngn-stack')
     //compile 'com.umeng.analytics:analytics:latest.integration'
 
     // 多dex配置
+
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.0
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
@@ -156,6 +158,5 @@ dependencies {
     compile 'com.liulishuo.filedownloader:library:1.4.3'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
     compile 'io.github.rockerhieu:emojicon:1.4.1'
 }

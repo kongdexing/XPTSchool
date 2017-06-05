@@ -25,6 +25,7 @@ import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.album.AlbumActivity;
 import com.xptschool.teacher.ui.album.TakePhotoActivity;
+import com.xptschool.teacher.util.ToastUtils;
 
 import org.json.JSONObject;
 
@@ -114,61 +115,30 @@ public class WelcomeActivity extends BaseLoginActivity {
         CommonUtil.goAppDetailSettingIntent(this);
     }
 
-    private void login(final String account, final String password) {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.LOGIN,
-                new VolleyHttpParamsEntity()
-                        .addParam("username", account)
-                        .addParam("password", password)
-                        .addParam("type", "3"),
-                new MyVolleyRequestListener() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                    }
+    @Override
+    protected void onStartLogin() {
+        super.onStartLogin();
+    }
 
-                    @Override
-                    public void onResponse(VolleyHttpResult httpResult) {
-                        super.onResponse(httpResult);
-                        switch (httpResult.getStatus()) {
-                            case HttpAction.SUCCESS:
-                                try {
-                                    JSONObject jsonData = new JSONObject(httpResult.getData().toString());
-                                    CommonUtil.getBeanClassesByHttpResult(jsonData.getJSONArray("class").toString());
-                                    CommonUtil.getBeanCoursesByHttpResult(jsonData.getJSONArray("course").toString());
-                                    JSONObject jsonLogin = jsonData.getJSONObject("login");
-                                    Gson gson = new Gson();
-                                    BeanTeacher teacher = gson.fromJson(jsonLogin.toString(), BeanTeacher.class);
-                                    GreenDaoHelper.getInstance().insertTeacher(teacher);
-                                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                                    finish();
-                                } catch (Exception ex) {
-                                    Log.i(TAG, "onResponse: error " + ex.getMessage());
-                                    Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.putExtra(ExtraKey.LOGIN_ORIGIN, "0");
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                break;
-                            default:
-                                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                intent.putExtra(ExtraKey.LOGIN_ORIGIN, "0");
-                                startActivity(intent);
-                                finish();
-                                break;
-                        }
-                    }
+    @Override
+    protected void onLoginSuccess() {
+        super.onLoginSuccess();
+        Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        intent.putExtra(ExtraKey.LOGIN_ORIGIN, "0");
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+    @Override
+    protected void onLoginFailed(String msg) {
+        super.onLoginFailed(msg);
+        ToastUtils.showToast(this, msg);
+        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(ExtraKey.LOGIN_ORIGIN, "0");
+        startActivity(intent);
+        finish();
     }
 
 }

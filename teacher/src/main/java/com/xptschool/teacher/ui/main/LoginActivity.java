@@ -28,13 +28,14 @@ import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
+import com.xptschool.teacher.util.ToastUtils;
 
 import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseLoginActivity {
 
     boolean showPassword = false;
     @BindView(R.id.llParent)
@@ -132,67 +133,34 @@ public class LoginActivity extends BaseActivity {
         showPassword = show;
     }
 
-    private void login(final String account, final String password) {
-
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.LOGIN,
-                new VolleyHttpParamsEntity()
-                        .addParam("username", account)
-                        .addParam("password", password)
-                        .addParam("type", "3"),
-                new MyVolleyRequestListener() {
-                    @Override
-                    public void onStart() {
-                        if (progress != null)
-                            progress.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onResponse(VolleyHttpResult httpResult) {
-                        super.onResponse(httpResult);
-                        if (progress != null)
-                            progress.setVisibility(View.INVISIBLE);
-                        switch (httpResult.getStatus()) {
-                            case HttpAction.SUCCESS:
-                                if (!SharedPreferencesUtil.getData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
-                                    SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
-                                    UpushTokenHelper.switchAccount();
-                                }
-                                SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);
-
-                                try {
-                                    JSONObject jsonData = new JSONObject(httpResult.getData().toString());
-                                    CommonUtil.getBeanClassesByHttpResult(jsonData.getJSONArray("class").toString());
-                                    CommonUtil.getBeanCoursesByHttpResult(jsonData.getJSONArray("course").toString());
-                                    JSONObject jsonLogin = jsonData.getJSONObject("login");
-                                    Gson gson = new Gson();
-                                    BeanTeacher teacher = gson.fromJson(jsonLogin.toString(), BeanTeacher.class);
-                                    GreenDaoHelper.getInstance().insertTeacher(teacher);
-                                    //删除联系人
-                                    GreenDaoHelper.getInstance().deleteContacts();
-
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                } catch (Exception ex) {
-                                    Log.i(TAG, "onResponse: exception " + ex.getMessage());
-                                    Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                            default:
-                                Toast.makeText(LoginActivity.this, httpResult.getInfo(), Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        btnLogin.setEnabled(true);
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (progress != null)
-                            progress.setVisibility(View.INVISIBLE);
-                        btnLogin.setEnabled(true);
-                    }
-                });
+    @Override
+    protected void onStartLogin() {
+        super.onStartLogin();
+        if (progress != null)
+            progress.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    protected void onLoginSuccess() {
+        super.onLoginSuccess();
+        if (progress != null)
+            progress.setVisibility(View.INVISIBLE);
+        btnLogin.setEnabled(true);
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onLoginFailed(String msg) {
+        super.onLoginFailed(msg);
+        ToastUtils.showToast(this, msg);
+        if (progress != null)
+            progress.setVisibility(View.INVISIBLE);
+        btnLogin.setEnabled(true);
+    }
+
 }
