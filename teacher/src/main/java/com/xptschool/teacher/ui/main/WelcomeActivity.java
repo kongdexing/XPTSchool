@@ -39,7 +39,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends BaseLoginActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

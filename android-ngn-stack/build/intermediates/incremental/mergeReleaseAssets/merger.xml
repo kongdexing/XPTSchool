@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="E:\worksource\my\XPTSchool\android-ngn-stack\assets"/><source path="E:\worksource\my\XPTSchool\android-ngn-stack\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="E:\worksource\my\XPTSchool\android-ngn-stack\build-types\release\assets"/></dataSet></merger>

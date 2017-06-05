@@ -45,7 +45,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
@@ -121,14 +121,16 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'volley', ext: 'aar')
-//    compile(name: 'widget', ext: 'aar')
-//    compile(name: 'takephoto', ext: 'aar')
+    //    compile(name: 'widget', ext: 'aar')
+    //    compile(name: 'takephoto', ext: 'aar')
     compile(project(':library')) { exclude group: 'com.android.support', module: 'support-v13' }
     provided project(':processor')
     compile project(':viewpagerindicator')
     compile project(':PushSDK')
     compile project(':takephoto_library')
     compile project(':widget')
+    compile project(':android-ngn-stack')
+
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:design:24.2.1'
@@ -136,15 +138,12 @@ dependencies {
     compile 'org.greenrobot:greendao:3.0.1'
     //compile 'com.umeng.analytics:analytics:latest.integration'
     testCompile 'junit:junit:4.12'
-
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
     // 多dex配置
-    compile "com.android.support:multidex:1.0.1"
+    compile 'com.android.support:multidex:1.0.1'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.0
     compile 'com.tencent.bugly:crashreport_upgrade:1.2.3'
-
     compile 'com.coolerfall:android-app-daemon:1.2.0'
     compile 'com.liulishuo.filedownloader:library:1.4.3'
     compile 'io.github.rockerhieu:emojicon:1.4.1'
