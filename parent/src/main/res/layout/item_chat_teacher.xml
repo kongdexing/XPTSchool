@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlQuestionItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,7 +30,7 @@
             android:gravity="center|center_vertical"
             android:text=""
             android:textSize="@dimen/sp_16"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/rlVoice"
@@ -86,6 +87,23 @@
                 android:background="@drawable/bg_circle_dot"
                 android:visibility="gone" />
         </RelativeLayout>
+
+        <com.android.widget.view.BubbleImageView
+            android:id="@+id/bubImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_100"
+            android:layout_toRightOf="@+id/imgUser"
+            android:maxHeight="@dimen/dp_200"
+            android:src="@drawable/logo_welcome"
+            android:visibility="gone"
+            app:bubble_angle="@dimen/dp_10"
+            app:bubble_arrowHeight="@dimen/dp_10"
+            app:bubble_arrowLocation="left"
+            app:bubble_arrowOffset="@dimen/dp_10"
+            app:bubble_arrowTop="@dimen/dp_20"
+            app:bubble_arrowWidth="@dimen/dp_10" />
     </RelativeLayout>
 
 </LinearLayout>

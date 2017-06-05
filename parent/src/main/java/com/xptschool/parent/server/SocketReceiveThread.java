@@ -126,7 +126,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
 
                     Log.i(TAG, "run: " + chat.getType());
                     char type = chat.getType().toCharArray()[0];
-                    if (ChatUtil.TYPE_AMR == type) {
+                    if (ChatUtil.TYPE_AMR == type || ChatUtil.TYPE_FILE == type) {
                         //创建文件
                         File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
                         if (!file.exists()) {
@@ -144,8 +144,6 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                                 break;
                             }
                         }
-                    } else if (ChatUtil.TYPE_FILE == type) {
-
                     } else if (ChatUtil.TYPE_TEXT == type) {
                         byte[] buffer = new byte[chat.getSize()];
                         String content = "";

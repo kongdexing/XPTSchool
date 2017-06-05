@@ -14,10 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.audiorecorder.MediaPlayerManager;
+import com.android.widget.view.BubbleImageView;
 import com.android.widget.view.CircularImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
+import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -128,9 +132,20 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                     updateReadStatus(chat, viewHolder);
                 }
             });
-        } else {
+        } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
             //文件，图片
-            updateReadStatus(chat, viewHolder);
+            //file path
+            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+            Log.i(TAG, "picture: " + file.getPath());
+
+            if (!file.exists()) {
+                viewHolder.error_file.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.error_file.setVisibility(View.GONE);
+                viewHolder.bubbleImageView.setVisibility(View.VISIBLE);
+//                viewHolder.bubbleImageView.se
+                ImageLoader.getInstance().displayImage("file://" + file.getPath(), new ImageViewAware(viewHolder.bubbleImageView), CommonUtil.getDefaultImageLoaderOption());
+            }
         }
     }
 
@@ -171,6 +186,9 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;
+
+        @BindView(R.id.bubImg)
+        BubbleImageView bubbleImageView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
