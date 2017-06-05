@@ -135,6 +135,7 @@ dependencies {
     compile project(':viewpagerindicator')
     compile project(':PushSDK')
     compile project(':widget')
+    compile project(':takephoto_library')
     //compile 'com.umeng.analytics:analytics:latest.integration'
 
     // 多dex配置

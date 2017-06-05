@@ -15,11 +15,13 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
+import com.jph.takephoto.model.TResult;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
@@ -50,7 +52,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class ChatActivity extends BaseListActivity {
+public class ChatActivity extends ChatAppendixActivity {
 
     @BindView(R.id.RlParent)
     RelativeLayout RlParent;
@@ -72,6 +74,12 @@ public class ChatActivity extends BaseListActivity {
 
     @BindView(R.id.btnSend)
     Button btnSend;
+
+    @BindView(R.id.imgPlus)
+    ImageView imgPlus;
+
+    @BindView(R.id.llAttachment)
+    LinearLayout llAttachment;
 
     private boolean isInputWindowShow = false;
 
@@ -256,26 +264,36 @@ public class ChatActivity extends BaseListActivity {
         CommonUtil.goAppDetailSettingIntent(this);
     }
 
-    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.edtContent})
+    @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus, R.id.edtContent,
+            R.id.llAlbum, R.id.llCamera, R.id.llVideo})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.imgVoiceOrText:
                 if (edtContent.getVisibility() == View.GONE) {
+                    //文字
                     edtContent.setVisibility(View.VISIBLE);
-                    btnSend.setVisibility(View.VISIBLE);
+                    if (edtContent.getText().toString().length() > 0) {
+                        btnSend.setVisibility(View.VISIBLE);
+                        imgPlus.setVisibility(View.GONE);
+                    } else {
+                        btnSend.setVisibility(View.GONE);
+                        imgPlus.setVisibility(View.VISIBLE);
+                    }
+                    llAttachment.setVisibility(View.GONE);
                     edtContent.requestFocus();
-                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_input);
+                    imgVoiceOrText.setBackgroundResource(R.drawable.chat_input_voice_selector);
                     getLayoutManager().setStackFromEnd(true);
                     ChatUtil.showInputWindow(ChatActivity.this, edtContent);
-
                     mAudioRecorderButton.setVisibility(View.GONE);
                 } else {
+                    //语音
                     edtContent.setVisibility(View.GONE);
                     btnSend.setVisibility(View.GONE);
+                    imgPlus.setVisibility(View.VISIBLE);
+                    llAttachment.setVisibility(View.GONE);
                     mAudioRecorderButton.setVisibility(View.VISIBLE);
-                    imgVoiceOrText.setBackgroundResource(R.drawable.icon_msg_voice);
+                    imgVoiceOrText.setBackgroundResource(R.drawable.chat_input_keyboard_selector);
                     ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
-                    smoothBottom();
                 }
                 break;
             case R.id.edtContent:
@@ -303,8 +321,54 @@ public class ChatActivity extends BaseListActivity {
                     SocketManager.getInstance().sendMessage(message);
                 }
                 break;
+            case R.id.imgPlus:
+                smoothBottom();
+                llAttachment.setVisibility(llAttachment.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                break;
+            case R.id.llAlbum:
+                llAttachment.setVisibility(View.GONE);
+                pickPhoto();
+                break;
+            case R.id.llCamera:
+                llAttachment.setVisibility(View.GONE);
+                takePhoto();
+                break;
+            case R.id.llVideo:
+                llAttachment.setVisibility(View.GONE);
+                break;
         }
     }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        Log.i(TAG, "takeSuccess：" + result.getImage().getCompressPath());
+        //send picture
+        File file = new File(result.getImage().getCompressPath());
+        if (file.length() == 0) {
+            return;
+        }
+        try {
+            BaseMessage message = new BaseMessage();
+            message.setType(ChatUtil.TYPE_FILE);
+            message.setFilename(file.getName());
+            message.setSecond(0);
+            message.setSize((int) file.length());
+            message.setParentId(currentParent.getU_id());
+            message.setTeacherId(teacher.getU_id());
+            message.setTime(CommonUtil.getCurrentDateHms());
+            FileInputStream inputStream = new FileInputStream(file);
+            final byte[] allByte = message.packData(inputStream);
+            inputStream.close();
+            if (allByte != null) {
+                message.setAllData(allByte);
+                addSendingMsg(message);
+                SocketManager.getInstance().sendMessage(message);
+            }
+        } catch (Exception ex) {
+            Log.i(TAG, "viewClick: " + ex.getMessage());
+        }
+    }
+
 
     private void getChatList(boolean toLast) {
         pageChatList = GreenDaoHelper.getInstance().getPageChatsByTeacherId(teacher.getU_id(), currentOffset);
