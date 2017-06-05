@@ -88,11 +88,12 @@
 
         <com.android.widget.view.BubbleImageView
             android:id="@+id/bubImg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_100"
             android:layout_toRightOf="@+id/imgUser"
+            android:maxHeight="@dimen/dp_200"
             android:src="@drawable/logo_welcome"
             android:visibility="gone"
             app:bubble_angle="@dimen/dp_10"
