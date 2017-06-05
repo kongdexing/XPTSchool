@@ -149,6 +149,4 @@ dependencies {
     compile 'com.liulishuo.filedownloader:library:1.4.3'
     compile 'io.github.rockerhieu:emojicon:1.4.1'
 
-    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
-
 }

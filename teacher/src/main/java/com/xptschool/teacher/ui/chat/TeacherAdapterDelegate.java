@@ -1,8 +1,6 @@
 package com.xptschool.teacher.ui.chat;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +14,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.audiorecorder.MediaPlayerManager;
+import com.android.widget.view.BubbleImageView;
 import com.android.widget.view.CircularImageView;
-import com.github.siyamed.shapeimageview.BubbleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
@@ -153,13 +150,15 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             //文件，图片
             //file path
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+            Log.i(TAG, "picture: " + file.getPath());
+
             if (!file.exists()) {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.error_file.setVisibility(View.GONE);
                 viewHolder.bubbleImageView.setVisibility(View.VISIBLE);
-                ImageLoader.getInstance().displayImage(file.getPath(), new ImageViewAware(viewHolder.bubbleImageView), CommonUtil.getDefaultImageLoaderOption());
-
+//                viewHolder.bubbleImageView.se
+                ImageLoader.getInstance().displayImage("file://" + file.getPath(), new ImageViewAware(viewHolder.bubbleImageView), CommonUtil.getDefaultImageLoaderOption());
             }
         }
 

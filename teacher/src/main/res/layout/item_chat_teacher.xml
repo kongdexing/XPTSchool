@@ -110,16 +110,22 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <com.github.siyamed.shapeimageview.BubbleImageView
+            <com.android.widget.view.BubbleImageView
                 android:id="@+id/bubImg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_100"
                 android:layout_marginRight="@dimen/dp_10"
                 android:layout_toRightOf="@+id/imgUser"
+                android:maxHeight="@dimen/dp_200"
+                android:src="@drawable/logo_welcome"
                 android:visibility="gone"
-                app:siArrowPosition="right"
-                app:siSquare="true" />
+                app:bubble_angle="@dimen/dp_10"
+                app:bubble_arrowHeight="@dimen/dp_10"
+                app:bubble_arrowLocation="right"
+                app:bubble_arrowOffset="@dimen/dp_10"
+                app:bubble_arrowTop="@dimen/dp_20"
+                app:bubble_arrowWidth="@dimen/dp_10" />
         </LinearLayout>
 
         <com.android.widget.view.CircularImageView
