@@ -1,6 +1,9 @@
 package com.xptschool.teacher.ui.main;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -14,10 +17,13 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.imsdroid.Engine;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
 
+import org.doubango.ngn.services.INgnSipService;
+import org.doubango.ngn.sip.NgnSipSession;
 import org.json.JSONObject;
 
 /**
@@ -26,9 +32,10 @@ import org.json.JSONObject;
  */
 public class BaseLoginActivity extends BaseActivity {
 
-    //login video chat server
-
-    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     public void login(final String account, final String password) {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.LOGIN,

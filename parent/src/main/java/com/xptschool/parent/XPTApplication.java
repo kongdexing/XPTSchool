@@ -40,6 +40,8 @@ import com.xptschool.parent.server.SocketManager;
 import com.xptschool.parent.ui.contact.ContactsActivity;
 import com.xptschool.parent.ui.main.MainActivity;
 
+import org.doubango.ngn.NgnApplication;
+
 import java.io.File;
 import java.net.Proxy;
 import java.util.Map;
@@ -48,7 +50,7 @@ import java.util.Map;
  * Created by dexing on 2016/12/18.
  * No1
  */
-public class XPTApplication extends Application {
+public class XPTApplication extends NgnApplication {
 
     public static final String APP_ID = "3e1429a7a5"; // TODO 替换成bugly上注册的appid
     private static XPTApplication mInstance;

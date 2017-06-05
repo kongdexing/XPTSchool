@@ -248,4 +248,10 @@
     <string name="label_send_message">发信息</string>
     <string name="toast_no_history_msg">无</string>
 
+    <string name="string_call_terminated">Call Terminated</string>
+    <string name="string_incall">In Call</string>
+    <string name="string_call_incoming">Incoming Call</string>
+    <string name="string_call_outgoing">Outgoing Call</string>
+    <string name="string_call_cancelled">Call cancelled</string>
+
 </resources>

@@ -131,9 +131,9 @@ dependencies {
     compile project(':widget')
     compile project(':android-ngn-stack')
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
+    compile 'com.android.support:design:24.2.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'org.greenrobot:greendao:3.0.1'
     //compile 'com.umeng.analytics:analytics:latest.integration'

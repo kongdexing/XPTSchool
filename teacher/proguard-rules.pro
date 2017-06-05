@@ -39,6 +39,7 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 -keep class com.xptschool.teacher.**{*;}
+-dontwarn com.xptschool.parent.**
 -keep public class * extends android.view.View{
     *** get*();
     void set*(***);
@@ -200,9 +201,6 @@
 -keep class com.android.volley.RequestQueue$* { *; }
 -keep class com.android.volley.toolbox.HurlStack$* { *; }
 -keep class com.android.volley.toolbox.ImageLoader$* { *; }
-
-###ImageLoader
-#-keep class com.nostra13.universalimageloader.**{*;}
 
 ##taobao
 -keep class com.taobao.**{*;}

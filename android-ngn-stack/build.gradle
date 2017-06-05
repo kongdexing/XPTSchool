@@ -1,11 +1,17 @@
 apply plugin: 'com.android.library'
 
+repositories {
+    flatDir {
+        dir 'libs'
+    }
+}
+
 android {
     compileSdkVersion 8
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 8
         targetSdkVersion 11
         versionCode 1
         versionName "1.0"
@@ -17,6 +23,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
         }
     }
 }

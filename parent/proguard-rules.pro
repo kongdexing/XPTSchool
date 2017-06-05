@@ -148,6 +148,15 @@
 -keep public class **.R$*{
    public static final int *;
 }
+-dontwarn com.umeng.message.common.**
+
+#（可选）避免Log打印输出
+-assumenosideeffects class android.util.Log {
+   public static *** v(...);
+   public static *** d(...);
+   public static *** i(...);
+   public static *** w(...);
+ }
 
 #-ButterKnife 7.0
  -keep class butterknife.** { *; }
@@ -205,7 +214,23 @@
 ##agoo
 -keep class org.android.agoo.control.**{*;}
 -dontwarn org.android.agoo.control.**
+##takephoto
+-dontwarn android.support.**
+-keep class android.support.** { *; }
+-keepattributes InnerClasses
+-dontoptimize
+-keep class rx.internal.util.unsafe.**{*;}
+-dontwarn rx.internal.util.unsafe.**
 
+
+-keep class com.jph.takephoto.** { *; }
+-dontwarn com.jph.takephoto.**
+
+-keep class com.darsh.multipleimageselect.** { *; }
+-dontwarn com.darsh.multipleimageselect.**
+
+-keep class com.soundcloud.android.crop.** { *; }
+-dontwarn com.soundcloud.android.crop.**
 ##databinding
 -keep class android.databinding.**{*;}
 -dontwarn android.databinding.**
