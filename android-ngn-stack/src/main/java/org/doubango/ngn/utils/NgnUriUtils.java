@@ -31,22 +31,22 @@ public class NgnUriUtils {
 	
 	public static String getDisplayName(String uri){
 		String displayname = null;
-		if(!NgnStringUtils.isNullOrEmpty(uri)){
-			NgnContact contact = NgnEngine.getInstance().getContactService().getContactByUri(uri);
-			if(contact != null  && (displayname = contact.getDisplayName()) != null){
-				return displayname;
-			}
-			
-			final SipUri sipUri = new SipUri(uri);
-			if(sipUri.isValid()){
-				displayname = sipUri.getUserName();
-				contact = NgnEngine.getInstance().getContactService().getContactByPhoneNumber(displayname);
-				if(contact != null && !NgnStringUtils.isNullOrEmpty(contact.getDisplayName())){
-					displayname = contact.getDisplayName();
-				}
-			}
-			sipUri.delete();
-		}
+//		if(!NgnStringUtils.isNullOrEmpty(uri)){
+//			NgnContact contact = NgnEngine.getInstance().getContactService().getContactByUri(uri);
+//			if(contact != null  && (displayname = contact.getDisplayName()) != null){
+//				return displayname;
+//			}
+//
+//			final SipUri sipUri = new SipUri(uri);
+//			if(sipUri.isValid()){
+//				displayname = sipUri.getUserName();
+//				contact = NgnEngine.getInstance().getContactService().getContactByPhoneNumber(displayname);
+//				if(contact != null && !NgnStringUtils.isNullOrEmpty(contact.getDisplayName())){
+//					displayname = contact.getDisplayName();
+//				}
+//			}
+//			sipUri.delete();
+//		}
 		
 		return displayname == null ? uri : displayname;
 	}

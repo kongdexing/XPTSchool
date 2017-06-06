@@ -11,6 +11,7 @@ import com.umeng.message.IUmengCallback;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.xptschool.parent.imsdroid.Engine;
+import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 
@@ -80,9 +81,30 @@ public class BaseMainActivity extends BaseActivity {
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
+        intentFilter.addAction(NativeService.ACTION_STATE_EVENT);
         registerReceiver(mSipBroadCastRecv, intentFilter);
 
-        registerVideoServer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!Engine.getInstance().isStarted()) {
+            final Engine engine = getEngine();
+            final Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!engine.isStarted()) {
+                        Log.d(TAG, "Starts the engine from the splash screen");
+                        engine.start();
+                    }
+                }
+            });
+            thread.setPriority(Thread.MAX_PRIORITY);
+            thread.start();
+        } else {
+            registerVideoServer();
+        }
     }
 
     protected Engine getEngine() {
@@ -126,11 +148,21 @@ public class BaseMainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (mSipBroadCastRecv != null) {
+            unregisterReceiver(mSipBroadCastRecv);
+            mSipBroadCastRecv = null;
+        }
+
+        super.onDestroy();
+    }
+
     BroadcastReceiver mSipBroadCastRecv = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-
+            Log.i(TAG, "onReceive: " + action);
             // Registration Event
             if (NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT.equals(action)) {
                 NgnRegistrationEventArgs args = intent.getParcelableExtra(NgnEventArgs.EXTRA_EMBEDDED);
@@ -151,7 +183,11 @@ public class BaseMainActivity extends BaseActivity {
 //                        ((ScreenHomeAdapter) mGridView.getAdapter()).refresh();
                         break;
                 }
+            } else if (NativeService.ACTION_STATE_EVENT.equals(action)) {
+                registerVideoServer();
             }
         }
     };
+
+
 }

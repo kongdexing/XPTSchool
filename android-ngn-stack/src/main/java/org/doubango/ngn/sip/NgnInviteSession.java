@@ -39,8 +39,8 @@ import java.util.Date;
  * This is an abstract class and you should only used it if you want to define
  * you own session.
  */
-public abstract class NgnInviteSession extends NgnSipSession{
-	protected NgnMediaType mMediaType;
+public abstract class NgnInviteSession extends NgnSipSession {
+    protected NgnMediaType mMediaType;
     protected MediaSessionMgr mMediaSessionMgr = null;
     protected InviteState mState;
     protected boolean mRemoteHold;
@@ -49,7 +49,7 @@ public abstract class NgnInviteSession extends NgnSipSession{
     private boolean mEventIncoming;
     private final NgnDeviceInfo mRemoteDeviceInfo;
 
-    public enum InviteState{
+    public enum InviteState {
         NONE,
         INCOMING,
         INPROGRESS,
@@ -62,138 +62,143 @@ public abstract class NgnInviteSession extends NgnSipSession{
 
     /**
      * Creates new Invite session
+     *
      * @param sipStack the stack to use
      */
-	public NgnInviteSession(NgnSipStack sipStack) {
-		super(sipStack);
-		
-		mRemoteDeviceInfo = new NgnDeviceInfo();
-		mState = InviteState.NONE;
-	}
-	
-	protected abstract NgnHistoryEvent getHistoryEvent();
-	
-	/**
-	 * Gets the media type
-	 * @return the media type
-	 */
-	 public NgnMediaType getMediaType(){
-         return mMediaType;
-     }
+    public NgnInviteSession(NgnSipStack sipStack) {
+        super(sipStack);
 
-	 /**
-	  * Gets the session state
-	  * @return the session state
-	  */
-     public InviteState getState(){
-         return mState;
-     }
-     
-     /**
-      * Sets the session state
-      * @param state the new session state
-      */
-     public void setState(InviteState state){
-		mState = state;
-		NgnHistoryEvent historyEvent = getHistoryEvent();
-		switch (state) {
-		case INCOMING:
-			mEventIncoming = true;
-			break;
+        mRemoteDeviceInfo = new NgnDeviceInfo();
+        mState = InviteState.NONE;
+    }
 
-		case INPROGRESS:
-			mEventIncoming = false;
-			break;
+    protected abstract NgnHistoryEvent getHistoryEvent();
 
-		case INCALL:
-			if(historyEvent != null){
-				historyEvent.setStartTime(new Date().getTime());
-				historyEvent.setEndTime(historyEvent.getEndTime());
-				historyEvent.setStatus(mEventIncoming ? StatusType.Incoming : StatusType.Outgoing);
-			}
-			break;
+    /**
+     * Gets the media type
+     *
+     * @return the media type
+     */
+    public NgnMediaType getMediaType() {
+        return mMediaType;
+    }
 
-		case TERMINATED:
-		case TERMINATING:
-			if(historyEvent != null && !mEventAdded){
-				mEventAdded = true;
-				if(historyEvent.getStatus() != StatusType.Missed){
-					historyEvent.setEndTime(new Date().getTime());
-				}
-				historyEvent.setRemoteParty(getRemotePartyUri());
-				NgnEngine.getInstance().getHistoryService().addEvent(historyEvent);
-			}
-			break;
-		default:
-			{
-				break;
-			}
-		}
-     }
+    /**
+     * Gets the session state
+     *
+     * @return the session state
+     */
+    public InviteState getState() {
+        return mState;
+    }
 
-     /**
-      * Checks whether the session is active or not
-      * @return
-      */
-     public boolean isActive(){
-    	 return mState != InviteState.NONE
-         && mState != InviteState.TERMINATING 
-         && mState != InviteState.TERMINATED;
-     }
+    /**
+     * Sets the session state
+     *
+     * @param state the new session state
+     */
+    public void setState(InviteState state) {
+        mState = state;
+        NgnHistoryEvent historyEvent = getHistoryEvent();
+        switch (state) {
+            case INCOMING:
+                mEventIncoming = true;
+                break;
 
-	public boolean isLocalHeld() {
-		return mLocalHold;
-	}
-	
-	public void setLocalHold(boolean localHold){
- 		mLocalHold = localHold;
- 	}
-	
-	public boolean isRemoteHeld(){
-		return mRemoteHold;
-	}
-	
-	public void setRemoteHold(boolean remoteHold){
-		mRemoteHold = remoteHold;
-	}
-	
-	public NgnDeviceInfo getRemoteDeviceInfo(){
-		return mRemoteDeviceInfo;
-	}
-	
-	public boolean sendInfo(ByteBuffer content, String contentType){
-		if(content != null){
-			ActionConfig config = new ActionConfig();
-			config.addHeader("Content-Type", contentType);
-			boolean ret = ((InviteSession)this.getSession()).sendInfo(content, content.capacity(), config);
-			config.delete();
-			return ret;
-		}
-		return false;
-	}
-	
-	public boolean sendInfo(String content, String contentType){
-		if(content != null){
-			ActionConfig config = new ActionConfig();
-			config.addHeader("Content-Type", contentType);
-			final byte[] bytes = content.getBytes();
-	        ByteBuffer payload = ByteBuffer.allocateDirect(bytes.length);
-	        payload.put(bytes);
-			boolean ret = ((InviteSession)this.getSession()).sendInfo(payload, payload.capacity(), config);
-			config.delete();
-			return ret;
-		}
-		return false;
-	}
-     
-     /**
-      * Gets the media session manager associated to this session
-      * @return the media session manager
-      */
-     public MediaSessionMgr getMediaSessionMgr(){
-    	 if (mMediaSessionMgr == null){
-    		 mMediaSessionMgr = ((InviteSession)getSession()).getMediaMgr();
-         }
-         return mMediaSessionMgr;
-     }
+            case INPROGRESS:
+                mEventIncoming = false;
+                break;
+
+            case INCALL:
+                if (historyEvent != null) {
+                    historyEvent.setStartTime(new Date().getTime());
+                    historyEvent.setEndTime(historyEvent.getEndTime());
+                    historyEvent.setStatus(mEventIncoming ? StatusType.Incoming : StatusType.Outgoing);
+                }
+                break;
+
+            case TERMINATED:
+            case TERMINATING:
+//			if(historyEvent != null && !mEventAdded){
+//				mEventAdded = true;
+//				if(historyEvent.getStatus() != StatusType.Missed){
+//					historyEvent.setEndTime(new Date().getTime());
+//				}
+//				historyEvent.setRemoteParty(getRemotePartyUri());
+//				NgnEngine.getInstance().getHistoryService().addEvent(historyEvent);
+//			}
+                break;
+            default: {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Checks whether the session is active or not
+     *
+     * @return
+     */
+    public boolean isActive() {
+        return mState != InviteState.NONE
+                && mState != InviteState.TERMINATING
+                && mState != InviteState.TERMINATED;
+    }
+
+    public boolean isLocalHeld() {
+        return mLocalHold;
+    }
+
+    public void setLocalHold(boolean localHold) {
+        mLocalHold = localHold;
+    }
+
+    public boolean isRemoteHeld() {
+        return mRemoteHold;
+    }
+
+    public void setRemoteHold(boolean remoteHold) {
+        mRemoteHold = remoteHold;
+    }
+
+    public NgnDeviceInfo getRemoteDeviceInfo() {
+        return mRemoteDeviceInfo;
+    }
+
+    public boolean sendInfo(ByteBuffer content, String contentType) {
+        if (content != null) {
+            ActionConfig config = new ActionConfig();
+            config.addHeader("Content-Type", contentType);
+            boolean ret = ((InviteSession) this.getSession()).sendInfo(content, content.capacity(), config);
+            config.delete();
+            return ret;
+        }
+        return false;
+    }
+
+    public boolean sendInfo(String content, String contentType) {
+        if (content != null) {
+            ActionConfig config = new ActionConfig();
+            config.addHeader("Content-Type", contentType);
+            final byte[] bytes = content.getBytes();
+            ByteBuffer payload = ByteBuffer.allocateDirect(bytes.length);
+            payload.put(bytes);
+            boolean ret = ((InviteSession) this.getSession()).sendInfo(payload, payload.capacity(), config);
+            config.delete();
+            return ret;
+        }
+        return false;
+    }
+
+    /**
+     * Gets the media session manager associated to this session
+     *
+     * @return the media session manager
+     */
+    public MediaSessionMgr getMediaSessionMgr() {
+        if (mMediaSessionMgr == null) {
+            mMediaSessionMgr = ((InviteSession) getSession()).getMediaMgr();
+        }
+        return mMediaSessionMgr;
+    }
 }

@@ -308,14 +308,14 @@ public class NgnEngine {
 		success &= getStorageService().start();
 		success &= getNetworkService().start();
 		success &= getHttpClientService().start();
-		success &= getHistoryService().start();
-		success &= getContactService().start();
+//		success &= getHistoryService().start();
+//		success &= getContactService().start();
 		success &= getSipService().start();
 		success &= getSoundService().start();
 		
 		if(success){
-			success &= getHistoryService().load();
-			/* success &=*/ getContactService().load();
+//			success &= getHistoryService().load();
+//			/* success &=*/ getContactService().load();
 			
 			NgnApplication.getContext().startService(
 					new Intent(NgnApplication.getContext(), getNativeServiceClass()));
@@ -341,9 +341,9 @@ public class NgnEngine {
 		
 		success &= getConfigurationService().stop();
 		success &= getHttpClientService().stop();
-		success &= getHistoryService().stop();
+//		success &= getHistoryService().stop();
 		success &= getStorageService().stop();
-		success &= getContactService().stop();
+//		success &= getContactService().stop();
 		success &= getSipService().stop();
 		success &= getSoundService().stop();
 		success &= getNetworkService().stop();
@@ -440,23 +440,23 @@ public class NgnEngine {
 	 * Gets the contact service
 	 * @return the contact service
 	 */
-	public INgnContactService getContactService(){
-		if(mContactService == null){
-			mContactService = new NgnContactService();
-		}
-		return mContactService;
-	}
+//	public INgnContactService getContactService(){
+//		if(mContactService == null){
+//			mContactService = new NgnContactService();
+//		}
+//		return mContactService;
+//	}
 	
 	/**
 	 * Gets the history service
 	 * @return the history service
 	 */
-	public INgnHistoryService getHistoryService(){
-		if(mHistoryService == null){
-			mHistoryService = new NgnHistoryService();
-		}
-		return mHistoryService;
-	}
+//	public INgnHistoryService getHistoryService(){
+//		if(mHistoryService == null){
+//			mHistoryService = new NgnHistoryService();
+//		}
+//		return mHistoryService;
+//	}
 	
 	/**
 	 * Gets the SIP service
