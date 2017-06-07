@@ -32,6 +32,7 @@
     <dimen name="dp_95">90dp</dimen>
     <dimen name="dp_100">80dp</dimen>
     <dimen name="dp_120">100dp</dimen>
+    <dimen name="dp_150">130dp</dimen>
     <dimen name="dp_170">150dp</dimen>
     <dimen name="dp_200">170dp</dimen>
     <dimen name="dp_230">210dp</dimen>

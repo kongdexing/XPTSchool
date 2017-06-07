@@ -16,13 +16,12 @@ import com.baidu.mapapi.utils.CoordinateConverter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 
 import org.json.JSONException;

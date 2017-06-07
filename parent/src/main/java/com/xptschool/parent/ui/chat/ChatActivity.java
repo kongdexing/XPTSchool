@@ -192,7 +192,6 @@ public class ChatActivity extends ChatAppendixActivity {
                     return;
                 }
                 try {
-//                    File file = new File("/storage/emulated/0/netease/cloudmusic/Music/andthewinne.mp3");
                     BaseMessage message = new BaseMessage();
                     message.setType(ChatUtil.TYPE_AMR);
                     message.setFilename(file.getName());
@@ -323,6 +322,7 @@ public class ChatActivity extends ChatAppendixActivity {
                 break;
             case R.id.imgPlus:
                 smoothBottom();
+                ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
                 llAttachment.setVisibility(llAttachment.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 break;
             case R.id.llAlbum:
@@ -340,10 +340,10 @@ public class ChatActivity extends ChatAppendixActivity {
     }
 
     @Override
-    public void takeSuccess(TResult result) {
-        Log.i(TAG, "takeSuccess：" + result.getImage().getCompressPath());
+    public void takeSuccess(String result) {
+        Log.i(TAG, "takeSuccess：" + result);
         //send picture
-        File file = new File(result.getImage().getCompressPath());
+        File file = new File(result);
         if (file.length() == 0) {
             return;
         }
@@ -368,7 +368,6 @@ public class ChatActivity extends ChatAppendixActivity {
             Log.i(TAG, "viewClick: " + ex.getMessage());
         }
     }
-
 
     private void getChatList(boolean toLast) {
         pageChatList = GreenDaoHelper.getInstance().getPageChatsByTeacherId(teacher.getU_id(), currentOffset);

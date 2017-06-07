@@ -76,7 +76,8 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
     private List<BeanRail> listRail = null;
     private int MapInfoTop = 0;
     private int RailIndex = 0;
-
+    private boolean isShowLocation = false;
+    private InfoWindow locationInfoWindow;
     public BeanStudent currentStudent;
     private BitmapDescriptor mBlueTexture = null;
 
@@ -154,6 +155,25 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
     protected void initData() {
         MapInfoTop = -(getResources().getDimensionPixelOffset(R.dimen.dp_45));
         Log.i(TAG, "initData: MapInfoTop " + MapInfoTop);
+        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
+                if (isShowLocation) {
+                    mBaiduMap.hideInfoWindow();
+                }
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+                if (isShowLocation) {
+                    mBaiduMap.showInfoWindow(locationInfoWindow);
+                }
+            }
+        });
     }
 
     public void drawLocation(final BeanRTLocation newPt, int timer) {
@@ -175,22 +195,21 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
         alarmInfoWindowView.setData(newPt, currentStudent, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
             @Override
             public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
-                final InfoWindow infoWindow = new InfoWindow(alarmInfoWindowView, latLng, MapInfoTop);
-                mBaiduMap.showInfoWindow(infoWindow);
+                locationInfoWindow = new InfoWindow(alarmInfoWindowView, latLng, MapInfoTop);
+                mBaiduMap.showInfoWindow(locationInfoWindow);
+                isShowLocation = true;
 
                 mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
-
-                    boolean isShowing = true;
 
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         if (marker == mMarkerStudent) {
-                            if (isShowing) {
+                            if (isShowLocation) {
                                 mBaiduMap.hideInfoWindow();
                             } else {
-                                mBaiduMap.showInfoWindow(infoWindow);
+                                mBaiduMap.showInfoWindow(locationInfoWindow);
                             }
-                            isShowing = !isShowing;
+                            isShowLocation = !isShowLocation;
                         }
                         return true;
                     }
@@ -208,6 +227,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
     public void drawTrack(List<BeanHTLocation> locations) {
         if (locations.size() > 0) {
             mBaiduMap.clear();
+            isShowLocation = false;
             htLocations = locations;
             mHandler.removeCallbacksAndMessages(null);
             //marker初始化
@@ -223,7 +243,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
     public void drawRail(List<BeanRail> listFences) {
         mBaiduMap.clear();
         listRail = listFences;
-
+        isShowLocation = false;
         RailIndex = 0;
         mHandler.removeCallbacksAndMessages(null);
         //marker初始化

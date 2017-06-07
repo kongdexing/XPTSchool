@@ -21,7 +21,7 @@
     <View
         android:id="@+id/viewline"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.2dp"
         android:layout_above="@+id/rlSend"
         android:background="@color/text_grey" />
 
@@ -115,7 +115,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0.2dp"
             android:background="@color/text_grey" />
 
         <include layout="@layout/layout_chat_appendix" />

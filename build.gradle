@@ -13,8 +13,8 @@ buildscript {
         classpath "com.netflix.nebula:gradle-extra-configurations-plugin:$CONFIG_PLUGIN_VERSION"
         classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0'
         classpath "com.tencent.bugly:tinker-support:1.0.4"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
     }
 }
 
@@ -30,7 +30,8 @@ task clean(type: Delete) {
 
 ext {
     appKeyBaiduMap_teacher = 'qstS4X61O56p6ZGN3AUDw30gWHC7mznI'
-    appKeyBaiduMap_parent ='2semRqoILz2QXSEdsKFVp0I3csYM8svG'
+//    appKeyBaiduMap_parent ='2semRqoILz2QXSEdsKFVp0I3csYM8svG'
+    appKeyBaiduMap_parent = '1N3lQ2ePHG4tDZYs82lghklj5eSVHahc'
 
     UMENG_APPKEY_teacher = '58215e1a4ad1563bfb002c6f'
     UMENG_APPKEY_parent = '5857421404e20546ee002512'

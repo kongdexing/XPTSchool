@@ -9,7 +9,7 @@
         <item name="colorAccent2">@color/colorAccent2</item>
         <item name="txt_primary_color">@color/text_white</item>
         <item name="android:windowBackground">@color/colorAccent3</item>
-        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <!--<item name="android:windowAnimationStyle">@style/AnimationActivity</item>-->
         <item name="android:textColorSecondary">@color/text_black</item>
         <item name="android:textColor">@color/text_black</item>
     </style>
@@ -55,6 +55,7 @@
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="android:layout_margin">@dimen/dp_12</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:layout_centerVertical">true</item>
     </style>
 
     <style name="mineVal">

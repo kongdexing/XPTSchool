@@ -127,10 +127,10 @@ public class NativeService extends NgnNativeService {
                                 remoteParty = NgnStringUtils.nullValue();
                             }
                             remoteParty = NgnUriUtils.getUserName(remoteParty);
-                            NgnHistorySMSEvent event = new NgnHistorySMSEvent(remoteParty, StatusType.Incoming);
-                            event.setContent(new String(args.getPayload()));
-                            event.setStartTime(NgnDateTimeUtils.parseDate(dateString).getTime());
-                            mEngine.getHistoryService().addEvent(event);
+//                            NgnHistorySMSEvent event = new NgnHistorySMSEvent(remoteParty, StatusType.Incoming);
+//                            event.setContent(new String(args.getPayload()));
+//                            event.setStartTime(NgnDateTimeUtils.parseDate(dateString).getTime());
+//                            mEngine.getHistoryService().addEvent(event);
                             mEngine.showSMSNotif(R.drawable.sms_25, "New message");
                             break;
                     }
@@ -152,9 +152,9 @@ public class NativeService extends NgnNativeService {
                                 return;
                             }
                             final byte[] content = intent.getByteArrayExtra(NgnMsrpEventArgs.EXTRA_DATA);
-                            NgnHistorySMSEvent event = new NgnHistorySMSEvent(NgnUriUtils.getUserName(session.getRemotePartyUri()), StatusType.Incoming);
-                            event.setContent(content == null ? NgnStringUtils.nullValue() : new String(content));
-                            mEngine.getHistoryService().addEvent(event);
+//                            NgnHistorySMSEvent event = new NgnHistorySMSEvent(NgnUriUtils.getUserName(session.getRemotePartyUri()), StatusType.Incoming);
+//                            event.setContent(content == null ? NgnStringUtils.nullValue() : new String(content));
+//                            mEngine.getHistoryService().addEvent(event);
                             mEngine.showSMSNotif(R.drawable.sms_25, "New message");
                             break;
                     }

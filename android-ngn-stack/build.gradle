@@ -7,18 +7,33 @@ repositories {
 }
 
 android {
-    compileSdkVersion 8
+    compileSdkVersion 14
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 11
+        minSdkVersion 9
+        targetSdkVersion 14
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
+    productFlavors {
+        // NDK integration deprecated
+//        x86 {
+//            ndk {
+//                abiFilter "x86"
+//            }
+//        }
+//        arm {
+//            ndk {
+//                abiFilters "armeabi-v7a", "armeabi"
+//            }
+//        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -34,7 +49,7 @@ android {
 }
 
 dependencies {
-    provided fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

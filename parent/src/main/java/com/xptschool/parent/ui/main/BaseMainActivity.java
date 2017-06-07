@@ -15,6 +15,7 @@ import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 
+import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.events.NgnEventArgs;
 import org.doubango.ngn.events.NgnRegistrationEventArgs;
 import org.doubango.ngn.services.INgnConfigurationService;

@@ -47,7 +47,17 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000) {
+            //拍照，录像
+            String path = data.getStringExtra("path");
+            if (resultCode == 1001) {
+                takeSuccess(path);
+            } else if (resultCode == 1002) {
+                videoSuccess(path);
+            }
+        } else {
+            getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -71,7 +81,15 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     @Override
-    public void takeSuccess(TResult result) {
+    public final void takeSuccess(TResult result) {
+        takeSuccess(result.getImage().getCompressPath());
+    }
+
+    public void takeSuccess(String path) {
+
+    }
+
+    public void videoSuccess(String path) {
 
     }
 
@@ -102,14 +120,17 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void takePhoto() {
-        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
-        File file = new File(cameraPath);
-        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-        Uri imageUri = Uri.fromFile(file);
-        TakePhoto takePhoto = getTakePhoto();
-        configCompress(takePhoto);
-        configTakePhotoOption(takePhoto);
-        takePhoto.onPickFromCapture(imageUri);
+
+        startActivityForResult(new Intent(this, RecordVideoActivity.class), 1000);
+
+//        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
+//        File file = new File(cameraPath);
+//        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+//        Uri imageUri = Uri.fromFile(file);
+//        TakePhoto takePhoto = getTakePhoto();
+//        configCompress(takePhoto);
+//        configTakePhotoOption(takePhoto);
+//        takePhoto.onPickFromCapture(imageUri);
     }
 
     private void configCompress(TakePhoto takePhoto) {
@@ -126,7 +147,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         takePhoto.onEnableCompress(config, showProgressBar);
     }
 
-    public void configTakePhotoOption(TakePhoto takePhoto) {
+    private void configTakePhotoOption(TakePhoto takePhoto) {
         TakePhotoOptions.Builder builder = new TakePhotoOptions.Builder();
         builder.setWithOwnGallery(true);
         builder.setCorrectImage(true);

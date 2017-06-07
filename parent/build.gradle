@@ -12,14 +12,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION
+    compileSdkVersion 23
     buildToolsVersion BUILD_TOOLS_VERSION
 
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.xptschool.parent"
-        minSdkVersion 17
-        targetSdkVersion 24
+        minSdkVersion 19
+        targetSdkVersion 14
         versionCode 8
         versionName "1.0.6"
 
@@ -159,4 +159,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'io.github.rockerhieu:emojicon:1.4.1'
+    compile project(':camera')
 }

@@ -95,15 +95,15 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_100"
             android:layout_toRightOf="@+id/imgUser"
-            android:maxHeight="@dimen/dp_200"
-            android:src="@drawable/logo_welcome"
+            android:maxHeight="@dimen/dp_150"
+            android:src="@drawable/bg_stu_card"
             android:visibility="gone"
-            app:bubble_angle="@dimen/dp_10"
-            app:bubble_arrowHeight="@dimen/dp_10"
-            app:bubble_arrowLocation="left"
-            app:bubble_arrowOffset="@dimen/dp_10"
-            app:bubble_arrowTop="@dimen/dp_20"
-            app:bubble_arrowWidth="@dimen/dp_10" />
+            app:bubble_angle="@dimen/dp_5"
+            app:bubble_arrowHeight="@dimen/dp_5"
+            app:bubble_arrowLocation="right"
+            app:bubble_arrowOffset="@dimen/dp_5"
+            app:bubble_arrowTop="@dimen/dp_10"
+            app:bubble_arrowWidth="@dimen/dp_5" />
     </RelativeLayout>
 
 </LinearLayout>
