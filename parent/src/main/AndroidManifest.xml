@@ -237,6 +237,10 @@
             android:name=".ui.chat.ChatActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:name=".ui.chat.DragPhotoActivity"
+            android:theme="@style/translucent" />
+
         <activity android:name=".ui.chat.RecordVideoActivity" />
 
         <activity android:name=".ui.wallet.TelephoneFareActivity"></activity>
