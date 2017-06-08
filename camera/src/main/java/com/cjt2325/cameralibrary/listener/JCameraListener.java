@@ -6,7 +6,7 @@ public interface JCameraListener {
 
     void captureSuccess(Bitmap bitmap);
 
-    void recordSuccess(String url);
+    void recordSuccess(String url,long duration);
 
     void quit();
 

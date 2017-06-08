@@ -120,14 +120,13 @@ public class SocketService extends Service {
         public SocketSendThread(BaseMessage msg) {
             super();
             message = msg;
-            Log.i(TAG, "SocketSendThread: ");
         }
 
         @Override
         public void run() {
             super.run();
-            Log.i(TAG, "SocketSendThread run: ");
-            Log.i(TAG, "write start ");
+            Log.i(TAG, "SocketSendThread run: " + this.getId());
+            Log.i(TAG, "write start send size " + message.getSize());
             //开始发送
             Intent intent = new Intent();
             intent.putExtra("message", message);
@@ -150,8 +149,9 @@ public class SocketService extends Service {
             } catch (Exception e) {
                 intent.setAction(BroadcastAction.MESSAGE_SEND_FAILED);
                 //发送失败
-                Log.e(TAG, "Exception during write", e);
+                Log.i(TAG, "Exception during write", e);
             } finally {
+                Log.i(TAG, "finally close socket " + this.getId());
                 closeSocket(mSocket, outputStream, null);
                 XPTApplication.getInstance().sendBroadcast(intent);
             }

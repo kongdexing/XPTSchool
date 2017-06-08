@@ -74,11 +74,12 @@ public class RecordVideoActivity extends AppCompatActivity {
             }
 
             @Override
-            public void recordSuccess(String url) {
+            public void recordSuccess(String url, long duration) {
                 //获取视频路径
                 Log.i(TAG, "url = " + url);
                 Intent intent = new Intent();
                 intent.putExtra("path", url);
+                intent.putExtra("duration", duration);
                 setResult(1002, intent);
                 finish();
             }

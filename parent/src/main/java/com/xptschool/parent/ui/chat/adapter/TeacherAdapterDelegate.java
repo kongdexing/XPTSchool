@@ -1,4 +1,4 @@
-package com.xptschool.parent.ui.chat;
+package com.xptschool.parent.ui.chat.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -8,9 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,8 +20,9 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.ui.chat.SoundPlayHelper;
 import com.xptschool.parent.util.ChatUtil;
 
 import java.io.File;
@@ -39,12 +37,12 @@ import io.github.rockerhieu.emojicon.EmojiconTextView;
  * No1
  */
 
-public class ParentAdapterDelegate extends BaseAdapterDelegate {
+public class TeacherAdapterDelegate extends BaseAdapterDelegate {
 
     private int viewType;
-    public AnimationDrawable animation;
+//    public AnimationDrawable animation;
 
-    public ParentAdapterDelegate(Context context, int viewType) {
+    public TeacherAdapterDelegate(Context context, int viewType) {
         super(context);
         this.viewType = viewType;
         this.mContext = context;
@@ -55,48 +53,29 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
     }
 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
-        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_parent, parent, false));
+        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_chat_teacher, parent, false));
     }
 
-    public void onBindViewHolder(List items, final int position, RecyclerView.ViewHolder holder, final ChatAdapter.OnItemResendListener listener) {
+    public void onBindViewHolder(ContactTeacher teacher, List items, int position, RecyclerView.ViewHolder holder) {
         final BeanChat chat = (BeanChat) items.get(position);
-        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-        if (parent == null || chat == null) {
+        if (teacher == null) {
             return;
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
 
-        //家长提问，提问发送状态
-        if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
-            viewHolder.llResend.setVisibility(View.VISIBLE);
-            viewHolder.sendProgress.setVisibility(View.GONE);
-            viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        listener.onResend(chat, position);
-                    }
-                }
-            });
-        } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
-            viewHolder.sendProgress.setVisibility(View.VISIBLE);
-            viewHolder.llResend.setVisibility(View.GONE);
+        if (teacher.getSex().equals("1")) {
+            viewHolder.imgUser.setImageResource(R.drawable.teacher_man);
         } else {
-            viewHolder.sendProgress.setVisibility(View.GONE);
-            viewHolder.llResend.setVisibility(View.GONE);
-        }
-
-        if (parent.getSex().equals("1")) {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_father);
-        } else {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
+            viewHolder.imgUser.setImageResource(R.drawable.teacher_woman);
         }
 
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
+            Log.i(TAG, "onBindViewHolder text:" + chat.getContent());
             viewHolder.txtContent.setVisibility(View.VISIBLE);
             viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
+            updateReadStatus(chat, viewHolder);
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             Log.i(TAG, "onBindViewHolder amr:" + chat.getFileName());
             //录音
@@ -116,32 +95,40 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
             viewHolder.img_recorder_anim.setTag(chat);
             SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
-            Log.i(TAG, "onBindViewHolder: parent playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
+            Log.i(TAG, "onBindViewHolder: teacher playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
+
+            if (!chat.isHasRead()) {
+                viewHolder.view_unRead.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.view_unRead.setVisibility(View.GONE);
+            }
+
             //点击播放
             viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 声音播放动画
                     if (viewHolder.img_recorder_anim != null) {
-                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
+                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                     }
 
                     SoundPlayHelper.getInstance().stopPlay();
 
-                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim);
-                    animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
+                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim_right);
+                    AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                     animation.start();
 
-                    Log.i(TAG, "onClick: parent playSound");
+                    Log.i(TAG, "onClick: teacher playSound");
+
                     // 播放录音
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 
                         public void onCompletion(MediaPlayer mp) {
-                            Log.i(TAG, "onCompletion: ");
                             //播放完成后修改图片
-                            viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
+                            viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                         }
                     });
+                    updateReadStatus(chat, viewHolder);
                 }
             });
         } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
@@ -155,9 +142,17 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             } else {
                 viewHolder.error_file.setVisibility(View.GONE);
                 viewHolder.bubbleImageView.setVisibility(View.VISIBLE);
-//                viewHolder.bubbleImageView.se
                 ImageLoader.getInstance().displayImage("file://" + file.getPath(), new ImageViewAware(viewHolder.bubbleImageView), CommonUtil.getDefaultImageLoaderOption());
             }
+        }
+    }
+
+    private void updateReadStatus(BeanChat chat, MyViewHolder viewHolder) {
+        //未读标示为已读
+        if (!chat.isHasRead()) {
+            viewHolder.view_unRead.setVisibility(View.GONE);
+            chat.setHasRead(true);
+            GreenDaoHelper.getInstance().updateChat(chat);
         }
     }
 
@@ -181,14 +176,11 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         @BindView(R.id.error_file)
         View error_file;
 
+        @BindView(R.id.view_unRead)
+        View view_unRead;
+
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;
-
-        @BindView(R.id.sendProgress)
-        ProgressBar sendProgress;
-
-        @BindView(R.id.llResend)
-        LinearLayout llResend;
 
         @BindView(R.id.bubImg)
         BubbleImageView bubbleImageView;

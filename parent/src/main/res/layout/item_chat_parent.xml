@@ -16,11 +16,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_5"
             android:layout_toLeftOf="@+id/llContent"
             android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/dp_20"
@@ -41,21 +42,21 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_toLeftOf="@+id/llContent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/llContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
             android:layout_toLeftOf="@+id/imgUser">
-
             <!--文字-->
             <io.github.rockerhieu.emojicon.EmojiconTextView
                 android:id="@+id/txtContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dp_5"
                 android:background="@drawable/chatto_bg"
                 android:clickable="true"
                 android:gravity="center|center_vertical"
@@ -76,7 +77,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_5"
                     android:text="12'"
                     android:textColor="#ff777777" />
 
@@ -108,27 +108,21 @@
                 </RelativeLayout>
             </RelativeLayout>
             <!--图片-->
-
-            <com.android.widget.view.BubbleImageView
-                android:id="@+id/bubImg"
+            <com.xptschool.parent.ui.chat.adapter.ChatItemImage
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_100"
-                android:layout_marginRight="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_toRightOf="@+id/imgUser"
-                android:maxHeight="@dimen/dp_150"
-                android:minWidth="@dimen/dp_100"
-                android:minHeight="@dimen/dp_100"
-                android:scaleType="fitXY"
-                android:src="@drawable/bg_stu_card"
-                android:visibility="gone"
-                app:bubble_angle="@dimen/dp_5"
-                app:bubble_arrowHeight="@dimen/dp_10"
-                app:bubble_arrowLocation="right"
-                app:bubble_arrowOffset="@dimen/dp_5"
-                app:bubble_arrowTop="@dimen/dp_15"
-                app:bubble_arrowWidth="@dimen/dp_5" />
+                android:visibility="gone" />
+            <!--视频-->
+            <com.xptschool.parent.ui.chat.adapter.ChatItemVideo
+                android:id="@+id/videoView"
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="@dimen/dp_170"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_toRightOf="@+id/imgUser"
+                android:visibility="gone" />
         </LinearLayout>
 
         <com.android.widget.view.CircularImageView

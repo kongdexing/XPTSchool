@@ -155,7 +155,6 @@ public class BubbleImageView extends ImageView {
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
-            Log.i(TAG, "getBitmapFromDrawable: " + canvas.getWidth() + " " + canvas.getHeight());
             return bitmap;
         } catch (OutOfMemoryError e) {
             return null;
@@ -204,11 +203,8 @@ public class BubbleImageView extends ImageView {
             dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
         }
 
-        Log.i(TAG, "updateShaderMatrix  scale:" + scale + "--dx:" + dx + "--dy:" + dy);
-
         mShaderMatrix.setScale(scale, scale);
         mShaderMatrix.postTranslate((int) (dx + 0.5f), (int) (dy + 0.5f));
-//        mShaderMatrix.postTranslate(0, 0);
 
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }

@@ -34,6 +34,7 @@ public class ChatUtil {
     public static char TYPE_TEXT = '0'; //0文字，1文件，2语音
     public static char TYPE_FILE = '1';
     public static char TYPE_AMR = '2';
+    public static char TYPE_VIDEO = '3';
     public static ContactTeacher currentChatTeacher = null;
 
     public static String getCurrentDateHms() {

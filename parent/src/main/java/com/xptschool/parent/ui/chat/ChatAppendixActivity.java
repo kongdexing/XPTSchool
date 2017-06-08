@@ -19,6 +19,7 @@ import com.jph.takephoto.uitl.TFileUtils;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.ui.main.BaseListActivity;
+import com.xptschool.parent.util.ChatUtil;
 
 import java.io.File;
 
@@ -51,9 +52,10 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
             //拍照，录像
             String path = data.getStringExtra("path");
             if (resultCode == 1001) {
-                takeSuccess(path);
+                takeSuccess(path, ChatUtil.TYPE_FILE, 0);
             } else if (resultCode == 1002) {
-                videoSuccess(path);
+                long duration = data.getLongExtra("duration", 0);
+                videoSuccess(path, duration);
             }
         } else {
             getTakePhoto().onActivityResult(requestCode, resultCode, data);
@@ -82,15 +84,15 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     @Override
     public final void takeSuccess(TResult result) {
-        takeSuccess(result.getImage().getCompressPath());
+        takeSuccess(result.getImage().getCompressPath(), ChatUtil.TYPE_FILE, 0);
     }
 
-    public void takeSuccess(String path) {
+    public void takeSuccess(String path, char type, long duration) {
 
     }
 
-    public void videoSuccess(String path) {
-
+    public void videoSuccess(String path, long duration) {
+        takeSuccess(path, ChatUtil.TYPE_VIDEO, duration);
     }
 
     @Override

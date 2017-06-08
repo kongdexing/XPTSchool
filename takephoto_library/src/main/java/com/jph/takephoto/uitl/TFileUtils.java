@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
+import java.util.UUID;
 
 /**
  * Author: crazycodeboy
@@ -16,7 +17,7 @@ import java.io.File;
 public class TFileUtils {
     private static final String TAG = "TFileUtils";
     //    private static String DEFAULT_DISK_CACHE_DIR = "takephoto_cache";
-    private static File mCacheDir ;
+    private static File mCacheDir;
 
     public static void setCacheFile(String filePath) {
         mCacheDir = new File(filePath);
@@ -27,7 +28,10 @@ public class TFileUtils {
             if (!mCacheDir.mkdirs() && (!mCacheDir.exists() || !mCacheDir.isDirectory())) {
                 return file;
             } else {
-                return new File(mCacheDir, file.getName());
+                String fileName = file.getName();
+                String prefix = fileName.substring(fileName.lastIndexOf("."));
+                String uuid = UUID.randomUUID().toString().replace("-", "");
+                return new File(mCacheDir, uuid + prefix);
             }
         }
         if (Log.isLoggable(TAG, Log.ERROR)) {

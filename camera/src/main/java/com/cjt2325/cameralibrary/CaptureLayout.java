@@ -40,7 +40,7 @@ public class CaptureLayout extends RelativeLayout {
         this.typeListener = typeListener;
     }
 
-    public void setCaptureLisenter(CaptureListener captureLisenter) {
+    public void setCaptureListener(CaptureListener captureLisenter) {
         this.captureLisenter = captureLisenter;
     }
 
@@ -153,8 +153,8 @@ public class CaptureLayout extends RelativeLayout {
         btn_capture_param.addRule(CENTER_IN_PARENT, TRUE);
         btn_capture_param.setMargins(0, 152, 0, 0);
         btn_capture.setLayoutParams(btn_capture_param);
-        btn_capture.setDuration(5000);
-        btn_capture.setCaptureLisenter(new CaptureListener() {
+        btn_capture.setDuration(10000);
+        btn_capture.setCaptureListener(new CaptureListener() {
             @Override
             public void takePictures() {
                 if (captureLisenter != null) {

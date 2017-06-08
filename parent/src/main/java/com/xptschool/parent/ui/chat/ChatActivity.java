@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -21,7 +23,6 @@ import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
-import com.jph.takephoto.model.TResult;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
@@ -31,8 +32,8 @@ import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.ui.chat.adapter.ChatAdapter;
 import com.xptschool.parent.ui.contact.ContactsDetailActivity;
-import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.util.ChatUtil;
 import com.xptschool.parent.util.ToastUtils;
 
@@ -82,7 +83,7 @@ public class ChatActivity extends ChatAppendixActivity {
     LinearLayout llAttachment;
 
     private boolean isInputWindowShow = false;
-
+    private boolean showAttachment = false;
     private ChatAdapter adapter = null;
     private ContactTeacher teacher;
     private BeanParent currentParent;
@@ -215,17 +216,53 @@ public class ChatActivity extends ChatAppendixActivity {
             }
         });
 
+        edtContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (edtContent.getText().toString().length() > 0) {
+                    imgPlus.setVisibility(View.GONE);
+                    btnSend.setVisibility(View.VISIBLE);
+                    llAttachment.setVisibility(View.GONE);
+                } else {
+                    imgPlus.setVisibility(View.VISIBLE);
+                    btnSend.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         RlParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 int heightDiff = RlParent.getRootView().getHeight();
                 int height = RlParent.getHeight();
                 int diff = heightDiff - height;
+                Log.i(TAG, "onGlobalLayout: " + diff);
                 if (diff > 400) {
                     //键盘弹起
                     isInputWindowShow = true;
+                    smoothBottom();
+                    if (showAttachment) {
+
+                    } else {
+                        showAttachment = false;
+                        llAttachment.setVisibility(View.GONE);
+                    }
                 } else {
                     isInputWindowShow = false;
+                    if (showAttachment) {
+                        llAttachment.setVisibility(View.VISIBLE);
+                        showAttachment = false;
+                    }
                 }
             }
         });
@@ -296,9 +333,10 @@ public class ChatActivity extends ChatAppendixActivity {
                 }
                 break;
             case R.id.edtContent:
-                if (!isInputWindowShow) {
-                    smoothBottom();
-                }
+//                if (!isInputWindowShow) {
+//                    smoothBottom();
+//                }
+//                llAttachment.setVisibility(View.GONE);
                 break;
             case R.id.btnSend:
                 String msg = edtContent.getText().toString();
@@ -321,7 +359,9 @@ public class ChatActivity extends ChatAppendixActivity {
                 }
                 break;
             case R.id.imgPlus:
+                Log.i(TAG, "viewClick: imgPlus");
                 smoothBottom();
+                showAttachment = llAttachment.getVisibility() == View.VISIBLE ? false : true;
                 ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
                 llAttachment.setVisibility(llAttachment.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 break;
@@ -340,7 +380,7 @@ public class ChatActivity extends ChatAppendixActivity {
     }
 
     @Override
-    public void takeSuccess(String result) {
+    public void takeSuccess(String result, char type, long duration) {
         Log.i(TAG, "takeSuccess：" + result);
         //send picture
         File file = new File(result);
@@ -349,9 +389,9 @@ public class ChatActivity extends ChatAppendixActivity {
         }
         try {
             BaseMessage message = new BaseMessage();
-            message.setType(ChatUtil.TYPE_FILE);
+            message.setType(type);
             message.setFilename(file.getName());
-            message.setSecond(0);
+            message.setSecond((int) duration / 1000);
             message.setSize((int) file.length());
             message.setParentId(currentParent.getU_id());
             message.setTeacherId(teacher.getU_id());
@@ -376,7 +416,12 @@ public class ChatActivity extends ChatAppendixActivity {
         }
         List<BeanChat> chats = new ArrayList<>();
         for (int i = pageChatList.size() - 1; i > -1; i--) {
-            chats.add(pageChatList.get(i));
+            BeanChat chat = pageChatList.get(i);
+//            if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
+//                chat.setSendStatus(ChatUtil.STATUS_FAILED);
+//            }
+//            pageChatList.set(i, chat);
+            chats.add(chat);
         }
         adapter.appendData(chats);
         currentOffset = adapter.getItemCount();
@@ -386,7 +431,6 @@ public class ChatActivity extends ChatAppendixActivity {
             int position = pageChatList.size() - 1;
             View topView = getLayoutManager().getChildAt(position);
             int topY = topView.getTop();
-
             recycleView.smoothScrollBy(0, topY);
         }
     }

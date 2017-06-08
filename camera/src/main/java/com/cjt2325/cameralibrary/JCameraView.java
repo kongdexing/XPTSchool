@@ -70,6 +70,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
 
     private Bitmap captureBitmap;
     private String videoUrl;
+    private long videoDuration = 0;
     private int type = -1;
 
     private int CAMERA_STATE = -1;
@@ -197,7 +198,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         this.addView(mCaptureLayout);
         this.addView(mFoucsView);
         //START >>>>>>> captureLayout lisenter callback
-        mCaptureLayout.setCaptureLisenter(new CaptureListener() {
+        mCaptureLayout.setCaptureListener(new CaptureListener() {
             @Override
             public void takePictures() {
                 if (CAMERA_STATE != STATE_IDLE || takePictureing) {
@@ -273,12 +274,13 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
             }
 
             @Override
-            public void recordEnd(long time) {
+            public void recordEnd(final long time) {
                 CameraInterface.getInstance().stopRecord(false, new CameraInterface.StopRecordCallback() {
                     @Override
                     public void recordResult(final String url) {
                         CAMERA_STATE = STATE_WAIT;
                         videoUrl = url;
+                        videoDuration = time;
                         type = TYPE_VIDEO;
                         new Thread(new Runnable() {
                             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -500,7 +502,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void handlerPictureOrVideo(int type, boolean confirm) {
-        Log.i(TAG, "handlerPictureOrVideo: type "+type);
+        Log.i(TAG, "handlerPictureOrVideo: type " + type);
         if (jCameraLisenter == null || type == -1) {
             return;
         }
@@ -519,7 +521,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
             case TYPE_VIDEO:
                 if (confirm) {
                     //回调录像成功后的URL
-                    jCameraLisenter.recordSuccess(videoUrl);
+                    jCameraLisenter.recordSuccess(videoUrl, videoDuration);
                 } else {
                     //删除视频
                     File file = new File(videoUrl);

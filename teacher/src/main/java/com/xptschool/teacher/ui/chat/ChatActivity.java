@@ -329,6 +329,7 @@ public class ChatActivity extends ChatAppendixActivity {
             case R.id.edtContent:
                 if (!isInputWindowShow) {
                     smoothBottom();
+                    llAttachment.setVisibility(View.GONE);
                 }
                 break;
             case R.id.btnSend:
