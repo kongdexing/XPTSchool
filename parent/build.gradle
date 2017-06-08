@@ -142,6 +142,7 @@ dependencies {
     // 多dex配置
 
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.0
+    compile project(':camera')
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:design:24.2.0'
@@ -156,8 +157,7 @@ dependencies {
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
     compile 'com.coolerfall:android-app-daemon:1.2.0'
     compile 'com.liulishuo.filedownloader:library:1.4.3'
+    compile 'io.github.rockerhieu:emojicon:1.4.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'io.github.rockerhieu:emojicon:1.4.1'
-    compile project(':camera')
 }

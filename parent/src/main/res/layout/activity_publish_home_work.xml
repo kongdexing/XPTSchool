@@ -27,7 +27,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
@@ -35,7 +35,7 @@
 
                 <TextView
                     android:id="@+id/txtClassName"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -51,14 +51,14 @@
                 android:gravity="center">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_subject" />
 
                 <TextView
                     android:id="@+id/txtSubject"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -73,14 +73,14 @@
                 android:background="@color/colorWhite">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_teacher" />
 
                 <TextView
                     android:id="@+id/txtTeacher"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -95,14 +95,14 @@
                 android:background="@color/colorWhite">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_starttime" />
 
                 <TextView
                     android:id="@+id/txtPushTime"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -116,14 +116,14 @@
                 android:background="@color/colorWhite">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_endtime" />
 
                 <TextView
                     android:id="@+id/txtCompleteTime"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -137,14 +137,14 @@
                 android:background="@color/colorWhite">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_homework_title" />
 
                 <TextView
                     android:id="@+id/edtName"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -160,14 +160,14 @@
 
                 <TextView
                     android:id="@+id/txtContent"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_content" />
 
                 <TextView
                     android:id="@+id/edtContent"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

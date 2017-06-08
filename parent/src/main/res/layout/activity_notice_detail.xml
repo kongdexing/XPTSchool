@@ -26,7 +26,7 @@
                 android:gravity="center">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
@@ -51,7 +51,7 @@
                 android:gravity="center">
 
                 <TextView
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
@@ -76,7 +76,7 @@
 
                 <TextView
                     android:id="@+id/txtNTitle"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
@@ -103,7 +103,7 @@
 
                 <TextView
                     android:id="@+id/txtContentTitle"
-                    style="@style/mineText"
+                    style="@style/itemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"

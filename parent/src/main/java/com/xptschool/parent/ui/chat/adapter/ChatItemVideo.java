@@ -1,12 +1,14 @@
 package com.xptschool.parent.ui.chat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.view.BubbleImageView;
@@ -16,6 +18,9 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.model.BeanChat;
+import com.xptschool.parent.ui.chat.ChatActivity;
+import com.xptschool.parent.ui.chat.DragPhotoActivity;
+import com.xptschool.parent.ui.chat.DragVideoActivity;
 
 import java.io.File;
 
@@ -30,11 +35,15 @@ import butterknife.ButterKnife;
 public class ChatItemVideo extends LinearLayout {
 
     private String TAG = ChatItemVideo.class.getSimpleName();
+    @BindView(R.id.rlContent)
+    RelativeLayout rlContent;
+
     @BindView(R.id.bubView)
     BubbleImageView bubView;
 
     @BindView(R.id.txtDuration)
     TextView txtDuration;
+    private Context mContext;
 
     public ChatItemVideo(Context context) {
         this(context, null);
@@ -42,19 +51,35 @@ public class ChatItemVideo extends LinearLayout {
 
     public ChatItemVideo(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.item_chat_parent_video, this, true);
         ButterKnife.bind(this, view);
     }
 
-    public void setChatInfo(BeanChat chatInfo) {
+    public void setChatInfo(final BeanChat chatInfo) {
         final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chatInfo.getFileName());
         Log.i(TAG, "setChatInfo: " + file.getPath());
-
         ImageLoader.getInstance().displayImage("file://" + file.getPath(),
                 new ImageViewAware(bubView),
                 CommonUtil.getDefaultImageLoaderOption());
-
         txtDuration.setText(chatInfo.getSeconds() + "s");
+
+        rlContent.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, DragVideoActivity.class);
+                int location[] = new int[2];
+                intent.putExtra("chat", chatInfo);
+                bubView.getLocationOnScreen(location);
+                intent.putExtra("left", location[0]);
+                intent.putExtra("top", location[1]);
+                intent.putExtra("height", bubView.getHeight());
+                intent.putExtra("width", bubView.getWidth());
+                mContext.startActivity(intent);
+                ((ChatActivity) mContext).overridePendingTransition(0, 0);
+            }
+        });
+
     }
 
 }

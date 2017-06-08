@@ -64,7 +64,6 @@ public class DragPhotoActivity extends AppCompatActivity {
 
         for (int i = 0; i < mPhotoViews.length; i++) {
             mPhotoViews[i] = (DragPhotoView) View.inflate(this, R.layout.item_viewpager, null);
-//            mPhotoViews[i].setImageResource(R.drawable.wugeng);
             ImageLoader.getInstance().displayImage(mList.get(i),
                     new ImageViewAware(mPhotoViews[i]),
                     CommonUtil.getDefaultImageLoaderOption());
@@ -106,6 +105,9 @@ public class DragPhotoActivity extends AppCompatActivity {
                 return view == object;
             }
         });
+
+        if (true)
+            return;
 
         mViewPager.getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

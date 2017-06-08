@@ -8,10 +8,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.LinearLayout;
 
 import uk.co.senab.photoview.PhotoView;
 
-public class DragPhotoView extends PhotoView {
+public class DragLayoutView extends LinearLayout {
     private Paint mPaint;
 
     // downX
@@ -37,15 +38,15 @@ public class DragPhotoView extends PhotoView {
     private OnTapListener mTapListener;
     private OnExitListener mExitListener;
 
-    public DragPhotoView(Context context) {
+    public DragLayoutView(Context context) {
         this(context, null);
     }
 
-    public DragPhotoView(Context context, AttributeSet attr) {
+    public DragLayoutView(Context context, AttributeSet attr) {
         this(context, attr, 0);
     }
 
-    public DragPhotoView(Context context, AttributeSet attr, int defStyle) {
+    public DragLayoutView(Context context, AttributeSet attr, int defStyle) {
         super(context, attr, defStyle);
         mPaint = new Paint();
         mPaint.setColor(Color.BLACK);
@@ -70,61 +71,58 @@ public class DragPhotoView extends PhotoView {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         //only scale == 1 can drag
-        if (getScale() == 1) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    onActionDown(event);
-                    //change the canFinish flag
-                    canFinish = !canFinish;
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    //in viewpager
-                    if (mTranslateY == 0 && mTranslateX != 0) {
-                        //如果不消费事件，则不作操作
-                        if (!isTouchEvent) {
-                            mScale = 1;
-                            return super.dispatchTouchEvent(event);
-                        }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                onActionDown(event);
+                //change the canFinish flag
+                canFinish = !canFinish;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //in viewpager
+                if (mTranslateY == 0 && mTranslateX != 0) {
+                    //如果不消费事件，则不作操作
+                    if (!isTouchEvent) {
+                        mScale = 1;
+                        return super.dispatchTouchEvent(event);
                     }
+                }
 
-                    //single finger drag  down
-                    if (mTranslateY >= 0 && event.getPointerCount() == 1) {
-                        onActionMove(event);
+                //single finger drag  down
+                if (mTranslateY >= 0 && event.getPointerCount() == 1) {
+                    onActionMove(event);
 
-                        //如果有上下位移 则不交给viewpager
-                        if (mTranslateY != 0) {
-                            isTouchEvent = true;
-                        }
-                        return true;
+                    //如果有上下位移 则不交给viewpager
+                    if (mTranslateY != 0) {
+                        isTouchEvent = true;
                     }
+                    return true;
+                }
 
-                    //防止下拉的时候双手缩放
-                    if (mTranslateY >= 0 && mScale < 0.95) {
-                        return true;
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    //防止下拉的时候双手缩放
-                    if (event.getPointerCount() == 1) {
-                        onActionUp(event);
-                        isTouchEvent = false;
-                        //judge finish or not
-                        postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mTranslateX == 0 && mTranslateY == 0 && canFinish) {
+                //防止下拉的时候双手缩放
+                if (mTranslateY >= 0 && mScale < 0.95) {
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                //防止下拉的时候双手缩放
+                if (event.getPointerCount() == 1) {
+                    onActionUp(event);
+                    isTouchEvent = false;
+                    //judge finish or not
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mTranslateX == 0 && mTranslateY == 0 && canFinish) {
 
-                                    if (mTapListener != null) {
-                                        mTapListener.onTap(DragPhotoView.this);
-                                    }
+                                if (mTapListener != null) {
+                                    mTapListener.onTap(DragLayoutView.this);
                                 }
-                                canFinish = false;
                             }
-                        }, 300);
-                    }
-            }
+                            canFinish = false;
+                        }
+                    }, 300);
+                }
         }
-
         return super.dispatchTouchEvent(event);
     }
 
@@ -276,11 +274,11 @@ public class DragPhotoView extends PhotoView {
     }
 
     public interface OnTapListener {
-        void onTap(DragPhotoView view);
+        void onTap(DragLayoutView view);
     }
 
     public interface OnExitListener {
-        void onExit(DragPhotoView view, float translateX, float translateY, float w, float h);
+        void onExit(DragLayoutView view, float translateX, float translateY, float w, float h);
     }
 
     public void finishAnimationCallBack() {
