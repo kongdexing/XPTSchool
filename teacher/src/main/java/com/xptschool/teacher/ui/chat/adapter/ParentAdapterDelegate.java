@@ -131,6 +131,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 }
             });
         } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
+            updateReadStatus(chat, viewHolder);
             //文件，图片
             //file path
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
@@ -140,9 +141,21 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.error_file.setVisibility(View.GONE);
-                viewHolder.bubbleImageView.setVisibility(View.VISIBLE);
-//                viewHolder.bubbleImageView.se
-                ImageLoader.getInstance().displayImage("file://" + file.getPath(), new ImageViewAware(viewHolder.bubbleImageView), CommonUtil.getDefaultImageLoaderOption());
+                viewHolder.imageView.setVisibility(View.VISIBLE);
+                viewHolder.imageView.setChatInfo(chat);
+            }
+        } else if ((ChatUtil.TYPE_VIDEO + "").equals(chat.getType())) {
+            updateReadStatus(chat, viewHolder);
+
+            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+            Log.i(TAG, "video: " + file.getPath());
+
+            if (!file.exists()) {
+                viewHolder.error_file.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.error_file.setVisibility(View.GONE);
+                viewHolder.videoView.setVisibility(View.VISIBLE);
+                viewHolder.videoView.setChatInfo(chat);
             }
         }
     }
@@ -185,8 +198,11 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         @BindView(R.id.id_recorder_time)
         TextView id_recorder_time;
 
-        @BindView(R.id.bubImg)
-        BubbleImageView bubbleImageView;
+        @BindView(R.id.imageView)
+        ChatItemImage imageView;
+
+        @BindView(R.id.videoView)
+        ChatItemVideo videoView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

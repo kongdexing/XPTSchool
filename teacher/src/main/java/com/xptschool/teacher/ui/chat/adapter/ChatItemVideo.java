@@ -56,6 +56,11 @@ public class ChatItemVideo extends LinearLayout {
     }
 
     public void setChatInfo(final BeanChat chatInfo) {
+        if (chatInfo.isSend()) {
+            bubView.setArrowLocation(BubbleImageView.LOCATION_RIGHT);
+        } else {
+            bubView.setArrowLocation(BubbleImageView.LOCATION_LEFT);
+        }
         final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chatInfo.getFileName());
         Log.i(TAG, "setChatInfo: " + file.getPath());
         ImageLoader.getInstance().displayImage("file://" + file.getPath(),

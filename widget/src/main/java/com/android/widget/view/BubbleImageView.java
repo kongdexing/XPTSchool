@@ -28,7 +28,8 @@ import com.android.widget.R;
 public class BubbleImageView extends ImageView {
 
     private String TAG = BubbleImageView.class.getSimpleName();
-    private static final int LOCATION_LEFT = 0;
+    public static final int LOCATION_LEFT = 0;
+    public static final int LOCATION_RIGHT = 1;
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 1;
 
@@ -108,6 +109,11 @@ public class BubbleImageView extends ImageView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        setup();
+    }
+
+    public void setArrowLocation(int mArrowLocation) {
+        this.mArrowLocation = mArrowLocation;
         setup();
     }
 

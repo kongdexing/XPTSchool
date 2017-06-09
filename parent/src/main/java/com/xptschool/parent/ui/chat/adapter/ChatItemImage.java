@@ -48,6 +48,12 @@ public class ChatItemImage extends LinearLayout {
     }
 
     public void setChatInfo(final BeanChat chatInfo) {
+        if (chatInfo.getIsSend()) {
+            bubView.setArrowLocation(BubbleImageView.LOCATION_RIGHT);
+        } else {
+            bubView.setArrowLocation(BubbleImageView.LOCATION_LEFT);
+        }
+
         final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chatInfo.getFileName());
         Log.i(TAG, "setChatInfo: " + file.getPath());
         ImageLoader.getInstance().displayImage("file://" + file.getPath(),
@@ -58,7 +64,7 @@ public class ChatItemImage extends LinearLayout {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DragPhotoActivity.class);
                 int location[] = new int[2];
-                intent.putExtra("chat",chatInfo);
+                intent.putExtra("chat", chatInfo);
                 bubView.getLocationOnScreen(location);
                 intent.putExtra("left", location[0]);
                 intent.putExtra("top", location[1]);
