@@ -17,8 +17,8 @@ android {
 
     defaultConfig {
         applicationId "com.xptschool.teacher"
-        minSdkVersion 17
-        targetSdkVersion 24
+        minSdkVersion 19
+        targetSdkVersion 14
         versionCode 8
         versionName "1.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -129,7 +129,7 @@ dependencies {
     compile project(':PushSDK')
     compile project(':takephoto_library')
     compile project(':widget')
-    compile project(':android-ngn-stack')
+//    compile project(':android-ngn-stack')
 
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'

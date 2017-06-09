@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -301,5 +302,10 @@ public class CommonUtil {
             localIntent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
         }
         context.startActivity(localIntent);
+    }
+
+    private String getUUID() {
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return uuid;
     }
 }

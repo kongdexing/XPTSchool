@@ -55,7 +55,6 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
 
     private JCameraListener jCameraLisenter;
 
-
     private Context mContext;
     private VideoView mVideoView;
     private ImageView mPhoto;

@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * =====================================
@@ -437,7 +438,7 @@ public class CameraInterface {
             videoSize = CameraParamUtil.getInstance().getPictureSize(mParams.getSupportedVideoSizes(), 1000,
                     screenProp);
         }
-//        Log.i(TAG, "setVideoSize    width = " + videoSize.width + "height = " + videoSize.height);
+        Log.i(TAG, "setVideoSize    width = " + videoSize.width + "height = " + videoSize.height);
         if (videoSize.width == videoSize.height) {
             mediaRecorder.setVideoSize(preview_width, preview_height);
         } else {
@@ -452,7 +453,8 @@ public class CameraInterface {
         mediaRecorder.setVideoEncodingBitRate(mediaQuality);
         mediaRecorder.setPreviewDisplay(surface);
 
-        videoFileName = "video_" + System.currentTimeMillis() + ".mp4";
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        videoFileName = uuid + ".mp4";
         if (saveVideoPath.equals("")) {
             saveVideoPath = Environment.getExternalStorageDirectory().getPath();
         }
