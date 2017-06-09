@@ -473,17 +473,15 @@ public class ChatActivity extends ChatAppendixActivity {
             }
             String action = intent.getAction();
             Log.i(TAG, "onReceive: " + action);
+
+            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+                smoothBottom();
+                return;
+            }
             BaseMessage sendMsg = (BaseMessage) bundle.get("message");
             BeanChat chat = new BeanChat();
             chat.parseMessageToChat(sendMsg);
             chat.setHasRead(true);
-
-//            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
-//                chat.setSendStatus(ChatUtil.STATUS_SENDING);
-//                adapter.addData(chat);
-//                smoothBottom();
-//                GreenDaoHelper.getInstance().insertChat(chat);
-//            } else
             if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
                 adapter.updateData(chat);

@@ -72,7 +72,6 @@ public class DragVideoActivity extends AppCompatActivity{
                 performExitAnimation(view, x, y, w, h);
             }
         });
-
     }
 
     private void finishWithAnimation(final DragLayoutView photoView) {

@@ -77,14 +77,12 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             Log.i(TAG, "onBindViewHolder text:" + chat.getContent());
             viewHolder.txtContent.setVisibility(View.VISIBLE);
-            viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
             updateReadStatus(chat, viewHolder);
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             Log.i(TAG, "onBindViewHolder amr:" + chat.getFileName());
             //录音
-            viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
 
             viewHolder.id_recorder_time.setText(chat.getSeconds() + "\"");

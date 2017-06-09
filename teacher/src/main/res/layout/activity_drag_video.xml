@@ -3,11 +3,13 @@
     android:id="@+id/dragLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true">
+    android:background="@color/color_black_1"
+    android:clickable="true"
+    android:gravity="center">
 
     <VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="visible" />
 </com.android.widget.view.DragLayoutView>

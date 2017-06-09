@@ -68,15 +68,18 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
         }
 
+        viewHolder.txtContent.setVisibility(View.GONE);
+        viewHolder.rlVoice.setVisibility(View.GONE);
+        viewHolder.imageView.setVisibility(View.GONE);
+        viewHolder.videoView.setVisibility(View.GONE);
+
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
-            viewHolder.rlVoice.setVisibility(View.GONE);
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
             updateReadStatus(chat, viewHolder);
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             //录音
-            viewHolder.txtContent.setVisibility(View.GONE);
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
             viewHolder.id_recorder_time.setText(chat.getSeconds() + "\"");
 

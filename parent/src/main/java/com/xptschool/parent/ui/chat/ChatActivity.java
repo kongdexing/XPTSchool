@@ -441,7 +441,6 @@ public class ChatActivity extends ChatAppendixActivity {
         chat.setHasRead(true);
         chat.setSendStatus(ChatUtil.STATUS_SENDING);
         adapter.addData(chat);
-        smoothBottom();
         GreenDaoHelper.getInstance().insertChat(chat);
     }
 
@@ -483,6 +482,11 @@ public class ChatActivity extends ChatAppendixActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             Log.i(TAG, "onReceive: " + action);
+            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
+                smoothBottom();
+                return;
+            }
+
             Bundle bundle = intent.getExtras();
             if (bundle == null) {
                 return;
@@ -493,12 +497,6 @@ public class ChatActivity extends ChatAppendixActivity {
             chat.parseMessageToChat(sendMsg);
             chat.setHasRead(true);
 
-//            if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
-//                chat.setSendStatus(ChatUtil.STATUS_SENDING);
-//                adapter.addData(chat);
-//                smoothBottom();
-//                GreenDaoHelper.getInstance().insertChat(chat);
-//            } else
             if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
                 adapter.updateData(chat);
