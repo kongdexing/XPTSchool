@@ -33,7 +33,7 @@ import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.server.SocketManager;
-import com.xptschool.teacher.ui.main.BaseListActivity;
+import com.xptschool.teacher.ui.chat.adapter.ChatAdapter;
 import com.xptschool.teacher.util.ChatUtil;
 import com.xptschool.teacher.util.ToastUtils;
 
@@ -86,6 +86,7 @@ public class ChatActivity extends ChatAppendixActivity {
     private ContactParent parent;
     private BeanTeacher currentTeacher;
     private boolean isInputWindowShow = false;
+    private boolean showAttachment = false;
     private List<BeanChat> pageChatList;
     private int currentOffset = 0, localDataCount = 0;
 
@@ -230,11 +231,25 @@ public class ChatActivity extends ChatAppendixActivity {
                 int heightDiff = RlParent.getRootView().getHeight();
                 int height = RlParent.getHeight();
                 int diff = heightDiff - height;
+                Log.i(TAG, "onGlobalLayout: " + diff + " showAttachment " + showAttachment);
                 if (diff > 400) {
                     //键盘弹起
                     isInputWindowShow = true;
+                    smoothBottom();
+                    if (showAttachment) {
+
+                    } else {
+                        showAttachment = false;
+                        llAttachment.setVisibility(View.GONE);
+                    }
                 } else {
                     isInputWindowShow = false;
+                    if (showAttachment) {
+                        llAttachment.setVisibility(View.VISIBLE);
+                        showAttachment = false;
+                    } else {
+                        llAttachment.setVisibility(View.GONE);
+                    }
                 }
             }
         });
@@ -327,10 +342,10 @@ public class ChatActivity extends ChatAppendixActivity {
                 }
                 break;
             case R.id.edtContent:
-                if (!isInputWindowShow) {
-                    smoothBottom();
-                    llAttachment.setVisibility(View.GONE);
-                }
+//                if (!isInputWindowShow) {
+//                    smoothBottom();
+//                    llAttachment.setVisibility(View.GONE);
+//                }
                 break;
             case R.id.btnSend:
                 String msg = edtContent.getText().toString();
@@ -354,6 +369,10 @@ public class ChatActivity extends ChatAppendixActivity {
                 }
                 break;
             case R.id.imgPlus:
+                smoothBottom();
+                showAttachment = llAttachment.getVisibility() == View.VISIBLE ? false : true;
+                Log.i(TAG, "viewClick: imgPlus showAttachment " + showAttachment);
+                ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
                 llAttachment.setVisibility(llAttachment.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
                 break;
             case R.id.llAlbum:
@@ -371,18 +390,18 @@ public class ChatActivity extends ChatAppendixActivity {
     }
 
     @Override
-    public void takeSuccess(TResult result) {
-        Log.i(TAG, "takeSuccess：" + result.getImage().getCompressPath());
+    public void takeSuccess(String result, char type, long duration) {
+        Log.i(TAG, "takeSuccess：" + result);
         //send picture
-        File file = new File(result.getImage().getCompressPath());
+        File file = new File(result);
         if (file.length() == 0) {
             return;
         }
         try {
             BaseMessage message = new BaseMessage();
-            message.setType(ChatUtil.TYPE_FILE);
+            message.setType(type);
             message.setFilename(file.getName());
-            message.setSecond(0);
+            message.setSecond((int) duration / 1000);
             message.setSize((int) file.length());
             message.setParentId(parent.getUser_id());
             message.setTeacherId(currentTeacher.getU_id());
@@ -442,7 +461,6 @@ public class ChatActivity extends ChatAppendixActivity {
 
     private void smoothBottom() {
         recycleView.smoothScrollToPosition(adapter.getItemCount());
-        llAttachment.setVisibility(View.GONE);
     }
 
     public BroadcastReceiver messageReceiver = new BroadcastReceiver() {

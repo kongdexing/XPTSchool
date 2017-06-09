@@ -149,6 +149,16 @@
             android:name=".ui.chat.ChatActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
+        <activity
+            android:name=".ui.chat.DragPhotoActivity"
+            android:theme="@style/translucent" />
+
+        <activity
+            android:name=".ui.chat.DragVideoActivity"
+            android:theme="@style/translucent"></activity>
+
+        <activity android:name=".ui.chat.RecordVideoActivity" />
+
         <service android:name=".server.SocketService" />
     </application>
 

@@ -127,7 +127,23 @@ public class SocketService extends Service {
                     return;
                 }
                 outputStream = mSocket.getOutputStream();
-                outputStream.write(message.getAllData());
+
+                byte[] allData = message.getAllData();
+                int n = 0;
+                while (n != -1) {
+                    byte[] temp = new byte[10 * 1024];
+                    if (temp.length > allData.length - n) {
+                        temp = new byte[allData.length - n];
+                    }
+                    System.arraycopy(allData, n, temp, 0, temp.length);
+                    outputStream.write(temp);
+                    n += temp.length;
+                    Log.i(TAG, "send n=" + n);
+                    if (n >= allData.length) {
+                        n = -1;
+                    }
+                }
+//                outputStream.write(message.getAllData());
                 outputStream.flush();
                 //发送完成
                 intent.setAction(BroadcastAction.MESSAGE_SEND_SUCCESS);

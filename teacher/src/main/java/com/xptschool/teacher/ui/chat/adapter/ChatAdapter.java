@@ -1,26 +1,18 @@
-package com.xptschool.teacher.ui.chat;
+package com.xptschool.teacher.ui.chat.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.android.widget.view.CircularImageView;
-import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.ui.chat.SoundPlayHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by dexing on 2017/5/10.

@@ -1,8 +1,6 @@
-package com.xptschool.teacher.ui.chat;
+package com.xptschool.teacher.ui.chat.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +18,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.ui.chat.SoundPlayHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;

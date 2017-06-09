@@ -50,10 +50,12 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1000) {
             //拍照，录像
-            String path = data.getStringExtra("path");
+
             if (resultCode == 1001) {
+                String path = data.getStringExtra("path");
                 takeSuccess(path, ChatUtil.TYPE_FILE, 0);
             } else if (resultCode == 1002) {
+                String path = data.getStringExtra("path");
                 long duration = data.getLongExtra("duration", 0);
                 videoSuccess(path, duration);
             }

@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.chat;
+package com.xptschool.teacher.ui.chat.adapter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

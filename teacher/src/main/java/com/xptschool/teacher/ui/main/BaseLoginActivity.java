@@ -1,12 +1,7 @@
 package com.xptschool.teacher.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -17,13 +12,10 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
-import com.xptschool.teacher.imsdroid.Engine;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
 
-import org.doubango.ngn.services.INgnSipService;
-import org.doubango.ngn.sip.NgnSipSession;
 import org.json.JSONObject;
 
 /**

@@ -12,13 +12,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION
+    compileSdkVersion 23
     buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.xptschool.teacher"
         minSdkVersion 19
-        targetSdkVersion 14
+        targetSdkVersion 21
         versionCode 8
         versionName "1.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -129,6 +129,7 @@ dependencies {
     compile project(':PushSDK')
     compile project(':takephoto_library')
     compile project(':widget')
+    compile project(':camera')
 //    compile project(':android-ngn-stack')
 
     compile 'com.android.support:appcompat-v7:24.2.0'

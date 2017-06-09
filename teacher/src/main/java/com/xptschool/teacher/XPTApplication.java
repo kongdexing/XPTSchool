@@ -33,8 +33,6 @@ import com.xptschool.teacher.push.MyPushIntentService;
 import com.xptschool.teacher.push.MyUmengMessageHandler;
 import com.xptschool.teacher.ui.main.MainActivity;
 
-import org.doubango.ngn.NgnApplication;
-
 import java.io.File;
 import java.net.Proxy;
 
@@ -42,7 +40,7 @@ import java.net.Proxy;
  * Created by Administrator on 2016/10/18 0018.
  */
 
-public class XPTApplication extends NgnApplication {
+public class XPTApplication extends Application {
 
     public static final String APP_ID = "3a3021ce3c"; // TODO 替换成bugly上注册的appid
     private static XPTApplication mInstance;

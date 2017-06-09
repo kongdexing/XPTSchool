@@ -20,6 +20,7 @@ import com.jph.takephoto.uitl.TFileUtils;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.ui.main.BaseListActivity;
+import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;
 
@@ -48,7 +49,19 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000) {
+            //拍照，录像
+            if (resultCode == 1001) {
+                String path = data.getStringExtra("path");
+                takeSuccess(path, ChatUtil.TYPE_FILE, 0);
+            } else if (resultCode == 1002) {
+                String path = data.getStringExtra("path");
+                long duration = data.getLongExtra("duration", 0);
+                videoSuccess(path, duration);
+            }
+        } else {
+            getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -72,8 +85,16 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     @Override
-    public void takeSuccess(TResult result) {
+    public final void takeSuccess(TResult result) {
+        takeSuccess(result.getImage().getCompressPath(), ChatUtil.TYPE_FILE, 0);
+    }
 
+    public void takeSuccess(String path, char type, long duration) {
+
+    }
+
+    public void videoSuccess(String path, long duration) {
+        takeSuccess(path, ChatUtil.TYPE_VIDEO, duration);
     }
 
     @Override
@@ -103,14 +124,17 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void takePhoto() {
-        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
-        File file = new File(cameraPath);
-        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-        Uri imageUri = Uri.fromFile(file);
-        TakePhoto takePhoto = getTakePhoto();
-        configCompress(takePhoto);
-        configTakePhotoOption(takePhoto);
-        takePhoto.onPickFromCapture(imageUri);
+
+        startActivityForResult(new Intent(this, RecordVideoActivity.class), 1000);
+
+//        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
+//        File file = new File(cameraPath);
+//        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+//        Uri imageUri = Uri.fromFile(file);
+//        TakePhoto takePhoto = getTakePhoto();
+//        configCompress(takePhoto);
+//        configTakePhotoOption(takePhoto);
+//        takePhoto.onPickFromCapture(imageUri);
     }
 
     private void configCompress(TakePhoto takePhoto) {

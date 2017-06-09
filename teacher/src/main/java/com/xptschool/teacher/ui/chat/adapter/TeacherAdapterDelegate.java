@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.chat;
+package com.xptschool.teacher.ui.chat.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -24,6 +24,7 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.ui.chat.SoundPlayHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.File;
@@ -89,6 +90,11 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         } else {
             viewHolder.imgUser.setImageResource(R.drawable.teacher_woman);
         }
+
+        viewHolder.txtContent.setVisibility(View.GONE);
+        viewHolder.rlVoice.setVisibility(View.GONE);
+        viewHolder.imageView.setVisibility(View.GONE);
+        viewHolder.videoView.setVisibility(View.GONE);
 
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
@@ -156,9 +162,20 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.error_file.setVisibility(View.GONE);
-                viewHolder.bubbleImageView.setVisibility(View.VISIBLE);
+                viewHolder.imageView.setVisibility(View.VISIBLE);
+                viewHolder.imageView.setChatInfo(chat);
+            }
+        } else if ((ChatUtil.TYPE_VIDEO + "").equals(chat.getType())) {
+            final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
+            Log.i(TAG, "video: " + file.getPath());
+
+            if (!file.exists()) {
+                viewHolder.error_file.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.error_file.setVisibility(View.GONE);
+                viewHolder.videoView.setVisibility(View.VISIBLE);
 //                viewHolder.bubbleImageView.se
-                ImageLoader.getInstance().displayImage("file://" + file.getPath(), new ImageViewAware(viewHolder.bubbleImageView), CommonUtil.getDefaultImageLoaderOption());
+                viewHolder.videoView.setChatInfo(chat);
             }
         }
 
@@ -192,8 +209,11 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         @BindView(R.id.llResend)
         LinearLayout llResend;
 
-        @BindView(R.id.bubImg)
-        BubbleImageView bubbleImageView;
+        @BindView(R.id.imageView)
+        ChatItemImage imageView;
+
+        @BindView(R.id.videoView)
+        ChatItemVideo videoView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

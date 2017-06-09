@@ -123,7 +123,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                 if (chat.getSize() > 0) {
                     chat.setHasRead(false);
                     char type = chat.getType().toCharArray()[0];
-                    if (ChatUtil.TYPE_AMR == type || ChatUtil.TYPE_FILE == type) {
+                    if (ChatUtil.TYPE_AMR == type || ChatUtil.TYPE_FILE == type || ChatUtil.TYPE_VIDEO == type) {
                         //创建文件
                         File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
                         if (!file.exists()) {

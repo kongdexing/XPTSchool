@@ -21,6 +21,7 @@
     <color name="white_option">#f2f2f2</color>
     <color name="colorRed_def">#d71345</color>
     <color name="colorRed_pre">#d93a49</color>
+    <color name="translucent">#00000000</color>
 
     <color name="map_colorTransparent">#CCFFFFFF</color>
     <color name="map_transparent_gray">#40000000</color>
