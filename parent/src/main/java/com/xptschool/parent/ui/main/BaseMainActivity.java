@@ -10,6 +10,7 @@ import android.util.Log;
 import com.umeng.message.IUmengCallback;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.imsdroid.Engine;
 import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -113,11 +114,11 @@ public class BaseMainActivity extends BaseActivity {
 
     private void initNgnConfig() {
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_DISPLAY_NAME, GreenDaoHelper.getInstance().getCurrentParent().getParent_name());
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:1008@123.57.238.217");
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, "1008");
+        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:1008@" + BuildConfig.CHAT_VIDEO_URL);
+        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, GreenDaoHelper.getInstance().getCurrentParent().getU_id());
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:123.57.238.217");
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, "123.57.238.217");
+        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
+        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
 //        mConfigurationService.putInt(NgnConfigurationEntry.NETWORK_PCSCF_PORT, NgnConfigurationEntry.DEFAULT_NETWORK_PCSCF_PORT);
 //        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_TRANSPORT, NgnConfigurationEntry.DEFAULT_NETWORK_TRANSPORT.toUpperCase());
 //        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_DISCOVERY, NgnConfigurationEntry.DEFAULT_NETWORK_PCSCF_DISCOVERY);

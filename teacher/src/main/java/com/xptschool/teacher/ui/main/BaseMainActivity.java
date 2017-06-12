@@ -10,6 +10,7 @@ import android.util.Log;
 import com.umeng.message.IUmengCallback;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.imsdroid.Engine;
 import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -112,12 +113,12 @@ public class BaseMainActivity extends BaseActivity {
 
     private void initNgnConfig() {
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_DISPLAY_NAME, GreenDaoHelper.getInstance().getCurrentTeacher().getName());
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:1008@123.57.238.217");
+        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:1008@" + BuildConfig.CHAT_VIDEO_URL);
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, "1008");
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:123.57.238.217");
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, "123.57.238.217");
-//
+        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
+        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
+
 //        // Compute
         if (!mConfigurationService.commit()) {
             Log.e(TAG, "Failed to commit() configuration");

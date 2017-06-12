@@ -75,6 +75,8 @@ android {
     productFlavors.all { flavor ->
         def service_url
         def app_instruction_url = "http://shuhaixinxi.com/plus/list.php?tid=88";
+        def chat_video_url = "video.pcuion.com";
+
         if (name == "official") {
             service_url = "http://school.xinpingtai.com"
         } else { // internal
@@ -84,6 +86,7 @@ android {
 
         buildConfigField "String", "SERVICE_URL", "\"$service_url\""
         buildConfigField "String", "APP_INSTRUCTION_URL", "\"$app_instruction_url\""
+        buildConfigField "String", "CHAT_VIDEO_URL", "\"$chat_video_url\""
     }
 
     sourceSets {
