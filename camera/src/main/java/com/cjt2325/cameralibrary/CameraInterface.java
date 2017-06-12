@@ -86,7 +86,7 @@ public class CameraInterface {
     private boolean error = false;
 
     //视频质量
-    private int mediaQuality = JCameraView.MEDIA_QUALITY_MIDDLE;
+    private int mediaQuality = JCameraView.MEDIA_QUALITY_LOW;
 
     private SensorManager sm = null;
     private SensorEventListener sensorEventListener = new SensorEventListener() {

@@ -39,7 +39,7 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 -keep class com.xptschool.teacher.**{*;}
--dontwarn com.xptschool.parent.**
+-dontwarn com.xptschool.teacher.**
 -keep public class * extends android.view.View{
     *** get*();
     void set*(***);
@@ -211,9 +211,6 @@
 -dontwarn anet.channel.appmonitor.**
 -keep class anet.channel.security.**{*;}
 -dontwarn anet.channel.security.**
-##agoo
--keep class org.android.agoo.control.**{*;}
--dontwarn org.android.agoo.control.**
 ##takephoto
 -dontwarn android.support.**
 -keep class android.support.** { *; }
@@ -240,3 +237,6 @@
 -dontwarn com.github.siyamed.**
 -keep class com.github.siyamed.shapeimageview.**{*;}
 #-keep com.umeng.message.common.**{*;}
+
+-keep class org.simpleframework.xml.stream.**{*;}
+-dontwarn org.simpleframework.xml.stream.**

@@ -34,6 +34,7 @@ import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.imsdroid.Engine;
 import com.xptschool.teacher.model.BeanBanner;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
@@ -388,6 +389,9 @@ public class MainActivity extends BaseMainActivity {
             Toast.makeText(this, R.string.toast_exit, Toast.LENGTH_SHORT).show();
             mExitTime = System.currentTimeMillis();
         } else {
+            if (!Engine.getInstance().stop()) {
+                Log.e(TAG, "Failed to stop engine");
+            }
             super.onBackPressed();
         }
     }

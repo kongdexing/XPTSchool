@@ -84,7 +84,6 @@ public class BaseMainActivity extends BaseActivity {
         intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
         intentFilter.addAction(NativeService.ACTION_STATE_EVENT);
         registerReceiver(mSipBroadCastRecv, intentFilter);
-
     }
 
     @Override
