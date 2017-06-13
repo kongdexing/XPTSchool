@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.View;
-import android.widget.ImageButton;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +24,12 @@ import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.sip.NgnInviteSession;
+import org.doubango.ngn.utils.NgnStringUtils;
+import org.doubango.ngn.utils.NgnTimer;
+import org.doubango.ngn.utils.NgnUriUtils;
+import org.doubango.tinyWRAP.QoS;
+
+import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -31,16 +41,35 @@ import butterknife.BindView;
 public class CallBaseScreen extends BaseActivity {
 
     private NgnEngine mEngine;
-    private NgnAVSession mSession;
+    public NgnAVSession mSession;
     private ContactParent contactParent;
     @BindView(R.id.view_call_trying_textView_name)
     TextView mTvRemote;
     @BindView(R.id.view_call_trying_imageButton_hang)
     ImageView mBtHangUp;
 
+    @BindView(R.id.mMainLayout)
+    FrameLayout mMainLayout;
+
+    private static int mCountBlankPacket = 0;
+
+    private NgnTimer mTimerInCall;
+    private NgnTimer mTimerSuicide;
+    private NgnTimer mTimerBlankPacket;
+    private NgnTimer mTimerQoS;
+
+    private TextView mTvQoS;
+    private View mViewInCallVideo;
+    private FrameLayout mViewLocalVideoPreview;
+    private FrameLayout mViewRemoteVideoPreview;
+
     public CallBaseScreen() {
         super();
         mEngine = NgnEngine.getInstance();
+        mTimerInCall = new NgnTimer();
+        mTimerSuicide = new NgnTimer();
+        mTimerBlankPacket = new NgnTimer();
+        mTimerQoS = new NgnTimer();
     }
 
     @Override
@@ -124,6 +153,8 @@ public class CallBaseScreen extends BaseActivity {
 
             final NgnInviteSession.InviteState callState = mSession.getState();
 //            mTvInfo.setText(getStateDesc(callState));
+            Log.i(TAG, "handleSipEvent: callState " + getStateDesc(callState));
+
             switch (callState) {
                 case REMOTE_RINGING:
                     mEngine.getSoundService().startRingBackTone();
@@ -132,10 +163,119 @@ public class CallBaseScreen extends BaseActivity {
                     mEngine.getSoundService().startRingTone();
                     break;
                 case EARLY_MEDIA:
+                    //拨打成功
+                    break;
                 case INCALL:
                     mEngine.getSoundService().stopRingTone();
                     mEngine.getSoundService().stopRingBackTone();
                     mSession.setSpeakerphoneOn(false);
+
+                    // release power lock if not video call
+//                    if (!mIsVideoCall && mWakeLock != null && mWakeLock.isHeld()) {
+//                        mWakeLock.release();
+//                    }
+
+                    switch (args.getEventType()) {
+                        case REMOTE_DEVICE_INFO_CHANGED: {
+                            Log.d(TAG, String.format("Remote device info changed: orientation: %s", mSession.getRemoteDeviceInfo().getOrientation()));
+                            break;
+                        }
+                        case MEDIA_UPDATED: {
+                            Log.i(TAG, "handleSipEvent: MEDIA_UPDATED");
+//                            if ((mIsVideoCall = (mSession.getMediaType() == NgnMediaType.AudioVideo || mSession.getMediaType() == NgnMediaType.Video))) {
+//                            loadInCallVideoView();
+                                    loadInCallVideoView();
+                                    if (mSession != null) {
+                                        applyCamRotation(mSession.compensCamRotation(true));
+                                        mTimerBlankPacket.schedule(mTimerTaskBlankPacket, 0, 250);
+        //                        if (mIsVideoCall) {
+                                        mTimerQoS.schedule(mTimerTaskQoS, 0, 3000);
+        //                        } else {
+        //                            mTimerInCall.schedule(mTimerTaskInCall, 0, 1000);
+        //                        }
+                            }
+//                            } else {
+//                                loadInCallAudioView();
+//                            }
+                            break;
+                        }
+                        case LOCAL_TRANSFER_TRYING: {
+//                            if (mTvInfo != null) {
+//                                mTvInfo.setText("Call Transfer: Initiated");
+//                            }
+                            Log.i(TAG, "handleSipEvent: Call Transfer: Initiated");
+                            break;
+                        }
+                        case LOCAL_TRANSFER_FAILED: {
+//                            if (mTvInfo != null) {
+//                                mTvInfo.setText("Call Transfer: Failed");
+//                            }
+                            Log.i(TAG, "handleSipEvent: Call Transfer: Failed");
+                            break;
+                        }
+                        case LOCAL_TRANSFER_ACCEPTED: {
+//                            if (mTvInfo != null) {
+//                                mTvInfo.setText("Call Transfer: Accepted");
+//                            }
+                            Log.i(TAG, "handleSipEvent: Call Transfer: Accepted");
+                            break;
+                        }
+                        case LOCAL_TRANSFER_COMPLETED: {
+//                            if (mTvInfo != null) {
+//                                mTvInfo.setText("Call Transfer: Completed");
+//                            }
+                            Log.i(TAG, "handleSipEvent: Call Transfer: Completed");
+                            break;
+                        }
+                        case LOCAL_TRANSFER_NOTIFY:
+                        case REMOTE_TRANSFER_NOTIFY: {
+//                            if (mTvInfo != null && mSession != null) {
+//                                short sipCode = intent.getShortExtra(NgnInviteEventArgs.EXTRA_SIPCODE, (short) 0);
+//
+//                                mTvInfo.setText("Call Transfer: " + sipCode + " " + args.getPhrase());
+//                                if (sipCode >= 300 && mSession.isLocalHeld()) {
+//                                    mSession.resumeCall();
+//                                }
+//                            }
+                            break;
+                        }
+
+                        case REMOTE_TRANSFER_REQUESTED: {
+                            String referToUri = intent.getStringExtra(NgnInviteEventArgs.EXTRA_REFERTO_URI);
+                            if (!NgnStringUtils.isNullOrEmpty(referToUri)) {
+                                String referToName = NgnUriUtils.getDisplayName(referToUri);
+                                if (!NgnStringUtils.isNullOrEmpty(referToName)) {
+                                    Log.i(TAG, "handleSipEvent: show dialog");
+                                }
+                            }
+                            break;
+                        }
+
+                        case REMOTE_TRANSFER_FAILED: {
+//                            if (mTransferDialog != null) {
+//                                mTransferDialog.cancel();
+//                                mTransferDialog = null;
+//                            }
+//                            mAVTransfSession = null;
+                            break;
+                        }
+                        case REMOTE_TRANSFER_COMPLETED: {
+//                            if (mTransferDialog != null) {
+//                                mTransferDialog.cancel();
+//                                mTransferDialog = null;
+//                            }
+//                            if (mAVTransfSession != null) {
+//                                mAVTransfSession.setContext(mSession.getContext());
+//                                mSession = mAVTransfSession;
+//                                mAVTransfSession = null;
+//                                loadInCallView(true);
+//                            }
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
                     break;
                 case TERMINATING:
                 case TERMINATED:
@@ -149,21 +289,174 @@ public class CallBaseScreen extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy()");
-        if (mSipBroadCastRecv != null) {
-            unregisterReceiver(mSipBroadCastRecv);
-            mSipBroadCastRecv = null;
+    private void loadInCallVideoView() {
+        Log.d(TAG, "loadInCallVideoView()");
+        if (mViewInCallVideo == null) {
+            mViewInCallVideo = LayoutInflater.from(this).inflate(R.layout.view_call_incall_video, null);
+            mViewLocalVideoPreview = (FrameLayout) mViewInCallVideo.findViewById(R.id.view_call_incall_video_FrameLayout_local_video);
+            mViewRemoteVideoPreview = (FrameLayout) mViewInCallVideo.findViewById(R.id.view_call_incall_video_FrameLayout_remote_video);
         }
 
-        if (mSession != null) {
-            mSession.setContext(null);
-            mSession.decRef();
+        mMainLayout.removeAllViews();
+        mMainLayout.addView(mViewInCallVideo);
+
+        final View viewSecure = mViewInCallVideo.findViewById(R.id.view_call_incall_video_imageView_secure);
+        if (viewSecure != null) {
+            viewSecure.setVisibility(mSession.isSecure() ? View.VISIBLE : View.INVISIBLE);
         }
-        super.onDestroy();
+        mTvQoS = (TextView) mViewInCallVideo.findViewById(R.id.view_call_incall_video_textView_QoS);
+
+        // Video Consumer
+        loadVideoPreview();
+
+        // Video Producer
+        startStopVideo(mSession.isSendingVideo());
+//        mCurrentView = ViewType.ViewInCall;
     }
 
+    public void loadVideoPreview() {
+        mViewRemoteVideoPreview.removeAllViews();
+        final View remotePreview = mSession.startVideoConsumerPreview();
+        if (remotePreview != null) {
+            final ViewParent viewParent = remotePreview.getParent();
+            if (viewParent != null && viewParent instanceof ViewGroup) {
+                ((ViewGroup) (viewParent)).removeView(remotePreview);
+            }
+            mViewRemoteVideoPreview.addView(remotePreview);
+        }
+    }
+
+    private void startStopVideo(boolean bStart) {
+        Log.d(TAG, "startStopVideo(" + bStart + ")");
+//        if (!mIsVideoCall) {
+//            return;
+//        }
+
+        mSession.setSendingVideo(bStart);
+
+        if (mViewLocalVideoPreview != null) {
+            mViewLocalVideoPreview.removeAllViews();
+            if (bStart) {
+                cancelBlankPacket();
+                final View localPreview = mSession.startVideoProducerPreview();
+                if (localPreview != null) {
+                    final ViewParent viewParent = localPreview.getParent();
+                    if (viewParent != null && viewParent instanceof ViewGroup) {
+                        ((ViewGroup) (viewParent)).removeView(localPreview);
+                    }
+                    if (localPreview instanceof SurfaceView) {
+                        ((SurfaceView) localPreview).setZOrderOnTop(true);
+                    }
+                    mViewLocalVideoPreview.addView(localPreview);
+                    mViewLocalVideoPreview.bringChildToFront(localPreview);
+                }
+            }
+            mViewLocalVideoPreview.setVisibility(bStart ? View.VISIBLE : View.GONE);
+            mViewLocalVideoPreview.bringToFront();
+        }
+    }
+
+    private void applyCamRotation(int rotation) {
+        if (mSession != null) {
+//            mLastRotation = rotation;
+            // libYUV
+            mSession.setRotation(rotation);
+
+            // FFmpeg
+            /*switch (rotation) {
+                case 0:
+				case 90:
+					mAVSession.setRotation(rotation);
+					mAVSession.setProducerFlipped(false);
+					break;
+				case 180:
+					mAVSession.setRotation(0);
+					mAVSession.setProducerFlipped(true);
+					break;
+				case 270:
+					mAVSession.setRotation(90);
+					mAVSession.setProducerFlipped(true);
+					break;
+				}*/
+        }
+    }
+
+    private void cancelBlankPacket() {
+        if (mTimerBlankPacket != null) {
+            mTimerBlankPacket.cancel();
+            mCountBlankPacket = 0;
+        }
+    }
+
+    private final TimerTask mTimerTaskQoS = new TimerTask() {
+        @Override
+        public void run() {
+            if (mSession != null && mTvQoS != null) {
+                synchronized (mTvQoS) {
+                    final QoS qos = mSession.getQoSVideo();
+                    if (qos != null) {
+                        CallBaseScreen.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                try {
+                                    mTvQoS.setText(
+                                            "Quality: 		" + (int) (qos.getQavg() * 100) + "%\n" +
+                                                    "Receiving:		" + qos.getBandwidthDownKbps() + "Kbps\n" +
+                                                    "Sending:		" + qos.getBandwidthUpKbps() + "Kbps\n" +
+                                                    "Size in:	    " + qos.getVideoInWidth() + "x" + qos.getVideoInHeight() + "\n" +
+                                                    "Size out:		" + qos.getVideoOutWidth() + "x" + qos.getVideoOutHeight() + "\n" +
+                                                    "Fps in:        " + qos.getVideoInAvgFps() + "\n" +
+                                                    "Encode time:   " + qos.getVideoEncAvgTime() + "ms / frame\n" +
+                                                    "Decode time:   " + qos.getVideoDecAvgTime() + "ms / frame\n"
+                                    );
+                                } catch (Exception e) {
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    };
+
+    private final TimerTask mTimerTaskBlankPacket = new TimerTask() {
+        @Override
+        public void run() {
+            Log.d(TAG, "Resending Blank Packet " + String.valueOf(mCountBlankPacket));
+            if (mCountBlankPacket < 3) {
+                if (mSession != null) {
+                    mSession.pushBlankPacket();
+                }
+                mCountBlankPacket++;
+            } else {
+                cancel();
+                mCountBlankPacket = 0;
+            }
+        }
+    };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy()");
+        try {
+            if (mSipBroadCastRecv != null) {
+                unregisterReceiver(mSipBroadCastRecv);
+                mSipBroadCastRecv = null;
+            }
+
+            if (mSession != null) {
+                mSession.setContext(null);
+                mSession.decRef();
+            }
+
+            mTimerBlankPacket.cancel();
+            mTimerTaskQoS.cancel();
+
+        } catch (Exception ex) {
+            Log.i(TAG, "onDestroy: " + ex.getMessage());
+        }
+    }
 
     public String getStateDesc(NgnInviteSession.InviteState state) {
         switch (state) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mMainLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -69,11 +70,13 @@
 
             <ImageView
                 android:id="@+id/view_call_trying_imageButton_hang"
-                android:layout_width="@dimen/dp_60"
-                android:layout_height="@dimen/dp_60"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_70"
                 android:background="@drawable/btn_bg_chat_video" />
 
         </LinearLayout>
 
     </RelativeLayout>
+
+
 </FrameLayout>
