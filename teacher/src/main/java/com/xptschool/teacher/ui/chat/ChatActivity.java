@@ -385,7 +385,7 @@ public class ChatActivity extends ChatAppendixActivity {
                 break;
             case R.id.llVideo:
                 llAttachment.setVisibility(View.GONE);
-                startVideo(parent.getUser_id());
+                startVideo(parent);
                 break;
         }
     }

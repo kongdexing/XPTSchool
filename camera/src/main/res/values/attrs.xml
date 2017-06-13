@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="iconSize" format="dimension"/>
-    <attr name="iconMargin" format="dimension"/>
-    <attr name="iconSrc" format="reference"/>
-    <attr name="duration_max" format="integer"/>
+    <attr name="iconSize" format="dimension" />
+    <attr name="iconMargin" format="dimension" />
+    <attr name="iconSrc" format="reference" />
+    <attr name="duration_max" format="integer" />
+    <attr name="showCapture" format="boolean" />
+    <attr name="showFront" format="boolean"/>
+
     <declare-styleable name="JCameraView">
-        <attr name="iconSize"/>
-        <attr name="iconMargin"/>
-        <attr name="iconSrc"/>
-        <attr name="duration_max"/>
+        <attr name="iconSize" />
+        <attr name="iconMargin" />
+        <attr name="iconSrc" />
+        <attr name="duration_max" />
+        <attr name="showCapture" />
+        <attr name="showFront" />
     </declare-styleable>
 </resources>

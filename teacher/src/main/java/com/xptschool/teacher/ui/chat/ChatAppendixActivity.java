@@ -1,7 +1,6 @@
 package com.xptschool.teacher.ui.chat;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,7 +8,6 @@ import android.widget.Toast;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.compress.CompressConfig;
-import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.InvokeParam;
 import com.jph.takephoto.model.TContextWrap;
 import com.jph.takephoto.model.TResult;
@@ -20,7 +18,8 @@ import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.jph.takephoto.uitl.TFileUtils;
 import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.common.LocalImageHelper;
+import com.xptschool.teacher.model.ContactParent;
+import com.xptschool.teacher.ui.chat.video.CallScreen;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
 
@@ -29,10 +28,7 @@ import org.doubango.ngn.media.NgnMediaType;
 import org.doubango.ngn.services.INgnConfigurationService;
 import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
-import org.doubango.ngn.utils.NgnConfigurationEntry;
 import org.doubango.ngn.utils.NgnUriUtils;
-
-import java.io.File;
 
 /**
  * Created by dexing on 2017/6/2.
@@ -47,6 +43,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     private INgnConfigurationService mConfigurationService;
     private INgnSipService mSipService;
     public final static String EXTRAT_SIP_SESSION_ID = "SipSession";
+    public final static String EXTRAT_PARENT_ID = "Parent";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,13 +177,12 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         startActivityForResult(new Intent(this, RecordVideoActivity.class), 1000);
     }
 
-    public boolean startVideo(String phoneNumber) {
-        phoneNumber = "1002";
+    public boolean startVideo(ContactParent parent) {
         if (!mSipService.isRegistered()) {
             Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
             return false;
         }
-        final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", phoneNumber, BuildConfig.CHAT_VIDEO_URL));
+        final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", "1002", BuildConfig.CHAT_VIDEO_URL));
         if (validUri == null) {
             Toast.makeText(this, "呼叫失败", Toast.LENGTH_SHORT).show();
 //            mTvLog.setText("failed to normalize sip uri '" + phoneNumber + "'");
@@ -196,6 +192,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         Intent i = new Intent();
         i.setClass(this, CallScreen.class);
         i.putExtra(EXTRAT_SIP_SESSION_ID, avSession.getId());
+        i.putExtra(EXTRAT_PARENT_ID, parent);
         startActivity(i);
         return avSession.makeCall(validUri);
     }

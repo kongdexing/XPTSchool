@@ -56,8 +56,8 @@ public class CameraInterface {
     private static CameraInterface mCameraInterface;
 
     private int SELECTED_CAMERA = -1;
-    private int CAMERA_POST_POSITION = -1;
-    private int CAMERA_FRONT_POSITION = -1;
+    public int CAMERA_POST_POSITION = -1;
+    public int CAMERA_FRONT_POSITION = -1;
 
     private SurfaceHolder mHolder = null;
     private float screenProp = -1.0f;
@@ -76,10 +76,8 @@ public class CameraInterface {
         this.mSwitchView = mSwitchView;
     }
 
-
     private int preview_width;
     private int preview_height;
-
 
     private int angle = 0;
     private int rotation = 0;
@@ -248,6 +246,10 @@ public class CameraInterface {
             mCameraInterface = new CameraInterface();
         }
         return mCameraInterface;
+    }
+
+    public void setSelectedCamera(int SELECTED_CAMERA) {
+        this.SELECTED_CAMERA = SELECTED_CAMERA;
     }
 
     /**

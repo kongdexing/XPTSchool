@@ -1,6 +1,5 @@
-package com.xptschool.teacher.ui.chat;
+package com.xptschool.teacher.ui.chat.video;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,29 +7,38 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.model.ContactParent;
+import com.xptschool.teacher.ui.chat.ChatAppendixActivity;
+import com.xptschool.teacher.ui.main.BaseActivity;
 
 import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
-import org.doubango.ngn.sip.NgnInviteSession.InviteState;
+import org.doubango.ngn.sip.NgnInviteSession;
 
-public class CallScreen extends Activity {
-    private static final String TAG = CallScreen.class.getCanonicalName();
+import butterknife.BindView;
 
-    private final NgnEngine mEngine;
-    private TextView mTvInfo;
-    private TextView mTvRemote;
-    private ImageButton mBtHangUp;
+/**
+ * Created by dexing on 2017/6/13.
+ * No1
+ */
 
+public class CallBaseScreen extends BaseActivity {
+
+    private NgnEngine mEngine;
     private NgnAVSession mSession;
-    private BroadcastReceiver mSipBroadCastRecv;
+    private ContactParent contactParent;
+    @BindView(R.id.view_call_trying_textView_name)
+    TextView mTvRemote;
+    @BindView(R.id.view_call_trying_imageButton_hang)
+    ImageView mBtHangUp;
 
-    public CallScreen() {
+    public CallBaseScreen() {
         super();
         mEngine = NgnEngine.getInstance();
     }
@@ -43,6 +51,7 @@ public class CallScreen extends Activity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mSession = NgnAVSession.getSession(extras.getLong(ChatAppendixActivity.EXTRAT_SIP_SESSION_ID));
+            contactParent = (ContactParent) extras.get(ChatAppendixActivity.EXTRAT_PARENT_ID);
         }
 
         if (mSession == null) {
@@ -53,20 +62,9 @@ public class CallScreen extends Activity {
         mSession.incRef();
         mSession.setContext(this);
 
-        // listen for audio/video session state
-        mSipBroadCastRecv = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                handleSipEvent(intent);
-            }
-        };
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
         registerReceiver(mSipBroadCastRecv, intentFilter);
-
-        mTvInfo = (TextView) findViewById(R.id.view_call_trying_textView_info);
-        mTvRemote = (TextView) findViewById(R.id.view_call_trying_textView_remote);
-        mBtHangUp = (ImageButton) findViewById(R.id.view_call_trying_imageButton_hang);
 
         mBtHangUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +75,7 @@ public class CallScreen extends Activity {
             }
         });
 
-        mTvRemote.setText(mSession.getRemotePartyDisplayName());
-        mTvInfo.setText(getStateDesc(mSession.getState()));
+        mTvRemote.setText(contactParent.getName());
     }
 
     @Override
@@ -86,9 +83,8 @@ public class CallScreen extends Activity {
         super.onResume();
         Log.d(TAG, "onResume()");
         if (mSession != null) {
-            final InviteState callState = mSession.getState();
-            mTvInfo.setText(getStateDesc(callState));
-            if (callState == InviteState.TERMINATING || callState == InviteState.TERMINATED) {
+            final NgnInviteSession.InviteState callState = mSession.getState();
+            if (callState == NgnInviteSession.InviteState.TERMINATING || callState == NgnInviteSession.InviteState.TERMINATED) {
                 finish();
             }
         }
@@ -102,42 +98,13 @@ public class CallScreen extends Activity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy()");
-        if (mSipBroadCastRecv != null) {
-            unregisterReceiver(mSipBroadCastRecv);
-            mSipBroadCastRecv = null;
+    // listen for audio/video session state
+    BroadcastReceiver mSipBroadCastRecv = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            handleSipEvent(intent);
         }
-
-        if (mSession != null) {
-            mSession.setContext(null);
-            mSession.decRef();
-        }
-        super.onDestroy();
-    }
-
-    private String getStateDesc(InviteState state) {
-        switch (state) {
-            case NONE:
-            default:
-                return "Unknown";
-            case INCOMING:
-                return "Incoming";
-            case INPROGRESS:
-                return "Inprogress";
-            case REMOTE_RINGING:
-                return "Ringing";
-            case EARLY_MEDIA:
-                return "Early media";
-            case INCALL:
-                return "In Call";
-            case TERMINATING:
-                return "Terminating";
-            case TERMINATED:
-                return "termibated";
-        }
-    }
+    };
 
     private void handleSipEvent(Intent intent) {
         if (mSession == null) {
@@ -155,8 +122,8 @@ public class CallScreen extends Activity {
                 return;
             }
 
-            final InviteState callState = mSession.getState();
-            mTvInfo.setText(getStateDesc(callState));
+            final NgnInviteSession.InviteState callState = mSession.getState();
+//            mTvInfo.setText(getStateDesc(callState));
             switch (callState) {
                 case REMOTE_RINGING:
                     mEngine.getSoundService().startRingBackTone();
@@ -181,4 +148,43 @@ public class CallScreen extends Activity {
             }
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+        if (mSipBroadCastRecv != null) {
+            unregisterReceiver(mSipBroadCastRecv);
+            mSipBroadCastRecv = null;
+        }
+
+        if (mSession != null) {
+            mSession.setContext(null);
+            mSession.decRef();
+        }
+        super.onDestroy();
+    }
+
+
+    public String getStateDesc(NgnInviteSession.InviteState state) {
+        switch (state) {
+            case NONE:
+            default:
+                return "Unknown";
+            case INCOMING:
+                return "Incoming";
+            case INPROGRESS:
+                return "Inprogress";
+            case REMOTE_RINGING:
+                return "Ringing";
+            case EARLY_MEDIA:
+                return "Early media";
+            case INCALL:
+                return "In Call";
+            case TERMINATING:
+                return "Terminating";
+            case TERMINATED:
+                return "termibated";
+        }
+    }
+
 }

@@ -89,6 +89,8 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     private int iconMargin = 0;
     private int iconSrc = 0;
     private int duration = 0;
+    private boolean showCapture = false;
+    private boolean showFront = false;
 
     /**
      * constructor
@@ -118,6 +120,11 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                 TypedValue.COMPLEX_UNIT_SP, 15, getResources().getDisplayMetrics()));
         iconSrc = a.getResourceId(R.styleable.JCameraView_iconSrc, R.drawable.ic_sync_black_24dp);
         duration = a.getInteger(R.styleable.JCameraView_duration_max, 10 * 1000);
+        showCapture = a.getBoolean(R.styleable.JCameraView_showCapture, true);
+        showFront = a.getBoolean(R.styleable.JCameraView_showFront, false);
+        if (showFront) {
+            CameraInterface.getInstance().setSelectedCamera(CameraInterface.getInstance().CAMERA_FRONT_POSITION);
+        }
         a.recycle();
         initData();
         initView();
@@ -131,7 +138,6 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         fouce_size = layout_width / 4;
         CAMERA_STATE = STATE_IDLE;
     }
-
 
     private void initView() {
         setWillNotDraw(false);
@@ -194,7 +200,9 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         this.addView(mVideoView);
         this.addView(mPhoto);
         this.addView(mSwitchCamera);
-        this.addView(mCaptureLayout);
+        if (showCapture) {
+            this.addView(mCaptureLayout);
+        }
         this.addView(mFoucsView);
         //START >>>>>>> captureLayout lisenter callback
         mCaptureLayout.setCaptureListener(new CaptureListener() {
