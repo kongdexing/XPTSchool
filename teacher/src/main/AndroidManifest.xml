@@ -166,6 +166,8 @@
             android:theme="@style/translucent" />
         <activity android:name=".ui.chat.RecordVideoActivity" />
 
+        <activity android:name=".ui.chat.CallScreen" />
+
         <service android:name=".server.SocketService" />
         <service android:name=".imsdroid.NativeService" />
 

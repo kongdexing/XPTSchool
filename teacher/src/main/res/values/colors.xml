@@ -50,6 +50,7 @@
     
     <color name="color_rcBackgroundColor">#e9eaec</color>
     <color name="color_rcSecondaryProgressColor">#15948d</color>
-
+    <color name="color_dark">#161C27</color>
+    <color name="color_light">#4D6288</color>
 
 </resources>

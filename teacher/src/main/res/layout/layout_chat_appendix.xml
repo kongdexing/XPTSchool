@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="相机"
+                android:text="拍摄"
                 android:textColor="@color/color_black_2"
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="录像"
+                android:text="视频聊天"
                 android:textColor="@color/color_black_2"
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>

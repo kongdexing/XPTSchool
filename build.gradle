@@ -30,7 +30,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    appKeyBaiduMap_teacher = 'qstS4X61O56p6ZGN3AUDw30gWHC7mznI'
+    appKeyBaiduMap_teacher = 'RT1n2p9UnF3ayZ37aCaSea7W8B0oamHp'
+//    appKeyBaiduMap_teacher = 'qstS4X61O56p6ZGN3AUDw30gWHC7mznI'
 //    appKeyBaiduMap_parent ='2semRqoILz2QXSEdsKFVp0I3csYM8svG'
     appKeyBaiduMap_parent = '1N3lQ2ePHG4tDZYs82lghklj5eSVHahc'
 

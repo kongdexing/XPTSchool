@@ -131,7 +131,7 @@ public class Engine extends NgnEngine {
 
         // Send the notification.
         // We use a layout id because it is a unique number.  We use it later to cancel.
-        mNotifManager.notify(notifId, notification);
+//        mNotifManager.notify(notifId, notification);
     }
 
     public void showAppNotif(int drawableId, String tickerText) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
@@ -17,10 +18,19 @@ import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.jph.takephoto.uitl.TFileUtils;
+import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
+
+import org.doubango.ngn.NgnEngine;
+import org.doubango.ngn.media.NgnMediaType;
+import org.doubango.ngn.services.INgnConfigurationService;
+import org.doubango.ngn.services.INgnSipService;
+import org.doubango.ngn.sip.NgnAVSession;
+import org.doubango.ngn.utils.NgnConfigurationEntry;
+import org.doubango.ngn.utils.NgnUriUtils;
 
 import java.io.File;
 
@@ -33,11 +43,20 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
+    private NgnEngine mEngine;
+    private INgnConfigurationService mConfigurationService;
+    private INgnSipService mSipService;
+    public final static String EXTRAT_SIP_SESSION_ID = "SipSession";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
         TFileUtils.setCacheFile(XPTApplication.getInstance().getCachePath());
+
+        mEngine = NgnEngine.getInstance();
+        mConfigurationService = mEngine.getConfigurationService();
+        mSipService = mEngine.getSipService();
+
         super.onCreate(savedInstanceState);
     }
 
@@ -70,6 +89,40 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Starts the engine
+        if (!mEngine.isStarted()) {
+            if (mEngine.start()) {
+                Log.i(TAG, "onResume: Engine started :)");
+//                mTvLog.setText("Engine started :)");
+            } else {
+                Log.i(TAG, "onResume: Failed to start the engine :(");
+//                mTvLog.setText("Failed to start the engine :(");
+            }
+        }
+        // Register
+        if (mEngine.isStarted()) {
+            if (!mSipService.isRegistered()) {
+                Log.i(TAG, "onResume: to register");
+                // Set credentials
+//                mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, SIP_USERNAME);
+//                mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, String.format("sip:%s@%s", SIP_USERNAME, SIP_DOMAIN));
+//                mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, SIP_PASSWORD);
+//                mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, SIP_SERVER_HOST);
+//                mConfigurationService.putInt(NgnConfigurationEntry.NETWORK_PCSCF_PORT, SIP_SERVER_PORT);
+//                mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, SIP_DOMAIN);
+//                // VERY IMPORTANT: Commit changes
+//                mConfigurationService.commit();
+//                // register (log in)
+//                mSipService.register(this);
+            } else {
+                Log.i(TAG, "onResume: register ok");
+            }
+        }
     }
 
     /**
@@ -124,17 +177,27 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void takePhoto() {
-
         startActivityForResult(new Intent(this, RecordVideoActivity.class), 1000);
+    }
 
-//        String cameraPath = LocalImageHelper.getInstance().setCameraImgPath();
-//        File file = new File(cameraPath);
-//        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-//        Uri imageUri = Uri.fromFile(file);
-//        TakePhoto takePhoto = getTakePhoto();
-//        configCompress(takePhoto);
-//        configTakePhotoOption(takePhoto);
-//        takePhoto.onPickFromCapture(imageUri);
+    public boolean startVideo(String phoneNumber) {
+        phoneNumber = "1002";
+        if (!mSipService.isRegistered()) {
+            Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", phoneNumber, BuildConfig.CHAT_VIDEO_URL));
+        if (validUri == null) {
+            Toast.makeText(this, "呼叫失败", Toast.LENGTH_SHORT).show();
+//            mTvLog.setText("failed to normalize sip uri '" + phoneNumber + "'");
+            return false;
+        }
+        NgnAVSession avSession = NgnAVSession.createOutgoingSession(mSipService.getSipStack(), NgnMediaType.AudioVideo);
+        Intent i = new Intent();
+        i.setClass(this, CallScreen.class);
+        i.putExtra(EXTRAT_SIP_SESSION_ID, avSession.getId());
+        startActivity(i);
+        return avSession.makeCall(validUri);
     }
 
     private void configCompress(TakePhoto takePhoto) {

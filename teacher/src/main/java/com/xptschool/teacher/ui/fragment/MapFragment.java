@@ -100,9 +100,7 @@ public class MapFragment extends MapBaseFragment implements BDLocationListener, 
 
     @Override
     protected void initData() {
-        super.initData();
         getStudents();
-
         mBaiduMap = mMapView.getMap();
         // 开启定位图层
         mBaiduMap.getUiSettings().setRotateGesturesEnabled(true);
@@ -110,6 +108,7 @@ public class MapFragment extends MapBaseFragment implements BDLocationListener, 
         // 定位初始化
         mLocClient = new LocationClient(mContext);
         mLocClient.registerLocationListener(this);
+        super.initData();
 
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 打开gps
