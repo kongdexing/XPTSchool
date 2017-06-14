@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xptschool.teacher.R;
@@ -43,16 +43,13 @@ public class CallBaseScreen extends BaseActivity {
     private NgnEngine mEngine;
     public NgnAVSession mSession;
     private ContactParent contactParent;
-    @BindView(R.id.view_call_trying_textView_name)
-    TextView mTvRemote;
-    @BindView(R.id.view_call_trying_imageButton_hang)
-    ImageView mBtHangUp;
 
-    @BindView(R.id.mMainLayout)
-    FrameLayout mMainLayout;
+    @BindView(R.id.screen_av_relativeLayout)
+    RelativeLayout mMainLayout;
 
     private static int mCountBlankPacket = 0;
 
+    private LayoutInflater mInflater;
     private NgnTimer mTimerInCall;
     private NgnTimer mTimerSuicide;
     private NgnTimer mTimerBlankPacket;
@@ -75,7 +72,7 @@ public class CallBaseScreen extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_call_trying);
+        setContentView(R.layout.screen_av);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -95,18 +92,19 @@ public class CallBaseScreen extends BaseActivity {
         intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
         registerReceiver(mSipBroadCastRecv, intentFilter);
 
-        mBtHangUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSession != null) {
-                    mSession.hangUpCall();
-                }
-            }
-        });
-
-        if (contactParent != null) {
-            mTvRemote.setText(contactParent.getName());
-        }
+        loadView();
+//        mBtHangUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mSession != null) {
+//                    mSession.hangUpCall();
+//                }
+//            }
+//        });
+//
+//        if (contactParent != null) {
+//            mTvRemote.setText(contactParent.getName());
+//        }
     }
 
     @Override
@@ -136,6 +134,27 @@ public class CallBaseScreen extends BaseActivity {
             handleSipEvent(intent);
         }
     };
+
+    private void loadView() {
+        Log.i(TAG, "loadView: " + mSession.getState());
+
+        switch (mSession.getState()) {
+            case INCOMING:
+            case INPROGRESS:
+            case REMOTE_RINGING:
+                loadTryingView();
+                break;
+            case INCALL:
+            case EARLY_MEDIA:
+//                loadInCallView();
+                break;
+            case NONE:
+            case TERMINATING:
+            case TERMINATED:
+            default:
+                break;
+        }
+    }
 
     private void handleSipEvent(Intent intent) {
         if (mSession == null) {
@@ -283,6 +302,61 @@ public class CallBaseScreen extends BaseActivity {
                     break;
             }
         }
+    }
+
+    private void loadTryingView() {
+        Log.d(TAG, "loadTryingView()");
+
+        TryingView mViewTrying = new TryingView(this);
+        mViewTrying.setTryingClickListener(new TryingView.tryingClickListener() {
+            @Override
+            public void onHangUpClick() {
+                hangUpCall();
+            }
+
+            @Override
+            public void onAcceptClick() {
+                acceptCall();
+            }
+        });
+        switch (mSession.getState()) {
+            case INCOMING:
+                mViewTrying.isInCallingView(true);
+                mViewTrying.mTvInfo.setText(getString(R.string.string_call_incoming));
+                break;
+            case INPROGRESS:
+            case REMOTE_RINGING:
+            case EARLY_MEDIA:
+            default:
+                mViewTrying.isInCallingView(false);
+                mViewTrying.mTvInfo.setText(getString(R.string.string_call_outgoing));
+//                btPick.setVisibility(View.GONE);
+                break;
+        }
+
+        if (contactParent != null) {
+            mViewTrying.tvRemote.setText(contactParent.getName());
+        }
+//        if (mRemotePartyPhoto != null) {
+//            ivAvatar.setImageBitmap(mRemotePartyPhoto);
+//        }
+
+        mMainLayout.removeAllViews();
+        mMainLayout.addView(mViewTrying);
+    }
+
+    private boolean hangUpCall() {
+        if (mSession != null) {
+            return mSession.hangUpCall();
+        }
+        return false;
+    }
+
+    private boolean acceptCall() {
+        if (mSession != null) {
+            return mSession.acceptCall();
+        }
+        return false;
     }
 
     private void loadInCallVideoView() {

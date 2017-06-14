@@ -154,8 +154,8 @@
 
     <string name="string_call_terminated">Call Terminated</string>
     <string name="string_incall">In Call</string>
-    <string name="string_call_incoming">Incoming Call</string>
-    <string name="string_call_outgoing">Outgoing Call</string>
+    <string name="string_call_incoming">邀请您进行视频通话...</string>
+    <string name="string_call_outgoing">正在等待对方接受邀请...</string>
     <string name="string_call_cancelled">Call cancelled</string>
 
 </resources>

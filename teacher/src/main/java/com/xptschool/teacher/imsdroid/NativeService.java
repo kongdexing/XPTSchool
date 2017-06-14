@@ -32,6 +32,7 @@ import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.chat.video.CallScreen;
+import com.xptschool.teacher.ui.chat.video.InCallActivity;
 
 import org.doubango.ngn.NgnNativeService;
 import org.doubango.ngn.events.NgnEventArgs;
@@ -258,6 +259,9 @@ public class NativeService extends NgnNativeService {
                             if (avSession != null) {
                                 mEngine.showAVCallNotif(R.drawable.phone_call_25, getString(R.string.string_call_incoming));
 //                                    ScreenAV.receiveCall(avSession);
+                                String remoteUri = avSession.getRemotePartyUri();
+                                String parentId = remoteUri.substring(remoteUri.indexOf(":"), remoteUri.indexOf("@"));
+                                Log.i(TAG, "onReceive: INCOMING " + parentId);
                                 Intent i = new Intent();
                                 i.setClass(NativeService.this, CallScreen.class);
                                 i.putExtra(EXTRAT_SIP_SESSION_ID, avSession.getId());
@@ -268,8 +272,8 @@ public class NativeService extends NgnNativeService {
                                 if (mWakeLock != null && !mWakeLock.isHeld()) {
                                     mWakeLock.acquire(10);
                                 }
-                                Log.i(TAG, "onReceive: INCOMING " + avSession.getFromUri());
-                                mEngine.getSoundService().startRingTone();
+//                                mEngine.getSoundService().startRingTone();
+
                             } else {
                                 Log.e(TAG, String.format("Failed to find session with id=%ld", args.getSessionId()));
                             }
@@ -313,10 +317,6 @@ public class NativeService extends NgnNativeService {
                 mWakeLock = null;
             }
         }
-//        if (mSipService.isRegistered()) {
-//            Log.i(TAG, "registerVideoServer unRegister");
-//            mSipService.unRegister();
-//        }
         getEngine().stop();
         super.onDestroy();
     }
