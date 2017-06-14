@@ -1,9 +1,7 @@
 package com.xptschool.teacher.model;
 
-import android.util.Log;
-
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.server.SocketManager;
+import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.ui.chat.BaseMessage;
 import com.xptschool.teacher.util.ChatUtil;
 
@@ -200,7 +198,7 @@ public class BeanChat implements Serializable {
             }
             if (allByte != null) {
                 message.setAllData(allByte);
-                SocketManager.getInstance().sendMessage(message);
+                ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {
 

@@ -180,6 +180,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     public boolean startVideo(ContactParent parent) {
         if (!mSipService.isRegistered()) {
             Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
+
             return false;
         }
         final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", "1002", BuildConfig.CHAT_VIDEO_URL));

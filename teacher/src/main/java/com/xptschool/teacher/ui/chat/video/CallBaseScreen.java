@@ -104,7 +104,9 @@ public class CallBaseScreen extends BaseActivity {
             }
         });
 
-        mTvRemote.setText(contactParent.getName());
+        if (contactParent != null) {
+            mTvRemote.setText(contactParent.getName());
+        }
     }
 
     @Override
@@ -170,10 +172,13 @@ public class CallBaseScreen extends BaseActivity {
                     mEngine.getSoundService().stopRingBackTone();
                     mSession.setSpeakerphoneOn(false);
 
-                    // release power lock if not video call
-//                    if (!mIsVideoCall && mWakeLock != null && mWakeLock.isHeld()) {
-//                        mWakeLock.release();
-//                    }
+                    loadInCallVideoView();
+
+                    if (mSession != null) {
+                        applyCamRotation(mSession.compensCamRotation(true));
+                        mTimerBlankPacket.schedule(mTimerTaskBlankPacket, 0, 250);
+                        mTimerQoS.schedule(mTimerTaskQoS, 0, 3000);
+                    }
 
                     switch (args.getEventType()) {
                         case REMOTE_DEVICE_INFO_CHANGED: {
@@ -184,16 +189,7 @@ public class CallBaseScreen extends BaseActivity {
                             Log.i(TAG, "handleSipEvent: MEDIA_UPDATED");
 //                            if ((mIsVideoCall = (mSession.getMediaType() == NgnMediaType.AudioVideo || mSession.getMediaType() == NgnMediaType.Video))) {
 //                            loadInCallVideoView();
-                                    loadInCallVideoView();
-                                    if (mSession != null) {
-                                        applyCamRotation(mSession.compensCamRotation(true));
-                                        mTimerBlankPacket.schedule(mTimerTaskBlankPacket, 0, 250);
-        //                        if (mIsVideoCall) {
-                                        mTimerQoS.schedule(mTimerTaskQoS, 0, 3000);
-        //                        } else {
-        //                            mTimerInCall.schedule(mTimerTaskInCall, 0, 1000);
-        //                        }
-                            }
+                            loadInCallVideoView();
 //                            } else {
 //                                loadInCallAudioView();
 //                            }
@@ -300,10 +296,6 @@ public class CallBaseScreen extends BaseActivity {
         mMainLayout.removeAllViews();
         mMainLayout.addView(mViewInCallVideo);
 
-        final View viewSecure = mViewInCallVideo.findViewById(R.id.view_call_incall_video_imageView_secure);
-        if (viewSecure != null) {
-            viewSecure.setVisibility(mSession.isSecure() ? View.VISIBLE : View.INVISIBLE);
-        }
         mTvQoS = (TextView) mViewInCallVideo.findViewById(R.id.view_call_incall_video_textView_QoS);
 
         // Video Consumer

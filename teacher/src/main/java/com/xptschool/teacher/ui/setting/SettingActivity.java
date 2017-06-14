@@ -19,7 +19,7 @@ import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
-import com.xptschool.teacher.server.SocketManager;
+import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.ui.main.LoginActivity;
 import com.xptschool.teacher.ui.main.WebViewActivity;
@@ -80,7 +80,7 @@ public class SettingActivity extends BaseActivity {
                         UpushTokenHelper.exitAccount();
                         GreenDaoHelper.getInstance().clearData();
 
-                        SocketManager.getInstance().stopServer(SettingActivity.this);
+                        ServerManager.getInstance().stopServer(SettingActivity.this);
 
                         //拒收通知
                         PushAgent mPushAgent = PushAgent.getInstance(SettingActivity.this);

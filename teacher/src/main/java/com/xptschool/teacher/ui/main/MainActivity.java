@@ -24,9 +24,6 @@ import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeng.message.IUmengCallback;
-import com.umeng.message.IUmengRegisterCallback;
-import com.umeng.message.PushAgent;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
@@ -34,13 +31,10 @@ import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
-import com.xptschool.teacher.imsdroid.Engine;
 import com.xptschool.teacher.model.BeanBanner;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.push.UpushTokenHelper;
-import com.xptschool.teacher.server.SocketManager;
 import com.xptschool.teacher.ui.fragment.BaseFragment;
 import com.xptschool.teacher.ui.fragment.HomeFragment;
 import com.xptschool.teacher.ui.fragment.MapFragment;
@@ -83,8 +77,6 @@ public class MainActivity extends BaseMainActivity {
 
         initView();
         initData();
-
-        SocketManager.getInstance().startServer(this);
     }
 
     private void initView() {
@@ -384,14 +376,16 @@ public class MainActivity extends BaseMainActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
             Toast.makeText(this, R.string.toast_exit, Toast.LENGTH_SHORT).show();
             mExitTime = System.currentTimeMillis();
         } else {
-            if (!Engine.getInstance().stop()) {
-                Log.e(TAG, "Failed to stop engine");
-            }
             super.onBackPressed();
         }
     }

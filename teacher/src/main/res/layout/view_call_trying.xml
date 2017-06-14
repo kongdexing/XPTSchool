@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="送水工alsdjfk奥斯卡的房间啊是"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_30" />
 

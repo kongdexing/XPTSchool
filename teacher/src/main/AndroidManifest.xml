@@ -81,7 +81,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.main.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -165,12 +164,12 @@
             android:name=".ui.chat.DragVideoActivity"
             android:theme="@style/translucent" />
         <activity android:name=".ui.chat.RecordVideoActivity" />
-
         <activity android:name=".ui.chat.video.CallScreen" />
 
         <service android:name=".server.SocketService" />
         <service android:name=".imsdroid.NativeService" />
 
+        <activity android:name=".ui.chat.video.InCallActivity"></activity>
     </application>
 
 </manifest>

@@ -309,23 +309,8 @@ public class GreenDaoHelper {
         if (deviceToken == null) {
             return;
         }
-        String token = getTokenByUID(deviceToken.getUserId());
-        if (token == null) {
-            insertToken(deviceToken);
-        } else {
-            updateToken(deviceToken);
-        }
-    }
-
-    private void insertToken(BeanDeviceToken deviceToken) {
         if (writeDaoSession != null) {
-            writeDaoSession.getBeanDeviceTokenDao().insert(deviceToken);
-        }
-    }
-
-    private void updateToken(BeanDeviceToken deviceToken) {
-        if (writeDaoSession != null) {
-            writeDaoSession.getBeanDeviceTokenDao().update(deviceToken);
+            writeDaoSession.getBeanDeviceTokenDao().insertOrReplace(deviceToken);
         }
     }
 

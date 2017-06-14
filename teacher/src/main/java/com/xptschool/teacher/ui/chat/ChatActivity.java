@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import com.android.widget.audiorecorder.AudioRecorderButton;
 import com.android.widget.audiorecorder.Recorder;
-import com.jph.takephoto.model.TResult;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
@@ -32,7 +31,7 @@ import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.server.SocketManager;
+import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.ui.chat.adapter.ChatAdapter;
 import com.xptschool.teacher.util.ChatUtil;
 import com.xptschool.teacher.util.ToastUtils;
@@ -193,7 +192,7 @@ public class ChatActivity extends ChatAppendixActivity {
                     if (allByte != null) {
                         message.setAllData(allByte);
                         addSendingMsg(message);
-                        SocketManager.getInstance().sendMessage(message);
+                        ServerManager.getInstance().sendMessage(message);
                     }
                 } catch (Exception ex) {
                     Log.i(TAG, "viewClick: " + ex.getMessage());
@@ -365,7 +364,7 @@ public class ChatActivity extends ChatAppendixActivity {
                     message.setAllData(allByte);
                     edtContent.setText("");
                     addSendingMsg(message);
-                    SocketManager.getInstance().sendMessage(message);
+                    ServerManager.getInstance().sendMessage(message);
                 }
                 break;
             case R.id.imgPlus:
@@ -413,7 +412,7 @@ public class ChatActivity extends ChatAppendixActivity {
             if (allByte != null) {
                 message.setAllData(allByte);
                 addSendingMsg(message);
-                SocketManager.getInstance().sendMessage(message);
+                ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {
             Log.i(TAG, "viewClick: " + ex.getMessage());
