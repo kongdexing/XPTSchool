@@ -93,18 +93,6 @@ public class CallBaseScreen extends BaseActivity {
         registerReceiver(mSipBroadCastRecv, intentFilter);
 
         loadView();
-//        mBtHangUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mSession != null) {
-//                    mSession.hangUpCall();
-//                }
-//            }
-//        });
-//
-//        if (contactParent != null) {
-//            mTvRemote.setText(contactParent.getName());
-//        }
     }
 
     @Override
@@ -336,6 +324,9 @@ public class CallBaseScreen extends BaseActivity {
 
         if (contactParent != null) {
             mViewTrying.tvRemote.setText(contactParent.getName());
+        } else {
+
+            mViewTrying.tvRemote.setText(mSession.getRemotePartyDisplayName());
         }
 //        if (mRemotePartyPhoto != null) {
 //            ivAvatar.setImageBitmap(mRemotePartyPhoto);

@@ -32,7 +32,6 @@ import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.chat.video.CallScreen;
-import com.xptschool.teacher.ui.chat.video.InCallActivity;
 
 import org.doubango.ngn.NgnNativeService;
 import org.doubango.ngn.events.NgnEventArgs;
@@ -45,13 +44,8 @@ import org.doubango.ngn.media.NgnMediaType;
 import org.doubango.ngn.services.INgnConfigurationService;
 import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
-import org.doubango.ngn.sip.NgnMsrpSession;
-import org.doubango.ngn.sip.NgnSipSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
-import org.doubango.ngn.utils.NgnStringUtils;
-import org.doubango.ngn.utils.NgnUriUtils;
 
-import static com.xptschool.teacher.ui.chat.ChatAppendixActivity.EXTRAT_PARENT_ID;
 import static com.xptschool.teacher.ui.chat.ChatAppendixActivity.EXTRAT_SIP_SESSION_ID;
 
 public class NativeService extends NgnNativeService {
@@ -143,15 +137,15 @@ public class NativeService extends NgnNativeService {
             Log.i(TAG, "initNgnConfig: teacher is null");
             return;
         }
-
+        String userId = teacher.getU_id();
+        Log.i(TAG, "initNgnConfig userId: " + userId);
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_DISPLAY_NAME, teacher.getName());
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:1008@" + BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, "1008");
+        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:" + userId + "@" + BuildConfig.CHAT_VIDEO_URL);
+        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, userId);
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
         mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
         mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
 
-//        // Compute
         if (!mConfigurationService.commit()) {
             Log.e(TAG, "Failed to commit() configuration");
         }
@@ -183,7 +177,7 @@ public class NativeService extends NgnNativeService {
                     Log.e(TAG, "Invalid event args");
                     return;
                 }
-                Log.i(TAG, "onReceive: " + args.getEventType());
+                Log.i(TAG, "ACTION_REGISTRATION_EVENT onReceive: " + args.getEventType());
                 switch ((type = args.getEventType())) {
                     case REGISTRATION_OK:
                     case REGISTRATION_NOK:
@@ -192,45 +186,9 @@ public class NativeService extends NgnNativeService {
                     case UNREGISTRATION_OK:
                     case UNREGISTRATION_NOK:
                     default:
-                        final boolean bTrying = (type == NgnRegistrationEventTypes.REGISTRATION_INPROGRESS || type == NgnRegistrationEventTypes.UNREGISTRATION_INPROGRESS);
-//                            if (mEngine.getSipService().isRegistered()) {
-//                                mEngine.showAppNotif(bTrying ? R.drawable.bullet_ball_glass_grey_16 : R.drawable.bullet_ball_glass_green_16, null);
-//                                XPTApplication.acquirePowerLock();
-//                            } else {
-//                                mEngine.showAppNotif(bTrying ? R.drawable.bullet_ball_glass_grey_16 : R.drawable.bullet_ball_glass_red_16, null);
-//                                XPTApplication.releasePowerLock();
-//                            }
                         break;
                 }
-            }
-
-            // PagerMode Messaging Events
-            if (NgnMessagingEventArgs.ACTION_MESSAGING_EVENT.equals(action)) {
-                NgnMessagingEventArgs args = intent.getParcelableExtra(NgnMessagingEventArgs.EXTRA_EMBEDDED);
-                if (args == null) {
-                    Log.e(TAG, "Invalid event args");
-                    return;
-                }
-                Log.i(TAG, "onReceive: pagerMode " + args.getEventType());
-                switch (args.getEventType()) {
-                    case INCOMING:
-                        String dateString = intent.getStringExtra(NgnMessagingEventArgs.EXTRA_DATE);
-                        String remoteParty = intent.getStringExtra(NgnMessagingEventArgs.EXTRA_REMOTE_PARTY);
-                        if (NgnStringUtils.isNullOrEmpty(remoteParty)) {
-                            remoteParty = NgnStringUtils.nullValue();
-                        }
-                        remoteParty = NgnUriUtils.getUserName(remoteParty);
-//                            NgnHistorySMSEvent event = new NgnHistorySMSEvent(remoteParty, StatusType.Incoming);
-//                            event.setContent(new String(args.getPayload()));
-//                            event.setStartTime(NgnDateTimeUtils.parseDate(dateString).getTime());
-//                            mEngine.getHistoryService().addEvent(event);
-                        mEngine.showSMSNotif(R.drawable.sms_25, "New message");
-                        break;
-                }
-            }
-
-            // Invite Events
-            if (NgnInviteEventArgs.ACTION_INVITE_EVENT.equals(action)) {
+            } else if (NgnInviteEventArgs.ACTION_INVITE_EVENT.equals(action)) {
                 NgnInviteEventArgs args = intent.getParcelableExtra(NgnEventArgs.EXTRA_EMBEDDED);
                 if (args == null) {
                     Log.e(TAG, "Invalid event args");
@@ -238,7 +196,7 @@ public class NativeService extends NgnNativeService {
                 }
 
                 final NgnMediaType mediaType = args.getMediaType();
-
+                Log.i(TAG, "ACTION_INVITE_EVENT onReceive: " + args.getEventType());
                 switch (args.getEventType()) {
                     case TERMWAIT:
                     case TERMINATED:
@@ -248,16 +206,15 @@ public class NativeService extends NgnNativeService {
                             mEngine.getSoundService().stopRingTone();
                         }
                         break;
-
                     case INCOMING:
                         if (NgnMediaType.isAudioVideoType(mediaType)) {
                             final NgnAVSession avSession = NgnAVSession.getSession(args.getSessionId());
                             if (avSession != null) {
                                 mEngine.showAVCallNotif(R.drawable.phone_call_25, getString(R.string.string_call_incoming));
-//                                    ScreenAV.receiveCall(avSession);
                                 String remoteUri = avSession.getRemotePartyUri();
+                                String displayName = avSession.getRemotePartyDisplayName();
                                 String parentId = remoteUri.substring(remoteUri.indexOf(":"), remoteUri.indexOf("@"));
-                                Log.i(TAG, "onReceive: INCOMING " + parentId);
+                                Log.i(TAG, "onReceive: INCOMING " + parentId + " " + displayName);
                                 Intent i = new Intent();
                                 i.setClass(NativeService.this, CallScreen.class);
                                 i.putExtra(EXTRAT_SIP_SESSION_ID, avSession.getId());
@@ -268,8 +225,7 @@ public class NativeService extends NgnNativeService {
                                 if (mWakeLock != null && !mWakeLock.isHeld()) {
                                     mWakeLock.acquire(10);
                                 }
-//                                mEngine.getSoundService().startRingTone();
-
+                                mEngine.getSoundService().startRingTone();
                             } else {
                                 Log.e(TAG, String.format("Failed to find session with id=%ld", args.getSessionId()));
                             }

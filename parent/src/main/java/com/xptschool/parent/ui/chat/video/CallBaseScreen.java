@@ -324,10 +324,9 @@ public class CallBaseScreen extends BaseActivity {
 
         if (contactTeacher != null) {
             mViewTrying.tvRemote.setText(contactTeacher.getName());
+        } else {
+            mViewTrying.tvRemote.setText(mSession.getRemotePartyDisplayName());
         }
-//        if (mRemotePartyPhoto != null) {
-//            ivAvatar.setImageBitmap(mRemotePartyPhoto);
-//        }
 
         mMainLayout.removeAllViews();
         mMainLayout.addView(mViewTrying);
