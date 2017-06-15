@@ -242,6 +242,8 @@
             android:name=".ui.chat.DragVideoActivity"
             android:theme="@style/translucent"></activity>
 
+        <activity android:name=".ui.chat.video.CallScreen" />
+
         <activity android:name=".ui.chat.RecordVideoActivity" />
         <activity android:name=".ui.wallet.TelephoneFareActivity" />
 

@@ -3,6 +3,7 @@ package com.xptschool.parent.server;
 import android.content.Context;
 import android.content.Intent;
 
+import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.ui.chat.BaseMessage;
 
 /**
@@ -10,22 +11,25 @@ import com.xptschool.parent.ui.chat.BaseMessage;
  * No1
  */
 
-public class SocketManager {
+public class ServerManager {
 
-    private static SocketManager mInstance = new SocketManager();
+    private static ServerManager mInstance = new ServerManager();
     private SocketService mSocketService;
 
-    public static SocketManager getInstance() {
+    public static ServerManager getInstance() {
         return mInstance;
     }
 
     public void startService(Context context) {
         Intent intent = new Intent(context, SocketService.class);
         context.startService(intent);
+
+        context.startService(new Intent(context, NativeService.class));
     }
 
     public void stopService(Context context) {
         context.stopService(new Intent(context, SocketService.class));
+        context.stopService(new Intent(context, NativeService.class));
     }
 
     public void sendMessage(BaseMessage message) {

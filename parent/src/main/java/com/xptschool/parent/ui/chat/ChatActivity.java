@@ -31,7 +31,7 @@ import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.ui.chat.adapter.ChatAdapter;
 import com.xptschool.parent.ui.contact.ContactsDetailActivity;
 import com.xptschool.parent.util.ChatUtil;
@@ -207,7 +207,7 @@ public class ChatActivity extends ChatAppendixActivity {
                     if (allByte != null) {
                         message.setAllData(allByte);
                         addSendingMsg(message);
-                        SocketManager.getInstance().sendMessage(message);
+                        ServerManager.getInstance().sendMessage(message);
                     }
                 } catch (Exception ex) {
                     Log.i(TAG, "viewClick: " + ex.getMessage());
@@ -355,7 +355,7 @@ public class ChatActivity extends ChatAppendixActivity {
                     message.setAllData(allByte);
                     edtContent.setText("");
                     addSendingMsg(message);
-                    SocketManager.getInstance().sendMessage(message);
+                    ServerManager.getInstance().sendMessage(message);
                 }
                 break;
             case R.id.imgPlus:
@@ -375,6 +375,7 @@ public class ChatActivity extends ChatAppendixActivity {
                 break;
             case R.id.llVideo:
                 llAttachment.setVisibility(View.GONE);
+                startVideo(teacher);
                 break;
         }
     }
@@ -402,7 +403,7 @@ public class ChatActivity extends ChatAppendixActivity {
             if (allByte != null) {
                 message.setAllData(allByte);
                 addSendingMsg(message);
-                SocketManager.getInstance().sendMessage(message);
+                ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {
             Log.i(TAG, "viewClick: " + ex.getMessage());

@@ -1,10 +1,7 @@
 package com.xptschool.parent.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.ui.chat.BaseMessage;
 import com.xptschool.parent.util.ChatUtil;
 
@@ -202,7 +199,7 @@ public class BeanChat implements Serializable {
             }
             if (allByte != null) {
                 message.setAllData(allByte);
-                SocketManager.getInstance().sendMessage(message);
+                ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {
 

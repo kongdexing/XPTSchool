@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.chat.video;
+package com.xptschool.parent.ui.chat.video;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cjt2325.cameralibrary.JCameraView;
-import com.xptschool.teacher.R;
+import com.xptschool.parent.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

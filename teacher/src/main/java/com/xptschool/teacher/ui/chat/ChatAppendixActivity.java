@@ -88,40 +88,6 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Starts the engine
-        if (!mEngine.isStarted()) {
-            if (mEngine.start()) {
-                Log.i(TAG, "onResume: Engine started :)");
-//                mTvLog.setText("Engine started :)");
-            } else {
-                Log.i(TAG, "onResume: Failed to start the engine :(");
-//                mTvLog.setText("Failed to start the engine :(");
-            }
-        }
-        // Register
-        if (mEngine.isStarted()) {
-            if (!mSipService.isRegistered()) {
-                Log.i(TAG, "onResume: to register");
-                // Set credentials
-//                mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, SIP_USERNAME);
-//                mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, String.format("sip:%s@%s", SIP_USERNAME, SIP_DOMAIN));
-//                mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, SIP_PASSWORD);
-//                mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, SIP_SERVER_HOST);
-//                mConfigurationService.putInt(NgnConfigurationEntry.NETWORK_PCSCF_PORT, SIP_SERVER_PORT);
-//                mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, SIP_DOMAIN);
-//                // VERY IMPORTANT: Commit changes
-//                mConfigurationService.commit();
-//                // register (log in)
-//                mSipService.register(this);
-            } else {
-                Log.i(TAG, "onResume: register ok");
-            }
-        }
-    }
-
     /**
      * 获取TakePhoto实例
      *
@@ -180,10 +146,9 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     public boolean startVideo(ContactParent parent) {
         if (!mSipService.isRegistered()) {
             Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
-
             return false;
         }
-        final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", "1002", BuildConfig.CHAT_VIDEO_URL));
+        final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", "1007", BuildConfig.CHAT_VIDEO_URL));
         if (validUri == null) {
             Toast.makeText(this, "呼叫失败", Toast.LENGTH_SHORT).show();
 //            mTvLog.setText("failed to normalize sip uri '" + phoneNumber + "'");

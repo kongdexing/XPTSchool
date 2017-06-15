@@ -15,6 +15,7 @@ import com.xptschool.parent.imsdroid.Engine;
 import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
+import com.xptschool.parent.server.ServerManager;
 
 import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.events.NgnEventArgs;
@@ -31,17 +32,9 @@ import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 public class BaseMainActivity extends BaseActivity {
 
-    //login video chat server
-    private INgnSipService mSipService;
-    private INgnConfigurationService mConfigurationService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSipService = getEngine().getSipService();
-        this.mConfigurationService = getEngine().getConfigurationService();
-
-        initNgnConfig();
 
         final PushAgent mPushAgent = PushAgent.getInstance(this);
         mPushAgent.setDebugMode(false);
@@ -81,114 +74,12 @@ public class BaseMainActivity extends BaseActivity {
             }
         });
 
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
-        intentFilter.addAction(NativeService.ACTION_STATE_EVENT);
-        registerReceiver(mSipBroadCastRecv, intentFilter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!Engine.getInstance().isStarted()) {
-            final Engine engine = getEngine();
-            final Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!engine.isStarted()) {
-                        Log.d(TAG, "Starts the engine from the splash screen");
-                        engine.start();
-                    }
-                }
-            });
-            thread.setPriority(Thread.MAX_PRIORITY);
-            thread.start();
-        } else {
-            registerVideoServer();
-        }
+        ServerManager.getInstance().startService(this);
     }
-
-    protected Engine getEngine() {
-        return (Engine) Engine.getInstance();
-    }
-
-    private void initNgnConfig() {
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_DISPLAY_NAME, GreenDaoHelper.getInstance().getCurrentParent().getParent_name());
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:1008@" + BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, GreenDaoHelper.getInstance().getCurrentParent().getU_id());
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
-//        mConfigurationService.putInt(NgnConfigurationEntry.NETWORK_PCSCF_PORT, NgnConfigurationEntry.DEFAULT_NETWORK_PCSCF_PORT);
-//        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_TRANSPORT, NgnConfigurationEntry.DEFAULT_NETWORK_TRANSPORT.toUpperCase());
-//        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_DISCOVERY, NgnConfigurationEntry.DEFAULT_NETWORK_PCSCF_DISCOVERY);
-//        mConfigurationService.putBoolean(NgnConfigurationEntry.NETWORK_USE_WIFI,
-//                mCbWiFi.isChecked());
-//        mConfigurationService.putBoolean(NgnConfigurationEntry.NETWORK_USE_3G,
-//                mCb3G.isChecked());
-//        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_IP_VERSION,
-//                mRbIPv4.isChecked() ? "ipv4" : "ipv6");
-
-        // Compute
-        if (!mConfigurationService.commit()) {
-            Log.e(TAG, "Failed to commit() configuration");
-        }
-        Log.i(TAG, "initNgnConfig: ");
-    }
-
-    private void registerVideoServer() {
-        if (mSipService.getRegistrationState() == NgnSipSession.ConnectionState.CONNECTING || mSipService.getRegistrationState() == NgnSipSession.ConnectionState.TERMINATING) {
-            Log.i(TAG, "registerVideoServer stopStack");
-            mSipService.stopStack();
-        } else if (mSipService.isRegistered()) {
-            Log.i(TAG, "registerVideoServer unRegister");
-            mSipService.unRegister();
-        } else {
-            Log.i(TAG, "registerVideoServer register");
-            mSipService.register(this);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mSipBroadCastRecv != null) {
-            unregisterReceiver(mSipBroadCastRecv);
-            mSipBroadCastRecv = null;
-        }
-
-        super.onDestroy();
-    }
-
-    BroadcastReceiver mSipBroadCastRecv = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            Log.i(TAG, "onReceive: " + action);
-            // Registration Event
-            if (NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT.equals(action)) {
-                NgnRegistrationEventArgs args = intent.getParcelableExtra(NgnEventArgs.EXTRA_EMBEDDED);
-                if (args == null) {
-                    Log.e(TAG, "Invalid event args");
-                    return;
-                }
-                Log.i(TAG, "onReceive: " + args.getEventType());
-
-                switch (args.getEventType()) {
-                    case REGISTRATION_NOK:
-                    case UNREGISTRATION_OK:
-                    case REGISTRATION_OK:
-                    case REGISTRATION_INPROGRESS:
-                    case UNREGISTRATION_INPROGRESS:
-                    case UNREGISTRATION_NOK:
-                    default:
-//                        ((ScreenHomeAdapter) mGridView.getAdapter()).refresh();
-                        break;
-                }
-            } else if (NativeService.ACTION_STATE_EVENT.equals(action)) {
-                registerVideoServer();
-            }
-        }
-    };
-
 
 }

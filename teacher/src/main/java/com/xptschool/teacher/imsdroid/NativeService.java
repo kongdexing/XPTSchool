@@ -160,15 +160,11 @@ public class NativeService extends NgnNativeService {
 
     private void registerVideoServer() {
 //        if (mSipService.getRegistrationState() == NgnSipSession.ConnectionState.CONNECTING || mSipService.getRegistrationState() == NgnSipSession.ConnectionState.TERMINATING) {
-//            Log.i(TAG, "registerVideoServer stopStack");
 //            mSipService.stopStack();
 //        } else if (mSipService.isRegistered()) {
-//            Log.i(TAG, "registerVideoServer unRegister");
 //            mSipService.unRegister();
 //        } else {
-//
 //        }
-
         Log.i(TAG, "registerVideoServer register");
         mSipService.register(this);
     }

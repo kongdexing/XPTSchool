@@ -23,9 +23,6 @@ import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeng.message.IUmengCallback;
-import com.umeng.message.IUmengRegisterCallback;
-import com.umeng.message.PushAgent;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
@@ -37,8 +34,7 @@ import com.xptschool.parent.imsdroid.Engine;
 import com.xptschool.parent.model.BeanBanner;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.push.UpushTokenHelper;
-import com.xptschool.parent.server.SocketManager;
+import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.ui.fragment.BaseFragment;
 import com.xptschool.parent.ui.fragment.HomeFragment;
 import com.xptschool.parent.ui.fragment.MapFragment;
@@ -83,7 +79,6 @@ public class MainActivity extends BaseMainActivity {
         initView();
         initData();
 
-        SocketManager.getInstance().startService(this);
     }
 
     private void initView() {

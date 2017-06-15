@@ -1,6 +1,5 @@
 package com.xptschool.parent;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
@@ -23,28 +22,18 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.message.MsgConstant;
-import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
-import com.xptschool.parent.common.ActivityTaskHelper;
 import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.MyNotificationService;
-import com.xptschool.parent.push.MyPushIntentService;
-import com.xptschool.parent.push.MyUmengMessageHandler;
-import com.xptschool.parent.server.SocketManager;
-import com.xptschool.parent.ui.contact.ContactsActivity;
 import com.xptschool.parent.ui.main.MainActivity;
 
 import org.doubango.ngn.NgnApplication;
 
 import java.io.File;
 import java.net.Proxy;
-import java.util.Map;
 
 /**
  * Created by dexing on 2016/12/18.
