@@ -169,7 +169,6 @@
         <service android:name=".server.SocketService" />
         <service android:name=".imsdroid.NativeService" />
 
-        <activity android:name=".ui.chat.video.InCallActivity"></activity>
     </application>
 
 </manifest>

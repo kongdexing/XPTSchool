@@ -11,8 +11,4 @@ public class CallScreen extends CallBaseScreen {
 
     }
 
-    public void loadVideoPreview() {
-        super.loadVideoPreview();
-    }
-
 }
