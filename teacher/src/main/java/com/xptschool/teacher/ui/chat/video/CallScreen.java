@@ -14,17 +14,4 @@ public class CallScreen extends CallBaseScreen {
 
     }
 
-    public void loadVideoPreview() {
-        super.loadVideoPreview();
-//        mMainLayout.removeAllViews();
-//        final View remotePreview = mSession.startVideoConsumerPreview();
-//        if (remotePreview != null) {
-//            final ViewParent viewParent = remotePreview.getParent();
-//            if (viewParent != null && viewParent instanceof ViewGroup) {
-//                ((ViewGroup) (viewParent)).removeView(remotePreview);
-//            }
-//            mMainLayout.addView(remotePreview);
-//        }
-    }
-
 }

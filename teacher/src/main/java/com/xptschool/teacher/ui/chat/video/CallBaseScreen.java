@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,25 +45,18 @@ public class CallBaseScreen extends BaseActivity {
     @BindView(R.id.screen_av_relativeLayout)
     RelativeLayout mMainLayout;
 
-    private static int mCountBlankPacket = 0;
-
-    private LayoutInflater mInflater;
     private NgnTimer mTimerInCall;
     private NgnTimer mTimerSuicide;
-    private NgnTimer mTimerBlankPacket;
     private NgnTimer mTimerQoS;
 
     private TextView mTvQoS;
-    private View mViewInCallVideo;
-    private FrameLayout mViewLocalVideoPreview;
-    private FrameLayout mViewRemoteVideoPreview;
+    private CallingView mViewInCallVideo;
 
     public CallBaseScreen() {
         super();
         mEngine = NgnEngine.getInstance();
         mTimerInCall = new NgnTimer();
         mTimerSuicide = new NgnTimer();
-        mTimerBlankPacket = new NgnTimer();
         mTimerQoS = new NgnTimer();
     }
 
@@ -183,7 +174,6 @@ public class CallBaseScreen extends BaseActivity {
 
                     if (mSession != null) {
                         applyCamRotation(mSession.compensCamRotation(true));
-                        mTimerBlankPacket.schedule(mTimerTaskBlankPacket, 0, 250);
                         mTimerQoS.schedule(mTimerTaskQoS, 0, 3000);
                     }
 
@@ -328,9 +318,6 @@ public class CallBaseScreen extends BaseActivity {
 
             mViewTrying.tvRemote.setText(mSession.getRemotePartyDisplayName());
         }
-//        if (mRemotePartyPhoto != null) {
-//            ivAvatar.setImageBitmap(mRemotePartyPhoto);
-//        }
 
         mMainLayout.removeAllViews();
         mMainLayout.addView(mViewTrying);
@@ -353,65 +340,31 @@ public class CallBaseScreen extends BaseActivity {
     private void loadInCallVideoView() {
         Log.d(TAG, "loadInCallVideoView()");
         if (mViewInCallVideo == null) {
-            mViewInCallVideo = LayoutInflater.from(this).inflate(R.layout.view_call_incall_video, null);
-            mViewLocalVideoPreview = (FrameLayout) mViewInCallVideo.findViewById(R.id.view_call_incall_video_FrameLayout_local_video);
-            mViewRemoteVideoPreview = (FrameLayout) mViewInCallVideo.findViewById(R.id.view_call_incall_video_FrameLayout_remote_video);
+            mViewInCallVideo = new CallingView(this);
         }
+
+        mViewInCallVideo.setViewClickListener(new CallingView.CallingViewClickListener() {
+            @Override
+            public void onHangUpClick() {
+                hangUpCall();
+            }
+
+            @Override
+            public void onCameraSwitch() {
+                mSession.toggleCamera();
+            }
+        });
 
         mMainLayout.removeAllViews();
         mMainLayout.addView(mViewInCallVideo);
 
-        mTvQoS = (TextView) mViewInCallVideo.findViewById(R.id.view_call_incall_video_textView_QoS);
+        mTvQoS = mViewInCallVideo.txtQos;
 
         // Video Consumer
-        loadVideoPreview();
+        mViewInCallVideo.loadVideoPreview(mSession);
 
         // Video Producer
-        startStopVideo(mSession.isSendingVideo());
-//        mCurrentView = ViewType.ViewInCall;
-    }
-
-    public void loadVideoPreview() {
-        mViewRemoteVideoPreview.removeAllViews();
-        final View remotePreview = mSession.startVideoConsumerPreview();
-        if (remotePreview != null) {
-            final ViewParent viewParent = remotePreview.getParent();
-            if (viewParent != null && viewParent instanceof ViewGroup) {
-                ((ViewGroup) (viewParent)).removeView(remotePreview);
-            }
-            mViewRemoteVideoPreview.addView(remotePreview);
-            mSession.setSpeakerphoneOn(true);
-        }
-    }
-
-    private void startStopVideo(boolean bStart) {
-        Log.d(TAG, "startStopVideo(" + bStart + ")");
-//        if (!mIsVideoCall) {
-//            return;
-//        }
-
-        mSession.setSendingVideo(bStart);
-
-        if (mViewLocalVideoPreview != null) {
-            mViewLocalVideoPreview.removeAllViews();
-            if (bStart) {
-                cancelBlankPacket();
-                final View localPreview = mSession.startVideoProducerPreview();
-                if (localPreview != null) {
-                    final ViewParent viewParent = localPreview.getParent();
-                    if (viewParent != null && viewParent instanceof ViewGroup) {
-                        ((ViewGroup) (viewParent)).removeView(localPreview);
-                    }
-                    if (localPreview instanceof SurfaceView) {
-                        ((SurfaceView) localPreview).setZOrderOnTop(true);
-                    }
-                    mViewLocalVideoPreview.addView(localPreview);
-                    mViewLocalVideoPreview.bringChildToFront(localPreview);
-                }
-            }
-            mViewLocalVideoPreview.setVisibility(bStart ? View.VISIBLE : View.GONE);
-            mViewLocalVideoPreview.bringToFront();
-        }
+        mViewInCallVideo.startStopVideo(mSession);
     }
 
     private void applyCamRotation(int rotation) {
@@ -436,13 +389,6 @@ public class CallBaseScreen extends BaseActivity {
 					mAVSession.setProducerFlipped(true);
 					break;
 				}*/
-        }
-    }
-
-    private void cancelBlankPacket() {
-        if (mTimerBlankPacket != null) {
-            mTimerBlankPacket.cancel();
-            mCountBlankPacket = 0;
         }
     }
 
@@ -476,23 +422,6 @@ public class CallBaseScreen extends BaseActivity {
         }
     };
 
-    private final TimerTask mTimerTaskBlankPacket = new TimerTask() {
-        @Override
-        public void run() {
-            Log.d(TAG, "Resending Blank Packet " + String.valueOf(mCountBlankPacket));
-            if (mCountBlankPacket < 3) {
-                if (mSession != null) {
-                    mSession.pushBlankPacket();
-                }
-                mCountBlankPacket++;
-            } else {
-                cancel();
-                mCountBlankPacket = 0;
-            }
-        }
-    };
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -508,9 +437,7 @@ public class CallBaseScreen extends BaseActivity {
                 mSession.decRef();
             }
 
-            mTimerBlankPacket.cancel();
             mTimerTaskQoS.cancel();
-
         } catch (Exception ex) {
             Log.i(TAG, "onDestroy: " + ex.getMessage());
         }

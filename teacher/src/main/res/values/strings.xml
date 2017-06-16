@@ -158,4 +158,7 @@
     <string name="string_call_outgoing">正在等待对方接受邀请...</string>
     <string name="string_call_cancelled">Call cancelled</string>
 
+    <string name="string_call_hangup">挂断</string>
+    <string name="string_call_camera_switch">转换摄像头</string>
+
 </resources>

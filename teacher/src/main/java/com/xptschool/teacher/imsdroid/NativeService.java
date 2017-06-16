@@ -138,6 +138,7 @@ public class NativeService extends NgnNativeService {
             return;
         }
         String userId = teacher.getU_id();
+        userId = "1002";
         Log.i(TAG, "initNgnConfig userId: " + userId);
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_DISPLAY_NAME, teacher.getName());
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:" + userId + "@" + BuildConfig.CHAT_VIDEO_URL);
