@@ -380,6 +380,7 @@ public class CallBaseScreen extends BaseActivity {
                 ((ViewGroup) (viewParent)).removeView(remotePreview);
             }
             mViewRemoteVideoPreview.addView(remotePreview);
+            mSession.setSpeakerphoneOn(true);
         }
     }
 
