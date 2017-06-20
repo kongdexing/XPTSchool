@@ -4,14 +4,9 @@ import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.ui.main.BaseActivity;
 
@@ -24,29 +19,22 @@ import org.doubango.tinyWRAP.QoS;
 
 import java.util.TimerTask;
 
-import butterknife.BindView;
-
 /**
- * Created by dexing on 2017/6/13.
+ * Created by dexing on 2017/6/20.
  * No1
  */
 
 public class CallBaseScreen extends BaseActivity {
 
-    public static String TAG = CallBaseScreen.class.getSimpleName();
-    private NgnEngine mEngine;
-    private NgnAVSession mSession;
-    private ContactParent contactParent;
-
-    @BindView(R.id.screen_av_relativeLayout)
-    RelativeLayout mMainLayout;
+    public NgnEngine mEngine;
+    public NgnAVSession mSession;
+    public ContactParent contactParent;
 
     private NgnTimer mTimerInCall;
     private NgnTimer mTimerSuicide;
     private NgnTimer mTimerQoS;
 
-    private TextView mTvQoS;
-    private CallingView mViewInCallVideo;
+    public TextView mTvQoS;
 
     public final static String EXTRAT_SIP_SESSION_ID = "SipSession";
     public final static String EXTRAT_PARENT_ID = "Parent";
@@ -61,59 +49,6 @@ public class CallBaseScreen extends BaseActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        KeyguardManager km =
-                (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
-        boolean showingLocked = km.inKeyguardRestrictedInputMode();
-        Log.i(TAG, "onCreate: showingLocked " + showingLocked);
-        if (showingLocked) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-//            wakeUpAndUnlock(this);
-        }
-
-        setContentView(R.layout.screen_av);
-        showActionBar(false);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String callType = extras.getString(EXTRAT_CALL_TYPE);
-            Log.i(TAG, "onCreate: callType " + callType);
-
-            if ("outgoing".equals(callType)) {
-                mSession = NgnAVSession.getSession(extras.getLong(EXTRAT_SIP_SESSION_ID));
-                contactParent = (ContactParent) extras.get(EXTRAT_PARENT_ID);
-            } else if ("incoming".equals(callType)) {
-                try {
-                    long session_id = extras.getLong(EXTRAT_SIP_SESSION_ID);
-                    Log.i(TAG, "session_id : " + session_id + " session size: " + NgnAVSession.getSize());
-                    mSession = NgnAVSession.getSession(session_id);
-                    Log.i(TAG, "avSession: " + mSession.getRemotePartyDisplayName());
-                } catch (Exception ex) {
-                    Log.i(TAG, "onCreate: get avSession error " + ex.getMessage());
-                }
-            }
-        }
-//
-        if (mSession == null) {
-            Log.i(TAG, "Null session");
-            finish();
-            return;
-        }
-        mSession.incRef();
-        mSession.setContext(this);
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
-        registerReceiver(mSipBroadCastRecv, intentFilter);
-
-        loadView();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         if (mSession != null) {
@@ -125,32 +60,16 @@ public class CallBaseScreen extends BaseActivity {
         }
     }
 
-    // listen for audio/video session state
-    BroadcastReceiver mSipBroadCastRecv = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            handleSipEvent(intent);
-        }
-    };
+    @Override
+    public void onBackPressed() {
+        KeyguardManager km =
+                (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
+        boolean showingLocked = km.inKeyguardRestrictedInputMode();
+        Log.i(TAG, "onCreate: showingLocked " + showingLocked);
+        if (showingLocked) {
 
-    private void loadView() {
-        Log.i(TAG, "loadView: " + mSession.getState());
-
-        switch (mSession.getState()) {
-            case INCOMING:
-            case INPROGRESS:
-            case REMOTE_RINGING:
-                loadTryingView();
-                break;
-            case INCALL:
-            case EARLY_MEDIA:
-//                loadInCallView();
-                break;
-            case NONE:
-            case TERMINATING:
-            case TERMINATED:
-            default:
-                break;
+        } else {
+//            super.onBackPressed();
         }
     }
 
@@ -228,117 +147,33 @@ public class CallBaseScreen extends BaseActivity {
         }
     }
 
-    private void loadTryingView() {
-        Log.d(TAG, "loadTryingView()");
+    public void loadInCallVideoView() {
 
-        TryingView mViewTrying = new TryingView(this);
-        mViewTrying.setTryingClickListener(new TryingView.tryingClickListener() {
-            @Override
-            public void onHangUpClick() {
-                hangUpCall();
-            }
+    }
 
-            @Override
-            public void onAcceptClick() {
-                acceptCall();
-            }
-        });
-        switch (mSession.getState()) {
-            case INCOMING:
-                mViewTrying.isInCallingView(true);
-                mViewTrying.mTvInfo.setText(getString(R.string.string_call_incoming));
-                break;
-            case INPROGRESS:
-            case REMOTE_RINGING:
-            case EARLY_MEDIA:
+    public String getStateDesc(NgnInviteSession.InviteState state) {
+        switch (state) {
+            case NONE:
             default:
-                mViewTrying.isInCallingView(false);
-                mViewTrying.mTvInfo.setText(getString(R.string.string_call_outgoing));
-//                btPick.setVisibility(View.GONE);
-                break;
-        }
-
-        if (contactParent != null) {
-            mViewTrying.tvRemote.setText(contactParent.getName());
-        } else {
-
-            mViewTrying.tvRemote.setText(mSession.getRemotePartyDisplayName());
-        }
-
-        mMainLayout.removeAllViews();
-        mMainLayout.addView(mViewTrying);
-    }
-
-    private boolean hangUpCall() {
-        if (mSession != null) {
-            return mSession.hangUpCall();
-        }
-        return false;
-    }
-
-    private boolean acceptCall() {
-        if (mSession != null) {
-            return mSession.acceptCall();
-        }
-        return false;
-    }
-
-    private void loadInCallVideoView() {
-        Log.d(TAG, "loadInCallVideoView()");
-        if (mViewInCallVideo == null) {
-            mViewInCallVideo = new CallingView(this);
-        }
-
-        mViewInCallVideo.setViewClickListener(new CallingView.CallingViewClickListener() {
-            @Override
-            public void onHangUpClick() {
-                hangUpCall();
-            }
-
-            @Override
-            public void onCameraSwitch() {
-                mSession.toggleCamera();
-            }
-        });
-
-        mMainLayout.removeAllViews();
-        mMainLayout.addView(mViewInCallVideo);
-
-        mTvQoS = mViewInCallVideo.txtQos;
-
-        // Video Consumer
-        mViewInCallVideo.loadVideoPreview(mSession);
-
-        // Video Producer
-        mViewInCallVideo.startStopVideo(mSession);
-    }
-
-    private void applyCamRotation(int rotation) {
-        if (mSession != null) {
-//            mLastRotation = rotation;
-            // libYUV
-            mSession.setRotation(rotation);
-
-            // FFmpeg
-            /*switch (rotation) {
-                case 0:
-				case 90:
-					mAVSession.setRotation(rotation);
-					mAVSession.setProducerFlipped(false);
-					break;
-				case 180:
-					mAVSession.setRotation(0);
-					mAVSession.setProducerFlipped(true);
-					break;
-				case 270:
-					mAVSession.setRotation(90);
-					mAVSession.setProducerFlipped(true);
-					break;
-				}*/
+                return "Unknown";
+            case INCOMING:
+                return "Incoming";
+            case INPROGRESS:
+                return "Inprogress";
+            case REMOTE_RINGING:
+                return "Ringing";
+            case EARLY_MEDIA:
+                return "Early media";
+            case INCALL:
+                return "In Call";
+            case TERMINATING:
+                return "Terminating";
+            case TERMINATED:
+                return "termibated";
         }
     }
 
-    private final TimerTask mTimerTaskQoS = new TimerTask() {
+    public final TimerTask mTimerTaskQoS = new TimerTask() {
         @Override
         public void run() {
             if (mSession != null && mTvQoS != null) {
@@ -368,47 +203,38 @@ public class CallBaseScreen extends BaseActivity {
         }
     };
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy()");
-        try {
-            if (mSipBroadCastRecv != null) {
-                unregisterReceiver(mSipBroadCastRecv);
-                mSipBroadCastRecv = null;
-            }
+    private void applyCamRotation(int rotation) {
+        if (mSession != null) {
+//            mLastRotation = rotation;
+            // libYUV
+            mSession.setRotation(rotation);
 
-            if (mSession != null) {
-                mSession.setContext(null);
-                mSession.decRef();
-            }
-
-            mTimerTaskQoS.cancel();
-        } catch (Exception ex) {
-            Log.i(TAG, "onDestroy: " + ex.getMessage());
+            // FFmpeg
+            /*switch (rotation) {
+                case 0:
+				case 90:
+					mAVSession.setRotation(rotation);
+					mAVSession.setProducerFlipped(false);
+					break;
+				case 180:
+					mAVSession.setRotation(0);
+					mAVSession.setProducerFlipped(true);
+					break;
+				case 270:
+					mAVSession.setRotation(90);
+					mAVSession.setProducerFlipped(true);
+					break;
+				}*/
         }
     }
 
-    public String getStateDesc(NgnInviteSession.InviteState state) {
-        switch (state) {
-            case NONE:
-            default:
-                return "Unknown";
-            case INCOMING:
-                return "Incoming";
-            case INPROGRESS:
-                return "Inprogress";
-            case REMOTE_RINGING:
-                return "Ringing";
-            case EARLY_MEDIA:
-                return "Early media";
-            case INCALL:
-                return "In Call";
-            case TERMINATING:
-                return "Terminating";
-            case TERMINATED:
-                return "termibated";
+    // listen for audio/video session state
+    BroadcastReceiver mSipBroadCastRecv = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            handleSipEvent(intent);
         }
-    }
+    };
+
 
 }

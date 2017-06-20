@@ -2,6 +2,7 @@ package com.xptschool.teacher.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -268,29 +269,23 @@ public class GreenDaoHelper {
 
     public List<ContactParent> getStudentParentBySId(String stu_id) {
         if (readDaoSession != null) {
-            return readDaoSession.getContactParentDao().queryBuilder().where(ContactParentDao.Properties.Stu_id.eq(stu_id)).list();
+            return readDaoSession.getContactParentDao().queryBuilder()
+                    .where(ContactParentDao.Properties.Stu_id.eq(stu_id)).list();
         }
         return new ArrayList<ContactParent>();
     }
 
     public ContactParent getStudentParentByPUId(String pu_id) {
+        ContactParent parent = null;
         if (readDaoSession != null) {
-            return readDaoSession.getContactParentDao().queryBuilder()
-                    .where(ContactParentDao.Properties.User_id.eq(pu_id)).limit(1).unique();
+            List<ContactParent> listParent = readDaoSession.getContactParentDao().queryBuilder()
+                    .where(ContactParentDao.Properties.User_id.eq(pu_id)).list();
+            Log.i(TAG, "getStudentParentByPUId  userId:" + pu_id + " parent size:" + listParent.size());
+            if (listParent.size() > 0) {
+                parent = listParent.get(0);
+            }
         }
-        return null;
-    }
-
-    public String getParamTokenByPhone(String phone) {
-        BeanDeviceToken deviceToken = null;
-        if (readDaoSession != null) {
-            deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.UserId.eq(phone)).unique();
-        }
-        if (deviceToken == null) {
-            return "";
-        }
-        return deviceToken.getParamToken();
+        return parent;
     }
 
     public String getTokenByUID(String userId) {

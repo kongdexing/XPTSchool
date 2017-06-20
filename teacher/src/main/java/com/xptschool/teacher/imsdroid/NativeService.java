@@ -27,11 +27,13 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.coolerfall.daemon.Daemon;
 import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.ui.chat.video.CallBaseScreen;
+import com.xptschool.teacher.server.SocketService;
+import com.xptschool.teacher.ui.chat.video.CallScreen;
 
 import org.doubango.ngn.NgnNativeService;
 import org.doubango.ngn.events.NgnEventArgs;
@@ -44,6 +46,7 @@ import org.doubango.ngn.media.NgnMediaType;
 import org.doubango.ngn.services.INgnConfigurationService;
 import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
+import org.doubango.ngn.sip.NgnSipSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 public class NativeService extends NgnNativeService {
@@ -65,6 +68,8 @@ public class NativeService extends NgnNativeService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
+        Daemon.run(NativeService.this,
+                NativeService.class, Daemon.INTERVAL_ONE_MINUTE);
 
         mSipService = getEngine().getSipService();
         this.mConfigurationService = getEngine().getConfigurationService();
@@ -103,26 +108,6 @@ public class NativeService extends NgnNativeService {
 
         // register()
 
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
-        intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
-        intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
-        intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
-        registerReceiver(mBroadcastReceiver, intentFilter);
-
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null && bundle.getBoolean("autostarted")) {
-                if (mEngine.start()) {
-                    mEngine.getSipService().register(null);
-                }
-            }
-        }
-
-        // alert()
-        final Intent i = new Intent(ACTION_STATE_EVENT);
-        i.putExtra("started", true);
-        sendBroadcast(i);
     }
 
     private Engine getEngine() {
@@ -152,14 +137,23 @@ public class NativeService extends NgnNativeService {
     }
 
     private void registerVideoServer() {
-//        if (mSipService.getRegistrationState() == NgnSipSession.ConnectionState.CONNECTING || mSipService.getRegistrationState() == NgnSipSession.ConnectionState.TERMINATING) {
-//            mSipService.stopStack();
-//        } else if (mSipService.isRegistered()) {
-//            mSipService.unRegister();
-//        } else {
-//        }
-        Log.i(TAG, "registerVideoServer register");
-        mSipService.register(this);
+        if (mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTED &&
+                mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTING) {
+            final IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
+            intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
+            intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
+            intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
+            registerReceiver(mBroadcastReceiver, intentFilter);
+
+            // alert()
+            final Intent i = new Intent(ACTION_STATE_EVENT);
+            i.putExtra("started", true);
+            sendBroadcast(i);
+
+            mSipService.register(this);
+        }
+
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -211,14 +205,9 @@ public class NativeService extends NgnNativeService {
                             if (avSession != null) {
 //                                mEngine.showAVCallNotif(R.drawable.phone_call_25, getString(R.string.string_call_incoming));
 
-                                String remoteUri = avSession.getRemotePartyUri();
-                                String displayName = avSession.getRemotePartyDisplayName();
-                                String parentId = remoteUri.substring(remoteUri.indexOf(":"), remoteUri.indexOf("@"));
-                                Log.i(TAG, "onReceive: INCOMING " + parentId + " " + displayName);
-
-                                Intent i = new Intent(NativeService.this, CallBaseScreen.class);
-                                i.putExtra(CallBaseScreen.EXTRAT_CALL_TYPE, "incoming");
-                                i.putExtra(CallBaseScreen.EXTRAT_SIP_SESSION_ID, avSession.getId());
+                                Intent i = new Intent(NativeService.this, CallScreen.class);
+                                i.putExtra(CallScreen.EXTRAT_CALL_TYPE, "incoming");
+                                i.putExtra(CallScreen.EXTRAT_SIP_SESSION_ID, avSession.getId());
 //                              i.putExtra(EXTRAT_PARENT_ID, null);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);

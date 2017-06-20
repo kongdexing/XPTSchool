@@ -9,6 +9,7 @@ import android.util.Log;
 import com.coolerfall.daemon.Daemon;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
+import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.ui.chat.BaseMessage;
 
 import java.io.InputStream;
@@ -73,6 +74,7 @@ public class SocketService extends Service {
             @Override
             public void run() {
                 receiveMessage();
+                startService(new Intent(SocketService.this, NativeService.class));
             }
         }, 1000, 2 * 1000);
     }
@@ -119,7 +121,7 @@ public class SocketService extends Service {
             intent.putExtra("message", message);
             intent.setAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
             XPTApplication.getInstance().sendBroadcast(intent);
-            
+
             Socket mSocket = null;
             OutputStream outputStream = null;
             try {

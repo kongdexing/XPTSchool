@@ -1,5 +1,6 @@
 package com.xptschool.teacher.ui.contact;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
@@ -29,6 +30,7 @@ import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.main.BaseActivity;
+import com.xptschool.teacher.util.ChatUtil;
 
 import org.json.JSONObject;
 
@@ -91,6 +93,11 @@ public class ContactsActivity extends BaseActivity {
                 Log.i(TAG, "afterTextChanged: ");
             }
         });
+
+        ContactParent parent = GreenDaoHelper.getInstance().getStudentParentByPUId("5093");
+        if (parent != null) {
+            Log.i(TAG, "initView: " + parent.toString());
+        }
 
         ArrayList<Object> listTeacher = (ArrayList) GreenDaoHelper.getInstance().getContactTeacher();
         ArrayList<Object> listStudent = (ArrayList) GreenDaoHelper.getInstance().getContactStudent();

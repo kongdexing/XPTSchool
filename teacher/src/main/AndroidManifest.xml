@@ -171,7 +171,7 @@
         <!--android:launchMode="singleInstance"-->
 
         <activity
-            android:name=".ui.chat.video.CallBaseScreen"
+            android:name=".ui.chat.video.CallScreen"
             android:screenOrientation="portrait" />
 
         <service android:name=".server.SocketService" />
