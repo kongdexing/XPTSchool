@@ -66,7 +66,7 @@ public abstract class NgnSipSession extends NgnObservableObject implements Compa
         /* init must be called by the child class after session_create() */
         /* this.init(); */
     }
-    
+
     @Override
 	protected void finalize() throws Throwable {
 		Log.d(TAG, "finalize()");

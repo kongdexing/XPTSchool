@@ -31,7 +31,7 @@ import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.ui.chat.video.CallScreen;
+import com.xptschool.teacher.ui.chat.video.CallBaseScreen;
 
 import org.doubango.ngn.NgnNativeService;
 import org.doubango.ngn.events.NgnEventArgs;
@@ -45,8 +45,6 @@ import org.doubango.ngn.services.INgnConfigurationService;
 import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
-
-import static com.xptschool.teacher.ui.chat.ChatAppendixActivity.EXTRAT_SIP_SESSION_ID;
 
 public class NativeService extends NgnNativeService {
     private final static String TAG = NativeService.class.getCanonicalName();
@@ -211,15 +209,17 @@ public class NativeService extends NgnNativeService {
                         if (NgnMediaType.isAudioVideoType(mediaType)) {
                             final NgnAVSession avSession = NgnAVSession.getSession(args.getSessionId());
                             if (avSession != null) {
-                                mEngine.showAVCallNotif(R.drawable.phone_call_25, getString(R.string.string_call_incoming));
+//                                mEngine.showAVCallNotif(R.drawable.phone_call_25, getString(R.string.string_call_incoming));
+
                                 String remoteUri = avSession.getRemotePartyUri();
                                 String displayName = avSession.getRemotePartyDisplayName();
                                 String parentId = remoteUri.substring(remoteUri.indexOf(":"), remoteUri.indexOf("@"));
                                 Log.i(TAG, "onReceive: INCOMING " + parentId + " " + displayName);
-                                Intent i = new Intent();
-                                i.setClass(NativeService.this, CallScreen.class);
-                                i.putExtra(EXTRAT_SIP_SESSION_ID, avSession.getId());
-//                                    i.putExtra(EXTRAT_PARENT_ID, null);
+
+                                Intent i = new Intent(NativeService.this, CallBaseScreen.class);
+                                i.putExtra(CallBaseScreen.EXTRAT_CALL_TYPE, "incoming");
+                                i.putExtra(CallBaseScreen.EXTRAT_SIP_SESSION_ID, avSession.getId());
+//                              i.putExtra(EXTRAT_PARENT_ID, null);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
 

@@ -19,7 +19,7 @@ import com.jph.takephoto.uitl.TFileUtils;
 import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.model.ContactParent;
-import com.xptschool.teacher.ui.chat.video.CallScreen;
+import com.xptschool.teacher.ui.chat.video.CallBaseScreen;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
 
@@ -42,8 +42,6 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     private NgnEngine mEngine;
     private INgnConfigurationService mConfigurationService;
     private INgnSipService mSipService;
-    public final static String EXTRAT_SIP_SESSION_ID = "SipSession";
-    public final static String EXTRAT_PARENT_ID = "Parent";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,9 +154,10 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         }
         NgnAVSession avSession = NgnAVSession.createOutgoingSession(mSipService.getSipStack(), NgnMediaType.AudioVideo);
         Intent i = new Intent();
-        i.setClass(this, CallScreen.class);
-        i.putExtra(EXTRAT_SIP_SESSION_ID, avSession.getId());
-        i.putExtra(EXTRAT_PARENT_ID, parent);
+        i.setClass(this, CallBaseScreen.class);
+        i.putExtra(CallBaseScreen.EXTRAT_CALL_TYPE, "outgoing");
+        i.putExtra(CallBaseScreen.EXTRAT_SIP_SESSION_ID, avSession.getId());
+        i.putExtra(CallBaseScreen.EXTRAT_PARENT_ID, parent);
         startActivity(i);
         return avSession.makeCall(validUri);
     }

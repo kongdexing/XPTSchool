@@ -32,6 +32,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission
         android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"
         android:required="false" />
@@ -164,7 +166,13 @@
             android:name=".ui.chat.DragVideoActivity"
             android:theme="@style/translucent" />
         <activity android:name=".ui.chat.RecordVideoActivity" />
-        <activity android:name=".ui.chat.video.CallScreen" />
+
+        <!--android:excludeFromRecents="true"-->
+        <!--android:launchMode="singleInstance"-->
+
+        <activity
+            android:name=".ui.chat.video.CallBaseScreen"
+            android:screenOrientation="portrait" />
 
         <service android:name=".server.SocketService" />
         <service android:name=".imsdroid.NativeService" />

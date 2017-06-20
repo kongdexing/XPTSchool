@@ -1,30 +1,25 @@
 package com.xptschool.teacher.ui.chat.video;
 
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.ContactParent;
-import com.xptschool.teacher.ui.chat.ChatAppendixActivity;
 import com.xptschool.teacher.ui.main.BaseActivity;
 
 import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.sip.NgnInviteSession;
-import org.doubango.ngn.utils.NgnStringUtils;
 import org.doubango.ngn.utils.NgnTimer;
-import org.doubango.ngn.utils.NgnUriUtils;
 import org.doubango.tinyWRAP.QoS;
 
 import java.util.TimerTask;
@@ -38,8 +33,9 @@ import butterknife.BindView;
 
 public class CallBaseScreen extends BaseActivity {
 
+    public static String TAG = CallBaseScreen.class.getSimpleName();
     private NgnEngine mEngine;
-    public NgnAVSession mSession;
+    private NgnAVSession mSession;
     private ContactParent contactParent;
 
     @BindView(R.id.screen_av_relativeLayout)
@@ -52,6 +48,10 @@ public class CallBaseScreen extends BaseActivity {
     private TextView mTvQoS;
     private CallingView mViewInCallVideo;
 
+    public final static String EXTRAT_SIP_SESSION_ID = "SipSession";
+    public final static String EXTRAT_PARENT_ID = "Parent";
+    public final static String EXTRAT_CALL_TYPE = "Call_Type";
+
     public CallBaseScreen() {
         super();
         mEngine = NgnEngine.getInstance();
@@ -63,16 +63,43 @@ public class CallBaseScreen extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        KeyguardManager km =
+                (KeyguardManager) this.getSystemService(Context.KEYGUARD_SERVICE);
+        boolean showingLocked = km.inKeyguardRestrictedInputMode();
+        Log.i(TAG, "onCreate: showingLocked " + showingLocked);
+        if (showingLocked) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+//            wakeUpAndUnlock(this);
+        }
+
         setContentView(R.layout.screen_av);
+        showActionBar(false);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mSession = NgnAVSession.getSession(extras.getLong(ChatAppendixActivity.EXTRAT_SIP_SESSION_ID));
-            contactParent = (ContactParent) extras.get(ChatAppendixActivity.EXTRAT_PARENT_ID);
-        }
+            String callType = extras.getString(EXTRAT_CALL_TYPE);
+            Log.i(TAG, "onCreate: callType " + callType);
 
+            if ("outgoing".equals(callType)) {
+                mSession = NgnAVSession.getSession(extras.getLong(EXTRAT_SIP_SESSION_ID));
+                contactParent = (ContactParent) extras.get(EXTRAT_PARENT_ID);
+            } else if ("incoming".equals(callType)) {
+                try {
+                    long session_id = extras.getLong(EXTRAT_SIP_SESSION_ID);
+                    Log.i(TAG, "session_id : " + session_id + " session size: " + NgnAVSession.getSize());
+                    mSession = NgnAVSession.getSession(session_id);
+                    Log.i(TAG, "avSession: " + mSession.getRemotePartyDisplayName());
+                } catch (Exception ex) {
+                    Log.i(TAG, "onCreate: get avSession error " + ex.getMessage());
+                }
+            }
+        }
+//
         if (mSession == null) {
-            Log.e(TAG, "Null session");
+            Log.i(TAG, "Null session");
             finish();
             return;
         }
@@ -89,20 +116,12 @@ public class CallBaseScreen extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume()");
         if (mSession != null) {
             final NgnInviteSession.InviteState callState = mSession.getState();
+            Log.i(TAG, "onResume: " + callState);
             if (callState == NgnInviteSession.InviteState.TERMINATING || callState == NgnInviteSession.InviteState.TERMINATED) {
                 finish();
             }
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mSession != null) {
-            mSession.hangUpCall();
         }
     }
 
@@ -189,79 +208,6 @@ public class CallBaseScreen extends BaseActivity {
                             loadInCallVideoView();
 //                            } else {
 //                                loadInCallAudioView();
-//                            }
-                            break;
-                        }
-                        case LOCAL_TRANSFER_TRYING: {
-//                            if (mTvInfo != null) {
-//                                mTvInfo.setText("Call Transfer: Initiated");
-//                            }
-                            Log.i(TAG, "handleSipEvent: Call Transfer: Initiated");
-                            break;
-                        }
-                        case LOCAL_TRANSFER_FAILED: {
-//                            if (mTvInfo != null) {
-//                                mTvInfo.setText("Call Transfer: Failed");
-//                            }
-                            Log.i(TAG, "handleSipEvent: Call Transfer: Failed");
-                            break;
-                        }
-                        case LOCAL_TRANSFER_ACCEPTED: {
-//                            if (mTvInfo != null) {
-//                                mTvInfo.setText("Call Transfer: Accepted");
-//                            }
-                            Log.i(TAG, "handleSipEvent: Call Transfer: Accepted");
-                            break;
-                        }
-                        case LOCAL_TRANSFER_COMPLETED: {
-//                            if (mTvInfo != null) {
-//                                mTvInfo.setText("Call Transfer: Completed");
-//                            }
-                            Log.i(TAG, "handleSipEvent: Call Transfer: Completed");
-                            break;
-                        }
-                        case LOCAL_TRANSFER_NOTIFY:
-                        case REMOTE_TRANSFER_NOTIFY: {
-//                            if (mTvInfo != null && mSession != null) {
-//                                short sipCode = intent.getShortExtra(NgnInviteEventArgs.EXTRA_SIPCODE, (short) 0);
-//
-//                                mTvInfo.setText("Call Transfer: " + sipCode + " " + args.getPhrase());
-//                                if (sipCode >= 300 && mSession.isLocalHeld()) {
-//                                    mSession.resumeCall();
-//                                }
-//                            }
-                            break;
-                        }
-
-                        case REMOTE_TRANSFER_REQUESTED: {
-                            String referToUri = intent.getStringExtra(NgnInviteEventArgs.EXTRA_REFERTO_URI);
-                            if (!NgnStringUtils.isNullOrEmpty(referToUri)) {
-                                String referToName = NgnUriUtils.getDisplayName(referToUri);
-                                if (!NgnStringUtils.isNullOrEmpty(referToName)) {
-                                    Log.i(TAG, "handleSipEvent: show dialog");
-                                }
-                            }
-                            break;
-                        }
-
-                        case REMOTE_TRANSFER_FAILED: {
-//                            if (mTransferDialog != null) {
-//                                mTransferDialog.cancel();
-//                                mTransferDialog = null;
-//                            }
-//                            mAVTransfSession = null;
-                            break;
-                        }
-                        case REMOTE_TRANSFER_COMPLETED: {
-//                            if (mTransferDialog != null) {
-//                                mTransferDialog.cancel();
-//                                mTransferDialog = null;
-//                            }
-//                            if (mAVTransfSession != null) {
-//                                mAVTransfSession.setContext(mSession.getContext());
-//                                mSession = mAVTransfSession;
-//                                mAVTransfSession = null;
-//                                loadInCallView(true);
 //                            }
                             break;
                         }
