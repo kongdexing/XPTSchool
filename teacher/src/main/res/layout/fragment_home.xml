@@ -17,7 +17,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_200"
+                android:layout_height="@dimen/dp_230"
                 android:background="@android:color/background_light">
 
                 <com.xptschool.teacher.view.AutoScrollViewPager

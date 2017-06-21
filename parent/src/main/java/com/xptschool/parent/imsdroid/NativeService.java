@@ -29,7 +29,7 @@ import android.util.Log;
 
 import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
-import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.chat.video.CallScreen;
@@ -42,19 +42,10 @@ import org.doubango.ngn.events.NgnMsrpEventArgs;
 import org.doubango.ngn.events.NgnRegistrationEventArgs;
 import org.doubango.ngn.events.NgnRegistrationEventTypes;
 import org.doubango.ngn.media.NgnMediaType;
-import org.doubango.ngn.model.NgnHistoryEvent.StatusType;
-import org.doubango.ngn.model.NgnHistorySMSEvent;
 import org.doubango.ngn.services.INgnConfigurationService;
 import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
-import org.doubango.ngn.sip.NgnMsrpSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
-import org.doubango.ngn.utils.NgnDateTimeUtils;
-import org.doubango.ngn.utils.NgnStringUtils;
-import org.doubango.ngn.utils.NgnUriUtils;
-
-import static com.xptschool.parent.ui.chat.ChatAppendixActivity.EXTRAT_SIP_SESSION_ID;
-import static com.xptschool.parent.ui.chat.ChatAppendixActivity.EXTRAT_TEACHER_ID;
 
 public class NativeService extends NgnNativeService {
     private final static String TAG = NativeService.class.getCanonicalName();
@@ -215,9 +206,11 @@ public class NativeService extends NgnNativeService {
                                 String remoteUri = avSession.getRemotePartyUri();
                                 String parentId = remoteUri.substring(remoteUri.indexOf(":"), remoteUri.indexOf("@"));
                                 Log.i(TAG, "onReceive: INCOMING " + parentId);
+
                                 Intent i = new Intent();
                                 i.setClass(NativeService.this, CallScreen.class);
-                                i.putExtra(EXTRAT_SIP_SESSION_ID, avSession.getId());
+                                i.putExtra(ExtraKey.EXTRAT_CALL_TYPE, "incoming");
+                                i.putExtra(ExtraKey.EXTRAT_SIP_SESSION_ID, avSession.getId());
 //                                i.putExtra(EXTRAT_TEACHER_ID, null);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);

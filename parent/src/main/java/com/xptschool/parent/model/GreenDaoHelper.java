@@ -105,7 +105,7 @@ public class GreenDaoHelper {
     }
 
     public BeanStudent getStudentByStuId(String stuId) {
-        return readDaoSession.getBeanStudentDao().queryBuilder().where(BeanStudentDao.Properties.Stu_id.eq(stuId)).build().unique();
+        return readDaoSession.getBeanStudentDao().queryBuilder().where(BeanStudentDao.Properties.Stu_id.eq(stuId)).limit(1).unique();
     }
 
     public void updateStudent(BeanStudent student) {
@@ -118,14 +118,14 @@ public class GreenDaoHelper {
     public void insertContactTeacher(List<ContactTeacher> teachers) {
         if (writeDaoSession != null) {
             writeDaoSession.getContactTeacherDao().deleteAll();
-            writeDaoSession.getContactTeacherDao().insertInTx(teachers);
+            writeDaoSession.getContactTeacherDao().insertOrReplaceInTx(teachers);
         }
     }
 
     public void insertSchoolInfo(List<ContactSchool> schools) {
         if (writeDaoSession != null) {
             writeDaoSession.getContactSchoolDao().deleteAll();
-            writeDaoSession.getContactSchoolDao().insertInTx(schools);
+            writeDaoSession.getContactSchoolDao().insertOrReplaceInTx(schools);
         }
     }
 
@@ -145,7 +145,7 @@ public class GreenDaoHelper {
     public ContactTeacher getContactByTeacher(String t_u_id) {
         if (readDaoSession != null) {
             return readDaoSession.getContactTeacherDao().queryBuilder()
-                    .where(ContactTeacherDao.Properties.U_id.eq(t_u_id)).unique();
+                    .where(ContactTeacherDao.Properties.U_id.eq(t_u_id)).limit(1).unique();
         }
         return null;
     }
@@ -161,7 +161,7 @@ public class GreenDaoHelper {
         BeanDeviceToken deviceToken = null;
         if (readDaoSession != null) {
             deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).unique();
+                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).limit(1).unique();
         }
         if (deviceToken == null) {
             return null;
@@ -181,7 +181,7 @@ public class GreenDaoHelper {
     public void insertBanner(List<BeanBanner> banners) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanBannerDao().deleteAll();
-            writeDaoSession.getBeanBannerDao().insertInTx(banners);
+            writeDaoSession.getBeanBannerDao().insertOrReplaceInTx(banners);
         }
     }
 
@@ -228,7 +228,7 @@ public class GreenDaoHelper {
         return chats;
     }
 
-    public List<BeanChat> getPageChatsByTeacherId(String teacherId,int offset) {
+    public List<BeanChat> getPageChatsByTeacherId(String teacherId, int offset) {
         List<BeanChat> chats = null;
         if (readDaoSession != null) {
             chats = readDaoSession.getBeanChatDao().queryBuilder()

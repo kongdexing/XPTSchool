@@ -230,14 +230,18 @@ public class GreenDaoHelper {
     public void insertContactTeacher(List<ContactTeacher> teachers) {
         if (writeDaoSession != null) {
             writeDaoSession.getContactTeacherDao().deleteAll();
-            writeDaoSession.getContactTeacherDao().insertInTx(teachers);
+            writeDaoSession.getContactTeacherDao().insertOrReplaceInTx(teachers);
         }
     }
 
     public void insertContactStudent(List<ContactStudent> students) {
-        if (writeDaoSession != null) {
-            writeDaoSession.getContactStudentDao().deleteAll();
-            writeDaoSession.getContactStudentDao().insertInTx(students);
+        try {
+            if (writeDaoSession != null) {
+                writeDaoSession.getContactStudentDao().deleteAll();
+                writeDaoSession.getContactStudentDao().insertOrReplaceInTx(students);
+            }
+        } catch (Exception ex) {
+            Log.i(TAG, "insertContactStudent error: " + ex.getMessage());
         }
     }
 
@@ -249,7 +253,7 @@ public class GreenDaoHelper {
 
     public void insertContactParent(List<ContactParent> parents) {
         if (writeDaoSession != null) {
-            writeDaoSession.getContactParentDao().insertInTx(parents);
+            writeDaoSession.getContactParentDao().insertOrReplaceInTx(parents);
         }
     }
 
@@ -278,12 +282,8 @@ public class GreenDaoHelper {
     public ContactParent getStudentParentByPUId(String pu_id) {
         ContactParent parent = null;
         if (readDaoSession != null) {
-            List<ContactParent> listParent = readDaoSession.getContactParentDao().queryBuilder()
-                    .where(ContactParentDao.Properties.User_id.eq(pu_id)).list();
-            Log.i(TAG, "getStudentParentByPUId  userId:" + pu_id + " parent size:" + listParent.size());
-            if (listParent.size() > 0) {
-                parent = listParent.get(0);
-            }
+            parent = readDaoSession.getContactParentDao().queryBuilder()
+                    .where(ContactParentDao.Properties.User_id.eq(pu_id)).limit(1).unique();
         }
         return parent;
     }
@@ -292,7 +292,7 @@ public class GreenDaoHelper {
         BeanDeviceToken deviceToken = null;
         if (readDaoSession != null) {
             deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.UserId.eq(userId)).unique();
+                    .where(BeanDeviceTokenDao.Properties.UserId.eq(userId)).limit(1).unique();
         }
         if (deviceToken == null) {
             return null;

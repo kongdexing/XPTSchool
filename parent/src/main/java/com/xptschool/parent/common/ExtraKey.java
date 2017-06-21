@@ -20,4 +20,8 @@ public class ExtraKey {
     public static final String LEARNING_MODEL = "learning_model";
 
     public static final String CHAT_TEACHER = "chat_teacher";
+
+    public final static String EXTRAT_SIP_SESSION_ID = "SipSession";
+    public final static String EXTRAT_TEACHER_ID = "Teacher";
+    public final static String EXTRAT_CALL_TYPE = "Call_Type";
 }

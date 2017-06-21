@@ -174,7 +174,8 @@ public class ContactsActivity extends BaseActivity {
     }
 
     private void getContacts() {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.MyContacts_QUERY, new VolleyHttpParamsEntity()
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.MyContacts_QUERY,
+                new VolleyHttpParamsEntity()
                         .addParam("token", CommonUtil.encryptToken(HttpAction.MyContacts_QUERY)),
                 new MyVolleyRequestListener() {
                     @Override
