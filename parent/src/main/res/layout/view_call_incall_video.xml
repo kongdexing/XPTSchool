@@ -15,18 +15,6 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/view_call_incall_video_textView_QoS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="right"
-        android:background="#00ffffff"
-        android:text="QoS"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="14dp" />
-
     <com.xptschool.parent.ui.chat.video.DragCameraLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

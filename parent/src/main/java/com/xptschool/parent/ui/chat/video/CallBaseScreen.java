@@ -34,8 +34,6 @@ public class CallBaseScreen extends BaseActivity {
     private NgnTimer mTimerSuicide;
     private NgnTimer mTimerQoS;
 
-    public TextView mTvQoS;
-
     public CallBaseScreen() {
         super();
         mEngine = NgnEngine.getInstance();
@@ -172,27 +170,20 @@ public class CallBaseScreen extends BaseActivity {
     public final TimerTask mTimerTaskQoS = new TimerTask() {
         @Override
         public void run() {
-            if (mSession != null && mTvQoS != null) {
-                synchronized (mTvQoS) {
-                    final QoS qos = mSession.getQoSVideo();
-                    if (qos != null) {
-                        CallBaseScreen.this.runOnUiThread(new Runnable() {
-                            public void run() {
-                                try {
-                                    mTvQoS.setText(
-                                            "Quality: 		" + (int) (qos.getQavg() * 100) + "%\n" +
-                                                    "Receiving:		" + qos.getBandwidthDownKbps() + "Kbps\n" +
-                                                    "Sending:		" + qos.getBandwidthUpKbps() + "Kbps\n" +
-                                                    "Size in:	    " + qos.getVideoInWidth() + "x" + qos.getVideoInHeight() + "\n" +
-                                                    "Size out:		" + qos.getVideoOutWidth() + "x" + qos.getVideoOutHeight() + "\n" +
-                                                    "Fps in:        " + qos.getVideoInAvgFps() + "\n" +
-                                                    "Encode time:   " + qos.getVideoEncAvgTime() + "ms / frame\n" +
-                                                    "Decode time:   " + qos.getVideoDecAvgTime() + "ms / frame\n"
-                                    );
-                                } catch (Exception e) {
-                                }
-                            }
-                        });
+            if (mSession != null) {
+                final QoS qos = mSession.getQoSVideo();
+                if (qos != null) {
+                    try {
+                        Log.i(TAG, "run: " + "Quality: 		" + (int) (qos.getQavg() * 100) + "%\n" +
+                                "Receiving:		" + qos.getBandwidthDownKbps() + "Kbps\n" +
+                                "Sending:		" + qos.getBandwidthUpKbps() + "Kbps\n" +
+                                "Size in:	    " + qos.getVideoInWidth() + "x" + qos.getVideoInHeight() + "\n" +
+                                "Size out:		" + qos.getVideoOutWidth() + "x" + qos.getVideoOutHeight() + "\n" +
+                                "Fps in:        " + qos.getVideoInAvgFps() + "\n" +
+                                "Encode time:   " + qos.getVideoEncAvgTime() + "ms / frame\n" +
+                                "Decode time:   " + qos.getVideoDecAvgTime() + "ms / frame\n");
+                    } catch (Exception ex) {
+                        Log.i(TAG, "run: " + ex.getMessage());
                     }
                 }
             }

@@ -178,8 +178,6 @@ public class CallScreen extends CallBaseScreen {
         mMainLayout.removeAllViews();
         mMainLayout.addView(mViewInCallVideo);
 
-        mTvQoS = mViewInCallVideo.txtQos;
-
         // Video Consumer
         mViewInCallVideo.loadVideoPreview(mSession);
 

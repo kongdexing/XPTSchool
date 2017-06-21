@@ -12,7 +12,6 @@ import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.xptschool.parent.R;
 
@@ -34,9 +33,6 @@ public class CallingView extends LinearLayout {
     FrameLayout mViewLocalVideoPreview;
     @BindView(R.id.view_call_incall_video_FrameLayout_remote_video)
     FrameLayout mViewRemoteVideoPreview;
-
-    @BindView(R.id.view_call_incall_video_textView_QoS)
-    TextView txtQos;
 
     @BindView(R.id.view_call_trying_imageButton_hang)
     ImageView viewHang;
