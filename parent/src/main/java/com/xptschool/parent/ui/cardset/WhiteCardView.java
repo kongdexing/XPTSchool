@@ -81,7 +81,7 @@ public class WhiteCardView extends LinearLayout implements View.OnClickListener 
         String phone = edtPhone.getText().toString().trim();
 
         if (name.isEmpty() && phone.isEmpty()) {
-            return "";
+            return ":";
         }
 
         if (name.isEmpty() && !phone.isEmpty()

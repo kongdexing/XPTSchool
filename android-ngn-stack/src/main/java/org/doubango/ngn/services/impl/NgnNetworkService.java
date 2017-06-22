@@ -290,15 +290,15 @@ public class NgnNetworkService  extends NgnBaseService implements INgnNetworkSer
 		if (useWifi) {
 			boolean ret = false;
 			if ((force || !mWifiManager.isWifiEnabled()) && enabled) {
-				Toast.makeText(NgnApplication.getContext(), "Trying to start WiFi",
-						Toast.LENGTH_SHORT).show();
+//				Toast.makeText(NgnApplication.getContext(), "Trying to start WiFi",
+//						Toast.LENGTH_SHORT).show();
 				ret = mWifiManager.setWifiEnabled(true);
 				if (ret && networkId>=0) {
 					ret = mWifiManager.enableNetwork(networkId, true);
 				}
 			} else if ((force || mWifiManager.isWifiEnabled()) && !enabled) {
-				Toast.makeText(NgnApplication.getContext(), "Trying to stop WiFi",
-						Toast.LENGTH_SHORT).show();
+//				Toast.makeText(NgnApplication.getContext(), "Trying to stop WiFi",
+//						Toast.LENGTH_SHORT).show();
 				ret = mWifiManager.setWifiEnabled(false);
 				if (ret && networkId>=0) {
 					ret = mWifiManager.disableNetwork(networkId);
@@ -386,7 +386,7 @@ public class NgnNetworkService  extends NgnBaseService implements INgnNetworkSer
 			return false;
 		}
 		
-		Toast.makeText(NgnApplication.getContext(), "Network Scanning...", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(NgnApplication.getContext(), "Network Scanning...", Toast.LENGTH_SHORT).show();
 		
 		if(mNetworkWatcher == null){
 			IntentFilter intentNetWatcher = new IntentFilter();

@@ -427,8 +427,8 @@ public class NgnSipService extends NgnBaseService implements INgnSipService,
 			if (context != null
 					&& Thread.currentThread() == Looper.getMainLooper()
 							.getThread()) {
-				Toast.makeText(context, "Failed to start the SIP stack",
-						Toast.LENGTH_LONG).show();
+//				Toast.makeText(context, "Failed to start the SIP stack",
+//						Toast.LENGTH_LONG).show();
 			}
 			Log.e(TAG, "Failed to start the SIP stack");
 			return false;

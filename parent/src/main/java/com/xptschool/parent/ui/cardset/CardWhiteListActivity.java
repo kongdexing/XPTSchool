@@ -121,6 +121,7 @@ public class CardWhiteListActivity extends CardSetBaseActivity implements View.O
             WhiteCardView cardView = whiteCardViews.get(i);
             String value = cardView.getInputValue();
             if (value == null) {
+                //填写不完整（缺少联系人名称或手机号）
                 return;
             }
             if (!value.isEmpty()) {
