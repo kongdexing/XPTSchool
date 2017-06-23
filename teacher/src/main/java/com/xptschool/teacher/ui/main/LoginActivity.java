@@ -28,6 +28,7 @@ import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
+import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.util.ToastUtils;
 
 import org.json.JSONObject;
@@ -146,6 +147,8 @@ public class LoginActivity extends BaseLoginActivity {
         if (progress != null)
             progress.setVisibility(View.INVISIBLE);
         btnLogin.setEnabled(true);
+
+        ServerManager.getInstance().stopServer(this);
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

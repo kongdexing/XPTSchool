@@ -90,7 +90,7 @@ public class NativeService extends NgnNativeService {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         Log.d(TAG, "onStart()");
-        //
+
         if (!Engine.getInstance().isStarted()) {
             final Engine engine = getEngine();
             final Thread thread = new Thread(new Runnable() {
@@ -139,6 +139,7 @@ public class NativeService extends NgnNativeService {
     }
 
     private void registerVideoServer() {
+
         if (mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTED &&
                 mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTING) {
             final IntentFilter intentFilter = new IntentFilter();
