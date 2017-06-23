@@ -45,6 +45,7 @@ import org.doubango.ngn.media.NgnMediaType;
 import org.doubango.ngn.services.INgnConfigurationService;
 import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
+import org.doubango.ngn.sip.NgnSipSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 public class NativeService extends NgnNativeService {
@@ -101,27 +102,6 @@ public class NativeService extends NgnNativeService {
         } else {
             registerVideoServer();
         }
-
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
-        intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
-        intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
-        intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
-        registerReceiver(mBroadcastReceiver, intentFilter);
-
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null && bundle.getBoolean("autostarted")) {
-                if (mEngine.start()) {
-                    mEngine.getSipService().register(null);
-                }
-            }
-        }
-
-        // alert()
-        final Intent i = new Intent(ACTION_STATE_EVENT);
-        i.putExtra("started", true);
-        sendBroadcast(i);
     }
 
     private Engine getEngine() {
@@ -152,7 +132,23 @@ public class NativeService extends NgnNativeService {
 
     private void registerVideoServer() {
         Log.i(TAG, "registerVideoServer register");
-        mSipService.register(this);
+        if (mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTED &&
+                mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTING) {
+            final IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
+            intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
+            intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
+            intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
+            registerReceiver(mBroadcastReceiver, intentFilter);
+
+            //
+            final Intent i = new Intent(ACTION_STATE_EVENT);
+            i.putExtra("started", true);
+            sendBroadcast(i);
+
+            mSipService.register(this);
+        }
+
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {

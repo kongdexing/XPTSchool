@@ -27,6 +27,7 @@ import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.push.UpushTokenHelper;
+import com.xptschool.parent.server.ServerManager;
 
 import org.json.JSONObject;
 
@@ -157,6 +158,8 @@ public class LoginActivity extends BaseActivity {
                                     UpushTokenHelper.switchAccount();
                                 }
                                 SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);
+
+                                ServerManager.getInstance().stopService(LoginActivity.this);
 
                                 try {
                                     JSONObject jsonData = new JSONObject(httpResult.getData().toString());
