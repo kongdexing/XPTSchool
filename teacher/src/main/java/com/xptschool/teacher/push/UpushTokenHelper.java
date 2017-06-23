@@ -124,7 +124,7 @@ public class UpushTokenHelper {
         GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
         Log.i(TAG, "exitAccount: " + param);
         //不关心是否退出请求成功，先保存
-        pushTokenOnline(HttpAction.Push_Token + "?type=2&data=" + deviceToken.getDeviceToken(), deviceToken);
+        pushTokenOnline(HttpAction.Push_Token + "?type=3&data=" + deviceToken.getDeviceToken(), deviceToken);
     }
 
     /**
@@ -168,7 +168,7 @@ public class UpushTokenHelper {
         GreenDaoHelper.getInstance().insertOrUpdateToken(deviceToken);
         Log.i(TAG, "switchAccount: " + param);
         //不关心是否退出请求成功，先保存
-        pushTokenOnline(HttpAction.Push_Token + "?type=3&data=" + local_device_token, deviceToken);
+        pushTokenOnline(HttpAction.Push_Token + "?type=2&data=" + param, deviceToken);
     }
 
 }

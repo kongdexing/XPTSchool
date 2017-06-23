@@ -20,7 +20,6 @@ public class BroadcastAction {
     public static String MESSAGE_RECEIVED = "com.xptschool.teacher.message.receive";
 
     public static String PLAY_STOP_OTHER = "com.xptschool.teacher.play.stop.other";
-
-
+    public static String VIDEO_INCOMING = "com.xptschool.teacher.video.incoming";
 
 }

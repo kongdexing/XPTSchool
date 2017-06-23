@@ -7,12 +7,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 23
     buildToolsVersion "25.0.2"
+
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 19
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
 
@@ -29,7 +31,7 @@ android {
 //        }
 //        arm {
 //            ndk {
-//                abiFilters "armeabi-v7a", "armeabi"
+//                abiFilters "armeabi-v7a"
 //            }
 //        }
     }

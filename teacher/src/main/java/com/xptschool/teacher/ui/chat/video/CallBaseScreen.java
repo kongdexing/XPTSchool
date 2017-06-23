@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.ui.main.BaseActivity;
 
@@ -170,6 +171,10 @@ public class CallBaseScreen extends BaseActivity {
         }
     }
 
+    public void showSecondInComing(Intent intent){
+
+    }
+
     public final TimerTask mTimerTaskQoS = new TimerTask() {
         @Override
         public void run() {
@@ -177,14 +182,14 @@ public class CallBaseScreen extends BaseActivity {
                 final QoS qos = mSession.getQoSVideo();
                 if (qos != null) {
                     try {
-                        Log.i(TAG, "run: " + "Quality: 		" + (int) (qos.getQavg() * 100) + "%\n" +
-                                "Receiving:		" + qos.getBandwidthDownKbps() + "Kbps\n" +
-                                "Sending:		" + qos.getBandwidthUpKbps() + "Kbps\n" +
-                                "Size in:	    " + qos.getVideoInWidth() + "x" + qos.getVideoInHeight() + "\n" +
-                                "Size out:		" + qos.getVideoOutWidth() + "x" + qos.getVideoOutHeight() + "\n" +
-                                "Fps in:        " + qos.getVideoInAvgFps() + "\n" +
-                                "Encode time:   " + qos.getVideoEncAvgTime() + "ms / frame\n" +
-                                "Decode time:   " + qos.getVideoDecAvgTime() + "ms / frame\n");
+//                        Log.i(TAG, "run: " + "Quality: 		" + (int) (qos.getQavg() * 100) + "%\n" +
+//                                "Receiving:		" + qos.getBandwidthDownKbps() + "Kbps\n" +
+//                                "Sending:		" + qos.getBandwidthUpKbps() + "Kbps\n" +
+//                                "Size in:	    " + qos.getVideoInWidth() + "x" + qos.getVideoInHeight() + "\n" +
+//                                "Size out:		" + qos.getVideoOutWidth() + "x" + qos.getVideoOutHeight() + "\n" +
+//                                "Fps in:        " + qos.getVideoInAvgFps() + "\n" +
+//                                "Encode time:   " + qos.getVideoEncAvgTime() + "ms / frame\n" +
+//                                "Decode time:   " + qos.getVideoDecAvgTime() + "ms / frame\n");
                     } catch (Exception e) {
                     }
                 }
@@ -221,7 +226,12 @@ public class CallBaseScreen extends BaseActivity {
     BroadcastReceiver mSipBroadCastRecv = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            handleSipEvent(intent);
+            String action = intent.getAction();
+            if (action.equals(NgnInviteEventArgs.ACTION_INVITE_EVENT)) {
+                handleSipEvent(intent);
+            } else if (action.equals(BroadcastAction.VIDEO_INCOMING)) {
+                showSecondInComing(intent);
+            }
         }
     };
 

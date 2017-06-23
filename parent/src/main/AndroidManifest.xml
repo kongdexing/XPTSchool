@@ -244,7 +244,8 @@
 
         <activity
             android:name=".ui.chat.video.CallScreen"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
 
         <activity android:name=".ui.chat.RecordVideoActivity" />
         <activity android:name=".ui.wallet.TelephoneFareActivity" />

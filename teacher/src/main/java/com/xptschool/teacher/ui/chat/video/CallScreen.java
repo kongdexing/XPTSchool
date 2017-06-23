@@ -2,6 +2,7 @@ package com.xptschool.teacher.ui.chat.video;
 
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.model.ContactParent;
 
 import org.doubango.ngn.events.NgnInviteEventArgs;
@@ -76,9 +78,31 @@ public class CallScreen extends CallBaseScreen {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
+        intentFilter.addAction(BroadcastAction.VIDEO_INCOMING);
         registerReceiver(mSipBroadCastRecv, intentFilter);
 
         loadView();
+    }
+
+    public void showSecondInComing(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            String callType = extras.getString(EXTRAT_CALL_TYPE);
+            Log.i(TAG, "onCreate: callType " + callType);
+
+            if ("incoming".equals(callType)) {
+                try {
+                    long session_id = extras.getLong(EXTRAT_SIP_SESSION_ID);
+                    Log.i(TAG, "session_id : " + session_id + " session size: " + NgnAVSession.getSize());
+                    NgnAVSession secondSession = NgnAVSession.getSession(session_id);
+                    Log.i(TAG, "secondSession: " + secondSession.getRemotePartyDisplayName());
+
+                } catch (Exception ex) {
+                    Log.i(TAG, "onCreate: get avSession error " + ex.getMessage());
+                }
+            }
+        }
+
     }
 
     private void loadView() {

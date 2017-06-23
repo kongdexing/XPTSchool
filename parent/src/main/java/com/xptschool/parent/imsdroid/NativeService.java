@@ -202,19 +202,27 @@ public class NativeService extends NgnNativeService {
                         if (NgnMediaType.isAudioVideoType(mediaType)) {
                             final NgnAVSession avSession = NgnAVSession.getSession(args.getSessionId());
                             if (avSession != null) {
-                                mEngine.showAVCallNotif(R.drawable.phone_call_25, getString(R.string.string_call_incoming));
-                                String remoteUri = avSession.getRemotePartyUri();
-                                String parentId = remoteUri.substring(remoteUri.indexOf(":"), remoteUri.indexOf("@"));
-                                Log.i(TAG, "onReceive: INCOMING " + parentId);
+//                                mEngine.showAVCallNotif(R.drawable.phone_call_25, getString(R.string.string_call_incoming));
+                                int session_size = NgnAVSession.getSessions().size();
+                                Log.i(TAG, "incoming session_size: " + session_size + " uri:" + avSession.getRemotePartyDisplayName());
+                                if (session_size >= 2) {
+                                    avSession.hangUpCall();
 
-                                Intent i = new Intent();
-                                i.setClass(NativeService.this, CallScreen.class);
-                                i.putExtra(ExtraKey.EXTRAT_CALL_TYPE, "incoming");
-                                i.putExtra(ExtraKey.EXTRAT_SIP_SESSION_ID, avSession.getId());
+//                                    Intent b = new Intent(BroadcastAction.VIDEO_INCOMING);
+//                                    b.putExtra(CallScreen.EXTRAT_CALL_TYPE, "incoming");
+//                                    b.putExtra(CallScreen.EXTRAT_SIP_SESSION_ID, avSession.getId());
+//                                    sendBroadcast(b);
+
+                                    return;
+                                } else {
+                                    Intent i = new Intent();
+                                    i.setClass(NativeService.this, CallScreen.class);
+                                    i.putExtra(ExtraKey.EXTRAT_CALL_TYPE, "incoming");
+                                    i.putExtra(ExtraKey.EXTRAT_SIP_SESSION_ID, avSession.getId());
 //                                i.putExtra(EXTRAT_TEACHER_ID, null);
-                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(i);
-
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(i);
+                                }
                                 if (mWakeLock != null && !mWakeLock.isHeld()) {
                                     mWakeLock.acquire(10);
                                 }
