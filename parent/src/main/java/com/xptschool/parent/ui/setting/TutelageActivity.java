@@ -2,7 +2,6 @@ package com.xptschool.parent.ui.setting;
 
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,8 +20,6 @@ import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
-import com.xptschool.parent.ui.main.LoginActivity;
-import com.xptschool.parent.ui.wallet.pocket.TakeOutMoneyActivity;
 import com.xptschool.parent.util.ParentUtil;
 import com.xptschool.parent.view.CustomDialog;
 import com.xptschool.parent.view.CustomEditDialog;

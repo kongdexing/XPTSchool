@@ -81,7 +81,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -249,6 +249,10 @@
 
         <activity android:name=".ui.chat.RecordVideoActivity" />
         <activity android:name=".ui.wallet.TelephoneFareActivity" />
+
+        <activity android:name=".ui.login.CheckUserActivity" />
+        <activity android:name=".ui.login.CheckSMSCodeActivity" />
+        <activity android:name=".ui.login.SetPasswordActivity"></activity>
 
         <service android:name=".server.SocketService" />
         <service android:name=".imsdroid.NativeService" />

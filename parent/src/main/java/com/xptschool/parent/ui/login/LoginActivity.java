@@ -1,8 +1,7 @@
-package com.xptschool.parent.ui.main;
+package com.xptschool.parent.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +27,8 @@ import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
+import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.main.MainActivity;
 
 import org.json.JSONObject;
 
@@ -51,8 +52,6 @@ public class LoginActivity extends BaseActivity {
     ProgressBar progress;
     @BindView(R.id.imgCompany)
     ImageView imgCompany;
-    @BindView(R.id.txtForgetPWD)
-    TextView txtForgetPWD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

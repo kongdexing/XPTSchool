@@ -13,7 +13,6 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.main.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;

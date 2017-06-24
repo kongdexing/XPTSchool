@@ -34,11 +34,11 @@ import com.xptschool.parent.imsdroid.Engine;
 import com.xptschool.parent.model.BeanBanner;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.ui.fragment.BaseFragment;
 import com.xptschool.parent.ui.fragment.HomeFragment;
 import com.xptschool.parent.ui.fragment.MapFragment;
 import com.xptschool.parent.ui.fragment.MineFragment;
+import com.xptschool.parent.ui.login.LoginActivity;
 import com.xptschool.parent.util.ParentUtil;
 
 import org.json.JSONObject;

@@ -1,16 +1,12 @@
 package com.xptschool.parent.ui.main;
 
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,14 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.widget.swipebacklayout.app.SwipeBackActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.ui.contact.ContactsActivity;
+import com.xptschool.parent.ui.login.LoginActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
