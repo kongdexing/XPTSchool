@@ -253,3 +253,6 @@
 
 -keep class org.simpleframework.xml.stream.**{*;}
 -dontwarn org.simpleframework.xml.stream.**
+
+-keep class org.doubango.**{*;}
+-dontwarn org.doubango.**
