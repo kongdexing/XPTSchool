@@ -39,6 +39,7 @@ import com.xptschool.teacher.ui.fragment.BaseFragment;
 import com.xptschool.teacher.ui.fragment.HomeFragment;
 import com.xptschool.teacher.ui.fragment.MapFragment;
 import com.xptschool.teacher.ui.fragment.MineFragment;
+import com.xptschool.teacher.ui.login.LoginActivity;
 
 import org.json.JSONObject;
 

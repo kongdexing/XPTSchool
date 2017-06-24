@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.main;
+package com.xptschool.teacher.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,24 +14,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
-import com.google.gson.Gson;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
-import com.xptschool.teacher.http.HttpAction;
-import com.xptschool.teacher.http.MyVolleyRequestListener;
-import com.xptschool.teacher.model.BeanTeacher;
-import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.push.UpushTokenHelper;
 import com.xptschool.teacher.server.ServerManager;
+import com.xptschool.teacher.ui.main.BaseLoginActivity;
+import com.xptschool.teacher.ui.main.MainActivity;
 import com.xptschool.teacher.util.ToastUtils;
-
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -115,7 +104,7 @@ public class LoginActivity extends BaseLoginActivity {
                 }
                 break;
             case R.id.txtForgetPWD:
-
+                startActivity(new Intent(LoginActivity.this, CheckUserActivity.class));
                 break;
         }
     }

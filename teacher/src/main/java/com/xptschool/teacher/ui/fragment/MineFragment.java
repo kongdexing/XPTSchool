@@ -17,7 +17,7 @@ import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.contact.ContactsActivity;
 import com.xptschool.teacher.ui.course.CourseActivity;
-import com.xptschool.teacher.ui.main.LoginActivity;
+import com.xptschool.teacher.ui.login.LoginActivity;
 import com.xptschool.teacher.ui.mine.MyClassesActivity;
 import com.xptschool.teacher.ui.setting.SettingActivity;
 import com.xptschool.teacher.ui.mine.StudentsActivity;

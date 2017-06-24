@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RAISED_THREAD_PRIORITY" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <!--<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />-->
+    <!-- <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission
@@ -85,7 +85,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -168,8 +168,8 @@
             android:theme="@style/translucent" />
         <activity android:name=".ui.chat.RecordVideoActivity" />
 
-        <!--android:excludeFromRecents="true"-->
-        <!--android:launchMode="singleInstance"-->
+        <!-- android:excludeFromRecents="true" -->
+        <!-- android:launchMode="singleInstance" -->
 
         <activity
             android:name=".ui.chat.video.CallScreen"
@@ -178,6 +178,9 @@
         <service android:name=".server.SocketService" />
         <service android:name=".imsdroid.NativeService" />
 
+        <activity android:name=".ui.login.CheckUserActivity" />
+        <activity android:name=".ui.login.CheckSMSCodeActivity" />
+        <activity android:name=".ui.login.SetPasswordActivity"></activity>
     </application>
 
 </manifest>

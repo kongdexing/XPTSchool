@@ -2,36 +2,18 @@ package com.xptschool.teacher.ui.main;
 
 import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
-import com.google.gson.Gson;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
-import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
-import com.xptschool.teacher.http.HttpAction;
-import com.xptschool.teacher.http.MyVolleyRequestListener;
-import com.xptschool.teacher.model.BeanTeacher;
-import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.ui.album.AlbumActivity;
-import com.xptschool.teacher.ui.album.TakePhotoActivity;
+import com.xptschool.teacher.ui.login.LoginActivity;
 import com.xptschool.teacher.util.ToastUtils;
 
-import org.json.JSONObject;
-
-import java.io.File;
-
-import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;

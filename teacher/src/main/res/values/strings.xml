@@ -16,6 +16,7 @@
     <string name="nav_mine">我的</string>
 
     <string name="username">用户名</string>
+    <string name="hint_username">请输入用户名</string>
     <string name="userpwd">密码</string>
     <string name="forgetpwd"><u>忘记密码</u></string>
     <string name="login">登录</string>
@@ -160,5 +161,13 @@
 
     <string name="string_call_hangup">挂断</string>
     <string name="string_call_camera_switch">转换摄像头</string>
+
+    <string name="title_check_user">忘记密码</string>
+    <string name="title_forgot_password">忘记密码</string>
+    <string name="string_phone">手机号:</string>
+    <string name="string_verify_code">验证码:</string>
+    <string name="hint_code">请输入验证码</string>
+    <string name="hint_phone">请输入手机号</string>
+    <string name="label_next">下一步</string>
 
 </resources>
