@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.common.VolleyHttpParamsEntity;
+import com.android.volley.common.VolleyHttpResult;
+import com.android.volley.common.VolleyHttpService;
+import com.xptschool.parent.http.HttpAction;
+import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.ui.main.BaseActivity;
 
@@ -52,6 +58,28 @@ public class CallBaseScreen extends BaseActivity {
                 finish();
             }
         }
+    }
+
+    public void pushIOSCall(ContactTeacher teacher) {
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.VIDEO_CALL_IOS_PUSH,
+                new VolleyHttpParamsEntity()
+                        .addParam("user_id", teacher.getU_id())
+                        .addParam("type", "0"), new MyVolleyRequestListener() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onResponse(VolleyHttpResult volleyHttpResult) {
+                        super.onResponse(volleyHttpResult);
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
+                    }
+                });
     }
 
     @Override

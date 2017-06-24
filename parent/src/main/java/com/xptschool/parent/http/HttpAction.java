@@ -113,4 +113,7 @@ public class HttpAction {
     public static String GET_TEL_RECHARGE_ORDER = HEAD + "TelCharge/getTelCharge";
     public static String TEL_RECHARGE = HEAD + "TelCharge/telTopUp";
 
+    //视频通话，给ios拨号
+    public static String VIDEO_CALL_IOS_PUSH = HEAD + "Telephone/msgPush";
+
 }

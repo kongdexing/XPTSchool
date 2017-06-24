@@ -6,7 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
+import com.android.volley.common.VolleyHttpParamsEntity;
+import com.android.volley.common.VolleyHttpResult;
+import com.android.volley.common.VolleyHttpService;
 import com.xptschool.teacher.common.BroadcastAction;
+import com.xptschool.teacher.http.HttpAction;
+import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.ui.main.BaseActivity;
 
@@ -56,6 +62,29 @@ public class CallBaseScreen extends BaseActivity {
                 finish();
             }
         }
+    }
+
+    public void pushIOSCall(ContactParent parent) {
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.VIDEO_CALL_IOS_PUSH,
+                new VolleyHttpParamsEntity()
+                        .addParam("user_id", parent.getUser_id())
+                        .addParam("type", "0"), new MyVolleyRequestListener() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onResponse(VolleyHttpResult volleyHttpResult) {
+                        super.onResponse(volleyHttpResult);
+                        Log.i(TAG, "onResponse: " + volleyHttpResult.getData().toString());
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
+                    }
+                });
     }
 
     @Override
@@ -171,7 +200,7 @@ public class CallBaseScreen extends BaseActivity {
         }
     }
 
-    public void showSecondInComing(Intent intent){
+    public void showSecondInComing(Intent intent) {
 
     }
 

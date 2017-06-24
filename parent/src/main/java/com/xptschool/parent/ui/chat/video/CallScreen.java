@@ -53,6 +53,9 @@ public class CallScreen extends CallBaseScreen {
             if ("outgoing".equals(callType)) {
                 mSession = NgnAVSession.getSession(extras.getLong(ExtraKey.EXTRAT_SIP_SESSION_ID));
                 contactTeacher = (ContactTeacher) extras.get(ExtraKey.EXTRAT_TEACHER_ID);
+                //push ios
+                pushIOSCall(contactTeacher);
+
             } else if ("incoming".equals(callType)) {
                 try {
                     long session_id = extras.getLong(ExtraKey.EXTRAT_SIP_SESSION_ID);

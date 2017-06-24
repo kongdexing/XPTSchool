@@ -19,6 +19,7 @@ import com.jph.takephoto.uitl.TFileUtils;
 import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.ExtraKey;
+import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.ui.chat.video.CallScreen;
 import com.xptschool.parent.ui.main.BaseListActivity;
@@ -142,7 +143,8 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     public boolean startVideo(ContactTeacher teacher) {
         if (!mSipService.isRegistered()) {
-            Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
+            startService(new Intent(this, NativeService.class));
             return false;
         }
         final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", teacher.getU_id(), BuildConfig.CHAT_VIDEO_URL));

@@ -67,4 +67,6 @@ public class HttpAction {
     public static String HOME_Banner = HEAD + "Banner/query";
     public static String SHOW_Banner = BuildConfig.SERVICE_URL + "/getadstatics.php";
 
+    //视频通话，给ios拨号
+    public static String VIDEO_CALL_IOS_PUSH = HEAD + "Telephone/msgPush";
 }
