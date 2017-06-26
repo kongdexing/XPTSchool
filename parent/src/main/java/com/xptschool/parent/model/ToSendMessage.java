@@ -21,7 +21,7 @@ public class ToSendMessage {
 
     private String TAG = ToSendMessage.class.getSimpleName();
     private String id;
-    private char type; //0文字，1文件，2语音
+    private char type; //0文字，1文件，2语音, 3视频
     private int size;   //
     private String filename;
     private int second = 0;

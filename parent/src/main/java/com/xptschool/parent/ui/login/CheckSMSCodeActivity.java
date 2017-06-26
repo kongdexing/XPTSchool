@@ -1,7 +1,12 @@
 package com.xptschool.parent.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
@@ -9,6 +14,7 @@ import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.xptschool.parent.R;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseActivity;
@@ -23,7 +29,12 @@ public class CheckSMSCodeActivity extends BaseActivity {
     EditText edtPhone;
     @BindView(R.id.edtCode)
     EditText edtCode;
+    @BindView(R.id.btnSend)
+    Button btnSend;
     private String userName;
+    private String spSMSKey;
+    private final int START_TIMER_DELAY = 0;
+    private int lastTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +45,47 @@ public class CheckSMSCodeActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             userName = bundle.getString("username");
+            spSMSKey = userName;
+        }
+
+        //获取可继续发送短信的剩余时间
+        String val = (String) SharedPreferencesUtil.getData(this, spSMSKey, "0");
+        long spVal = Long.parseLong(val);
+
+        long diff = (System.currentTimeMillis() - spVal) / 1000;
+        int maxTime = 10;
+        if (maxTime >= diff) {
+            btnSend.setEnabled(false);
+            lastTime = (int) (maxTime - diff);
+            btnSend.setText(lastTime + "秒后重发");
+            handler.sendEmptyMessageDelayed(START_TIMER_DELAY, 1000);
         }
 
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case START_TIMER_DELAY:
+                    try {
+                        lastTime--;
+                        if (lastTime == 0) {
+                            btnSend.setEnabled(true);
+                            btnSend.setText(R.string.btn_send);
+                        } else {
+                            btnSend.setText(lastTime + "秒后重发");
+                            btnSend.setEnabled(false);
+                            handler.sendEmptyMessageDelayed(START_TIMER_DELAY, 1000);
+                        }
+                    } catch (Exception ex) {
+                        Log.i(TAG, "handleMessage: " + ex.getMessage());
+                    }
+                    break;
+            }
+        }
+    };
 
     @OnClick({R.id.btnSend, R.id.btnNext})
     void viewOnClick(View view) {
@@ -63,7 +112,7 @@ public class CheckSMSCodeActivity extends BaseActivity {
     }
 
     private void getVerifyCode(String phone) {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP1,
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP2,
                 new VolleyHttpParamsEntity()
                         .addParam("phone", phone)
                         .addParam("username", userName), new MyVolleyRequestListener() {
@@ -75,6 +124,13 @@ public class CheckSMSCodeActivity extends BaseActivity {
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                            SharedPreferencesUtil.saveData(CheckSMSCodeActivity.this, spSMSKey, System.currentTimeMillis());
+                            //开始60秒倒计时
+                            lastTime = 60;
+                            handler.sendEmptyMessageDelayed(START_TIMER_DELAY, 1000);
+                        }
+                        ToastUtils.showToast(CheckSMSCodeActivity.this, volleyHttpResult.getInfo());
                     }
 
                     @Override
@@ -97,6 +153,12 @@ public class CheckSMSCodeActivity extends BaseActivity {
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                            Intent intent = new Intent(CheckSMSCodeActivity.this, SetPasswordActivity.class);
+                            intent.putExtra("username", userName);
+                            startActivity(intent);
+                        }
+                        ToastUtils.showToast(CheckSMSCodeActivity.this, volleyHttpResult.getInfo());
                     }
 
                     @Override
