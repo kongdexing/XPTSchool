@@ -10,17 +10,17 @@
         android:id="@+id/txtQstTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
-        android:textSize="@dimen/dp_16"
         android:background="@color/white"
-        android:text=""/>
+        android:padding="@dimen/dp_5"
+        android:text=""
+        android:textSize="@dimen/dp_16" />
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/txtQstTitle"
         android:layout_above="@+id/rlSend"
+        android:layout_below="@+id/txtQstTitle"
         android:divider="@null"
         android:transcriptMode="normal" />
 
@@ -46,6 +46,8 @@
             android:layout_toLeftOf="@+id/btnSend"
             android:layout_toRightOf="@+id/imgVoiceOrText"
             android:background="@drawable/chat_input_bg"
+            android:maxEms="600"
+            android:maxLines="3"
             android:padding="@dimen/dp_5"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_14"

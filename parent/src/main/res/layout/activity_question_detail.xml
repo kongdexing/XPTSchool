@@ -45,6 +45,8 @@
             android:layout_toLeftOf="@+id/btnSend"
             android:layout_toRightOf="@+id/imgVoiceOrText"
             android:background="@drawable/chat_input_bg"
+            android:maxEms="600"
+            android:maxLines="3"
             android:padding="@dimen/dp_5"
             android:textColor="@color/text_black"
             android:textSize="@dimen/sp_14"
