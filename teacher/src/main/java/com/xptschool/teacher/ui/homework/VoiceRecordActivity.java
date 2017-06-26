@@ -192,18 +192,22 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                         resetUnRecord();
                     } else {
                         //检测录音文件
-                        File file = new File(mAudioManager.getCurrentFilePath());
-                        if (file.length() == 0) {
-                            ToastUtils.showToast(VoiceRecordActivity.this, "录音无效");
-                            resetUnRecord();
-                        } else {
-                            imgDelete.setVisibility(View.VISIBLE);
-                            maxLength = Math.round(mTime);
-                            initProgress(0);
-                            txtProgress.setVisibility(View.VISIBLE);
-                            txtProgress.setText(maxLength + "\"");
-                            reset();
-                            setImgMicStatus(Voice_Play);
+                        try {
+                            File file = new File(mAudioManager.getCurrentFilePath());
+                            if (file.length() == 0) {
+                                ToastUtils.showToast(VoiceRecordActivity.this, "录音无效");
+                                resetUnRecord();
+                            } else {
+                                imgDelete.setVisibility(View.VISIBLE);
+                                maxLength = Math.round(mTime);
+                                initProgress(0);
+                                txtProgress.setVisibility(View.VISIBLE);
+                                txtProgress.setText(maxLength + "\"");
+                                reset();
+                                setImgMicStatus(Voice_Play);
+                            }
+                        } catch (Exception ex) {
+                            Log.i(TAG, "handleMessage: " + ex.getMessage());
                         }
                     }
                     break;

@@ -1,6 +1,7 @@
 package com.xptschool.teacher.common;
 
 import android.content.Context;
+import android.os.Environment;
 
 import com.xptschool.teacher.XPTApplication;
 
@@ -30,18 +31,11 @@ public class LocalImageHelper {
     }
 
     public String setCameraImgPath() {
-        String foloder = XPTApplication.getInstance().getCachePath();
-//                + "/PostPicture/";
-        File savedir = new File(foloder);
-        if (!savedir.exists()) {
-            savedir.mkdirs();
-        }
-        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss")
-                .format(new Date());
-        // 照片命名
-        String picName = timeStamp + ".jpg";
+        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + System.currentTimeMillis() + ".jpg");
+        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+
         //  裁剪头像的绝对路径
-        CameraImgPath = foloder + "/" + picName;
+        CameraImgPath = file.getAbsolutePath();
         return CameraImgPath;
     }
 

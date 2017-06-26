@@ -171,6 +171,7 @@ public class XPTApplication extends NgnApplication {
             cacheDir = getCacheDir();
         File sdCardDir = Environment.getExternalStorageDirectory();//获取SDCard目录
 //            config.diskCache(new UnlimitedDiskCache(new File(sdCardDir.getAbsolutePath() + "/XPTteacher")));
+        Log.i(TAG, "getCachePath: "+sdCardDir.getAbsolutePath());
         if (cacheDir == null) {
             cacheDir = new File(sdCardDir.getAbsolutePath() + "/XPTteacher");
             Log.i(TAG, "cacheDir is null " + cacheDir.getAbsolutePath());

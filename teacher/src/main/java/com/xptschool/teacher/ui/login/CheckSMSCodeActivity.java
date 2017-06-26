@@ -2,6 +2,7 @@ package com.xptschool.teacher.ui.login;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
@@ -23,6 +24,8 @@ public class CheckSMSCodeActivity extends BaseActivity {
     EditText edtPhone;
     @BindView(R.id.edtCode)
     EditText edtCode;
+    @BindView(R.id.btnSend)
+    Button btnSend;
     private String userName;
 
     @Override
@@ -63,7 +66,7 @@ public class CheckSMSCodeActivity extends BaseActivity {
     }
 
     private void getVerifyCode(String phone) {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP1,
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP2,
                 new VolleyHttpParamsEntity()
                         .addParam("phone", phone)
                         .addParam("username", userName), new MyVolleyRequestListener() {
@@ -75,6 +78,12 @@ public class CheckSMSCodeActivity extends BaseActivity {
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                            btnSend.setEnabled(false);
+                            //开始60秒倒计时
+                            
+                        }
+                        ToastUtils.showToast(CheckSMSCodeActivity.this, volleyHttpResult.getInfo());
                     }
 
                     @Override

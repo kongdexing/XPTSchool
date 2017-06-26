@@ -103,6 +103,7 @@ public class AlbumActivity extends TakePhotoActivity {
                         File file = new File(cameraPath);
                         if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
                         Uri imageUri = Uri.fromFile(file);
+                        Log.i(TAG, "onCameraClick: " + file.getAbsolutePath());
                         TakePhoto takePhoto = getTakePhoto();
                         configCompress(takePhoto);
                         configTakePhotoOption(takePhoto);
@@ -187,7 +188,6 @@ public class AlbumActivity extends TakePhotoActivity {
     @Override
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
-        Log.i(TAG, "takeSuccess: ");
         showImg(result.getImages());
     }
 
@@ -198,7 +198,7 @@ public class AlbumActivity extends TakePhotoActivity {
 //                path = images.get(i).getCompressPath();
 //            }
             patch = "file://" + patch;
-            Log.i(TAG, "showImg: " + patch);
+            Log.i(TAG, "showImg: " + patch + "  file size " + new File(patch).length());
             if (!LocalImageHelper.getInstance().getLocalCheckedImgs().contains(patch)) {
                 LocalImageHelper.getInstance().getLocalCheckedImgs().add(patch);
             }

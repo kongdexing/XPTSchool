@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public class TFileUtils {
     private static final String TAG = "TFileUtils";
-    //    private static String DEFAULT_DISK_CACHE_DIR = "takephoto_cache";
+    private static String DEFAULT_DISK_CACHE_DIR = "takephoto_cache";
     private static File mCacheDir;
 
     public static void setCacheFile(String filePath) {
@@ -24,14 +24,13 @@ public class TFileUtils {
     }
 
     public static File getPhotoCacheDir(Context context, File file) {
-        if (mCacheDir != null) {
+        File cacheDir = context.getCacheDir();
+        if (cacheDir != null) {
+            File mCacheDir = new File(cacheDir, DEFAULT_DISK_CACHE_DIR);
             if (!mCacheDir.mkdirs() && (!mCacheDir.exists() || !mCacheDir.isDirectory())) {
                 return file;
             } else {
-                String fileName = file.getName();
-                String prefix = fileName.substring(fileName.lastIndexOf("."));
-                String uuid = UUID.randomUUID().toString().replace("-", "");
-                return new File(mCacheDir, uuid + prefix);
+                return new File(mCacheDir, file.getName());
             }
         }
         if (Log.isLoggable(TAG, Log.ERROR)) {
