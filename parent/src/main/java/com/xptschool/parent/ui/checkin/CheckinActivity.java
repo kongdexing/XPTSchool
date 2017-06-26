@@ -45,6 +45,9 @@ public class CheckinActivity extends BaseListActivity {
     @BindView(R.id.spnStudents)
     MaterialSpinner spnStudents;
 
+    @BindView(R.id.spnType)
+    MaterialSpinner spnType;
+
     @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefresh;
 
@@ -58,6 +61,8 @@ public class CheckinActivity extends BaseListActivity {
     FrameLayout flTransparent;
 
     private CheckinAdapter adapter;
+    //循序固定，勿乱动
+    private static final String[] statuses = {"全部", "进校", "出校"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +100,19 @@ public class CheckinActivity extends BaseListActivity {
             }
         });
 
+        spnType.setItems(statuses);
+        spnType.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                flTransparent.setVisibility(View.GONE);
+                getCheckinList();
+            }
+        });
+
         spnStudents.setOnNothingSelectedListener(spinnerNothingSelectedListener);
         spnDate.setOnNothingSelectedListener(spinnerNothingSelectedListener);
+        spnType.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
         adapter = new CheckinAdapter(this);
         recyclerView.setAdapter(adapter);

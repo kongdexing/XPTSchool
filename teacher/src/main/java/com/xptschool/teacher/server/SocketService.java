@@ -10,7 +10,7 @@ import com.coolerfall.daemon.Daemon;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.imsdroid.NativeService;
-import com.xptschool.teacher.ui.chat.BaseMessage;
+import com.xptschool.teacher.ui.chat.ToSendMessage;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -93,7 +93,7 @@ public class SocketService extends Service {
         }
     }
 
-    public void sendMessage(BaseMessage message) {
+    public void sendMessage(ToSendMessage message) {
         Log.i(TAG, "sendMessage: " + message.getAllData().length);
 //        SocketSendThread sendThread = new SocketSendThread(message);
 //        sendThread.start();
@@ -103,9 +103,9 @@ public class SocketService extends Service {
 
     private class SocketSendThread extends Thread {
 
-        private BaseMessage message;
+        private ToSendMessage message;
 
-        public SocketSendThread(BaseMessage msg) {
+        public SocketSendThread(ToSendMessage msg) {
             super();
             message = msg;
             Log.i(TAG, "SocketSendThread: ");
@@ -118,8 +118,8 @@ public class SocketService extends Service {
             Log.i(TAG, "write start ");
             //开始发送
             Intent intent = new Intent();
-            intent.putExtra("message", message);
-            intent.setAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
+            intent.putExtra("message", message.getId());
+            intent.setAction(BroadcastAction.MESSAGE_SEND_START);
             XPTApplication.getInstance().sendBroadcast(intent);
 
             Socket mSocket = null;

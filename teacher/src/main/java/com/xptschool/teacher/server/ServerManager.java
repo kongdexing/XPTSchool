@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.xptschool.teacher.imsdroid.NativeService;
-import com.xptschool.teacher.ui.chat.BaseMessage;
+import com.xptschool.teacher.ui.chat.ToSendMessage;
 
 /**
  * Created by dexing on 2017/5/8.
@@ -32,7 +32,7 @@ public class ServerManager {
         context.stopService(new Intent(context, NativeService.class));
     }
 
-    public void sendMessage(BaseMessage message) {
+    public void sendMessage(ToSendMessage message) {
         if (mSocketService == null) {
             mSocketService = new SocketService();
         }

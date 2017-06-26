@@ -1,36 +1,19 @@
 package com.xptschool.parent.server;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Build;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.coolerfall.daemon.Daemon;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.BroadcastAction;
-import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.chat.BaseMessage;
-import com.xptschool.parent.util.ChatUtil;
+import com.xptschool.parent.model.ToSendMessage;
 
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.URLDecoder;
-import java.sql.Array;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -106,7 +89,7 @@ public class SocketService extends Service {
         }
     }
 
-    public void sendMessage(BaseMessage message) {
+    public void sendMessage(ToSendMessage message) {
         Log.i(TAG, "sendMessage: " + message.getAllData().length);
 //        SocketSendThread sendThread = new SocketSendThread(message);
 //        sendThread.start();
@@ -116,9 +99,9 @@ public class SocketService extends Service {
 
     private class SocketSendThread extends Thread {
 
-        private BaseMessage message;
+        private ToSendMessage message;
 
-        public SocketSendThread(BaseMessage msg) {
+        public SocketSendThread(ToSendMessage msg) {
             super();
             message = msg;
         }
@@ -130,8 +113,8 @@ public class SocketService extends Service {
             Log.i(TAG, "write start send size " + message.getSize());
             //开始发送
             Intent intent = new Intent();
-            intent.putExtra("message", message);
-            intent.setAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
+            intent.putExtra("message", message.getId());
+            intent.setAction(BroadcastAction.MESSAGE_SEND_START);
             XPTApplication.getInstance().sendBroadcast(intent);
 
             Socket mSocket = null;

@@ -19,6 +19,7 @@ import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.ui.main.BaseActivity;
+import com.xptschool.teacher.util.ToastUtils;
 
 import butterknife.BindView;
 
@@ -49,15 +50,7 @@ public class CheckUserActivity extends BaseActivity {
 
     }
 
-    private void checkUserName(String username) {
-        Intent intent = new Intent(this, CheckSMSCodeActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-
-        if (true) {
-            return;
-        }
-
+    private void checkUserName(final String username) {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP1,
                 new VolleyHttpParamsEntity()
                         .addParam("username", username), new MyVolleyRequestListener() {
@@ -69,6 +62,13 @@ public class CheckUserActivity extends BaseActivity {
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                            Intent intent = new Intent(CheckUserActivity.this, CheckSMSCodeActivity.class);
+                            intent.putExtra("username", username);
+                            startActivity(intent);
+                        } else {
+                            ToastUtils.showToast(CheckUserActivity.this, volleyHttpResult.getInfo());
+                        }
                     }
 
                     @Override

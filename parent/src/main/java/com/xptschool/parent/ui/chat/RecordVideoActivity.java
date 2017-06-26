@@ -59,7 +59,7 @@ public class RecordVideoActivity extends AppCompatActivity {
                 }
                 try {
                     FileOutputStream out = new FileOutputStream(jpgFile);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out);
                     out.flush();
                     out.close();
                     Log.i(TAG, "已经保存 " + jpgFile.getPath());

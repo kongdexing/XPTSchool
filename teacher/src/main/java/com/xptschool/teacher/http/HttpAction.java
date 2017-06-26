@@ -71,9 +71,9 @@ public class HttpAction {
     public static String VIDEO_CALL_IOS_PUSH = HEAD + "Telephone/msgPush";
 
     //密码找回
-    public static String FORGOT_PWD_STEP1 = HEAD + "AddGuardian/checkUser";
-    public static String FORGOT_PWD_STEP2 = HEAD + "AddGuardian/ForgotPassword";
-    public static String FORGOT_PWD_STEP3 = HEAD + "AddGuardian/checkCode";
-    public static String FORGOT_PWD_STEP4 = HEAD + "AddGuardian/PasswordReset";
+    public static String FORGOT_PWD_STEP1 = HEAD + "ForgetPw/checkUser";
+    public static String FORGOT_PWD_STEP2 = HEAD + "ForgetPw/ForgotPassword";
+    public static String FORGOT_PWD_STEP3 = HEAD + "ForgetPw/checkCode";
+    public static String FORGOT_PWD_STEP4 = HEAD + "ForgetPw/PasswordReset";
 
 }

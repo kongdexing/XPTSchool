@@ -385,6 +385,9 @@ public class CameraInterface {
 
     void takePicture(final TakePictureCallback callback) {
         final int nowAngle = (angle + 90) % 360;
+        if (mCamera == null) {
+            return;
+        }
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {

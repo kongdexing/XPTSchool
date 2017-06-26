@@ -1,11 +1,12 @@
-package com.xptschool.teacher.ui.chat;
+package com.xptschool.parent.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
-import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.util.ChatUtil;
+import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.util.ChatUtil;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -16,19 +17,23 @@ import java.net.URLEncoder;
  * Created by dexing on 2017/5/4.
  * No1
  */
+public class ToSendMessage {
 
-public class BaseMessage implements Parcelable {
-
-    private String TAG = BaseMessage.class.getSimpleName();
+    private String TAG = ToSendMessage.class.getSimpleName();
+    private String id;
     private char type; //0文字，1文件，2语音
     private int size;   //
     private String filename;
     private int second = 0;
     private String parentId;
     private String teacherId;
-    private String time;
     private String content;
+    private String time;
     private byte[] allData;
+
+    public ToSendMessage() {
+        this.id = CommonUtil.getUUID();
+    }
 
     public byte[] packData(FileInputStream inputStream) {
         byte[] allData = null;
@@ -49,7 +54,6 @@ public class BaseMessage implements Parcelable {
             if (offset != buffer.length) {
                 Log.i(TAG, "packData: 文件读取不全");
             }
-
             allData = getBytes(buffer);
         } catch (Exception ex) {
             allData = null;
@@ -63,7 +67,7 @@ public class BaseMessage implements Parcelable {
         Log.i(TAG, "packData: b_type size " + b_type.length + "  " + new String(b_type));
         byte[] b_ostype = ChatUtil.charToByte('1');
         Log.i(TAG, "packData: b_ostype size " + b_ostype.length + "  " + new String(b_ostype));
-        byte[] b_frm = ChatUtil.charToByte('1'); //0家长发老师，1老师发家长
+        byte[] b_frm = ChatUtil.charToByte('0'); //0家长发老师，1老师发家长
         Log.i(TAG, "packData: b_frm size " + b_frm.length + "  " + new String(b_frm));
         byte[] b_size = ChatUtil.intToByteArray(size);
         Log.i(TAG, "packData: b_size size " + size + "--" + b_size.length + "  " + ChatUtil.byteArrayToInt(b_size));
@@ -76,13 +80,12 @@ public class BaseMessage implements Parcelable {
 
         byte[] b_username = new byte[ChatUtil.userNameLength];
         try {
-            String userName = GreenDaoHelper.getInstance().getCurrentTeacher().getName();
+            String userName = GreenDaoHelper.getInstance().getCurrentParent().getParent_name();
             ByteArrayInputStream bs_name = new ByteArrayInputStream(URLEncoder.encode(userName, "utf-8").getBytes());
             bs_name.read(b_username);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "packData: b_username size " + b_username.length + "  " + new String(b_username));
 
         byte[] b_filename = new byte[ChatUtil.fileNameLength];
         // 将流与字节数组关联
@@ -95,6 +98,7 @@ public class BaseMessage implements Parcelable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         Log.i(TAG, "packData: b_filename size " + b_filename.length + "  " + new String(b_filename));
 
         allData = ChatUtil.addBytes(b_type, b_ostype);
@@ -106,9 +110,9 @@ public class BaseMessage implements Parcelable {
         allData = ChatUtil.addBytes(allData, b_tId);
         Log.i(TAG, "packData tid: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_second);
-        Log.i(TAG, "packData second: " + allData.length);
+        Log.i(TAG, "packData fn: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_username);
-        Log.i(TAG, "packData name: " + allData.length);
+        Log.i(TAG, "packData fn: " + allData.length);
         allData = ChatUtil.addBytes(allData, b_filename);
         Log.i(TAG, "packData fn: " + allData.length);
         byte[] b_zero = new byte[2];
@@ -118,13 +122,28 @@ public class BaseMessage implements Parcelable {
         return allData;
     }
 
+    /**
+     * 文本信息
+     *
+     * @param message
+     * @return
+     */
     public byte[] packData(String message) {
         try {
+            content = message;
             message = URLEncoder.encode(message, "utf-8");
             return getBytes(message.getBytes());
         } catch (Exception ex) {
             return null;
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public char getType() {
@@ -141,22 +160,6 @@ public class BaseMessage implements Parcelable {
 
     public void setSize(int size) {
         this.size = size;
-    }
-
-    public int getSecond() {
-        return second;
-    }
-
-    public void setSecond(int second) {
-        this.second = second;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public String getFilename() {
@@ -191,6 +194,22 @@ public class BaseMessage implements Parcelable {
         this.allData = allData;
     }
 
+    public int getSecond() {
+        return second;
+    }
+
+    public void setSecond(int second) {
+        this.second = second;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public String getTime() {
         return time;
     }
@@ -199,50 +218,4 @@ public class BaseMessage implements Parcelable {
         this.time = time;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.TAG);
-        dest.writeInt(this.type);
-        dest.writeInt(this.size);
-        dest.writeString(this.filename);
-        dest.writeInt(this.second);
-        dest.writeString(this.parentId);
-        dest.writeString(this.teacherId);
-        dest.writeString(this.time);
-        dest.writeString(this.content);
-        dest.writeByteArray(this.allData);
-    }
-
-    public BaseMessage() {
-    }
-
-    protected BaseMessage(Parcel in) {
-        this.TAG = in.readString();
-        this.type = (char) in.readInt();
-        this.size = in.readInt();
-        this.filename = in.readString();
-        this.second = in.readInt();
-        this.parentId = in.readString();
-        this.teacherId = in.readString();
-        this.time = in.readString();
-        this.content = in.readString();
-        this.allData = in.createByteArray();
-    }
-
-    public static final Creator<BaseMessage> CREATOR = new Creator<BaseMessage>() {
-        @Override
-        public BaseMessage createFromParcel(Parcel source) {
-            return new BaseMessage(source);
-        }
-
-        @Override
-        public BaseMessage[] newArray(int size) {
-            return new BaseMessage[size];
-        }
-    };
 }

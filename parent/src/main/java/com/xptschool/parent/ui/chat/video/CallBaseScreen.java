@@ -4,6 +4,7 @@ import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -102,7 +103,7 @@ public class CallBaseScreen extends BaseActivity {
         }
         final String action = intent.getAction();
         if (NgnInviteEventArgs.ACTION_INVITE_EVENT.equals(action)) {
-            NgnInviteEventArgs args = intent.getParcelableExtra(NgnInviteEventArgs.EXTRA_EMBEDDED);
+            final NgnInviteEventArgs args = intent.getParcelableExtra(NgnInviteEventArgs.EXTRA_EMBEDDED);
             if (args == null) {
                 Log.e(TAG, "Invalid event args");
                 return;
@@ -130,32 +131,42 @@ public class CallBaseScreen extends BaseActivity {
                     mEngine.getSoundService().stopRingBackTone();
                     mSession.setSpeakerphoneOn(false);
 
-                    loadInCallVideoView();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                loadInCallVideoView();
+                            } catch (Exception ex) {
+                                Log.i(TAG, "run: " + ex.getMessage());
+                            }
 
-                    if (mSession != null) {
-                        applyCamRotation(mSession.compensCamRotation(true));
-                        mTimerQoS.schedule(mTimerTaskQoS, 0, 3000);
-                    }
+                            if (mSession != null) {
+                                applyCamRotation(mSession.compensCamRotation(true));
+                                mTimerQoS.schedule(mTimerTaskQoS, 0, 3000);
+                            }
 
-                    switch (args.getEventType()) {
-                        case REMOTE_DEVICE_INFO_CHANGED: {
-                            Log.d(TAG, String.format("Remote device info changed: orientation: %s", mSession.getRemoteDeviceInfo().getOrientation()));
-                            break;
-                        }
-                        case MEDIA_UPDATED: {
-                            Log.i(TAG, "handleSipEvent: MEDIA_UPDATED");
+                            switch (args.getEventType()) {
+                                case REMOTE_DEVICE_INFO_CHANGED: {
+                                    Log.d(TAG, String.format("Remote device info changed: orientation: %s", mSession.getRemoteDeviceInfo().getOrientation()));
+                                    break;
+                                }
+                                case MEDIA_UPDATED: {
+                                    Log.i(TAG, "handleSipEvent: MEDIA_UPDATED");
 //                            if ((mIsVideoCall = (mSession.getMediaType() == NgnMediaType.AudioVideo || mSession.getMediaType() == NgnMediaType.Video))) {
 //                            loadInCallVideoView();
-                            loadInCallVideoView();
+                                    loadInCallVideoView();
 //                            } else {
 //                                loadInCallAudioView();
 //                            }
-                            break;
+                                    break;
+                                }
+                                default: {
+                                    break;
+                                }
+                            }
                         }
-                        default: {
-                            break;
-                        }
-                    }
+                    }, 2000);
+
                     break;
                 case TERMINATING:
                 case TERMINATED:

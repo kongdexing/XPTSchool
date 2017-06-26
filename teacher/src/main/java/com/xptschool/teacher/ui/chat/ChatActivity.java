@@ -178,7 +178,7 @@ public class ChatActivity extends ChatAppendixActivity {
                     return;
                 }
                 try {
-                    BaseMessage message = new BaseMessage();
+                    ToSendMessage message = new ToSendMessage();
                     message.setType(ChatUtil.TYPE_AMR);
                     message.setFilename(file.getName());
                     message.setSecond(Math.round(seconds));
@@ -351,7 +351,7 @@ public class ChatActivity extends ChatAppendixActivity {
                 if (msg.isEmpty()) {
                     return;
                 }
-                BaseMessage message = new BaseMessage();
+                ToSendMessage message = new ToSendMessage();
                 message.setType(ChatUtil.TYPE_TEXT);
                 message.setFilename(ChatUtil.getCurrentDateHms());
                 message.setSize(msg.length());
@@ -398,7 +398,7 @@ public class ChatActivity extends ChatAppendixActivity {
             return;
         }
         try {
-            BaseMessage message = new BaseMessage();
+            ToSendMessage message = new ToSendMessage();
             message.setType(type);
             message.setFilename(file.getName());
             message.setSecond((int) duration / 1000);
@@ -419,7 +419,7 @@ public class ChatActivity extends ChatAppendixActivity {
         }
     }
 
-    private void addSendingMsg(BaseMessage message) {
+    private void addSendingMsg(ToSendMessage message) {
         BeanChat chat = new BeanChat();
         chat.parseMessageToChat(message);
         chat.setHasRead(true);
@@ -427,6 +427,7 @@ public class ChatActivity extends ChatAppendixActivity {
         adapter.addData(chat);
         smoothBottom();
         GreenDaoHelper.getInstance().insertChat(chat);
+        ChatMessageHelper.getInstance().putMessage(message);
     }
 
     @Override
@@ -478,7 +479,13 @@ public class ChatActivity extends ChatAppendixActivity {
                 smoothBottom();
                 return;
             }
-            BaseMessage sendMsg = (BaseMessage) bundle.get("message");
+
+            String msgId = bundle.getString("message");
+            ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(msgId);
+            if (sendMsg == null) {
+                return;
+            }
+
             BeanChat chat = new BeanChat();
             chat.parseMessageToChat(sendMsg);
             chat.setHasRead(true);

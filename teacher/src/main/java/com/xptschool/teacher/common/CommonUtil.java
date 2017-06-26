@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Administrator on 2016/10/28.
@@ -346,4 +347,8 @@ public class CommonUtil {
         context.startActivity(localIntent);
     }
 
+    public static String getUUID() {
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return uuid;
+    }
 }

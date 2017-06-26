@@ -2,7 +2,7 @@ package com.xptschool.teacher.model;
 
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.server.ServerManager;
-import com.xptschool.teacher.ui.chat.BaseMessage;
+import com.xptschool.teacher.ui.chat.ToSendMessage;
 import com.xptschool.teacher.util.ChatUtil;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -164,7 +164,7 @@ public class BeanChat implements Serializable {
         this.seconds = seconds;
     }
 
-    public void parseMessageToChat(BaseMessage sendMsg) {
+    public void parseMessageToChat(ToSendMessage sendMsg) {
         this.setChatId(sendMsg.getFilename());
         this.setIsSend(true);
         this.setType(sendMsg.getType() + "");
@@ -178,7 +178,7 @@ public class BeanChat implements Serializable {
 
     public void onReSendChatToMessage() {
         try {
-            BaseMessage message = new BaseMessage();
+            ToSendMessage message = new ToSendMessage();
             message.setType(this.getType().charAt(0));
             message.setFilename(this.getFileName());
             message.setSecond(Integer.parseInt(this.getSeconds()));

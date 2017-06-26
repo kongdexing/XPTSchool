@@ -143,8 +143,8 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     public boolean startVideo(ContactTeacher teacher) {
         if (!mSipService.isRegistered()) {
-//            Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
             startService(new Intent(this, NativeService.class));
+            Toast.makeText(this, "正在登录...", Toast.LENGTH_SHORT).show();
             return false;
         }
         final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", teacher.getU_id(), BuildConfig.CHAT_VIDEO_URL));
@@ -164,7 +164,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     private void configCompress(TakePhoto takePhoto) {
-        int maxSize = 204800;
+        int maxSize = 102400;
         int width = 800;
         int height = 800;
         boolean showProgressBar = true;

@@ -2,7 +2,6 @@ package com.xptschool.parent.model;
 
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.server.ServerManager;
-import com.xptschool.parent.ui.chat.BaseMessage;
 import com.xptschool.parent.util.ChatUtil;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -164,7 +163,7 @@ public class BeanChat implements Serializable {
         this.seconds = seconds;
     }
 
-    public void parseMessageToChat(BaseMessage sendMsg) {
+    public void parseMessageToChat(ToSendMessage sendMsg) {
         this.setChatId(sendMsg.getFilename());
         this.setIsSend(true);
         this.setType(sendMsg.getType() + "");
@@ -179,7 +178,7 @@ public class BeanChat implements Serializable {
 
     public void onReSendChatToMessage() {
         try {
-            BaseMessage message = new BaseMessage();
+            ToSendMessage message = new ToSendMessage();
             message.setType(this.getType().charAt(0));
             message.setFilename(this.getFileName());
             message.setSecond(Integer.parseInt(this.getSeconds()));
@@ -188,7 +187,7 @@ public class BeanChat implements Serializable {
             message.setTeacherId(getTeacherId());
             message.setTime(getTime());
             byte[] allByte = null;
-            if (ChatUtil.TYPE_AMR == message.getType()) {
+            if (ChatUtil.TYPE_AMR == message.getType() || ChatUtil.TYPE_VIDEO == message.getType() || ChatUtil.TYPE_FILE == message.getType()) {
                 File file = new File(XPTApplication.getInstance().getCachePath() + "/" + getFileName());
                 FileInputStream inputStream = new FileInputStream(file);
                 allByte = message.packData(inputStream);
