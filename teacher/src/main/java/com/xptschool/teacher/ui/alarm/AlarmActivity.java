@@ -96,9 +96,11 @@ public class AlarmActivity extends BaseListActivity {
                 getAlarmList(txtDate.getText().toString());
             }
         });
+
         recycleView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
             @Override
             public void onLoadMore() {
+                Log.i(TAG, "onLoadMore: ");
                 if (resultPage.getPage() < resultPage.getTotal_page()) {
                     resultPage.setPage(resultPage.getPage() + 1);
                     getAlarmList(txtDate.getText().toString());

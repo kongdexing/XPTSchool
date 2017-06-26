@@ -72,7 +72,13 @@ public class AlarmMapActivity extends BaseActivity {
             return;
         }
         MarkerStudentView studentView = new MarkerStudentView(this);
-        studentView.isBoy(currentAlarm.getStu_sex().equals("1"));
+        String sex = currentAlarm.getStu_sex();
+        if (sex == null || sex.equals("1")) {
+            studentView.isBoy(true);
+        } else {
+            studentView.isBoy(false);
+        }
+
         BitmapDescriptor descriptor = BitmapDescriptorFactory.fromView(studentView);
 
         MarkerOptions ooA = new MarkerOptions().position(llA).icon(descriptor).zIndex(-1);

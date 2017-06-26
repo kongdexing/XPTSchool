@@ -31,6 +31,7 @@ import com.jph.takephoto.model.CropOptions;
 import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
+import com.jph.takephoto.uitl.TFileUtils;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -74,6 +75,7 @@ public class AlbumActivity extends TakePhotoActivity {
     public void showAlbumSource(View view) {
         //选择相片来源
         if (picPopup == null) {
+            TFileUtils.setCacheFile(null);
             AlbumSourceView albumSourceView = new AlbumSourceView(AlbumActivity.this);
             albumSourceView.setOnAlbumSourceClickListener(new AlbumSourceView.OnAlbumSourceClickListener() {
                 @Override

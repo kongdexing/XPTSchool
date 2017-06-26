@@ -47,7 +47,6 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
-        TFileUtils.setCacheFile(XPTApplication.getInstance().getCachePath());
 
         mEngine = NgnEngine.getInstance();
         mConfigurationService = mEngine.getConfigurationService();
@@ -132,6 +131,8 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void pickPhoto() {
+        TFileUtils.setCacheFile(XPTApplication.getInstance().getCachePath());
+
         TakePhoto takePhoto = getTakePhoto();
         configCompress(takePhoto);
         configTakePhotoOption(takePhoto);

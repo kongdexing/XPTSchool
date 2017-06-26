@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
@@ -182,7 +185,20 @@ public class CallScreen extends CallBaseScreen {
         mMainLayout.addView(mViewInCallVideo);
 
         // Video Consumer
-        mViewInCallVideo.loadVideoPreview(mSession);
+//        mViewInCallVideo.loadVideoPreview(mSession);
+
+//    mViewInCallVideo.viewCamera.
+
+        mViewInCallVideo.mViewRemoteVideoPreview.removeAllViews();
+        final View remotePreview = mSession.startVideoConsumerPreview();
+        if (remotePreview != null) {
+            final ViewParent viewParent = remotePreview.getParent();
+            if (viewParent != null && viewParent instanceof ViewGroup) {
+                ((ViewGroup) (viewParent)).removeView(remotePreview);
+            }
+            mViewInCallVideo.mViewRemoteVideoPreview.addView(remotePreview);
+//            mSession.setSpeakerphoneOn(true);
+        }
 
         // Video Producer
         mViewInCallVideo.startStopVideo(mSession);

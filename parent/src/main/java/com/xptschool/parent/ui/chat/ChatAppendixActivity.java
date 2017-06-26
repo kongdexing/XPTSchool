@@ -48,7 +48,6 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
-        TFileUtils.setCacheFile(XPTApplication.getInstance().getCachePath());
         mEngine = NgnEngine.getInstance();
         mConfigurationService = mEngine.getConfigurationService();
         mSipService = mEngine.getSipService();
@@ -104,7 +103,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void takeSuccess(String path, char type, long duration) {
-
+        Log.i(TAG, "takeSuccess: " + path);
     }
 
     public void videoSuccess(String path, long duration) {
@@ -131,6 +130,8 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void pickPhoto() {
+        TFileUtils.setCacheFile(XPTApplication.getInstance().getCachePath());
+
         TakePhoto takePhoto = getTakePhoto();
         configCompress(takePhoto);
         configTakePhotoOption(takePhoto);
@@ -177,9 +178,12 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         takePhoto.onEnableCompress(config, showProgressBar);
     }
 
+    //选择图片配置
     private void configTakePhotoOption(TakePhoto takePhoto) {
         TakePhotoOptions.Builder builder = new TakePhotoOptions.Builder();
+        //使用自带相册
         builder.setWithOwnGallery(true);
+        //
         builder.setCorrectImage(true);
         takePhoto.setTakePhotoOptions(builder.create());
     }
