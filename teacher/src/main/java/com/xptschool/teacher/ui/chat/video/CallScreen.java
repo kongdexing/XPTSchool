@@ -81,6 +81,7 @@ public class CallScreen extends CallBaseScreen {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
         intentFilter.addAction(BroadcastAction.VIDEO_INCOMING);
+        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(mSipBroadCastRecv, intentFilter);
 
         initOrientationListener();

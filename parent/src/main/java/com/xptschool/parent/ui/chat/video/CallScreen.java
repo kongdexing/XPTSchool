@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.chat.video;
 
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,6 +82,7 @@ public class CallScreen extends CallBaseScreen {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
+        intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
         registerReceiver(mSipBroadCastRecv, intentFilter);
 
         initOrientationListener();

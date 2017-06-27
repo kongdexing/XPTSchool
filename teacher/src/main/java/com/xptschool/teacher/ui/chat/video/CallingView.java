@@ -1,6 +1,7 @@
 package com.xptschool.teacher.ui.chat.video;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -62,7 +63,12 @@ public class CallingView extends LinearLayout {
                 ((ViewGroup) (viewParent)).removeView(remotePreview);
             }
             mViewRemoteVideoPreview.addView(remotePreview);
-//            mSession.setSpeakerphoneOn(true);
+
+            AudioManager localAudioManager = (AudioManager) this.getContext().getSystemService(Context.AUDIO_SERVICE);
+            boolean isHeadsetOn = localAudioManager.isWiredHeadsetOn();
+            Log.i(TAG, "loadVideoPreview: " + isHeadsetOn);
+            //外放
+            mSession.setSpeakerphoneOn(!isHeadsetOn);
         }
     }
 

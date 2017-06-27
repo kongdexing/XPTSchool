@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.util.Log;
 import android.view.OrientationEventListener;
@@ -313,7 +314,15 @@ public class CallBaseScreen extends BaseActivity {
     BroadcastReceiver mSipBroadCastRecv = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            handleSipEvent(intent);
+            String action = intent.getAction();
+            if (action.equals(NgnInviteEventArgs.ACTION_INVITE_EVENT)) {
+                handleSipEvent(intent);
+            } else if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
+                AudioManager localAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                boolean isHeadsetOn = localAudioManager.isWiredHeadsetOn();
+                Log.i(TAG, "onReceive isHeadsetOn: " + isHeadsetOn);
+                mSession.setSpeakerphoneOn(!isHeadsetOn);
+            }
         }
     };
 
