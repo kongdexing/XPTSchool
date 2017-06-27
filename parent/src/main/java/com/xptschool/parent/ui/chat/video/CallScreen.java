@@ -4,6 +4,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -92,6 +93,8 @@ public class CallScreen extends CallBaseScreen {
         mLastOrientation = -1;
 
         loadView();
+
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     }
 
     private void loadView() {

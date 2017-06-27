@@ -4,6 +4,7 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
@@ -91,6 +92,8 @@ public class CallScreen extends CallBaseScreen {
         mLastOrientation = -1;
 
         loadView();
+
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     }
 
     public void showSecondInComing(Intent intent) {
@@ -214,6 +217,7 @@ public class CallScreen extends CallBaseScreen {
         // Video Consumer
         mViewInCallVideo.loadVideoPreview(mSession);
 
+        mSession.setSendingVideo(mSession.isSendingVideo());
         // Video Producer
         mViewInCallVideo.startStopVideo(mSession);
     }

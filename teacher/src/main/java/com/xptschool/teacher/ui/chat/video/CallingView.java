@@ -79,7 +79,7 @@ public class CallingView extends LinearLayout {
 //            return;
 //        }
 
-        mSession.setSendingVideo(bStart);
+//        mSession.setSendingVideo(bStart);
 
         if (mViewLocalVideoPreview != null) {
             mViewLocalVideoPreview.removeAllViews();
