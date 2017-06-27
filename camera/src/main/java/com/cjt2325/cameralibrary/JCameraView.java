@@ -119,7 +119,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         iconMargin = a.getDimensionPixelSize(R.styleable.JCameraView_iconMargin, (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 15, getResources().getDisplayMetrics()));
         iconSrc = a.getResourceId(R.styleable.JCameraView_iconSrc, R.drawable.ic_sync_black_24dp);
-        duration = a.getInteger(R.styleable.JCameraView_duration_max, 10 * 1000);
+        duration = a.getInteger(R.styleable.JCameraView_duration_max, 22 * 1000);
         showCapture = a.getBoolean(R.styleable.JCameraView_showCapture, true);
         showFront = a.getBoolean(R.styleable.JCameraView_showFront, false);
         if (showFront) {
@@ -282,12 +282,13 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
 
             @Override
             public void recordEnd(final long time) {
+                Log.i(TAG, "recordEnd time: " + time);
                 CameraInterface.getInstance().stopRecord(false, new CameraInterface.StopRecordCallback() {
                     @Override
                     public void recordResult(final String url) {
                         CAMERA_STATE = STATE_WAIT;
                         videoUrl = url;
-                        videoDuration = time;
+//                        videoDuration = time;
                         type = TYPE_VIDEO;
                         new Thread(new Runnable() {
                             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -321,6 +322,9 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                                     });
                                     mMediaPlayer.setLooping(true);
                                     mMediaPlayer.prepare();
+
+                                    videoDuration = mMediaPlayer.getDuration();
+
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }

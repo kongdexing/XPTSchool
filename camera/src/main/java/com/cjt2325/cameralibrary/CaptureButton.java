@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -27,8 +28,8 @@ import static com.cjt2325.cameralibrary.JCameraView.BUTTON_STATE_ONLY_RECORDER;
  * =====================================
  */
 public class CaptureButton extends View {
-    //    private static final String TAG = "CJT";
 
+    private static final String TAG = "CJT";
 
     //按钮可执行的功能状态
     private int button_state;
@@ -117,7 +118,6 @@ public class CaptureButton extends View {
         this.button_state = BUTTON_STATE_BOTH;
 
         //set max record duration,default 10*1000
-        duration = 10 * 1000;
         center_X = (button_size + outside_add_size * 2) / 2;
         center_Y = (button_size + outside_add_size * 2) / 2;
 
@@ -264,28 +264,39 @@ public class CaptureButton extends View {
     private class RecordRunnable implements Runnable {
         @Override
         public void run() {
+            record_anim.setInterpolator(new LinearInterpolator());
+            record_anim.setDuration(duration);
+
             record_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     if (state == STATE_PRESS_LONG_CLICK) {
                         //更新录制进度
                         progress = (float) animation.getAnimatedValue();
+                        Log.i(TAG, "onAnimationUpdate progress: " + progress);
                     }
                     invalidate();
                 }
             });
             //如果一直长按到结束，则自动回调录制结束接口
             record_anim.addListener(new AnimatorListenerAdapter() {
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    Log.i(TAG, "CaptureButton onAnimationStart: ");
+                }
+
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     if (state == STATE_PRESS_LONG_CLICK) {
+                        Log.i(TAG, "CaptureButton onAnimationEnd time length : " + record_anim.getDuration());
                         recordEnd(true);
                     }
                 }
             });
-            record_anim.setInterpolator(new LinearInterpolator());
-            record_anim.setDuration(duration);
+            Log.i(TAG, "CaptureButton run duration: " + duration);
             record_anim.start();
         }
     }

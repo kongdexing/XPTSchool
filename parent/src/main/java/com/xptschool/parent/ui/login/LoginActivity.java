@@ -112,7 +112,7 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
             case R.id.txtForgetPWD:
-
+                startActivity(new Intent(this, CheckUserActivity.class));
                 break;
         }
     }

@@ -153,7 +153,7 @@ public class CaptureLayout extends RelativeLayout {
         btn_capture_param.addRule(CENTER_IN_PARENT, TRUE);
         btn_capture_param.setMargins(0, 152, 0, 0);
         btn_capture.setLayoutParams(btn_capture_param);
-        btn_capture.setDuration(10000);
+//        btn_capture.setDuration(25000);
         btn_capture.setCaptureListener(new CaptureListener() {
             @Override
             public void takePictures() {

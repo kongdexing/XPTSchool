@@ -378,11 +378,9 @@ public class CameraInterface {
         }
     }
 
-
     /**
      * 拍照
      */
-
     void takePicture(final TakePictureCallback callback) {
         final int nowAngle = (angle + 90) % 360;
         if (mCamera == null) {
@@ -536,7 +534,6 @@ public class CameraInterface {
         }
     }
 
-
     public void handleFocus(final Context context, final float x, final float y, final FocusCallback callback) {
         if (mCamera == null) {
             return;
@@ -617,9 +614,7 @@ public class CameraInterface {
 
     interface FocusCallback {
         void focusSuccess();
-
     }
-
 
     public void registerSensorManager(Context context) {
         if (sm == null) {
