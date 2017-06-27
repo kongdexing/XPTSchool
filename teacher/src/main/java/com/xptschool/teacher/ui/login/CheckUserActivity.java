@@ -53,6 +53,7 @@ public class CheckUserActivity extends BaseActivity {
     private void checkUserName(final String username) {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP1,
                 new VolleyHttpParamsEntity()
+                        .addParam("type", "3")
                         .addParam("username", username), new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {

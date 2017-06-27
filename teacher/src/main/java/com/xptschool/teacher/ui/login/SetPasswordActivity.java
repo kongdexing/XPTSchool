@@ -1,5 +1,6 @@
 package com.xptschool.teacher.ui.login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,15 +27,18 @@ public class SetPasswordActivity extends BaseActivity {
     EditText edtNewPwd1;
     @BindView(R.id.edtNewPwd2)
     EditText edtNewPwd2;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_password);
         setTitle(R.string.title_forgot_password);
-
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            userName = bundle.getString("username");
+        }
     }
-
 
     @OnClick({R.id.btnSubmit})
     void viewOnClick(View view) {
@@ -63,11 +67,11 @@ public class SetPasswordActivity extends BaseActivity {
     }
 
     private void resetPassword(String password) {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP1,
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP4,
                 new VolleyHttpParamsEntity()
                         .addParam("pass", password)
                         .addParam("password", password)
-                        .addParam("username", ""), new MyVolleyRequestListener() {
+                        .addParam("username", userName), new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -76,6 +80,11 @@ public class SetPasswordActivity extends BaseActivity {
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        if (volleyHttpResult.getStatus() == HttpAction.SUCCESS) {
+                            //返回登录页面
+                            startActivity(new Intent(SetPasswordActivity.this, LoginActivity.class));
+                        }
+                        ToastUtils.showToast(SetPasswordActivity.this, volleyHttpResult.getInfo());
                     }
 
                     @Override

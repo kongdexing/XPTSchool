@@ -50,8 +50,7 @@ public class CheckSMSCodeActivity extends BaseActivity {
         }
 
         //获取可继续发送短信的剩余时间
-        String val = (String) SharedPreferencesUtil.getData(this, spSMSKey, "0");
-        long spVal = Long.parseLong(val);
+        long spVal = (long) SharedPreferencesUtil.getData(this, spSMSKey, 0l);
 
         long diff = (System.currentTimeMillis() - spVal) / 1000;
         int maxTime = 10;
@@ -73,7 +72,7 @@ public class CheckSMSCodeActivity extends BaseActivity {
                         lastTime--;
                         if (lastTime == 0) {
                             btnSend.setEnabled(true);
-                            btnSend.setText(R.string.btn_send);
+                            btnSend.setText(R.string.btn_send_code);
                         } else {
                             btnSend.setText(lastTime + "秒后重发");
                             btnSend.setEnabled(false);
@@ -145,7 +144,7 @@ public class CheckSMSCodeActivity extends BaseActivity {
     }
 
     private void checkVerifyCode(String code) {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP1,
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.FORGOT_PWD_STEP3,
                 new VolleyHttpParamsEntity()
                         .addParam("code", code)
                         .addParam("username", userName), new MyVolleyRequestListener() {

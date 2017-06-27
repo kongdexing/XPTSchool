@@ -224,7 +224,7 @@ public class NativeService extends NgnNativeService {
                                 }
                                 mEngine.getSoundService().startRingTone();
                             } else {
-                                Log.e(TAG, String.format("Failed to find session with id=%ld", args.getSessionId()));
+//                                Log.e(TAG, String.format("Failed to find session with id=%ld", args.getSessionId()));
                             }
                         }
                         break;

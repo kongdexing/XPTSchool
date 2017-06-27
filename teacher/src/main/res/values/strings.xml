@@ -168,6 +168,7 @@
     <string name="string_verify_code">验证码:</string>
     <string name="hint_code">请输入验证码</string>
     <string name="hint_phone">请输入手机号</string>
+    <string name="btn_send_code">发送验证码</string>
     <string name="label_next">下一步</string>
 
 </resources>
