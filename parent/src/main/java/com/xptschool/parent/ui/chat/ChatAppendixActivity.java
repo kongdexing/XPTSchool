@@ -148,6 +148,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
             Toast.makeText(this, "正在登录...", Toast.LENGTH_SHORT).show();
             return false;
         }
+
         final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", teacher.getU_id(), BuildConfig.CHAT_VIDEO_URL));
         if (validUri == null) {
             Toast.makeText(this, "呼叫失败", Toast.LENGTH_SHORT).show();

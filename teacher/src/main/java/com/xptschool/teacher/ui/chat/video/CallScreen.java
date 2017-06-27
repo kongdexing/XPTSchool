@@ -15,6 +15,7 @@ import com.xptschool.teacher.model.ContactParent;
 
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
+import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 import butterknife.BindView;
 
@@ -81,6 +82,12 @@ public class CallScreen extends CallBaseScreen {
         intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
         intentFilter.addAction(BroadcastAction.VIDEO_INCOMING);
         registerReceiver(mSipBroadCastRecv, intentFilter);
+
+        initOrientationListener();
+
+        mSendDeviceInfo = mEngine.getConfigurationService().getBoolean(NgnConfigurationEntry.GENERAL_SEND_DEVICE_INFO, NgnConfigurationEntry.DEFAULT_GENERAL_SEND_DEVICE_INFO);
+        mLastRotation = -1;
+        mLastOrientation = -1;
 
         loadView();
     }

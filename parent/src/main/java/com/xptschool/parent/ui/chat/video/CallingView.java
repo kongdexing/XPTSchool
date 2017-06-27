@@ -62,7 +62,7 @@ public class CallingView extends LinearLayout {
                 ((ViewGroup) (viewParent)).removeView(remotePreview);
             }
             mViewRemoteVideoPreview.addView(remotePreview);
-//            mSession.setSpeakerphoneOn(true);
+            mSession.setSpeakerphoneOn(true);
         }
     }
 

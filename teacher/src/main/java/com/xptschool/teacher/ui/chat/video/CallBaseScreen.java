@@ -4,8 +4,11 @@ import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.Log;
+import android.view.OrientationEventListener;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -21,6 +24,7 @@ import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.sip.NgnInviteSession;
+import org.doubango.ngn.utils.NgnContentType;
 import org.doubango.ngn.utils.NgnTimer;
 import org.doubango.tinyWRAP.QoS;
 
@@ -45,6 +49,12 @@ public class CallBaseScreen extends BaseActivity {
     public final static String EXTRAT_PARENT_ID = "Parent";
     public final static String EXTRAT_CALL_TYPE = "Call_Type";
 
+    public boolean mSendDeviceInfo;
+    public int mLastOrientation; // values: portrait, landscape...
+    public static int mLastRotation; // values: degrees
+
+    private OrientationEventListener mListener;
+
     public CallBaseScreen() {
         super();
         mEngine = NgnEngine.getInstance();
@@ -62,6 +72,49 @@ public class CallBaseScreen extends BaseActivity {
             if (callState == NgnInviteSession.InviteState.TERMINATING || callState == NgnInviteSession.InviteState.TERMINATED) {
                 finish();
             }
+        }
+
+        if (mListener != null && mListener.canDetectOrientation()) {
+            mListener.enable();
+        }
+    }
+
+    public void initOrientationListener() {
+        mListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
+            @Override
+            public void onOrientationChanged(int orient) {
+                try {
+                    if ((orient > 345 || orient < 15) ||
+                            (orient > 75 && orient < 105) ||
+                            (orient > 165 && orient < 195) ||
+                            (orient > 255 && orient < 285)) {
+                        int rotation = mSession.compensCamRotation(true);
+                        if (rotation != mLastRotation) {
+                            Log.d(TAG, "Received Screen Orientation Change setRotation[" + String.valueOf(rotation) + "]");
+                            applyCamRotation(rotation);
+                            if (mSendDeviceInfo && mSession != null) {
+                                final Configuration conf = getResources().getConfiguration();
+                                if (conf.orientation != mLastOrientation) {
+                                    mLastOrientation = conf.orientation;
+                                    switch (mLastOrientation) {
+                                        case Configuration.ORIENTATION_LANDSCAPE:
+                                            mSession.sendInfo("orientation:landscape\r\nlang:fr-FR\r\n", NgnContentType.DOUBANGO_DEVICE_INFO);
+                                            break;
+                                        case Configuration.ORIENTATION_PORTRAIT:
+                                            mSession.sendInfo("orientation:portrait\r\nlang:fr-FR\r\n", NgnContentType.DOUBANGO_DEVICE_INFO);
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        if (!mListener.canDetectOrientation()) {
+            Log.w(TAG, "canDetectOrientation() is equal to false");
         }
     }
 

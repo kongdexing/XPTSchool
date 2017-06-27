@@ -17,6 +17,7 @@ import com.xptschool.parent.model.ContactTeacher;
 
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
+import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 import butterknife.BindView;
 
@@ -58,7 +59,6 @@ public class CallScreen extends CallBaseScreen {
                 contactTeacher = (ContactTeacher) extras.get(ExtraKey.EXTRAT_TEACHER_ID);
                 //push ios
                 pushIOSCall(contactTeacher);
-
             } else if ("incoming".equals(callType)) {
                 try {
                     long session_id = extras.getLong(ExtraKey.EXTRAT_SIP_SESSION_ID);
@@ -82,6 +82,12 @@ public class CallScreen extends CallBaseScreen {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
         registerReceiver(mSipBroadCastRecv, intentFilter);
+
+        initOrientationListener();
+
+        mSendDeviceInfo = mEngine.getConfigurationService().getBoolean(NgnConfigurationEntry.GENERAL_SEND_DEVICE_INFO, NgnConfigurationEntry.DEFAULT_GENERAL_SEND_DEVICE_INFO);
+        mLastRotation = -1;
+        mLastOrientation = -1;
 
         loadView();
     }
@@ -185,20 +191,7 @@ public class CallScreen extends CallBaseScreen {
         mMainLayout.addView(mViewInCallVideo);
 
         // Video Consumer
-//        mViewInCallVideo.loadVideoPreview(mSession);
-
-//    mViewInCallVideo.viewCamera.
-
-        mViewInCallVideo.mViewRemoteVideoPreview.removeAllViews();
-        final View remotePreview = mSession.startVideoConsumerPreview();
-        if (remotePreview != null) {
-            final ViewParent viewParent = remotePreview.getParent();
-            if (viewParent != null && viewParent instanceof ViewGroup) {
-                ((ViewGroup) (viewParent)).removeView(remotePreview);
-            }
-            mViewInCallVideo.mViewRemoteVideoPreview.addView(remotePreview);
-//            mSession.setSpeakerphoneOn(true);
-        }
+        mViewInCallVideo.loadVideoPreview(mSession);
 
         // Video Producer
         mViewInCallVideo.startStopVideo(mSession);
