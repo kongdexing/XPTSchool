@@ -47,6 +47,9 @@ public class CheckinActivity extends BaseListActivity {
     @BindView(R.id.spnClass)
     MaterialSpinner spnClass;
 
+    @BindView(R.id.spnType)
+    MaterialSpinner spnType;
+
     @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefresh;
 
@@ -61,6 +64,10 @@ public class CheckinActivity extends BaseListActivity {
 
     private PopupWindow datePopup;
     private CheckinAdapter adapter;
+
+    //循序固定，勿乱动
+    private static final String[] statuses = {"全部", "进校", "出校"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +120,20 @@ public class CheckinActivity extends BaseListActivity {
                 getCheckinList();
             }
         });
+
+        spnType.setItems(statuses);
+        spnType.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                flTransparent.setVisibility(View.GONE);
+                getCheckinList();
+            }
+        });
+
         spnClass.setOnNothingSelectedListener(spinnerNothingSelectedListener);
+        spnType.setOnNothingSelectedListener(spinnerNothingSelectedListener);
+
         getCheckinList();
     }
 
@@ -131,11 +151,20 @@ public class CheckinActivity extends BaseListActivity {
 
     private void getCheckinList() {
         BeanClass currentClass = (BeanClass) spnClass.getSelectedItem();
+        int typeIndex = spnType.getSelectedIndex();
+        String sign_type = "";
+        if (typeIndex == 1) {
+            sign_type = "1";
+        } else if (typeIndex == 2) {
+            sign_type = "0";
+        }
 
+        //sign_type '进校 1 出校 0'
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.Attendance_QUERY, new VolleyHttpParamsEntity()
                         .addParam("dates", txtDate.getText().toString())
                         .addParam("g_id", currentClass.getG_id())
                         .addParam("c_id", currentClass.getC_id())
+                        .addParam("sign_type", sign_type)
                         .addParam("page", resultPage.getPage() + "")
                         .addParam("token", CommonUtil.encryptToken(HttpAction.Attendance_QUERY)),
                 new MyVolleyRequestListener() {

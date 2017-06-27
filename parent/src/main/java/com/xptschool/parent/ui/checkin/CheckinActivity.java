@@ -149,10 +149,19 @@ public class CheckinActivity extends BaseListActivity {
 
     private void getCheckinList() {
         BeanStudent student = (BeanStudent) spnStudents.getSelectedItem();
+        int typeIndex = spnType.getSelectedIndex();
+        String sign_type = "";
+        if (typeIndex == 1) {
+            sign_type = "1";
+        } else if (typeIndex == 2) {
+            sign_type = "0";
+        }
 
+        //sign_type '进校 1 出校 0'
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.Attendance_QUERY, new VolleyHttpParamsEntity()
                         .addParam("dates", spnDate.getText().toString())
                         .addParam("page", resultPage.getPage() + "")
+                        .addParam("sign_type", sign_type)
                         .addParam("stu_id", student.getStu_id())
                         .addParam("token", CommonUtil.encryptToken(HttpAction.Attendance_QUERY)),
                 new MyVolleyRequestListener() {
@@ -185,7 +194,7 @@ public class CheckinActivity extends BaseListActivity {
                                     Gson gson = new Gson();
                                     List<BeanCheckin> listCheckins = gson.fromJson(jsonObject.getJSONArray("content").toString(),
                                             new TypeToken<List<BeanCheckin>>() {
-                                    }.getType());
+                                            }.getType());
 
                                     if (listCheckins.size() == 0) {
                                         llCheckTitle.setVisibility(View.GONE);
