@@ -262,6 +262,7 @@
     <string name="title_forgot_password">忘记密码</string>
     <string name="string_phone">手机号:</string>
     <string name="string_verify_code">验证码:</string>
+    <string name="btn_send_code">发送验证码</string>
     <string name="hint_code">请输入验证码</string>
     <string name="label_next">下一步</string>
 
