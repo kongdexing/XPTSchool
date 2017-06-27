@@ -19,6 +19,7 @@ import com.xptschool.parent.model.ContactTeacher;
 
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
+import org.doubango.ngn.sip.NgnInviteSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 import butterknife.BindView;
@@ -95,6 +96,17 @@ public class CallScreen extends CallBaseScreen {
         loadView();
 
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mSession != null) {
+            if (mSession.getState() == NgnInviteSession.InviteState.INCALL) {
+                Log.i(TAG, "onResume: in calling");
+                loadInCallVideoView();
+            }
+        }
     }
 
     private void loadView() {
