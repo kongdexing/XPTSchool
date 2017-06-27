@@ -20,6 +20,10 @@ public class TFileUtils {
     private static File mCacheDir;
 
     public static void setCacheFile(String filePath) {
+        if (filePath == null || filePath.isEmpty()) {
+            mCacheDir = null;
+            return;
+        }
         mCacheDir = new File(filePath);
     }
 

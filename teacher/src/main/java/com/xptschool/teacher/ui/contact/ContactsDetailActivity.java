@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -211,6 +212,7 @@ public class ContactsDetailActivity extends BaseActivity {
         });
         picPopup = new PopupWindow(albumSourceView,
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        picPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         picPopup.setTouchable(true);
         picPopup.setBackgroundDrawable(new ColorDrawable());
         picPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {

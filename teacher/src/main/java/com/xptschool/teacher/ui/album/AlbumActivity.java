@@ -12,6 +12,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
@@ -131,6 +132,7 @@ public class AlbumActivity extends TakePhotoActivity {
             picPopup = new PopupWindow(albumSourceView,
                     LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
             picPopup.setTouchable(true);
+            picPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             picPopup.setBackgroundDrawable(new ColorDrawable());
             picPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
                 @Override

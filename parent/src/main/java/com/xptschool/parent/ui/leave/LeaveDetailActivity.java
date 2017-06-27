@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -206,6 +207,7 @@ public class LeaveDetailActivity extends BaseActivity {
                                 }
                             });
                     pushDate.setTouchable(true);
+                    pushDate.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     pushDate.setBackgroundDrawable(new ColorDrawable());
                     pushDate.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
@@ -229,6 +231,7 @@ public class LeaveDetailActivity extends BaseActivity {
                                 }
                             });
                     completeDate.setTouchable(true);
+                    completeDate.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     completeDate.setBackgroundDrawable(new ColorDrawable());
                     completeDate.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override

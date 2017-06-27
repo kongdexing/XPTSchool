@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -369,6 +370,7 @@ public class HomeWorkDetailActivity extends VoiceRecordActivity {
                                 }
                             });
                     completeDate.setTouchable(true);
+                    completeDate.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     completeDate.setBackgroundDrawable(new ColorDrawable());
                     completeDate.setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
