@@ -131,6 +131,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                         }
                         byte[] buffer = new byte[20 * 1024];
                         FileOutputStream os = new FileOutputStream(file);
+
                         int sum = 0;
                         int n = 0;
                         while ((n = mmInStream.read(buffer)) != -1) {
