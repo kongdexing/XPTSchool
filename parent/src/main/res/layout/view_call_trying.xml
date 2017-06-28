@@ -61,17 +61,17 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/llHangUp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -94,10 +94,9 @@
 
             <LinearLayout
                 android:id="@+id/llAccept"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/dp_30"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="visible">
@@ -117,7 +116,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_14" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 
