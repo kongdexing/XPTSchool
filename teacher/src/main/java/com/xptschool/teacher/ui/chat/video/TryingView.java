@@ -71,11 +71,6 @@ public class TryingView extends LinearLayout {
         } else {
             llAccept.setVisibility(GONE);
             txt_cancel.setText(R.string.btn_cancel);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) llHangUp.getLayoutParams();
-            params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            params.addRule(RelativeLayout.CENTER_HORIZONTAL, 1);
-            llHangUp.setLayoutParams(params);
         }
     }
 
@@ -94,7 +89,7 @@ public class TryingView extends LinearLayout {
         }
     }
 
-    public void setParentId(final String parentUId) {
+    public void setParentId(final String parentUId, final IncomingParentCallBack callBack) {
         Log.i(TAG, "setParentId: " + parentUId);
         ContactParent parent = GreenDaoHelper.getInstance().getStudentParentByPUId(parentUId);
         if (parent == null) {
@@ -104,16 +99,25 @@ public class TryingView extends LinearLayout {
                     Log.i(TAG, "onSyncSuccess: " + parentUId);
                     ContactParent syncParent = GreenDaoHelper.getInstance().getStudentParentByPUId(parentUId);
                     setCallingParent(syncParent);
+                    if (callBack != null) {
+                        callBack.onGetParent(syncParent);
+                    }
                 }
 
                 @Override
                 public void onSyncError() {
                     Log.i(TAG, "onSyncError: ");
                     setCallingParent(null);
+                    if (callBack != null) {
+                        callBack.onGetParent(null);
+                    }
                 }
             });
         } else {
             setCallingParent(parent);
+            if (callBack != null) {
+                callBack.onGetParent(parent);
+            }
         }
     }
 
@@ -137,6 +141,10 @@ public class TryingView extends LinearLayout {
         void onHangUpClick();
 
         void onAcceptClick();
+    }
+
+    public interface IncomingParentCallBack {
+        void onGetParent(ContactParent parent);
     }
 
 }

@@ -71,20 +71,15 @@ public class TryingView extends LinearLayout {
         } else {
             llAccept.setVisibility(GONE);
             txt_cancel.setText(R.string.btn_cancel);
-
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) llHangUp.getLayoutParams();
-            params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            params.addRule(RelativeLayout.CENTER_HORIZONTAL, 1);
-            llHangUp.setLayoutParams(params);
         }
     }
 
-    public void setCallingTeacher(ContactTeacher contactParent) {
+    public void setCallingTeacher(ContactTeacher teacher) {
         Log.i(TAG, "setCallingTeacher: ");
-        if (contactParent != null) {
-            Log.i(TAG, "setCallingTeacher: " + contactParent.toString());
-            tvRemote.setText(contactParent.getName());
-            if (contactParent.getSex().equals("1")) {
+        if (teacher != null) {
+            Log.i(TAG, "setCallingTeacher: " + teacher.toString());
+            tvRemote.setText(teacher.getName());
+            if (teacher.getSex().equals("1")) {
                 imageView_avatar.setImageResource(R.drawable.parent_father);
             } else {
                 imageView_avatar.setImageResource(R.drawable.parent_mother);
@@ -94,26 +89,35 @@ public class TryingView extends LinearLayout {
         }
     }
 
-    public void setTeacherId(final String teacherUId) {
+    public void setTeacherId(final String teacherUId, final IncomingTeacherCallBack callBack) {
         Log.i(TAG, "setTeacherId: " + teacherUId);
-        ContactTeacher parent = GreenDaoHelper.getInstance().getContactByTeacher(teacherUId);
-        if (parent == null) {
+        ContactTeacher teacher = GreenDaoHelper.getInstance().getContactByTeacher(teacherUId);
+        if (teacher == null) {
             SyncHelper.getInstance().syncContacts(new SyncHelper.SyncCallBack() {
                 @Override
                 public void onSyncSuccess() {
                     Log.i(TAG, "onSyncSuccess: " + teacherUId);
                     ContactTeacher syncTeacher = GreenDaoHelper.getInstance().getContactByTeacher(teacherUId);
                     setCallingTeacher(syncTeacher);
+                    if (callBack != null) {
+                        callBack.onGetTeacher(syncTeacher);
+                    }
                 }
 
                 @Override
                 public void onSyncError() {
                     Log.i(TAG, "onSyncError: ");
                     setCallingTeacher(null);
+                    if (callBack != null) {
+                        callBack.onGetTeacher(null);
+                    }
                 }
             });
         } else {
-            setCallingTeacher(parent);
+            setCallingTeacher(teacher);
+            if (callBack != null) {
+                callBack.onGetTeacher(teacher);
+            }
         }
     }
 
@@ -137,6 +141,10 @@ public class TryingView extends LinearLayout {
         void onHangUpClick();
 
         void onAcceptClick();
+    }
+
+    public interface IncomingTeacherCallBack {
+        void onGetTeacher(ContactTeacher teacher);
     }
 
 }

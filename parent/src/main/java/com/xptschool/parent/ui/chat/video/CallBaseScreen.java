@@ -139,6 +139,9 @@ public class CallBaseScreen extends BaseActivity {
     }
 
     public void hangUpCallToPush() {
+        if (contactTeacher == null) {
+            return;
+        }
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.VIDEO_CALL_IOS_PUSH,
                 new VolleyHttpParamsEntity()
                         .addParam("user_id", contactTeacher.getU_id())

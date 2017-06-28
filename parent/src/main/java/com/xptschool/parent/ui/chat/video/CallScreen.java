@@ -151,8 +151,12 @@ public class CallScreen extends CallBaseScreen {
                 String displayName = mSession.getRemotePartyDisplayName();
                 String teacherId = remoteUri.substring(remoteUri.indexOf(":") + 1, remoteUri.indexOf("@"));
                 Log.i(TAG, "onReceive: INCOMING " + teacherId + " " + displayName);
-                mViewTrying.setTeacherId(teacherId);
-
+                mViewTrying.setTeacherId(teacherId, new TryingView.IncomingTeacherCallBack() {
+                    @Override
+                    public void onGetTeacher(ContactTeacher teacher) {
+                        contactTeacher = teacher;
+                    }
+                });
                 mViewTrying.isInCallingView(true);
                 mViewTrying.mTvInfo.setText(getString(R.string.string_call_incoming));
                 break;

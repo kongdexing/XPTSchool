@@ -173,7 +173,12 @@ public class CallScreen extends CallBaseScreen {
                 String displayName = mSession.getRemotePartyDisplayName();
                 String parentId = remoteUri.substring(remoteUri.indexOf(":") + 1, remoteUri.indexOf("@"));
                 Log.i(TAG, "onReceive: INCOMING " + parentId + " " + displayName);
-                mViewTrying.setParentId(parentId);
+                mViewTrying.setParentId(parentId, new TryingView.IncomingParentCallBack() {
+                    @Override
+                    public void onGetParent(ContactParent parent) {
+                        contactParent = parent;
+                    }
+                });
 
                 mViewTrying.isInCallingView(true);
                 mViewTrying.mTvInfo.setText(getString(R.string.string_call_incoming));
