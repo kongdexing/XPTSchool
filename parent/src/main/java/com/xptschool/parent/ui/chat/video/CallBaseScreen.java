@@ -120,6 +120,28 @@ public class CallBaseScreen extends BaseActivity {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.VIDEO_CALL_IOS_PUSH,
                 new VolleyHttpParamsEntity()
                         .addParam("user_id", teacher.getU_id())
+                        .addParam("type", "1"), new MyVolleyRequestListener() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onResponse(VolleyHttpResult volleyHttpResult) {
+                        super.onResponse(volleyHttpResult);
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        super.onErrorResponse(volleyError);
+                    }
+                });
+    }
+
+    public void hangUpCallToPush() {
+        VolleyHttpService.getInstance().sendPostRequest(HttpAction.VIDEO_CALL_IOS_PUSH,
+                new VolleyHttpParamsEntity()
+                        .addParam("user_id", contactTeacher.getU_id())
                         .addParam("type", "0"), new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {

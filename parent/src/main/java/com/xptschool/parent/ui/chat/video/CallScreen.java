@@ -172,6 +172,7 @@ public class CallScreen extends CallBaseScreen {
     }
 
     private boolean hangUpCall() {
+        super.hangUpCallToPush();
         if (mSession != null) {
             return mSession.hangUpCall();
         }
