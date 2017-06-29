@@ -109,9 +109,8 @@ public class ContactsActivity extends BaseActivity {
 
         if (listTeacher.size() > 0 || listStudent.size() > 0) {
             setContact(listTeacher, listStudent);
-        } else {
-            getContacts();
         }
+        getContacts();
     }
 
     @Override
