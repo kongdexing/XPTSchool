@@ -278,11 +278,23 @@ public class MapFragment extends MapBaseFragment implements BDLocationListener, 
                 @Override
                 public void onGridViewItemClick(BeanStudent student) {
                     studentPopup.dismiss();
+                    if (student == null) {
+                        return;
+                    }
                     txtStudentName.setText(student.getStu_name());
                     //根据学生id获取学生位置
-                    currentStudent = student;
+                    if (student != currentStudent) {
+                        currentStudent = student;
+                        locationTime = 0;
+                    } else {
+                        return;
+                    }
+
                     Log.i(TAG, "onGridViewItemClick: " + student.getStu_name());
-                    //获取历史轨迹or电子围栏
+                    //获取实时位置or历史轨迹or电子围栏
+                    if (llLocation.getTag() != null && (Boolean) llLocation.getTag()) {
+                        getRealTimeLocationByStu();
+                    }
                     if (llTrack.getTag() != null && (Boolean) llTrack.getTag()) {
                         getHistoryTrackByStu();
                     }
