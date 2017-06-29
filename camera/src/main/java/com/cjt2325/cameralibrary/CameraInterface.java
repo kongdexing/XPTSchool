@@ -477,6 +477,7 @@ public class CameraInterface {
         if (!isRecorder) {
             return;
         }
+
         if (mediaRecorder != null) {
             mediaRecorder.setOnErrorListener(null);
             mediaRecorder.setOnInfoListener(null);

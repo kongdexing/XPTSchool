@@ -8,11 +8,13 @@ import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.cjt2325.cameralibrary.listener.CaptureListener;
@@ -263,10 +266,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                 if (CAMERA_STATE != STATE_IDLE && stopping) {
                     return;
                 }
-                mCaptureLayout.isRecord(true);
-                isBorrow = true;
-                CAMERA_STATE = STATE_RUNNING;
-                mFoucsView.setVisibility(INVISIBLE);
+
                 CameraInterface.getInstance().startRecord(mVideoView.getHolder().getSurface(), new CameraInterface
                         .ErrorCallback() {
                     @Override
@@ -278,60 +278,87 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                         isBorrow = false;
                     }
                 });
+
+                Toast toast = Toast.makeText(mContext, "震动后开始录制", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                            long[] pattern = {0, 200}; // 停止 开启 停止 开启
+                            vibrator.vibrate(pattern, -1); //重复两次上面的pattern 如果只想震动一次，index设为-1
+                        } catch (Exception ex) {
+
+                        }
+
+                        mCaptureLayout.isRecord(true);
+                        isBorrow = true;
+                        CAMERA_STATE = STATE_RUNNING;
+                        mFoucsView.setVisibility(INVISIBLE);
+                    }
+                }, 500);
             }
 
             @Override
             public void recordEnd(final long time) {
                 Log.i(TAG, "recordEnd time: " + time);
-                CameraInterface.getInstance().stopRecord(false, new CameraInterface.StopRecordCallback() {
+                postDelayed(new Runnable() {
                     @Override
-                    public void recordResult(final String url) {
-                        CAMERA_STATE = STATE_WAIT;
-                        videoUrl = url;
-//                        videoDuration = time;
-                        type = TYPE_VIDEO;
-                        new Thread(new Runnable() {
-                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                    public void run() {
+                        CameraInterface.getInstance().stopRecord(false, new CameraInterface.StopRecordCallback() {
                             @Override
-                            public void run() {
-                                try {
-                                    if (mMediaPlayer == null) {
-                                        mMediaPlayer = new MediaPlayer();
-                                    } else {
-                                        mMediaPlayer.reset();
+                            public void recordResult(final String url) {
+                                CAMERA_STATE = STATE_WAIT;
+                                videoUrl = url;
+//                        videoDuration = time;
+                                type = TYPE_VIDEO;
+                                new Thread(new Runnable() {
+                                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            if (mMediaPlayer == null) {
+                                                mMediaPlayer = new MediaPlayer();
+                                            } else {
+                                                mMediaPlayer.reset();
+                                            }
+                                            Log.i("CJT", "URL = " + url);
+                                            mMediaPlayer.setDataSource(url);
+                                            mMediaPlayer.setSurface(mVideoView.getHolder().getSurface());
+                                            mMediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
+                                            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                                            mMediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer
+                                                    .OnVideoSizeChangedListener() {
+                                                @Override
+                                                public void
+                                                onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+                                                    updateVideoViewSize(mMediaPlayer.getVideoWidth(), mMediaPlayer
+                                                            .getVideoHeight());
+                                                }
+                                            });
+                                            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                                @Override
+                                                public void onPrepared(MediaPlayer mp) {
+                                                    mMediaPlayer.start();
+                                                }
+                                            });
+                                            mMediaPlayer.setLooping(true);
+                                            mMediaPlayer.prepare();
+
+                                            videoDuration = mMediaPlayer.getDuration();
+
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                    Log.i("CJT", "URL = " + url);
-                                    mMediaPlayer.setDataSource(url);
-                                    mMediaPlayer.setSurface(mVideoView.getHolder().getSurface());
-                                    mMediaPlayer.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
-                                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                                    mMediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer
-                                            .OnVideoSizeChangedListener() {
-                                        @Override
-                                        public void
-                                        onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-                                            updateVideoViewSize(mMediaPlayer.getVideoWidth(), mMediaPlayer
-                                                    .getVideoHeight());
-                                        }
-                                    });
-                                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                        @Override
-                                        public void onPrepared(MediaPlayer mp) {
-                                            mMediaPlayer.start();
-                                        }
-                                    });
-                                    mMediaPlayer.setLooping(true);
-                                    mMediaPlayer.prepare();
-
-                                    videoDuration = mMediaPlayer.getDuration();
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                }).start();
                             }
-                        }).start();
+                        });
                     }
-                });
+                }, 500);
             }
 
             @Override
@@ -411,6 +438,9 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     public void onPause() {
         CameraInterface.getInstance().unregisterSensorManager(mContext);
         CameraInterface.getInstance().doStopCamera();
+        if (mMediaPlayer != null) {
+            mMediaPlayer.pause();
+        }
     }
 
     private boolean firstTouch = true;
