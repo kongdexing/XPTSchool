@@ -54,7 +54,6 @@ public class CaptureButton extends View {
     //当前按钮状态
     private int state;
 
-
     private Paint mPaint;
     //进度条宽度
     private float strokeWidth;

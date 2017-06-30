@@ -3,19 +3,21 @@ package com.xptschool.parent.ui.chat.video;
 import android.content.Context;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.xptschool.parent.R;
+import com.xptschool.parent.util.ToastUtils;
 
 /**
  * Created by dexing on 2017/6/15.
  * No1
  */
 
-public class DragCameraLayout extends LinearLayout {
+public class DragCameraLayout extends FrameLayout {
 
     private String TAG = DragCameraLayout.class.getSimpleName();
     private ViewDragHelper mDragger;
@@ -36,14 +38,17 @@ public class DragCameraLayout extends LinearLayout {
         super(context, attrs);
         callback = new DraggerCallBack();
         mDragger = ViewDragHelper.create(this, 1.0f, callback);
+        Log.i(TAG, "DragCameraLayout: ");
     }
 
     class DraggerCallBack extends ViewDragHelper.Callback {
 
         @Override
         public boolean tryCaptureView(View view, int i) {
+            Log.i(TAG, "tryCaptureView i: " + i);
             if (view == iv1) {
                 //iv1 可以滑动
+                Log.i(TAG, "tryCaptureView iv1 ");
                 return true;
             }
             return false;
@@ -64,11 +69,22 @@ public class DragCameraLayout extends LinearLayout {
             final int bottomBound = getHeight() - child.getHeight() - topBound;
             return Math.min(Math.max(top, topBound), bottomBound);
         }
+
+        @Override
+        public int getViewHorizontalDragRange(View child) {
+            return getMeasuredWidth() - child.getMeasuredWidth();
+        }
+
+        @Override
+        public int getViewVerticalDragRange(View child) {
+            return getMeasuredHeight()-child.getMeasuredHeight();
+        }
+
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mDragger.shouldInterceptTouchEvent(ev);
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        return mDragger.shouldInterceptTouchEvent(event);
     }
 
     @Override

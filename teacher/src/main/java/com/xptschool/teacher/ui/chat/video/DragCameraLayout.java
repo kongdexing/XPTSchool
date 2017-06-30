@@ -64,11 +64,21 @@ public class DragCameraLayout extends LinearLayout {
             final int bottomBound = getHeight() - child.getHeight() - topBound;
             return Math.min(Math.max(top, topBound), bottomBound);
         }
+
+        @Override
+        public int getViewHorizontalDragRange(View child) {
+            return getMeasuredWidth() - child.getMeasuredWidth();
+        }
+
+        @Override
+        public int getViewVerticalDragRange(View child) {
+            return getMeasuredHeight()-child.getMeasuredHeight();
+        }
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mDragger.shouldInterceptTouchEvent(ev);
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        return mDragger.shouldInterceptTouchEvent(event);
     }
 
     @Override

@@ -34,11 +34,11 @@ public class CallingView extends LinearLayout {
     FrameLayout mViewLocalVideoPreview;
     @BindView(R.id.view_call_incall_video_FrameLayout_remote_video)
     FrameLayout mViewRemoteVideoPreview;
-
     @BindView(R.id.view_call_trying_imageButton_hang)
     ImageView viewHang;
 
     CallingViewClickListener viewClickListener;
+    private boolean localFront = true;
 
     public CallingView(Context context) {
         this(context, null);
@@ -55,15 +55,25 @@ public class CallingView extends LinearLayout {
     }
 
     public void loadVideoPreview(NgnAVSession mSession) {
-        mViewRemoteVideoPreview.removeAllViews();
+        if (localFront) {
+            mViewRemoteVideoPreview.removeAllViews();
+        } else {
+            mViewLocalVideoPreview.removeAllViews();
+        }
         final View remotePreview = mSession.startVideoConsumerPreview();
         if (remotePreview != null) {
             final ViewParent viewParent = remotePreview.getParent();
             if (viewParent != null && viewParent instanceof ViewGroup) {
                 ((ViewGroup) (viewParent)).removeView(remotePreview);
             }
-            mViewRemoteVideoPreview.addView(remotePreview);
-
+            if (localFront) {
+                mViewRemoteVideoPreview.addView(remotePreview);
+            } else {
+                if (viewParent instanceof SurfaceView) {
+                    ((SurfaceView) viewParent).setZOrderOnTop(true);
+                }
+                mViewLocalVideoPreview.addView(remotePreview);
+            }
             AudioManager localAudioManager = (AudioManager) this.getContext().getSystemService(Context.AUDIO_SERVICE);
             boolean isHeadsetOn = localAudioManager.isWiredHeadsetOn();
             Log.i(TAG, "loadVideoPreview: " + isHeadsetOn);
@@ -74,37 +84,55 @@ public class CallingView extends LinearLayout {
 
     public void startStopVideo(NgnAVSession mSession) {
         boolean bStart = mSession.isSendingVideo();
-        Log.d(TAG, "startStopVideo(" + bStart + ")");
-//        if (!mIsVideoCall) {
-//            return;
-//        }
+        Log.d(TAG, "startStopVideo(" + bStart + ")  localFront:" + localFront);
 
-        mSession.setSendingVideo(bStart);
+//        mSession.setSendingVideo(bStart);
 
-        if (mViewLocalVideoPreview != null) {
+        if (localFront) {
             mViewLocalVideoPreview.removeAllViews();
-            if (bStart) {
-                final View localPreview = mSession.startVideoProducerPreview();
-                if (localPreview != null) {
-                    final ViewParent viewParent = localPreview.getParent();
-                    if (viewParent != null && viewParent instanceof ViewGroup) {
-                        ((ViewGroup) (viewParent)).removeView(localPreview);
-                    }
+        } else {
+            mViewRemoteVideoPreview.removeAllViews();
+        }
+
+        if (bStart) {
+            final View localPreview = mSession.startVideoProducerPreview();
+            if (localPreview != null) {
+                final ViewParent viewParent = localPreview.getParent();
+                if (viewParent != null && viewParent instanceof ViewGroup) {
+                    ((ViewGroup) (viewParent)).removeView(localPreview);
+                }
+
+                if (localFront) {
                     if (localPreview instanceof SurfaceView) {
                         ((SurfaceView) localPreview).setZOrderOnTop(true);
                     }
                     mViewLocalVideoPreview.addView(localPreview);
                     mViewLocalVideoPreview.bringChildToFront(localPreview);
+                } else {
+                    mViewRemoteVideoPreview.addView(localPreview);
+//                    mViewRemoteVideoPreview.bringChildToFront(localPreview);
                 }
             }
+        }
+
+        if (localFront) {
             mViewLocalVideoPreview.setVisibility(bStart ? View.VISIBLE : View.GONE);
             mViewLocalVideoPreview.bringToFront();
+        } else {
+            mViewRemoteVideoPreview.setVisibility(bStart ? View.VISIBLE : View.GONE);
+//            mViewRemoteVideoPreview.bringToFront();
         }
     }
 
-    @OnClick({R.id.view_call_trying_imageButton_hang, R.id.viewCamera})
+    @OnClick({R.id.view_call_incall_video_FrameLayout_local_video, R.id.view_call_trying_imageButton_hang, R.id.viewCamera})
     void viewOnClick(View view) {
         switch (view.getId()) {
+            case R.id.view_call_incall_video_FrameLayout_local_video:
+//                localFront = !localFront;
+//                if (viewClickListener != null) {
+//                    viewClickListener.onPreviewSwitch();
+//                }
+                break;
             case R.id.view_call_trying_imageButton_hang:
                 if (viewClickListener != null) {
                     viewClickListener.onHangUpClick();
@@ -119,6 +147,8 @@ public class CallingView extends LinearLayout {
     }
 
     public interface CallingViewClickListener {
+        void onPreviewSwitch();
+
         void onHangUpClick();
 
         void onCameraSwitch();

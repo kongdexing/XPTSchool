@@ -358,5 +358,4 @@ public class CallBaseScreen extends BaseActivity {
         }
     };
 
-
 }

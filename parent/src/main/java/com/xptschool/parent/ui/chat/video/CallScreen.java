@@ -198,6 +198,14 @@ public class CallScreen extends CallBaseScreen {
 
         mViewInCallVideo.setViewClickListener(new CallingView.CallingViewClickListener() {
             @Override
+            public void onPreviewSwitch() {
+                // Video Consumer
+//                mViewInCallVideo.loadVideoPreview(mSession);
+                // Video Producer
+//                mViewInCallVideo.startStopVideo(mSession);
+            }
+
+            @Override
             public void onHangUpClick() {
                 hangUpCall();
             }
@@ -214,7 +222,6 @@ public class CallScreen extends CallBaseScreen {
 
         // Video Consumer
         mViewInCallVideo.loadVideoPreview(mSession);
-
         // Video Producer
         mViewInCallVideo.startStopVideo(mSession);
     }

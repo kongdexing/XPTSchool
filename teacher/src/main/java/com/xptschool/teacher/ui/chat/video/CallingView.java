@@ -39,6 +39,7 @@ public class CallingView extends LinearLayout {
     ImageView viewHang;
 
     CallingViewClickListener viewClickListener;
+    private boolean localFront = true;
 
     public CallingView(Context context) {
         this(context, null);
@@ -81,30 +82,34 @@ public class CallingView extends LinearLayout {
 
 //        mSession.setSendingVideo(bStart);
 
-        if (mViewLocalVideoPreview != null) {
-            mViewLocalVideoPreview.removeAllViews();
-            if (bStart) {
-                final View localPreview = mSession.startVideoProducerPreview();
-                if (localPreview != null) {
-                    final ViewParent viewParent = localPreview.getParent();
-                    if (viewParent != null && viewParent instanceof ViewGroup) {
-                        ((ViewGroup) (viewParent)).removeView(localPreview);
-                    }
-                    if (localPreview instanceof SurfaceView) {
-                        ((SurfaceView) localPreview).setZOrderOnTop(true);
-                    }
-                    mViewLocalVideoPreview.addView(localPreview);
-                    mViewLocalVideoPreview.bringChildToFront(localPreview);
+        mViewLocalVideoPreview.removeAllViews();
+        if (bStart) {
+            final View localPreview = mSession.startVideoProducerPreview();
+            if (localPreview != null) {
+                final ViewParent viewParent = localPreview.getParent();
+                if (viewParent != null && viewParent instanceof ViewGroup) {
+                    ((ViewGroup) (viewParent)).removeView(localPreview);
                 }
+                if (localPreview instanceof SurfaceView) {
+                    ((SurfaceView) localPreview).setZOrderOnTop(true);
+                }
+                mViewLocalVideoPreview.addView(localPreview);
+                mViewLocalVideoPreview.bringChildToFront(localPreview);
             }
-            mViewLocalVideoPreview.setVisibility(bStart ? View.VISIBLE : View.GONE);
-            mViewLocalVideoPreview.bringToFront();
         }
+        mViewLocalVideoPreview.setVisibility(bStart ? View.VISIBLE : View.GONE);
+        mViewLocalVideoPreview.bringToFront();
     }
 
-    @OnClick({R.id.view_call_trying_imageButton_hang, R.id.viewCamera})
+    @OnClick({R.id.view_call_incall_video_FrameLayout_local_video, R.id.view_call_trying_imageButton_hang, R.id.viewCamera})
     void viewOnClick(View view) {
         switch (view.getId()) {
+            case R.id.view_call_incall_video_FrameLayout_local_video:
+                localFront = !localFront;
+                if (viewClickListener != null) {
+                    viewClickListener.onPreviewSwitch();
+                }
+                break;
             case R.id.view_call_trying_imageButton_hang:
                 if (viewClickListener != null) {
                     viewClickListener.onHangUpClick();
@@ -119,6 +124,8 @@ public class CallingView extends LinearLayout {
     }
 
     public interface CallingViewClickListener {
+        void onPreviewSwitch();
+
         void onHangUpClick();
 
         void onCameraSwitch();
