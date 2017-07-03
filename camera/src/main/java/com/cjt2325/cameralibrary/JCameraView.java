@@ -122,7 +122,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         iconMargin = a.getDimensionPixelSize(R.styleable.JCameraView_iconMargin, (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 15, getResources().getDisplayMetrics()));
         iconSrc = a.getResourceId(R.styleable.JCameraView_iconSrc, R.drawable.ic_sync_black_24dp);
-        duration = a.getInteger(R.styleable.JCameraView_duration_max, 22 * 1000);
+        duration = a.getInteger(R.styleable.JCameraView_duration_max, 10 * 1000);
         showCapture = a.getBoolean(R.styleable.JCameraView_showCapture, true);
         showFront = a.getBoolean(R.styleable.JCameraView_showFront, false);
         if (showFront) {
@@ -267,6 +267,19 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                     return;
                 }
 
+                try {
+                    Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    long[] pattern = {0, 200}; // 停止 开启 停止 开启
+                    vibrator.vibrate(pattern, -1); //重复两次上面的pattern 如果只想震动一次，index设为-1
+                } catch (Exception ex) {
+
+                }
+
+                mCaptureLayout.isRecord(true);
+                isBorrow = true;
+                CAMERA_STATE = STATE_RUNNING;
+                mFoucsView.setVisibility(INVISIBLE);
+
                 CameraInterface.getInstance().startRecord(mVideoView.getHolder().getSurface(), new CameraInterface
                         .ErrorCallback() {
                     @Override
@@ -279,27 +292,9 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                     }
                 });
 
-                Toast toast = Toast.makeText(mContext, "震动后开始录制", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-                            long[] pattern = {0, 200}; // 停止 开启 停止 开启
-                            vibrator.vibrate(pattern, -1); //重复两次上面的pattern 如果只想震动一次，index设为-1
-                        } catch (Exception ex) {
-
-                        }
-
-                        mCaptureLayout.isRecord(true);
-                        isBorrow = true;
-                        CAMERA_STATE = STATE_RUNNING;
-                        mFoucsView.setVisibility(INVISIBLE);
-                    }
-                }, 500);
+//                Toast toast = Toast.makeText(mContext, "震动后开始录制", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
             }
 
             @Override
@@ -313,7 +308,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                             public void recordResult(final String url) {
                                 CAMERA_STATE = STATE_WAIT;
                                 videoUrl = url;
-//                        videoDuration = time;
+                                videoDuration = time;
                                 type = TYPE_VIDEO;
                                 new Thread(new Runnable() {
                                     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -348,7 +343,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                                             mMediaPlayer.setLooping(true);
                                             mMediaPlayer.prepare();
 
-                                            videoDuration = mMediaPlayer.getDuration();
+//                                            videoDuration = mMediaPlayer.getDuration();
 
                                         } catch (IOException e) {
                                             e.printStackTrace();
@@ -358,7 +353,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                             }
                         });
                     }
-                }, 500);
+                }, 800);
             }
 
             @Override

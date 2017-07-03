@@ -7,10 +7,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 
 import com.cjt2325.cameralibrary.listener.CaptureListener;
 
@@ -49,7 +50,7 @@ public class CaptureButton extends View {
     //录制视频的Runnable
     private RecordRunnable recordRunnable;
     //录视频进度条动画
-    private ValueAnimator record_anim = ValueAnimator.ofFloat(0, 362);
+//    private ValueAnimator record_anim = ValueAnimator.ofFloat(0, 362);
 
     //当前按钮状态
     private int state;
@@ -81,6 +82,7 @@ public class CaptureButton extends View {
     private RectF rectF;
     //录制视频最大时间长度
     private int duration;
+    private final int HANDLER_PROGRESS = 0;
 
     //按钮回调接口
     private CaptureListener captureListener;
@@ -151,7 +153,9 @@ public class CaptureButton extends View {
             mPaint.setColor(0x9900CC00);
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(strokeWidth);
-            canvas.drawArc(rectF, -90, progress, false, mPaint);
+            float outside_progress = progress / duration * 360;
+            Log.i(TAG, "onDraw progress: " + progress + "  outside_progress:" + outside_progress);
+            canvas.drawArc(rectF, -90, outside_progress, false, mPaint);
         }
     }
 
@@ -263,43 +267,71 @@ public class CaptureButton extends View {
     private class RecordRunnable implements Runnable {
         @Override
         public void run() {
-            record_anim.setInterpolator(new LinearInterpolator());
-            record_anim.setDuration(duration);
 
-            record_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    if (state == STATE_PRESS_LONG_CLICK) {
-                        //更新录制进度
-                        progress = (float) animation.getAnimatedValue();
-                        Log.i(TAG, "onAnimationUpdate progress: " + progress);
-                    }
-                    invalidate();
-                }
-            });
-            //如果一直长按到结束，则自动回调录制结束接口
-            record_anim.addListener(new AnimatorListenerAdapter() {
+            mHandler.sendEmptyMessageDelayed(HANDLER_PROGRESS, 100);
 
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    super.onAnimationStart(animation);
-                    Log.i(TAG, "CaptureButton onAnimationStart: ");
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    if (state == STATE_PRESS_LONG_CLICK) {
-                        Log.i(TAG, "CaptureButton onAnimationEnd time length : " + record_anim.getDuration());
-                        recordEnd(true);
-                    }
-                }
-            });
-            Log.i(TAG, "CaptureButton run duration: " + duration);
-            record_anim.start();
+//            record_anim.setInterpolator(new LinearInterpolator());
+//            record_anim.setDuration(duration);
+//            record_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator animation) {
+//                    if (state == STATE_PRESS_LONG_CLICK) {
+//                        //更新录制进度
+//                        progress = (float) animation.getAnimatedValue();
+//                        Log.i(TAG, "onAnimationUpdate progress: " + progress);
+//                    }
+//                    invalidate();
+//                }
+//            });
+//            //如果一直长按到结束，则自动回调录制结束接口
+//            record_anim.addListener(new AnimatorListenerAdapter() {
+//
+//                @Override
+//                public void onAnimationStart(Animator animation) {
+//                    super.onAnimationStart(animation);
+//                    Log.i(TAG, "CaptureButton onAnimationStart: ");
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    super.onAnimationEnd(animation);
+//                    if (state == STATE_PRESS_LONG_CLICK) {
+//                        Log.i(TAG, "CaptureButton onAnimationEnd time length : " + record_anim.getDuration());
+//                        recordEnd(true);
+//                    }
+//                }
+//            });
+//            Log.i(TAG, "CaptureButton run duration: " + duration);
+//            record_anim.start();
         }
     }
 
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case HANDLER_PROGRESS:
+                    if (state == STATE_PRESS_LONG_CLICK) {
+                        //更新录制进度
+                        progress += (float) 100;
+                        invalidate();
+//                        Log.i(TAG, "onAnimationUpdate progress: " + progress + " duration:" + duration);
+                        mHandler.sendEmptyMessageDelayed(HANDLER_PROGRESS, 100);
+                    }
+
+                    if (progress >= duration) {
+                        if (state == STATE_PRESS_LONG_CLICK) {
+                            Log.i(TAG, "CaptureButton onAnimationEnd time length : " + progress);
+                            recordEnd(true);
+                        }
+                    } else {
+
+                    }
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
@@ -316,13 +348,13 @@ public class CaptureButton extends View {
         state = STATE_UNPRESS_LONG_CLICK;
         if (captureListener != null) {
             //录制时间小于一秒时候则提示录制时间过短
-            if (record_anim.getCurrentPlayTime() < 1500 && !finish) {
-                captureListener.recordShort(record_anim.getCurrentPlayTime());
+            if (progress < 1500 && !finish) {
+                captureListener.recordShort((long) progress);
             } else {
                 if (finish) {
                     captureListener.recordEnd(duration);
                 } else {
-                    captureListener.recordEnd(record_anim.getCurrentPlayTime());
+                    captureListener.recordEnd((long) progress);
                 }
             }
         }
@@ -331,7 +363,7 @@ public class CaptureButton extends View {
 
     private void resetRecordAnim() {
         //取消动画
-        record_anim.cancel();
+//        record_anim.cancel();
         //重制进度
         progress = 0;
         invalidate();
