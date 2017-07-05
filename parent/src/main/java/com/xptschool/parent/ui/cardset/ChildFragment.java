@@ -1,6 +1,7 @@
 package com.xptschool.parent.ui.cardset;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.ui.fragment.BaseFragment;
+import com.xptschool.parent.util.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +41,7 @@ public class ChildFragment extends BaseFragment implements View.OnClickListener 
     TextView txtSchoolName;
     TextView txtIMEI;
     ProgressBar progress;
+    TextView txtCardPhone;
 
     private BeanStudent currentStudent;
 
@@ -73,6 +76,27 @@ public class ChildFragment extends BaseFragment implements View.OnClickListener 
         txtSchoolDate = (TextView) view.findViewById(R.id.txtSchoolDate);
         txtSchoolName = (TextView) view.findViewById(R.id.txtSchoolName);
         txtIMEI = (TextView) view.findViewById(R.id.txtIMEI);
+
+        RelativeLayout rlCardPhone = (RelativeLayout) view.findViewById(R.id.rlCardPhone);
+        txtCardPhone = (TextView) view.findViewById(R.id.txtCardPhone);
+        rlCardPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String cardPhone = txtCardPhone.getText().toString();
+                if (cardPhone.isEmpty()) {
+                    return;
+                }
+                try {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + cardPhone));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    ToastUtils.showToast(ChildFragment.this.getContext(), R.string.toast_startcall_error);
+                }
+            }
+        });
 
         RelativeLayout RLSOSSet = (RelativeLayout) view.findViewById(R.id.RLSOSSet);
         RelativeLayout RLWhitelistSet = (RelativeLayout) view.findViewById(R.id.RLWhitelistSet);
@@ -118,6 +142,7 @@ public class ChildFragment extends BaseFragment implements View.OnClickListener 
         txtBirthday.setText(currentStudent.getBirth_date());
         txtSchoolName.setText(currentStudent.getS_name() + currentStudent.getA_name());
         txtIMEI.setText(currentStudent.getImei_id());
+        txtCardPhone.setText(currentStudent.getCard_phone());
     }
 
     @Override
