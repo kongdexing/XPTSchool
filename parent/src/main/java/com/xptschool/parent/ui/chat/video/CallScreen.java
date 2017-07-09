@@ -4,7 +4,9 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,8 @@ import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.sip.NgnInviteSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 
 /**
@@ -33,6 +37,7 @@ public class CallScreen extends CallBaseScreen {
 
     @BindView(R.id.screen_av_relativeLayout)
     RelativeLayout mMainLayout;
+    private MediaPlayer mp = new MediaPlayer();
 
     private CallingView mViewInCallVideo;
 
@@ -168,6 +173,26 @@ public class CallScreen extends CallBaseScreen {
                 mViewTrying.isInCallingView(false);
                 mViewTrying.mTvInfo.setText(getString(R.string.string_call_outgoing));
 //                btPick.setVisibility(View.GONE);
+                try {
+                    AssetFileDescriptor fileDescriptor = CallScreen.this.getAssets().openFd("call_play.mp3");
+                    mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mp.setDataSource(fileDescriptor.getFileDescriptor(), fileDescriptor.getStartOffset(),
+                            fileDescriptor.getLength());
+                    mp.prepare();
+                    mp.start();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.start();
+                    }
+                });
                 break;
         }
 
@@ -196,6 +221,10 @@ public class CallScreen extends CallBaseScreen {
             mViewInCallVideo = new CallingView(this);
         }
 
+        if (mp != null) {
+            mp.release();
+        }
+
         mViewInCallVideo.setViewClickListener(new CallingView.CallingViewClickListener() {
             @Override
             public void onPreviewSwitch() {
@@ -215,7 +244,6 @@ public class CallScreen extends CallBaseScreen {
                 mSession.toggleCamera();
             }
         });
-
 
         mMainLayout.removeAllViews();
         mMainLayout.addView(mViewInCallVideo);
@@ -239,6 +267,10 @@ public class CallScreen extends CallBaseScreen {
             if (mSession != null) {
                 mSession.setContext(null);
                 mSession.decRef();
+            }
+
+            if (mp != null) {
+                mp.release();
             }
 
             mTimerTaskQoS.cancel();

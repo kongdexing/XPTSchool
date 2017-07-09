@@ -302,9 +302,10 @@ public class ChatActivity extends ChatAppendixActivity {
         } else {
             int position = pageChatList.size() - 1;
             View topView = getLayoutManager().getChildAt(position);          //获取可视的第一个view
-            int topY = topView.getTop();
-
-            recycleView.smoothScrollBy(0, topY);
+            if (topView != null) {
+                int topY = topView.getTop();
+                recycleView.smoothScrollBy(0, topY);
+            }
         }
     }
 
