@@ -34,7 +34,7 @@ public class SocketService extends Service {
     public static int socketReceiverPort = 50301;
     private Timer mTimer;
     private SocketReceiveThread socketReceiveThread;
-    private ExecutorService receiverThreadPool = Executors.newFixedThreadPool(5);
+    private ExecutorService receiverThreadPool = Executors.newSingleThreadExecutor();
     private ExecutorService sendThreadPool = Executors.newFixedThreadPool(5);
 
     public SocketService() {
@@ -67,7 +67,7 @@ public class SocketService extends Service {
     }
 
     private void setTimerTask() {
-        socketReceiveThread = new SocketReceiveThread();
+//        socketReceiveThread = new SocketReceiveThread();
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -77,8 +77,15 @@ public class SocketService extends Service {
     }
 
     private void receiveMessage() {
-        SocketReceiveThread receiveThread = socketReceiveThread.cloneReceiveThread();
-        receiverThreadPool.execute(receiveThread);
+
+        Log.i(TAG, "receiveMessage is terminated: " + receiverThreadPool.isTerminated());
+//        if (receiverThreadPool.isTerminated()) {
+//
+//        }
+//        SocketReceiveThread receiveThread = socketReceiveThread.cloneReceiveThread();
+        SocketReceiveThread socketReceiveThread = new SocketReceiveThread();
+        receiverThreadPool.execute(socketReceiveThread);
+
 //        SocketReceiveThread receiveThread = new SocketReceiveThread();
 //        receiveThread.start();
     }

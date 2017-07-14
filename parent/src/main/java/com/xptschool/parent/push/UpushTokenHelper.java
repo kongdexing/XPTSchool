@@ -58,6 +58,22 @@ public class UpushTokenHelper {
             Log.i(TAG, "uploadDevicesToken: parent is null");
             return;
         }
+
+        try {
+            JSONArray chatArray = new JSONArray();
+            JSONObject chatObject = new JSONObject();
+            chatObject.put("mobilenumber", parent.getParent_phone());
+            chatObject.put("mobtype", "1");
+            chatObject.put("devicetoken", device_token);
+            chatObject.put("parentid", parent.getU_id());
+            chatObject.put("token", CommonUtil.md5(device_token + parent.getParent_phone() + "shuhaixinxi"));
+            chatArray.put(chatObject);
+
+            pushTokenOnline(HttpAction.Push_Token_ForChat + "?data=" + chatArray.toString(), null);
+        } catch (Exception ex) {
+            Log.i(TAG, "uploadDevicesToken error: "+ex.getMessage());
+        }
+
         param = getTokenParamString(students, parent, device_token, jsonArray);
         if (param.isEmpty() || jsonArray.length() == 0) {
             Log.i(TAG, "uploadDevicesToken: param " + param);
@@ -73,20 +89,6 @@ public class UpushTokenHelper {
         //上传成功后保存device_token
         pushTokenOnline(HttpAction.Push_Token + "?type=1&data=" + deviceToken.getParamToken(), deviceToken);
 
-        try {
-            JSONArray chatArray = new JSONArray();
-            JSONObject chatObject = new JSONObject();
-            chatObject.put("mobilenumber", parent.getParent_phone());
-            chatObject.put("mobtype", "1");
-            chatObject.put("devicetoken", device_token);
-            chatObject.put("parentid", parent.getU_id());
-            chatObject.put("token", CommonUtil.md5(device_token + parent.getParent_phone() + "shuhaixinxi"));
-            chatArray.put(chatObject);
-
-            pushTokenOnline(HttpAction.Push_Token_ForChat + "?data=" + chatArray.toString(), null);
-        } catch (Exception ex) {
-
-        }
     }
 
     private static void pushTokenOnline(String url, final BeanDeviceToken deviceToken) {

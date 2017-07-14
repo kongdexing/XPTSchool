@@ -86,10 +86,16 @@ public class ToSendMessage {
 
         byte[] b_filename = new byte[ChatUtil.fileNameLength];
         // 将流与字节数组关联
-        ByteArrayInputStream bs = new ByteArrayInputStream(filename.toString()
+        int dotIndex = filename.indexOf(".");
+        String tempFileName = filename;
+        if (dotIndex != -1) {
+            String suffix = filename.substring(filename.indexOf("."));
+            tempFileName = this.getId() + suffix;
+        }
+        ByteArrayInputStream bs = new ByteArrayInputStream(tempFileName.toString()
                 .getBytes());
         try {
-            // 将字符串信息写入数组中（保证字符串信息存储的都是10个字节）
+            // 将字符串信息写入数组中（保证字符串信息存储的都是*个字节）
             bs.read(b_filename);
         } catch (IOException e) {
             // TODO Auto-generated catch block
