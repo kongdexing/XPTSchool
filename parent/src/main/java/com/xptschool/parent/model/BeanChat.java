@@ -21,6 +21,7 @@ public class BeanChat implements Serializable {
 
     @Id
     private String chatId;
+    private String msgId;
     private String type;
     private int size;
     private String parentId;
@@ -33,11 +34,11 @@ public class BeanChat implements Serializable {
     private String time;
     private boolean hasRead = true; //已读未读
 
-    @Generated(hash = 918254695)
-    public BeanChat(String chatId, String type, int size, String parentId,
-                    String teacherId, String fileName, String seconds, String content,
-                    boolean isSend, int sendStatus, String time, boolean hasRead) {
+    @Generated(hash = 500737609)
+    public BeanChat(String chatId, String msgId, String type, int size, String parentId, String teacherId, String fileName, String seconds,
+            String content, boolean isSend, int sendStatus, String time, boolean hasRead) {
         this.chatId = chatId;
+        this.msgId = msgId;
         this.type = type;
         this.size = size;
         this.parentId = parentId;
@@ -61,6 +62,14 @@ public class BeanChat implements Serializable {
 
     public void setChatId(String chatId) {
         this.chatId = chatId;
+    }
+
+    public String getMsgId() {
+        return msgId;
+    }
+
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
     }
 
     public boolean isSend() {
@@ -165,6 +174,7 @@ public class BeanChat implements Serializable {
 
     public void parseMessageToChat(ToSendMessage sendMsg) {
         this.setChatId(sendMsg.getFilename());
+        this.setMsgId(sendMsg.getId());
         this.setIsSend(true);
         this.setType(sendMsg.getType() + "");
         this.setContent(sendMsg.getContent());
@@ -179,6 +189,7 @@ public class BeanChat implements Serializable {
     public void onReSendChatToMessage() {
         try {
             ToSendMessage message = new ToSendMessage();
+            message.setId(this.getMsgId());
             message.setType(this.getType().charAt(0));
             message.setFilename(this.getFileName());
             message.setSecond(Integer.parseInt(this.getSeconds()));

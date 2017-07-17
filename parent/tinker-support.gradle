@@ -2,7 +2,7 @@ apply plugin: 'com.tencent.bugly.tinker-support'
 
 //def bakPath = file("${buildDir}/bakApk/")
 
-def bakPath = file('../apk/1.0/parent')
+def bakPath = file('../apk/1.1/parent')
 
 def baseApkDir = "parent-0527-1.0.6"
 
@@ -36,7 +36,7 @@ tinkerSupport {
     baseApkResourceMapping = "${bakPath}/${baseApkDir}/parent-office-release-R.txt"
 
     //基线版本和补丁版本都需要修改这个参数，示例：1.0-base 1.0.1-patch
-    tinkerId = "1.0.6-patch-1"
+    tinkerId = "1.1.0-base"
     // 打多渠道补丁时指定目录
     buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
 

@@ -20,8 +20,8 @@ android {
         applicationId "com.xptschool.parent"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 8
-        versionName "1.0.6"
+        versionCode 9
+        versionName "1.1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [API_KEY_BAIDU       : rootProject.appKeyBaiduMap_parent,
@@ -122,7 +122,7 @@ android {
 }
 
 greendao {
-    schemaVersion 7
+    schemaVersion 8
     targetGenDir 'src/main/java'
 }
 

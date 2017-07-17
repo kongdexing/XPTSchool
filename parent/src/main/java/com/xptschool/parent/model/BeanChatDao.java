@@ -23,17 +23,18 @@ public class BeanChatDao extends AbstractDao<BeanChat, String> {
     */
     public static class Properties {
         public final static Property ChatId = new Property(0, String.class, "chatId", true, "CHAT_ID");
-        public final static Property Type = new Property(1, String.class, "type", false, "TYPE");
-        public final static Property Size = new Property(2, int.class, "size", false, "SIZE");
-        public final static Property ParentId = new Property(3, String.class, "parentId", false, "PARENT_ID");
-        public final static Property TeacherId = new Property(4, String.class, "teacherId", false, "TEACHER_ID");
-        public final static Property FileName = new Property(5, String.class, "fileName", false, "FILE_NAME");
-        public final static Property Seconds = new Property(6, String.class, "seconds", false, "SECONDS");
-        public final static Property Content = new Property(7, String.class, "content", false, "CONTENT");
-        public final static Property IsSend = new Property(8, boolean.class, "isSend", false, "IS_SEND");
-        public final static Property SendStatus = new Property(9, int.class, "sendStatus", false, "SEND_STATUS");
-        public final static Property Time = new Property(10, String.class, "time", false, "TIME");
-        public final static Property HasRead = new Property(11, boolean.class, "hasRead", false, "HAS_READ");
+        public final static Property MsgId = new Property(1, String.class, "msgId", false, "MSG_ID");
+        public final static Property Type = new Property(2, String.class, "type", false, "TYPE");
+        public final static Property Size = new Property(3, int.class, "size", false, "SIZE");
+        public final static Property ParentId = new Property(4, String.class, "parentId", false, "PARENT_ID");
+        public final static Property TeacherId = new Property(5, String.class, "teacherId", false, "TEACHER_ID");
+        public final static Property FileName = new Property(6, String.class, "fileName", false, "FILE_NAME");
+        public final static Property Seconds = new Property(7, String.class, "seconds", false, "SECONDS");
+        public final static Property Content = new Property(8, String.class, "content", false, "CONTENT");
+        public final static Property IsSend = new Property(9, boolean.class, "isSend", false, "IS_SEND");
+        public final static Property SendStatus = new Property(10, int.class, "sendStatus", false, "SEND_STATUS");
+        public final static Property Time = new Property(11, String.class, "time", false, "TIME");
+        public final static Property HasRead = new Property(12, boolean.class, "hasRead", false, "HAS_READ");
     };
 
 
@@ -50,17 +51,18 @@ public class BeanChatDao extends AbstractDao<BeanChat, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BEAN_CHAT\" (" + //
                 "\"CHAT_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: chatId
-                "\"TYPE\" TEXT," + // 1: type
-                "\"SIZE\" INTEGER NOT NULL ," + // 2: size
-                "\"PARENT_ID\" TEXT," + // 3: parentId
-                "\"TEACHER_ID\" TEXT," + // 4: teacherId
-                "\"FILE_NAME\" TEXT," + // 5: fileName
-                "\"SECONDS\" TEXT," + // 6: seconds
-                "\"CONTENT\" TEXT," + // 7: content
-                "\"IS_SEND\" INTEGER NOT NULL ," + // 8: isSend
-                "\"SEND_STATUS\" INTEGER NOT NULL ," + // 9: sendStatus
-                "\"TIME\" TEXT," + // 10: time
-                "\"HAS_READ\" INTEGER NOT NULL );"); // 11: hasRead
+                "\"MSG_ID\" TEXT," + // 1: msgId
+                "\"TYPE\" TEXT," + // 2: type
+                "\"SIZE\" INTEGER NOT NULL ," + // 3: size
+                "\"PARENT_ID\" TEXT," + // 4: parentId
+                "\"TEACHER_ID\" TEXT," + // 5: teacherId
+                "\"FILE_NAME\" TEXT," + // 6: fileName
+                "\"SECONDS\" TEXT," + // 7: seconds
+                "\"CONTENT\" TEXT," + // 8: content
+                "\"IS_SEND\" INTEGER NOT NULL ," + // 9: isSend
+                "\"SEND_STATUS\" INTEGER NOT NULL ," + // 10: sendStatus
+                "\"TIME\" TEXT," + // 11: time
+                "\"HAS_READ\" INTEGER NOT NULL );"); // 12: hasRead
     }
 
     /** Drops the underlying database table. */
@@ -78,44 +80,49 @@ public class BeanChatDao extends AbstractDao<BeanChat, String> {
             stmt.bindString(1, chatId);
         }
  
+        String msgId = entity.getMsgId();
+        if (msgId != null) {
+            stmt.bindString(2, msgId);
+        }
+ 
         String type = entity.getType();
         if (type != null) {
-            stmt.bindString(2, type);
+            stmt.bindString(3, type);
         }
-        stmt.bindLong(3, entity.getSize());
+        stmt.bindLong(4, entity.getSize());
  
         String parentId = entity.getParentId();
         if (parentId != null) {
-            stmt.bindString(4, parentId);
+            stmt.bindString(5, parentId);
         }
  
         String teacherId = entity.getTeacherId();
         if (teacherId != null) {
-            stmt.bindString(5, teacherId);
+            stmt.bindString(6, teacherId);
         }
  
         String fileName = entity.getFileName();
         if (fileName != null) {
-            stmt.bindString(6, fileName);
+            stmt.bindString(7, fileName);
         }
  
         String seconds = entity.getSeconds();
         if (seconds != null) {
-            stmt.bindString(7, seconds);
+            stmt.bindString(8, seconds);
         }
  
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(8, content);
+            stmt.bindString(9, content);
         }
-        stmt.bindLong(9, entity.getIsSend() ? 1L: 0L);
-        stmt.bindLong(10, entity.getSendStatus());
+        stmt.bindLong(10, entity.getIsSend() ? 1L: 0L);
+        stmt.bindLong(11, entity.getSendStatus());
  
         String time = entity.getTime();
         if (time != null) {
-            stmt.bindString(11, time);
+            stmt.bindString(12, time);
         }
-        stmt.bindLong(12, entity.getHasRead() ? 1L: 0L);
+        stmt.bindLong(13, entity.getHasRead() ? 1L: 0L);
     }
 
     @Override
@@ -127,44 +134,49 @@ public class BeanChatDao extends AbstractDao<BeanChat, String> {
             stmt.bindString(1, chatId);
         }
  
+        String msgId = entity.getMsgId();
+        if (msgId != null) {
+            stmt.bindString(2, msgId);
+        }
+ 
         String type = entity.getType();
         if (type != null) {
-            stmt.bindString(2, type);
+            stmt.bindString(3, type);
         }
-        stmt.bindLong(3, entity.getSize());
+        stmt.bindLong(4, entity.getSize());
  
         String parentId = entity.getParentId();
         if (parentId != null) {
-            stmt.bindString(4, parentId);
+            stmt.bindString(5, parentId);
         }
  
         String teacherId = entity.getTeacherId();
         if (teacherId != null) {
-            stmt.bindString(5, teacherId);
+            stmt.bindString(6, teacherId);
         }
  
         String fileName = entity.getFileName();
         if (fileName != null) {
-            stmt.bindString(6, fileName);
+            stmt.bindString(7, fileName);
         }
  
         String seconds = entity.getSeconds();
         if (seconds != null) {
-            stmt.bindString(7, seconds);
+            stmt.bindString(8, seconds);
         }
  
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(8, content);
+            stmt.bindString(9, content);
         }
-        stmt.bindLong(9, entity.getIsSend() ? 1L: 0L);
-        stmt.bindLong(10, entity.getSendStatus());
+        stmt.bindLong(10, entity.getIsSend() ? 1L: 0L);
+        stmt.bindLong(11, entity.getSendStatus());
  
         String time = entity.getTime();
         if (time != null) {
-            stmt.bindString(11, time);
+            stmt.bindString(12, time);
         }
-        stmt.bindLong(12, entity.getHasRead() ? 1L: 0L);
+        stmt.bindLong(13, entity.getHasRead() ? 1L: 0L);
     }
 
     @Override
@@ -176,17 +188,18 @@ public class BeanChatDao extends AbstractDao<BeanChat, String> {
     public BeanChat readEntity(Cursor cursor, int offset) {
         BeanChat entity = new BeanChat( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // chatId
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // type
-            cursor.getInt(offset + 2), // size
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // parentId
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // teacherId
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // fileName
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // seconds
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // content
-            cursor.getShort(offset + 8) != 0, // isSend
-            cursor.getInt(offset + 9), // sendStatus
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // time
-            cursor.getShort(offset + 11) != 0 // hasRead
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // msgId
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // type
+            cursor.getInt(offset + 3), // size
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // parentId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // teacherId
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // fileName
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // seconds
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // content
+            cursor.getShort(offset + 9) != 0, // isSend
+            cursor.getInt(offset + 10), // sendStatus
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // time
+            cursor.getShort(offset + 12) != 0 // hasRead
         );
         return entity;
     }
@@ -194,17 +207,18 @@ public class BeanChatDao extends AbstractDao<BeanChat, String> {
     @Override
     public void readEntity(Cursor cursor, BeanChat entity, int offset) {
         entity.setChatId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setType(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setSize(cursor.getInt(offset + 2));
-        entity.setParentId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setTeacherId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setFileName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setSeconds(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setContent(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setIsSend(cursor.getShort(offset + 8) != 0);
-        entity.setSendStatus(cursor.getInt(offset + 9));
-        entity.setTime(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setHasRead(cursor.getShort(offset + 11) != 0);
+        entity.setMsgId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setType(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setSize(cursor.getInt(offset + 3));
+        entity.setParentId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setTeacherId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setFileName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setSeconds(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setContent(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setIsSend(cursor.getShort(offset + 9) != 0);
+        entity.setSendStatus(cursor.getInt(offset + 10));
+        entity.setTime(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setHasRead(cursor.getShort(offset + 12) != 0);
      }
     
     @Override

@@ -419,10 +419,10 @@ public class ChatActivity extends ChatAppendixActivity {
         List<BeanChat> chats = new ArrayList<>();
         for (int i = pageChatList.size() - 1; i > -1; i--) {
             BeanChat chat = pageChatList.get(i);
-//            if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
-//                chat.setSendStatus(ChatUtil.STATUS_FAILED);
-//            }
-//            pageChatList.set(i, chat);
+            if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
+                chat.setSendStatus(ChatUtil.STATUS_FAILED);
+            }
+            pageChatList.set(i, chat);
             chats.add(chat);
         }
         adapter.appendData(chats);
