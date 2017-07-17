@@ -123,7 +123,7 @@ public class NoticeDetailActivity extends BaseActivity {
                 spnClasses.setEnabled(false);
             }
         } else {
-            spnClasses.setItems(GreenDaoHelper.getInstance().getAllClassNameAppend());
+            spnClasses.setItems(GreenDaoHelper.getInstance().getAllClass());
         }
 
         //绑定相册

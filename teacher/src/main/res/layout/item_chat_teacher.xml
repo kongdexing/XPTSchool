@@ -21,7 +21,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:layout_width="@dimen/dp_20"
@@ -42,7 +42,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_toLeftOf="@+id/llContent"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/llContent"
@@ -119,10 +119,9 @@
             <!--视频-->
             <com.xptschool.teacher.ui.chat.adapter.ChatItemVideo
                 android:id="@+id/videoView"
-                android:layout_width="@dimen/dp_120"
+                android:layout_width="@dimen/dp_100"
                 android:layout_height="@dimen/dp_170"
                 android:layout_marginTop="@dimen/dp_5"
-                android:layout_marginLeft="@dimen/dp_100"
                 android:visibility="gone" />
         </LinearLayout>
 

@@ -86,10 +86,10 @@ public class ToSendMessage {
 
         byte[] b_filename = new byte[ChatUtil.fileNameLength];
         // 将流与字节数组关联
-        int dotIndex = filename.indexOf(".");
+        int dotIndex = filename.lastIndexOf(".");
         String tempFileName = filename;
         if (dotIndex != -1) {
-            String suffix = filename.substring(filename.indexOf("."));
+            String suffix = filename.substring(dotIndex);
             tempFileName = this.getId() + suffix;
         }
         ByteArrayInputStream bs = new ByteArrayInputStream(tempFileName.toString()

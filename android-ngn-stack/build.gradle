@@ -48,6 +48,10 @@ android {
             jniLibs.srcDir 'libs'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
