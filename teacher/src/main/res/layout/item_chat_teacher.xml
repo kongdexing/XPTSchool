@@ -21,7 +21,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/dp_20"
@@ -42,15 +42,15 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_toLeftOf="@+id/llContent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/llContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/imgUser"
             android:layout_marginRight="@dimen/dp_5"
+            android:layout_toLeftOf="@+id/imgUser"
             android:visibility="visible">
 
             <io.github.rockerhieu.emojicon.EmojiconTextView
@@ -114,7 +114,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:layout_marginLeft="@dimen/dp_100"
                 android:visibility="gone" />
             <!--视频-->
             <com.xptschool.teacher.ui.chat.adapter.ChatItemVideo

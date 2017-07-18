@@ -1,5 +1,7 @@
 package com.xptschool.teacher.model;
 
+import android.util.Log;
+
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.ui.chat.ToSendMessage;
@@ -22,6 +24,7 @@ public class BeanChat implements Serializable {
 
     @Id
     private String chatId;
+    private String msgId;
     private String type;
     private int size;
     private String parentId;
@@ -34,11 +37,12 @@ public class BeanChat implements Serializable {
     private String time;
     private boolean hasRead = true; //已读未读
 
-    @Generated(hash = 918254695)
-    public BeanChat(String chatId, String type, int size, String parentId,
-                    String teacherId, String fileName, String seconds, String content,
-                    boolean isSend, int sendStatus, String time, boolean hasRead) {
+    @Generated(hash = 500737609)
+    public BeanChat(String chatId, String msgId, String type, int size, String parentId,
+                    String teacherId, String fileName, String seconds, String content, boolean isSend,
+                    int sendStatus, String time, boolean hasRead) {
         this.chatId = chatId;
+        this.msgId = msgId;
         this.type = type;
         this.size = size;
         this.parentId = parentId;
@@ -62,6 +66,14 @@ public class BeanChat implements Serializable {
 
     public void setChatId(String chatId) {
         this.chatId = chatId;
+    }
+
+    public String getMsgId() {
+        return msgId;
+    }
+
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
     }
 
     public boolean isSend() {
@@ -166,11 +178,13 @@ public class BeanChat implements Serializable {
 
     public void parseMessageToChat(ToSendMessage sendMsg) {
         this.setChatId(sendMsg.getFilename());
+        this.setMsgId(sendMsg.getId());
         this.setIsSend(true);
         this.setType(sendMsg.getType() + "");
         this.setContent(sendMsg.getContent());
         this.setSeconds(sendMsg.getSecond() + "");
         this.setFileName(sendMsg.getFilename());
+        this.setSize(sendMsg.getSize());
         this.setTeacherId(sendMsg.getTeacherId());
         this.setParentId(sendMsg.getParentId());
         this.setTime(sendMsg.getTime());
@@ -179,6 +193,7 @@ public class BeanChat implements Serializable {
     public void onReSendChatToMessage() {
         try {
             ToSendMessage message = new ToSendMessage();
+            message.setId(this.getMsgId());
             message.setType(this.getType().charAt(0));
             message.setFilename(this.getFileName());
             message.setSecond(Integer.parseInt(this.getSeconds()));
@@ -187,7 +202,7 @@ public class BeanChat implements Serializable {
             message.setTeacherId(getTeacherId());
 
             byte[] allByte = null;
-            if (ChatUtil.TYPE_AMR == message.getType()) {
+            if (ChatUtil.TYPE_AMR == message.getType() || ChatUtil.TYPE_VIDEO == message.getType() || ChatUtil.TYPE_FILE == message.getType()) {
                 File file = new File(XPTApplication.getInstance().getCachePath() + "/" + getFileName());
                 FileInputStream inputStream = new FileInputStream(file);
                 allByte = message.packData(inputStream);
@@ -201,7 +216,7 @@ public class BeanChat implements Serializable {
                 ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {
-
+            Log.i("TSocket", "onReSendChatToMessage: " + ex.getMessage());
         }
     }
 
