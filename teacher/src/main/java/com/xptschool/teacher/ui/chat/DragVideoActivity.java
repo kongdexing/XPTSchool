@@ -23,8 +23,8 @@ public class DragVideoActivity extends AppCompatActivity{
 
     @BindView(R.id.videoView)
     VideoView mVideoView;
-    @BindView(R.id.dragLayout)
-    DragLayoutView dragLayout;
+//    @BindView(R.id.dragLayout)
+//    DragLayoutView dragLayout;
 
     MediaPlayer mMediaPlayer;
     private BeanChat chat;
@@ -58,20 +58,32 @@ public class DragVideoActivity extends AppCompatActivity{
         MediaController mediaController = new MediaController(this);
         mVideoView.setMediaController(mediaController);
         mVideoView.start();
-
-        dragLayout.setOnTapListener(new DragLayoutView.OnTapListener() {
+        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
-            public void onTap(DragLayoutView view) {
-                finishWithAnimation(view);
+            public void onCompletion(MediaPlayer mp) {
+                finish();
             }
         });
 
-        dragLayout.setOnExitListener(new DragLayoutView.OnExitListener() {
-            @Override
-            public void onExit(DragLayoutView view, float x, float y, float w, float h) {
-                performExitAnimation(view, x, y, w, h);
-            }
-        });
+//        dragLayout.setOnTapListener(new DragLayoutView.OnTapListener() {
+//            @Override
+//            public void onTap(DragLayoutView view) {
+//                finishWithAnimation(view);
+//            }
+//        });
+
+//        dragLayout.setOnExitListener(new DragLayoutView.OnExitListener() {
+//            @Override
+//            public void onExit(DragLayoutView view, float x, float y, float w, float h) {
+//                performExitAnimation(view, x, y, w, h);
+//            }
+//        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 
     private void finishWithAnimation(final DragLayoutView photoView) {

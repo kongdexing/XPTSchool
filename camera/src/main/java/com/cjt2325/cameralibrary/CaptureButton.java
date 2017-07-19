@@ -154,7 +154,6 @@ public class CaptureButton extends View {
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(strokeWidth);
             float outside_progress = progress / duration * 360;
-            Log.i(TAG, "onDraw progress: " + progress + "  outside_progress:" + outside_progress);
             canvas.drawArc(rectF, -90, outside_progress, false, mPaint);
         }
     }
@@ -179,8 +178,8 @@ public class CaptureButton extends View {
                 if (!isRecorder &&
                         (button_state == BUTTON_STATE_ONLY_RECORDER ||
                                 button_state == BUTTON_STATE_BOTH)) {
-                    //同时延长500启动长按后处理的逻辑Runnable
-                    postDelayed(longPressRunnable, 500);
+                    //同时延长200启动长按后处理的逻辑Runnable
+                    postDelayed(longPressRunnable, 200);
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -188,7 +187,7 @@ public class CaptureButton extends View {
                         && state == STATE_PRESS_LONG_CLICK
                         && (button_state == BUTTON_STATE_ONLY_RECORDER || button_state == BUTTON_STATE_BOTH)) {
                     //记录当前Y值与按下时候Y值的差值，调用缩放回调接口
-                    captureListener.recordZoom(event_Y - event.getY());
+//                    captureListener.recordZoom(event_Y - event.getY());
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -249,7 +248,7 @@ public class CaptureButton extends View {
                 state = STATE_NULL;
                 return;
             }
-            //如果按下后经过500毫秒则会修改当前状态为长按状态
+            //如果按下后经过200毫秒则会修改当前状态为长按状态
             state = STATE_PRESS_LONG_CLICK;
             //启动按钮动画，外圆变大，内圆缩小
             startAnimation(
@@ -317,7 +316,7 @@ public class CaptureButton extends View {
                         progress += (float) 100;
                         invalidate();
 //                        Log.i(TAG, "onAnimationUpdate progress: " + progress + " duration:" + duration);
-                        mHandler.sendEmptyMessageDelayed(HANDLER_PROGRESS, 100);
+                        mHandler.sendEmptyMessageDelayed(HANDLER_PROGRESS, 101);
                     }
 
                     if (progress >= duration) {

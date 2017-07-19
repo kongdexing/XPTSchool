@@ -63,7 +63,11 @@ public class NativeService extends NgnNativeService {
 
     public NativeService() {
         super();
-        mEngine = (Engine) Engine.getInstance();
+        try {
+            mEngine = (Engine) Engine.getInstance();
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override

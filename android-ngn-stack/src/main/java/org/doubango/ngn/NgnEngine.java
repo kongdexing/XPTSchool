@@ -108,7 +108,6 @@ public class NgnEngine {
 				if(NgnApplication.isCpuNeon()){
 					Log.d(TAG,"isCpuNeon()=YES");
 					System.loadLibrary("tinyWRAP_neon");
-//					System.loadLibrary("tinyWRAP");
 				}
 				else{
 					Log.d(TAG,"isCpuNeon()=NO");

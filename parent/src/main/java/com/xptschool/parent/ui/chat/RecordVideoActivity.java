@@ -43,6 +43,7 @@ public class RecordVideoActivity extends AppCompatActivity {
 
         //JCameraView监听
         jCameraView.setJCameraLisenter(new JCameraListener() {
+
             @Override
             public void captureSuccess(Bitmap bitmap) {
                 //获取图片bitmap
@@ -98,8 +99,12 @@ public class RecordVideoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //全屏显示
+        fullScreen();
+    }
+
+    private void fullScreen(){
+        View decorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -108,7 +113,6 @@ public class RecordVideoActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         } else {
-            View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_FULLSCREEN;
             decorView.setSystemUiVisibility(option);
         }

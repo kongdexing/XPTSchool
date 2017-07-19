@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Handler;
+import android.util.Log;
 
 import com.jph.takephoto.uitl.TFileUtils;
 
@@ -12,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 压缩照片
@@ -121,6 +125,12 @@ public class CompressImageUtil {
         newOpts.inPurgeable = true;// 同时设置才会有效
         newOpts.inInputShareable = true;//。当系统内存不够时候图片自动被回收
         Bitmap bitmap = BitmapFactory.decodeFile(imgPath, newOpts);
+        int degree = readPictureDegree(imgPath);
+        Log.i("Compress", "compressImageByPixel degree: " + degree);
+        if (degree == 90) {
+            bitmap = toturn(bitmap);
+        }
+
         if (config.isEnableQualityCompress()) {
             compressImageByQuality(bitmap, imgPath, listener);//压缩好比例大小后再进行质量压缩
         } else {
@@ -129,6 +139,37 @@ public class CompressImageUtil {
 
             listener.onCompressSuccess(thumbnailFile.getPath());
         }
+    }
+
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
+    public static Bitmap toturn(Bitmap img) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(+90); /*翻转90度*/
+        int width = img.getWidth();
+        int height = img.getHeight();
+        img = Bitmap.createBitmap(img, 0, 0, width, height, matrix, true);
+        return img;
     }
 
     /**

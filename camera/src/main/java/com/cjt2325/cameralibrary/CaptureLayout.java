@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,8 +30,9 @@ import com.cjt2325.cameralibrary.listener.TypeListener;
  */
 
 public class CaptureLayout extends RelativeLayout {
+    private String TAG = "CJT-CaptureLayout";
     //拍照按钮监听
-    private CaptureListener captureLisenter;
+    private CaptureListener captureListener;
     //拍照或录制后接结果按钮监听
     private TypeListener typeListener;
     //退出按钮监听
@@ -40,8 +42,8 @@ public class CaptureLayout extends RelativeLayout {
         this.typeListener = typeListener;
     }
 
-    public void setCaptureListener(CaptureListener captureLisenter) {
-        this.captureLisenter = captureLisenter;
+    public void setCaptureListener(CaptureListener captureListener) {
+        this.captureListener = captureListener;
     }
 
     public void setReturnListener(ReturnListener returnListener) {
@@ -118,10 +120,10 @@ public class CaptureLayout extends RelativeLayout {
         btn_cancel.setClickable(false);
         btn_confirm.setClickable(false);
         ObjectAnimator animator_cancel = ObjectAnimator.ofFloat(btn_cancel, "translationX", layout_width / 4, 0);
-        animator_cancel.setDuration(200);
+        animator_cancel.setDuration(500);
         animator_cancel.start();
         ObjectAnimator animator_confirm = ObjectAnimator.ofFloat(btn_confirm, "translationX", -layout_width / 4, 0);
-        animator_confirm.setDuration(200);
+        animator_confirm.setDuration(500);
         animator_confirm.start();
         animator_confirm.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -157,31 +159,35 @@ public class CaptureLayout extends RelativeLayout {
         btn_capture.setCaptureListener(new CaptureListener() {
             @Override
             public void takePictures() {
-                if (captureLisenter != null) {
-                    captureLisenter.takePictures();
+                Log.i(TAG, "takePictures: ");
+                if (captureListener != null) {
+                    captureListener.takePictures();
                 }
             }
 
             @Override
             public void recordShort(long time) {
-                if (captureLisenter != null) {
-                    captureLisenter.recordShort(time);
+                Log.i(TAG, "recordShort: " + time);
+                if (captureListener != null) {
+                    captureListener.recordShort(time);
                 }
                 startAlphaAnimation();
             }
 
             @Override
             public void recordStart() {
-                if (captureLisenter != null) {
-                    captureLisenter.recordStart();
+                Log.i(TAG, "recordStart: ");
+                if (captureListener != null) {
+                    captureListener.recordStart();
                 }
                 startAlphaAnimation();
             }
 
             @Override
             public void recordEnd(long time) {
-                if (captureLisenter != null) {
-                    captureLisenter.recordEnd(time);
+                Log.i(TAG, "recordEnd: " + time);
+                if (captureListener != null) {
+                    captureListener.recordEnd(time);
                 }
                 startAlphaAnimation();
                 startTypeBtnAnimator();
@@ -189,8 +195,9 @@ public class CaptureLayout extends RelativeLayout {
 
             @Override
             public void recordZoom(float zoom) {
-                if (captureLisenter != null) {
-                    captureLisenter.recordZoom(zoom);
+                Log.i(TAG, "recordZoom: " + zoom);
+                if (captureListener != null) {
+                    captureListener.recordZoom(zoom);
                 }
             }
         });
@@ -218,7 +225,6 @@ public class CaptureLayout extends RelativeLayout {
         });
 
         //btn_confirm
-
         btn_confirm = new TypeButton(getContext(), TypeButton.TYPE_CONFIRM, button_size);
         LayoutParams btn_confirm_param = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         btn_confirm_param.addRule(CENTER_VERTICAL, TRUE);
@@ -248,7 +254,7 @@ public class CaptureLayout extends RelativeLayout {
         btn_return.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (captureLisenter != null) {
+                if (captureListener != null) {
                     if (returnListener != null) {
                         returnListener.onReturn();
                     }
@@ -283,6 +289,10 @@ public class CaptureLayout extends RelativeLayout {
 
     public void setDuration(int duration) {
         btn_capture.setDuration(duration);
+    }
+
+    public void setBtnCaptureVisibility(int visibility){
+        btn_capture.setVisibility(visibility);
     }
 
     public void isRecord(boolean record) {

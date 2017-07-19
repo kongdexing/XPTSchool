@@ -101,6 +101,10 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                     chat.setChatId(ChatUtil.byteArray2Int(b_chatid) + "");
                     Log.i(TAG, "b_chatid:" + chat.getChatId());
                 }
+                //判断chatID是否存在，存在则
+                if (GreenDaoHelper.getInstance().isExistChat(chat.getChatId())) {
+                    return;
+                }
 
                 byte[] b_second = new byte[4];
                 if (mmInStream.read(b_second) != -1) {
@@ -137,8 +141,9 @@ public class SocketReceiveThread implements Runnable, Cloneable {
 
                         int n = 0;
                         int sum = 0;
-                        while ((n = mmInStream.read(buffer)) != -1) {
+                        while (chat.getSize() > sum) {
                             try {
+                                n = mmInStream.read(buffer);
                                 sum += n;
                                 os.write(buffer, 0, n);
                                 Log.i(TAG, "receiver sum : " + sum);
@@ -148,6 +153,18 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                                 break;
                             }
                         }
+
+//                        while ((n = mmInStream.read(buffer)) != -1) {
+//                            try {
+//                                sum += n;
+//                                os.write(buffer, 0, n);
+//                                Log.i(TAG, "receiver sum : " + sum);
+//                                // Send the obtained bytes to the UI Activity
+//                            } catch (Exception e) {
+//                                System.out.println("disconnected " + e.getMessage());
+//                                break;
+//                            }
+//                        }
                     } else if (ChatUtil.TYPE_TEXT == type) {
                         byte[] buffer = new byte[chat.getSize()];
                         String content = "";

@@ -33,6 +33,8 @@ import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.view.CustomDialog;
 import com.xptschool.teacher.view.imgloader.AlbumViewPager;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -123,7 +125,12 @@ public class NoticeDetailActivity extends BaseActivity {
                 spnClasses.setEnabled(false);
             }
         } else {
-            spnClasses.setItems(GreenDaoHelper.getInstance().getAllClass());
+            List<BeanClass> classList = GreenDaoHelper.getInstance().getAllClass();
+            if (classList.size() == 0) {
+                spnClasses.setText("无执教班级");
+            } else {
+                spnClasses.setItems(classList);
+            }
         }
 
         //绑定相册
@@ -154,10 +161,20 @@ public class NoticeDetailActivity extends BaseActivity {
                     Toast.makeText(this, R.string.toast_input_empty, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                BeanClass currentClass = null;
+                try {
+                    currentClass = (BeanClass) spnClasses.getSelectedItem();
+                } catch (Exception ex) {
+                    currentClass = null;
+                }
+                if (currentClass == null) {
+                    Toast.makeText(this, "无执教班级", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 BeanNotice notice = new BeanNotice();
                 notice.setTitle(title);
                 notice.setContent(content);
-                BeanClass currentClass = (BeanClass) spnClasses.getSelectedItem();
                 notice.setC_id(currentClass.getC_id());
                 notice.setG_id(currentClass.getG_id());
                 createNotice(notice);

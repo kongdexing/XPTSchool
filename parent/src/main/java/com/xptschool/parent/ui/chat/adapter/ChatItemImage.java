@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.chat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.xptschool.parent.ui.chat.ChatActivity;
 import com.xptschool.parent.ui.chat.DragPhotoActivity;
 
 import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,9 +58,15 @@ public class ChatItemImage extends LinearLayout {
 
         final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chatInfo.getFileName());
         Log.i(TAG, "setChatInfo: " + file.getPath());
+
+        int degree = readPictureDegree(file.getPath());
+        Log.i(TAG, "takeSuccess degree: " + degree);
+
+
         ImageLoader.getInstance().displayImage("file://" + file.getPath(),
                 new ImageViewAware(bubView),
                 CommonUtil.getDefaultImageLoaderOption());
+
         bubView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,4 +84,25 @@ public class ChatItemImage extends LinearLayout {
         });
     }
 
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
 }

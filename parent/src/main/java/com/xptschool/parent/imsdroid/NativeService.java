@@ -60,7 +60,11 @@ public class NativeService extends NgnNativeService {
 
     public NativeService() {
         super();
-        mEngine = getEngine();
+        try {
+            mEngine = (Engine) Engine.getInstance();
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override
@@ -131,9 +135,9 @@ public class NativeService extends NgnNativeService {
     }
 
     private void registerVideoServer() {
-        Log.i(TAG, "registerVideoServer register");
         if (mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTED &&
                 mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTING) {
+            Log.i(TAG, "registerVideoServer register");
             final IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
             intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);

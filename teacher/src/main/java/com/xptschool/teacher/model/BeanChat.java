@@ -177,7 +177,7 @@ public class BeanChat implements Serializable {
     }
 
     public void parseMessageToChat(ToSendMessage sendMsg) {
-        this.setChatId(sendMsg.getFilename());
+        this.setChatId(sendMsg.getId());
         this.setMsgId(sendMsg.getId());
         this.setIsSend(true);
         this.setType(sendMsg.getType() + "");

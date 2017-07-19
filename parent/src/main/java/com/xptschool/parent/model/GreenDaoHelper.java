@@ -196,6 +196,15 @@ public class GreenDaoHelper {
         return banners;
     }
 
+    public boolean isExistChat(String chatId) {
+        List<BeanChat> chats = new ArrayList<>();
+        if (readDaoSession != null) {
+            chats = readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.ChatId.eq(chatId)).list();
+        }
+        return chats.size() > 0 ? true : false;
+    }
+
     //聊天记录
     public void insertChat(BeanChat chat) {
         if (writeDaoSession != null) {

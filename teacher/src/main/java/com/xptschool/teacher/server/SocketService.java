@@ -69,7 +69,6 @@ public class SocketService extends Service {
     }
 
     private void setTimerTask() {
-        socketReceiveThread = new SocketReceiveThread();
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -80,9 +79,8 @@ public class SocketService extends Service {
     }
 
     private void receiveMessage() {
-        Log.i(TAG, "receiveMessage: ");
-        SocketReceiveThread receiveThread = socketReceiveThread.cloneReceiveThread();
-        receiverThreadPool.execute(receiveThread);
+        SocketReceiveThread socketReceiveThread = new SocketReceiveThread();
+        receiverThreadPool.execute(socketReceiveThread);
 //        SocketReceiveThread receiveThread = new SocketReceiveThread();
 //        receiveThread.start();
     }

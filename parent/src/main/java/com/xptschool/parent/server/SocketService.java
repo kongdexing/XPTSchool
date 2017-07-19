@@ -9,6 +9,7 @@ import android.util.Log;
 import com.coolerfall.daemon.Daemon;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.BroadcastAction;
+import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.ToSendMessage;
 
 import java.io.InputStream;
@@ -72,13 +73,13 @@ public class SocketService extends Service {
             @Override
             public void run() {
                 receiveMessage();
+                startService(new Intent(SocketService.this, NativeService.class));
             }
         }, 1000, 2 * 1000);
     }
 
     private void receiveMessage() {
 
-        Log.i(TAG, "receiveMessage is terminated: " + receiverThreadPool.isTerminated());
 //        if (receiverThreadPool.isTerminated()) {
 //
 //        }

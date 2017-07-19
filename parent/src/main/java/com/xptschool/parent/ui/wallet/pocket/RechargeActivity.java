@@ -29,6 +29,8 @@ import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.wallet.alipay.OrderInfoUtil2_0;
 import com.xptschool.parent.ui.wallet.alipay.PayResult;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -157,8 +159,8 @@ public class RechargeActivity extends BaseActivity {
         }
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.GET_OrderInfo, new VolleyHttpParamsEntity()
-                .addParam("deal_price", recharge_limit + "")
-//                .addParam("deal_price", "0.01")
+//                .addParam("deal_price", recharge_limit + "")
+                .addParam("deal_price", "0.01")
                 .addParam("num", "1")
                 .addParam("payment_id", payment_id) //支付方式 0支付宝 1微信 2银联
                 .addParam("type", "0") //充值
@@ -175,7 +177,27 @@ public class RechargeActivity extends BaseActivity {
                 super.onResponse(volleyHttpResult);
                 hideProgress();
                 if (cbx_wxpay.isChecked()) {
-                    toWXpay();
+                    try {
+                        JSONObject jsonObject = new JSONObject(volleyHttpResult.getData().toString());
+                        IWXAPI api = WXAPIFactory.createWXAPI(RechargeActivity.this, XPTApplication.getInstance().WXAPP_ID);
+                        boolean register = api.registerApp(XPTApplication.getInstance().WXAPP_ID);
+                        PayReq req = new PayReq();
+                        req.appId = XPTApplication.getInstance().WXAPP_ID;
+                        req.partnerId = jsonObject.getString("partnerid");
+                        req.prepayId = jsonObject.getString("prepayid");
+                        req.nonceStr = jsonObject.getString("noncestr");
+                        req.timeStamp = jsonObject.getString("timestamp");
+                        req.packageValue = jsonObject.getString("package");
+                        req.sign = jsonObject.getString("sign");
+//                req.extData = "app data"; // optional
+//                Toast.makeText(this, "正常调起支付", Toast.LENGTH_SHORT).show();
+                        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                        boolean rst = api.sendReq(req);
+//                        Toast.makeText(RechargeActivity.this, "register:" + register + " sendReq result " + rst, Toast.LENGTH_SHORT).show();
+                    } catch (Exception ex) {
+
+                    }
+//                    toWXpay();
                 } else if (cbx_alipay.isChecked()) {
                     final String orderInfo = volleyHttpResult.getInfo();
                     Runnable payRunnable = new Runnable() {
@@ -205,26 +227,6 @@ public class RechargeActivity extends BaseActivity {
                 hideProgress();
             }
         });
-    }
-
-    private void toWXpay() {
-        IWXAPI api = WXAPIFactory.createWXAPI(this, XPTApplication.getInstance().WXAPP_ID);
-        PayReq req = new PayReq();
-//                req.appId = "wxf8b4f85f3a794e77";  // 测试用appId
-        req.appId = XPTApplication.getInstance().WXAPP_ID;
-        req.partnerId = "10000100";
-        req.prepayId = "1101000000140415649af9fc314aa427";
-        req.nonceStr = "a462b76e7436e98e0ed6e13c64b4fd1c";
-        req.timeStamp = "1397527777";
-        req.packageValue = "Sign=WXPay";
-        req.sign = "582282D72DD2B03AD892830965F428CB16E7A256";
-//                req.extData = "app data"; // optional
-//                Toast.makeText(this, "正常调起支付", Toast.LENGTH_SHORT).show();
-        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-
-        api.registerApp(XPTApplication.getInstance().WXAPP_ID);
-        boolean rst = api.sendReq(req);
-        Toast.makeText(this, "sendReq result " + rst, Toast.LENGTH_SHORT).show();
     }
 
     private Handler mHandler = new Handler() {

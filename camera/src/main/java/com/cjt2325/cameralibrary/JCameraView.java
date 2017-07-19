@@ -122,7 +122,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         iconMargin = a.getDimensionPixelSize(R.styleable.JCameraView_iconMargin, (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_SP, 15, getResources().getDisplayMetrics()));
         iconSrc = a.getResourceId(R.styleable.JCameraView_iconSrc, R.drawable.ic_sync_black_24dp);
-        duration = a.getInteger(R.styleable.JCameraView_duration_max, 10 * 1000);
+        duration = a.getInteger(R.styleable.JCameraView_duration_max, 11 * 1000);
         showCapture = a.getBoolean(R.styleable.JCameraView_showCapture, true);
         showFront = a.getBoolean(R.styleable.JCameraView_showFront, false);
         if (showFront) {
@@ -144,7 +144,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
 
     private void initView() {
         setWillNotDraw(false);
-        this.setBackgroundColor(0xff000000);
+        this.setBackgroundColor(0x000000);
         //VideoView
         mVideoView = new VideoView(mContext);
         LayoutParams videoViewParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -153,12 +153,12 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
 
         //mPhoto
         mPhoto = new ImageView(mContext);
-        LayoutParams photoParam = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams
-                .MATCH_PARENT);
+        LayoutParams photoParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         photoParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
         mPhoto.setLayoutParams(photoParam);
-        mPhoto.setBackgroundColor(0xff000000);
+        mPhoto.setBackgroundColor(0x000000);
         mPhoto.setVisibility(INVISIBLE);
+
         //switchCamera
         mSwitchCamera = new ImageView(mContext);
         LayoutParams imageViewParam = new LayoutParams(iconSize, iconSize);
@@ -189,7 +189,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         LayoutParams layout_param = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         layout_param.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         layout_param.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        layout_param.setMargins(0, 0, 0, 40);
+        layout_param.setMargins(0, 0, 0, 0);
         mCaptureLayout.setLayoutParams(layout_param);
         mCaptureLayout.setDuration(duration);
 
@@ -215,6 +215,9 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                     return;
                 }
                 CAMERA_STATE = STATE_RUNNING;
+
+                //正在拍照时，隐藏拍照按钮
+                mCaptureLayout.setBtnCaptureVisibility(View.INVISIBLE);
                 takePictureing = true;
                 mFoucsView.setVisibility(INVISIBLE);
                 CameraInterface.getInstance().takePicture(new CameraInterface.TakePictureCallback() {
@@ -225,8 +228,10 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                         type = TYPE_PICTURE;
                         isBorrow = true;
                         CAMERA_STATE = STATE_WAIT;
+                        Log.i(TAG, "captureResult takePicture: " + bitmap.getWidth() + " " + bitmap.getHeight());
                         mPhoto.setImageBitmap(bitmap);
                         mPhoto.setVisibility(VISIBLE);
+
                         mCaptureLayout.startAlphaAnimation();
                         mCaptureLayout.startTypeBtnAnimator();
                         takePictureing = false;
@@ -243,14 +248,26 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                 }
                 stopping = true;
                 mCaptureLayout.setTextWithAnimation("录制时间过短");
+                //在MediaRecorder stop前，隐藏录像/拍照按钮。
+                // 防止快速连续点击出现无法录像/拍照问题
+                mCaptureLayout.setBtnCaptureVisibility(View.INVISIBLE);
+                Log.i(TAG, "recordShort: " + time);
                 postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Log.i(TAG, "recordShort stopRecord running ");
                         CameraInterface.getInstance().stopRecord(true, new
                                 CameraInterface.StopRecordCallback() {
                                     @Override
                                     public void recordResult(String url) {
                                         Log.i(TAG, "Record Stopping ...");
+                                        //在MediaRecorder stop后，显示录像/拍照按钮
+                                        postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mCaptureLayout.setBtnCaptureVisibility(View.VISIBLE);
+                                            }
+                                        }, 100);
                                         mCaptureLayout.isRecord(false);
                                         CAMERA_STATE = STATE_IDLE;
                                         stopping = false;
@@ -258,7 +275,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                                     }
                                 });
                     }
-                }, 1500 - time);
+                }, 50);
             }
 
             @Override
@@ -267,18 +284,19 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                     return;
                 }
 
+                mCaptureLayout.isRecord(true);
+                isBorrow = true;
+                CAMERA_STATE = STATE_RUNNING;
+                mFoucsView.setVisibility(INVISIBLE);
+                Log.i("CJT", "startRecorder");
                 try {
+                    Log.i("CJT", "Vibrator");
                     Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
                     long[] pattern = {0, 200}; // 停止 开启 停止 开启
                     vibrator.vibrate(pattern, -1); //重复两次上面的pattern 如果只想震动一次，index设为-1
                 } catch (Exception ex) {
 
                 }
-
-                mCaptureLayout.isRecord(true);
-                isBorrow = true;
-                CAMERA_STATE = STATE_RUNNING;
-                mFoucsView.setVisibility(INVISIBLE);
 
                 CameraInterface.getInstance().startRecord(mVideoView.getHolder().getSurface(), new CameraInterface
                         .ErrorCallback() {
@@ -292,9 +310,6 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                     }
                 });
 
-//                Toast toast = Toast.makeText(mContext, "震动后开始录制", Toast.LENGTH_SHORT);
-//                toast.setGravity(Gravity.CENTER, 0, 0);
-//                toast.show();
             }
 
             @Override
@@ -342,10 +357,8 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                                             });
                                             mMediaPlayer.setLooping(true);
                                             mMediaPlayer.prepare();
-
 //                                            videoDuration = mMediaPlayer.getDuration();
-
-                                        } catch (IOException e) {
+                                        } catch (Exception e) {
                                             e.printStackTrace();
                                         }
                                     }
@@ -353,7 +366,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                             }
                         });
                     }
-                }, 800);
+                }, 100);
             }
 
             @Override
@@ -528,7 +541,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         ObjectAnimator alpha = ObjectAnimator.ofFloat(mFoucsView, "alpha", 1f, 0.3f, 1f, 0.3f, 1f, 0.3f, 1f);
         AnimatorSet animSet = new AnimatorSet();
         animSet.play(scaleX).with(scaleY).before(alpha);
-        animSet.setDuration(400);
+        animSet.setDuration(200);
         animSet.start();
     }
 
@@ -566,11 +579,6 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                     }
                 }
                 mCaptureLayout.isRecord(false);
-                LayoutParams videoViewParam = new LayoutParams(LayoutParams.MATCH_PARENT,
-                        LayoutParams.MATCH_PARENT);
-                videoViewParam.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout
-                        .TRUE);
-                mVideoView.setLayoutParams(videoViewParam);
                 CameraInterface.getInstance().doOpenCamera(JCameraView.this);
                 break;
         }

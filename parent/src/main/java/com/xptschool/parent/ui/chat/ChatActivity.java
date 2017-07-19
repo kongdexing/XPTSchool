@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,6 +41,7 @@ import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -389,6 +391,7 @@ public class ChatActivity extends ChatAppendixActivity {
         if (file.length() == 0) {
             return;
         }
+
         try {
             ToSendMessage message = new ToSendMessage();
             message.setType(type);
@@ -399,6 +402,7 @@ public class ChatActivity extends ChatAppendixActivity {
             message.setTeacherId(teacher.getU_id());
             message.setTime(CommonUtil.getCurrentDateHms());
             FileInputStream inputStream = new FileInputStream(file);
+
             final byte[] allByte = message.packData(inputStream);
             inputStream.close();
             if (allByte != null) {
@@ -498,9 +502,10 @@ public class ChatActivity extends ChatAppendixActivity {
             }
 
             String msgId = bundle.getString("message");
-
+            Log.i(TAG, "onReceive message id: " + msgId);
             ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(msgId);
             if (sendMsg == null) {
+                Log.i(TAG, "onReceive: send msg is null");
                 return;
             }
             BeanChat chat = new BeanChat();

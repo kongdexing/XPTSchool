@@ -104,6 +104,7 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     public void takeSuccess(String path, char type, long duration) {
         Log.i(TAG, "takeSuccess: " + path);
+
     }
 
     public void videoSuccess(String path, long duration) {

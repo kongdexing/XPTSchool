@@ -12,14 +12,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion COMPILE_SDK_VERSION
+    buildToolsVersion BUILD_TOOLS_VERSION
 
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.xptschool.parent"
         minSdkVersion 19
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 9
         versionName "1.1.0"
 
@@ -56,8 +56,7 @@ android {
         }
         release {
             minifyEnabled true
-//            shrinkResources true
-            //zipAlignEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

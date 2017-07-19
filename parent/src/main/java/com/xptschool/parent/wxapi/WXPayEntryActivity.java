@@ -15,6 +15,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.util.ToastUtils;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
@@ -25,7 +26,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pay_result);
+//        setContentView(R.layout.pay_result);
 
         api = WXAPIFactory.createWXAPI(this, XPTApplication.getInstance().WXAPP_ID);
         api.handleIntent(getIntent(), this);
@@ -40,17 +41,19 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onReq(BaseReq req) {
+        Log.d(TAG, "onReq, errCode = ");
     }
 
     @Override
     public void onResp(BaseResp resp) {
-        Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-
+        Log.d(TAG, "onPayFinish, errCode = " + resp.errCode + resp.errStr);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.app_name);
-            builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
-            builder.show();
+            if (resp.errCode == 0) {
+                ToastUtils.showToast(this, "支付成功");
+            } else {
+                ToastUtils.showToast(this, "支付失败" + resp.errStr);
+            }
+            finish();
         }
     }
 }

@@ -176,7 +176,10 @@
                 <data android:scheme="wx1af4f660ce9e6b37" /> <!-- 需修改 -->
             </intent-filter>
         </activity>
-        <activity android:name=".wxapi.WXPayEntryActivity" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
 
         <receiver
             android:name=".wxapi.AppRegister"

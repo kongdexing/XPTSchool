@@ -176,7 +176,7 @@
             android:screenOrientation="portrait" />
 
         <service android:name=".server.SocketService" />
-        <service android:name=".imsdroid.NativeService" />
+        <service android:name="com.xptschool.teacher.imsdroid.NativeService" />
 
         <activity
             android:name=".ui.login.CheckUserActivity"
