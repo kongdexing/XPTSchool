@@ -111,6 +111,7 @@ public class HomeWorkActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner materialSpinner, int i, long l, Object o) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getHomeWorkList();
             }
         });
@@ -226,6 +227,7 @@ public class HomeWorkActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
+                    resultPage.setPage(1);
                     getHomeWorkList();
                 }
             });

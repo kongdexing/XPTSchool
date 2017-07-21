@@ -109,6 +109,7 @@ public class LeaveActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getLeaveList();
             }
         });
@@ -233,6 +234,7 @@ public class LeaveActivity extends BaseListActivity {
                     if (mode == CalendarView.SELECTION_MODE_SINGLE) {
                         txtDate.setText(date[0]);
                     }
+                    resultPage.setPage(1);
                     getLeaveList();
                 }
             });

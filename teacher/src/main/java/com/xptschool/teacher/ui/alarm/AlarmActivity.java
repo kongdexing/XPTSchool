@@ -128,6 +128,7 @@ public class AlarmActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getAlarmList(txtDate.getText().toString());
             }
         });
@@ -244,6 +245,7 @@ public class AlarmActivity extends BaseListActivity {
                         dateStr = date[0];
                     }
                     txtDate.setText(dateStr);
+                    resultPage.setPage(1);
                     getAlarmList(txtDate.getText().toString());
                 }
             });

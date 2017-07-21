@@ -130,6 +130,7 @@ public class HomeWorkActivity extends BaseListActivity {
                 } else {
                     spnCourse.setItems(courses);
                 }
+                resultPage.setPage(1);
                 getHomeWorkList();
             }
         });
@@ -140,6 +141,7 @@ public class HomeWorkActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanCourse item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getHomeWorkList();
             }
         });
@@ -295,6 +297,7 @@ public class HomeWorkActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
+                    resultPage.setPage(1);
                     getHomeWorkList();
                 }
             });

@@ -35,6 +35,7 @@ public class SocketService extends Service {
     public static int socketPort = 50300;
     public static int socketReceiverPort = 50301;
     private Timer mTimer;
+    private boolean isStop = false;
     private SocketReceiveThread socketReceiveThread;
     private ExecutorService receiverThreadPool = Executors.newSingleThreadExecutor();
     private ExecutorService sendThreadPool = Executors.newFixedThreadPool(5);
@@ -55,6 +56,7 @@ public class SocketService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "onStartCommand: ");
+        isStop = false;
         if (mTimer == null) {
             mTimer = new Timer();
             setTimerTask();
@@ -72,8 +74,11 @@ public class SocketService extends Service {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                receiveMessage();
-                startService(new Intent(SocketService.this, NativeService.class));
+                if (!isStop) {
+                    receiveMessage();
+                    Log.i(TAG, "start NativeService run: ");
+                    startService(new Intent(SocketService.this, NativeService.class));
+                }
             }
         }, 1000, 2 * 1000);
     }
@@ -192,6 +197,7 @@ public class SocketService extends Service {
     public void onDestroy() {
         Log.i(TAG, "receiveMessage onDestroy()");
         super.onDestroy();
+        isStop = true;
         disconnect();
     }
 

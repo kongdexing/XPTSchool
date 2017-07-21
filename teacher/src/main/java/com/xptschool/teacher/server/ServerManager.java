@@ -2,6 +2,8 @@ package com.xptschool.teacher.server;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.util.Log;
 
 import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.ui.chat.ToSendMessage;
@@ -28,8 +30,16 @@ public class ServerManager {
     }
 
     public void stopServer(Context context) {
+        Log.i("Native", "stopServer: ");
         context.stopService(new Intent(context, SocketService.class));
         context.stopService(new Intent(context, NativeService.class));
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        }, 2 * 1000);
     }
 
     public void sendMessage(ToSendMessage message) {

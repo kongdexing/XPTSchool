@@ -96,6 +96,7 @@ public class CheckinActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner materialSpinner, int i, long l, Object o) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getCheckinList();
             }
         });
@@ -106,6 +107,7 @@ public class CheckinActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getCheckinList();
             }
         });

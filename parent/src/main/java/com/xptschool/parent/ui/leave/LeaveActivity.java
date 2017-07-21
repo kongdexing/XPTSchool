@@ -111,6 +111,7 @@ public class LeaveActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getLeaveList();
             }
         });
@@ -129,12 +130,11 @@ public class LeaveActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getLeaveList();
             }
         });
         spnStudents.setOnNothingSelectedListener(spinnerNothingSelectedListener);
-
-
         getLeaveList();
     }
 

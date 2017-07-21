@@ -113,6 +113,7 @@ public class NoticeActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getNoticeList();
             }
         });
@@ -123,6 +124,7 @@ public class NoticeActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getNoticeList();
             }
         });
@@ -267,6 +269,7 @@ public class NoticeActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
+                    resultPage.setPage(1);
                     getNoticeList();
                 }
             });

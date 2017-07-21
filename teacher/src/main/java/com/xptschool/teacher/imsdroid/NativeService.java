@@ -268,7 +268,7 @@ public class NativeService extends NgnNativeService {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy()");
+        Log.i(TAG, "onDestroy()");
         if (mBroadcastReceiver != null) {
             unregisterReceiver(mBroadcastReceiver);
             mBroadcastReceiver = null;

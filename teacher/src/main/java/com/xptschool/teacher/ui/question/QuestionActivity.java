@@ -97,6 +97,7 @@ public class QuestionActivity extends BaseListActivity {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
                 flTransparent.setVisibility(View.GONE);
+                resultPage.setPage(1);
                 getQuestionList();
             }
         });
@@ -139,6 +140,7 @@ public class QuestionActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
+                    resultPage.setPage(1);
                     getQuestionList();
                 }
             });
