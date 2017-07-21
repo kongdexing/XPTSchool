@@ -143,7 +143,6 @@ public class NativeService extends NgnNativeService {
     }
 
     private void registerVideoServer() {
-
         if (mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTED &&
                 mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTING) {
             final IntentFilter intentFilter = new IntentFilter();
@@ -159,8 +158,9 @@ public class NativeService extends NgnNativeService {
             sendBroadcast(i);
 
             mSipService.register(this);
+        } else {
+            Log.i(TAG, "sip server has registered");
         }
-
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {

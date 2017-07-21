@@ -116,9 +116,9 @@
     <string name="permission_call_rationale">请求授予拨打电话权限</string>
     <string name="permission_call_never_askagain">已禁止该应用的拨打电话权限，请去设置中进行设置</string>
 
-    <string name="permission_readphonestate_denied">未授予获取手机信息权限</string>
-    <string name="permission_readphonestate_rationale">请求授予读取手机信息权限</string>
-    <string name="permission_readphonestate_never_askagain">已禁止该应用的读取手机信息权限，请去设置中进行设置</string>
+    <string name="permission_readphonestate_denied">未授予获取【读取手机信息】或【读写文件】或【录音】权限</string>
+    <!--<string name="permission_readphonestate_rationale">请求授予读取手机信息权限</string>-->
+    <!--<string name="permission_readphonestate_never_askagain">已禁止该应用的读取手机信息权限，请去设置中进行设置</string>-->
 
     <string name="permission_voice_denied">未授予录音权限</string>
     <string name="permission_voice_rationale">请求授予录音权限</string>

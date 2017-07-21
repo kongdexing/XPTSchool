@@ -63,7 +63,7 @@ public class NativeService extends NgnNativeService {
         try {
             mEngine = (Engine) Engine.getInstance();
         } catch (Exception ex) {
-            Log.i(TAG, "NativeService exception: "+ex.getMessage());
+            Log.i(TAG, "NativeService exception: " + ex.getMessage());
         }
     }
 
@@ -161,8 +161,9 @@ public class NativeService extends NgnNativeService {
             sendBroadcast(i);
 
             mSipService.register(this);
+        } else {
+            Log.i(TAG, "sip server has registered");
         }
-
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
