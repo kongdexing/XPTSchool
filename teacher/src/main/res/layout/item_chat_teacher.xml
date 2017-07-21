@@ -21,7 +21,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="@dimen/dp_20"
