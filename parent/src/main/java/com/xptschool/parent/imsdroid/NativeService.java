@@ -63,7 +63,7 @@ public class NativeService extends NgnNativeService {
         try {
             mEngine = (Engine) Engine.getInstance();
         } catch (Exception ex) {
-
+            Log.i(TAG, "NativeService exception: "+ex.getMessage());
         }
     }
 
@@ -71,6 +71,10 @@ public class NativeService extends NgnNativeService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
+        if (mEngine == null) {
+            Log.i(TAG, "onCreate mEngine is null: ");
+            return;
+        }
         mSipService = mEngine.getSipService();
         this.mConfigurationService = mEngine.getConfigurationService();
 
@@ -88,10 +92,12 @@ public class NativeService extends NgnNativeService {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         Log.d(TAG, "onStart()");
-
         // register()
         if (!Engine.getInstance().isStarted()) {
             final Engine engine = getEngine();
+            if (engine == null) {
+                return;
+            }
             final Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -109,7 +115,11 @@ public class NativeService extends NgnNativeService {
     }
 
     private Engine getEngine() {
-        return (Engine) Engine.getInstance();
+        try {
+            return (Engine) Engine.getInstance();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     private void initNgnConfig() {

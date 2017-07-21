@@ -1,5 +1,6 @@
 package com.xptschool.parent.ui.chat.video;
 
+import android.Manifest;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,17 +9,19 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.xptschool.parent.R;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.ContactTeacher;
-
 import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.sip.NgnInviteSession;
@@ -27,12 +30,18 @@ import org.doubango.ngn.utils.NgnConfigurationEntry;
 import java.io.IOException;
 
 import butterknife.BindView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by dexing on 2017/6/13.
  * No1
  */
-
+@RuntimePermissions
 public class CallScreen extends CallBaseScreen {
 
     @BindView(R.id.screen_av_relativeLayout)
@@ -97,10 +106,44 @@ public class CallScreen extends CallBaseScreen {
         mSendDeviceInfo = mEngine.getConfigurationService().getBoolean(NgnConfigurationEntry.GENERAL_SEND_DEVICE_INFO, NgnConfigurationEntry.DEFAULT_GENERAL_SEND_DEVICE_INFO);
         mLastRotation = -1;
         mLastOrientation = -1;
-
-        loadView();
-
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+        Log.i(TAG, "onCreate: ");
+        CallScreenPermissionsDispatcher.canOpenCameraWithCheck(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissions != null && permissions.length > 0) {
+            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
+        }
+        CallScreenPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    @NeedsPermission({Manifest.permission.CAMERA})
+    void canOpenCamera() {
+        Log.i(TAG, "canOpenCamera: ");
+        loadView();
+    }
+
+    @OnPermissionDenied({Manifest.permission.CAMERA})
+    void onOpenCameraDenied() {
+        Log.i(TAG, "onOpenCameraDenied: ");
+        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale({Manifest.permission.CAMERA})
+    void showRationaleForOpenCamera(PermissionRequest request) {
+        Log.i(TAG, "showRationaleForOpenCamera: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.CAMERA})
+    void onOpenCameraNeverAskAgain() {
+        Log.i(TAG, "onOpenCameraNeverAskAgain: ");
+        Toast.makeText(this, R.string.permission_camera_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
+//        finish();
     }
 
     @Override
@@ -116,7 +159,6 @@ public class CallScreen extends CallBaseScreen {
 
     private void loadView() {
         Log.i(TAG, "loadView: " + mSession.getState());
-
         switch (mSession.getState()) {
             case INCOMING:
             case INPROGRESS:

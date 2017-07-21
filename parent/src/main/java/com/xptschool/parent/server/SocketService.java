@@ -73,6 +73,7 @@ public class SocketService extends Service {
             @Override
             public void run() {
                 receiveMessage();
+                Log.i("Native", "start NativeService ");
                 startService(new Intent(SocketService.this, NativeService.class));
             }
         }, 1000, 2 * 1000);

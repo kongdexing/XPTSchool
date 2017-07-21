@@ -66,7 +66,7 @@ public class NativeService extends NgnNativeService {
         try {
             mEngine = (Engine) Engine.getInstance();
         } catch (Exception ex) {
-
+            Log.i(TAG, "NativeService: " + ex.getMessage());
         }
     }
 

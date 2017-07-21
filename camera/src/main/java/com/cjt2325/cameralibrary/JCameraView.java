@@ -155,6 +155,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         mPhoto = new ImageView(mContext);
         LayoutParams photoParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         photoParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        mPhoto.setScaleType(ImageView.ScaleType.FIT_XY);
         mPhoto.setLayoutParams(photoParam);
         mPhoto.setBackgroundColor(0x000000);
         mPhoto.setVisibility(INVISIBLE);

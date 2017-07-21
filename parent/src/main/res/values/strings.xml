@@ -144,6 +144,10 @@
     <string name="permission_readphonestate_rationale">请求授予读取手机信息权限</string>
     <string name="permission_readphonestate_never_askagain">已禁止该应用的读取手机信息权限，请去设置中进行设置</string>
 
+    <string name="permission_camera_denied">未授予打开相机权限</string>
+    <string name="permission_camera_rationale">请求授予打开相机权限</string>
+    <string name="permission_camera_never_askagain">已禁止该应用的【打开相机】权限，请去设置中进行设置</string>
+
     <string name="permission_voice_denied">未授予录音权限</string>
     <string name="permission_voice_rationale">请求授予录音权限</string>
     <string name="permission_voice_never_askagain">已禁止该应用的录音权限，请去设置中进行设置</string>
