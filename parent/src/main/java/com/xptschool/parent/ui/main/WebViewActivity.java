@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -60,6 +61,15 @@ public class WebViewActivity extends BaseActivity {
         WebSettings webSettings = web_content.getSettings();
         webSettings.setSupportZoom(true);
         webSettings.setJavaScriptEnabled(true);
+        //判断是否有网
+
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+        // 开启 DOM storage API 功能
+        webSettings.setDomStorageEnabled(true);
+        // 开启 Application Caches 功能
+        webSettings.setAppCacheEnabled(true);
+
         web_content.requestFocus();
         web_content.setWebViewClient(new MyWebClient());
 
@@ -83,9 +93,33 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 
+    // 设置回退
+    // 覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (web_content == null) {
+            return false;
+        }
+
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && web_content.canGoBack()) {
+            web_content.goBack(); // goBack()表示返回WebView的上一页面
+            return true;
+        } else {
+            finish();
+        }
+        return false;
+    }
+
+    /***
+     * 防止WebView加载内存泄漏
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (web_content != null) {
+            web_content.removeAllViews();
+            web_content.destroy();
+        }
     }
 
     private class MyWebClient extends WebViewClient {

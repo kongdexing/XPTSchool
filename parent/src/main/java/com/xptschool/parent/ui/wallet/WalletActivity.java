@@ -29,6 +29,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 钱包
+ */
 public class WalletActivity extends BaseActivity {
 
     @BindView(R.id.gridview)
