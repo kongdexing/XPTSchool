@@ -49,7 +49,7 @@ import org.doubango.ngn.sip.NgnSipSession;
 import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 public class NativeService extends NgnNativeService {
-    private final static String TAG = NativeService.class.getCanonicalName();
+    private final static String TAG = NativeService.class.getSimpleName();
     public static final String ACTION_STATE_EVENT = TAG + ".ACTION_STATE_EVENT";
 
     private PowerManager.WakeLock mWakeLock;
@@ -91,7 +91,7 @@ public class NativeService extends NgnNativeService {
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        Log.d(TAG, "onStart()");
+        Log.i(TAG, "onStart()");
         // register()
         if (!Engine.getInstance().isStarted()) {
             final Engine engine = getEngine();
@@ -102,7 +102,7 @@ public class NativeService extends NgnNativeService {
                 @Override
                 public void run() {
                     if (!engine.isStarted()) {
-                        Log.d(TAG, "Starts the engine from the splash screen");
+                        Log.i(TAG, "Starts the engine from the splash screen");
                         engine.start();
                     }
                 }
@@ -270,7 +270,7 @@ public class NativeService extends NgnNativeService {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy()");
+        Log.i(TAG, "onDestroy()");
         if (mBroadcastReceiver != null) {
             unregisterReceiver(mBroadcastReceiver);
             mBroadcastReceiver = null;
