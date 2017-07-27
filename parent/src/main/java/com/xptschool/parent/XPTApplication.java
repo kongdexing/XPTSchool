@@ -197,6 +197,10 @@ public class XPTApplication extends NgnApplication {
         return display.getWidth() / 4;
     }
 
+    /**
+     * bugly打包
+     * @param base
+     */
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

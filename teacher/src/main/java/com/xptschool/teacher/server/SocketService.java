@@ -76,7 +76,6 @@ public class SocketService extends Service {
             public void run() {
                 if (!isStop) {
                     receiveMessage();
-                    Log.i(TAG, "start NativeService run: ");
                     startService(new Intent(SocketService.this, NativeService.class));
                 }
             }
