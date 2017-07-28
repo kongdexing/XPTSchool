@@ -10,6 +10,7 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class BeanParent {
 
+    private String login_name;
     private String sp_id;
     private String parent_name;
     private String parent_phone;
@@ -23,10 +24,11 @@ public class BeanParent {
     private String api_id;
     private String security_key;
 
-    @Generated(hash = 747236752)
-    public BeanParent(String sp_id, String parent_name, String parent_phone, String relation,
-            String sex, String u_id, String address, String work_unit, String family_tel,
-            String email, String api_id, String security_key) {
+    @Generated(hash = 944454190)
+    public BeanParent(String login_name, String sp_id, String parent_name, String parent_phone,
+            String relation, String sex, String u_id, String address, String work_unit,
+            String family_tel, String email, String api_id, String security_key) {
+        this.login_name = login_name;
         this.sp_id = sp_id;
         this.parent_name = parent_name;
         this.parent_phone = parent_phone;
@@ -43,6 +45,14 @@ public class BeanParent {
 
     @Generated(hash = 111404833)
     public BeanParent() {
+    }
+
+    public String getLoginName() {
+        return login_name;
+    }
+
+    public void setLoginName(String login_name) {
+        this.login_name = login_name;
     }
 
     public String getSp_id() {
@@ -139,5 +149,13 @@ public class BeanParent {
 
     public void setSecurity_key(String security_key) {
         this.security_key = security_key;
+    }
+
+    public String getLogin_name() {
+        return this.login_name;
+    }
+
+    public void setLogin_name(String login_name) {
+        this.login_name = login_name;
     }
 }

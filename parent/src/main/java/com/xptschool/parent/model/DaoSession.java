@@ -10,7 +10,6 @@ import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.xptschool.parent.model.BeanBanner;
 import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.model.BeanDeviceToken;
 import com.xptschool.parent.model.BeanLearningModule;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.BeanStudent;
@@ -20,7 +19,6 @@ import com.xptschool.parent.model.ContactTeacher;
 
 import com.xptschool.parent.model.BeanBannerDao;
 import com.xptschool.parent.model.BeanChatDao;
-import com.xptschool.parent.model.BeanDeviceTokenDao;
 import com.xptschool.parent.model.BeanLearningModuleDao;
 import com.xptschool.parent.model.BeanParentDao;
 import com.xptschool.parent.model.BeanStudentDao;
@@ -39,7 +37,6 @@ public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig beanBannerDaoConfig;
     private final DaoConfig beanChatDaoConfig;
-    private final DaoConfig beanDeviceTokenDaoConfig;
     private final DaoConfig beanLearningModuleDaoConfig;
     private final DaoConfig beanParentDaoConfig;
     private final DaoConfig beanStudentDaoConfig;
@@ -49,7 +46,6 @@ public class DaoSession extends AbstractDaoSession {
 
     private final BeanBannerDao beanBannerDao;
     private final BeanChatDao beanChatDao;
-    private final BeanDeviceTokenDao beanDeviceTokenDao;
     private final BeanLearningModuleDao beanLearningModuleDao;
     private final BeanParentDao beanParentDao;
     private final BeanStudentDao beanStudentDao;
@@ -66,9 +62,6 @@ public class DaoSession extends AbstractDaoSession {
 
         beanChatDaoConfig = daoConfigMap.get(BeanChatDao.class).clone();
         beanChatDaoConfig.initIdentityScope(type);
-
-        beanDeviceTokenDaoConfig = daoConfigMap.get(BeanDeviceTokenDao.class).clone();
-        beanDeviceTokenDaoConfig.initIdentityScope(type);
 
         beanLearningModuleDaoConfig = daoConfigMap.get(BeanLearningModuleDao.class).clone();
         beanLearningModuleDaoConfig.initIdentityScope(type);
@@ -90,7 +83,6 @@ public class DaoSession extends AbstractDaoSession {
 
         beanBannerDao = new BeanBannerDao(beanBannerDaoConfig, this);
         beanChatDao = new BeanChatDao(beanChatDaoConfig, this);
-        beanDeviceTokenDao = new BeanDeviceTokenDao(beanDeviceTokenDaoConfig, this);
         beanLearningModuleDao = new BeanLearningModuleDao(beanLearningModuleDaoConfig, this);
         beanParentDao = new BeanParentDao(beanParentDaoConfig, this);
         beanStudentDao = new BeanStudentDao(beanStudentDaoConfig, this);
@@ -100,7 +92,6 @@ public class DaoSession extends AbstractDaoSession {
 
         registerDao(BeanBanner.class, beanBannerDao);
         registerDao(BeanChat.class, beanChatDao);
-        registerDao(BeanDeviceToken.class, beanDeviceTokenDao);
         registerDao(BeanLearningModule.class, beanLearningModuleDao);
         registerDao(BeanParent.class, beanParentDao);
         registerDao(BeanStudent.class, beanStudentDao);
@@ -112,7 +103,6 @@ public class DaoSession extends AbstractDaoSession {
     public void clear() {
         beanBannerDaoConfig.getIdentityScope().clear();
         beanChatDaoConfig.getIdentityScope().clear();
-        beanDeviceTokenDaoConfig.getIdentityScope().clear();
         beanLearningModuleDaoConfig.getIdentityScope().clear();
         beanParentDaoConfig.getIdentityScope().clear();
         beanStudentDaoConfig.getIdentityScope().clear();
@@ -127,10 +117,6 @@ public class DaoSession extends AbstractDaoSession {
 
     public BeanChatDao getBeanChatDao() {
         return beanChatDao;
-    }
-
-    public BeanDeviceTokenDao getBeanDeviceTokenDao() {
-        return beanDeviceTokenDao;
     }
 
     public BeanLearningModuleDao getBeanLearningModuleDao() {

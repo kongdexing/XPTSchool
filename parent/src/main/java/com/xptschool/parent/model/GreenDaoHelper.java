@@ -157,27 +157,6 @@ public class GreenDaoHelper {
         return new ArrayList<ContactSchool>();
     }
 
-    public String getTokenByPhone(String phone) {
-        BeanDeviceToken deviceToken = null;
-        if (readDaoSession != null) {
-            deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.Phone.eq(phone)).limit(1).unique();
-        }
-        if (deviceToken == null) {
-            return null;
-        }
-        return deviceToken.getDeviceToken();
-    }
-
-    public void insertOrUpdateToken(BeanDeviceToken deviceToken) {
-        if (deviceToken == null) {
-            return;
-        }
-        if (writeDaoSession != null) {
-            writeDaoSession.getBeanDeviceTokenDao().insertOrReplace(deviceToken);
-        }
-    }
-
     public void insertBanner(List<BeanBanner> banners) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanBannerDao().deleteAll();

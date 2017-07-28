@@ -122,7 +122,7 @@ public class WelcomeActivity extends BaseActivity {
                                 try {
                                     JSONObject jsonData = new JSONObject(httpResult.getData().toString());
                                     CommonUtil.initBeanStudentByHttpResult(jsonData.getJSONArray("stuData").toString());
-                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString());
+                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString(), account);
                                     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                                     finish();
                                 } catch (Exception ex) {

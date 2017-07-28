@@ -231,10 +231,11 @@ public class CommonUtil {
         GreenDaoHelper.getInstance().insertStudent(students);
     }
 
-    public static void initParentInfoByHttpResult(String httpResult) throws JSONException {
+    public static void initParentInfoByHttpResult(String httpResult, String login_name) throws JSONException {
         JSONObject jsonLogin = new JSONObject(httpResult);
         Gson gson = new Gson();
         BeanParent parent = gson.fromJson(jsonLogin.toString(), BeanParent.class);
+        parent.setLoginName(login_name);
         GreenDaoHelper.getInstance().insertParent(parent);
     }
 

@@ -154,7 +154,7 @@ public class LoginActivity extends BaseActivity {
                             case HttpAction.SUCCESS:
                                 if (!SharedPreferencesUtil.getData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
                                     SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
-                                    UpushTokenHelper.switchAccount();
+                                    UpushTokenHelper.exitAccount();
                                 }
                                 SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);
 
@@ -163,7 +163,7 @@ public class LoginActivity extends BaseActivity {
                                 try {
                                     JSONObject jsonData = new JSONObject(httpResult.getData().toString());
                                     CommonUtil.initBeanStudentByHttpResult(jsonData.getJSONArray("stuData").toString());
-                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString());
+                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString(), account);
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
