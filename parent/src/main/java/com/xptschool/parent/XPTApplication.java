@@ -1,9 +1,14 @@
 package com.xptschool.parent;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Process;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -25,6 +30,9 @@ import com.tencent.bugly.beta.Beta;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.MyNotificationService;
@@ -34,6 +42,7 @@ import org.doubango.ngn.NgnApplication;
 
 import java.io.File;
 import java.net.Proxy;
+import java.util.List;
 
 /**
  * Created by dexing on 2016/12/18.
@@ -41,11 +50,17 @@ import java.net.Proxy;
  */
 public class XPTApplication extends NgnApplication {
 
+    // user your appid the key.
+    private static final String APP_MIID = "2882303761517599079";
+    // user your appid the key.
+    private static final String APP_KEY = "5961759967079";
+
     public static final String APP_ID = "3e1429a7a5"; // TODO 替换成bugly上注册的appid
     private static XPTApplication mInstance;
     public static final String WXAPP_ID = "wx1af4f660ce9e6b37";
     private Display display;
-    private String TAG = XPTApplication.class.getSimpleName();
+    public static String TAG = XPTApplication.class.getSimpleName();
+    private static DemoHandler sHandler = null;
 
     @Override
     public void onCreate() {
@@ -53,6 +68,7 @@ public class XPTApplication extends NgnApplication {
         mInstance = this;
         init();
         initBugly();
+        initMiPush();
     }
 
     public static XPTApplication getInstance() {
@@ -132,6 +148,48 @@ public class XPTApplication extends NgnApplication {
         Bugly.init(this, APP_ID, false);
     }
 
+    private void initMiPush() {
+        if (shouldInit()) {
+            Log.i(TAG, "initMiPush: registerPush");
+            MiPushClient.registerPush(this, APP_MIID, APP_KEY);
+        }
+        //打开Log
+        LoggerInterface newLogger = new LoggerInterface() {
+
+            @Override
+            public void setTag(String tag) {
+                // ignore
+            }
+
+            @Override
+            public void log(String content, Throwable t) {
+                Log.d(TAG, content, t);
+            }
+
+            @Override
+            public void log(String content) {
+                Log.d(TAG, content);
+            }
+        };
+        Logger.setLogger(this, newLogger);
+        if (sHandler == null) {
+            sHandler = new DemoHandler(getApplicationContext());
+        }
+    }
+
+    private boolean shouldInit() {
+        ActivityManager am = ((ActivityManager) getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (info.pid == myPid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Initialize the image loader stratetry
     public static void initImageLoader(Context context) {
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
@@ -195,6 +253,28 @@ public class XPTApplication extends NgnApplication {
 
     public int getQuarterWidth() {
         return display.getWidth() / 4;
+    }
+
+    public static DemoHandler getHandler() {
+        return sHandler;
+    }
+
+    public static class DemoHandler extends Handler {
+
+        private Context context;
+
+        public DemoHandler(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            String s = (String) msg.obj;
+            if (!TextUtils.isEmpty(s)) {
+                Log.i(TAG, "handleMessage: " + s);
+//                Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     /**

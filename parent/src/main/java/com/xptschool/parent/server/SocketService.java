@@ -34,7 +34,7 @@ public class SocketService extends Service {
     public static int socketPort = 50300;
     public static int socketReceiverPort = 50301;
     private Timer mTimer;
-    private boolean isStop = false;
+    public boolean isStop = false;
     private SocketReceiveThread socketReceiveThread;
     private ExecutorService receiverThreadPool = Executors.newSingleThreadExecutor();
     private ExecutorService sendThreadPool = Executors.newFixedThreadPool(5);
