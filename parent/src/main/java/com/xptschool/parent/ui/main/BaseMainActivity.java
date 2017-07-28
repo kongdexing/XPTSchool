@@ -18,6 +18,7 @@ import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.imsdroid.Engine;
 import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.push.MyPushIntentService;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
 
@@ -69,6 +70,8 @@ public class BaseMainActivity extends BaseActivity {
             //友盟
             final PushAgent mPushAgent = PushAgent.getInstance(this);
             mPushAgent.setDebugMode(false);
+            mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
+
             Log.i(TAG, "startServer: register ");
             new Thread(new Runnable() {
                 @Override

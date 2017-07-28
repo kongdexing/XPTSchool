@@ -18,7 +18,6 @@ import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.server.ServerManager;
-import com.xptschool.teacher.ui.main.BaseLoginActivity;
 import com.xptschool.teacher.ui.main.MainActivity;
 import com.xptschool.teacher.util.ToastUtils;
 

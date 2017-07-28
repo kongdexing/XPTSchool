@@ -44,10 +44,15 @@ import java.net.Proxy;
 
 public class XPTApplication extends NgnApplication {
 
+    // user your appid the key.
+    public static final String APP_MIID = "2882303761517601174";
+    // user your appid the key.
+    public static final String APP_KEY = "5661760111174";
+
     public static final String APP_ID = "3a3021ce3c"; // TODO 替换成bugly上注册的appid
     private static XPTApplication mInstance;
     private Display display;
-    private static String TAG = XPTApplication.class.getSimpleName();
+    public static String TAG = XPTApplication.class.getSimpleName();
 
     @Override
     public void onCreate() {
@@ -79,11 +84,6 @@ public class XPTApplication extends NgnApplication {
         MobclickAgent.setCheckDevice(true);
         //日志加密设置
         MobclickAgent.enableEncrypt(true);
-
-        final PushAgent mPushAgent = PushAgent.getInstance(this);
-        //使用自定义消息
-        mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
-        mPushAgent.setDebugMode(true);
 
 //        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
 //        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯

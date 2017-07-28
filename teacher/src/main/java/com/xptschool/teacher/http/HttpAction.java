@@ -63,6 +63,9 @@ public class HttpAction {
     //上传upush devices_token
     public static String Push_Token = BuildConfig.SERVICE_URL + "/teachertoken.php";
 
+    //上传token
+    public static String HOOK_PUSH_TOKEN = HEAD + "/Hook/addTeacherToken";
+
     //广告位
     public static String HOME_Banner = HEAD + "Banner/query";
     public static String SHOW_Banner = BuildConfig.SERVICE_URL + "/getadstatics.php";

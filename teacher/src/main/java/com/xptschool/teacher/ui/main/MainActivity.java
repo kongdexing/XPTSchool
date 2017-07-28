@@ -250,6 +250,7 @@ public class MainActivity extends BaseMainActivity {
                                     JSONObject jsonLogin = jsonData.getJSONObject("login");
                                     Gson gson = new Gson();
                                     BeanTeacher teacher = gson.fromJson(jsonLogin.toString(), BeanTeacher.class);
+                                    teacher.setLogin_name(account);
                                     GreenDaoHelper.getInstance().insertTeacher(teacher);
                                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

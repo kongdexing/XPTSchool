@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class BeanTeacher {
 
+    private String login_name;
     private String api_id;
     private String security_key;
     private String t_id;
@@ -26,11 +27,12 @@ public class BeanTeacher {
     private String charge;   //是否为班主任
     private String u_id;      //用户id
 
-    @Generated(hash = 328157139)
-    public BeanTeacher(String api_id, String security_key, String t_id,
-            String name, String phone, String s_id, String s_name, String a_id,
-            String a_name, String d_id, String d_name, String education,
-            String sex, String charge, String u_id) {
+    @Generated(hash = 2077314905)
+    public BeanTeacher(String login_name, String api_id, String security_key,
+            String t_id, String name, String phone, String s_id, String s_name,
+            String a_id, String a_name, String d_id, String d_name,
+            String education, String sex, String charge, String u_id) {
+        this.login_name = login_name;
         this.api_id = api_id;
         this.security_key = security_key;
         this.t_id = t_id;
@@ -50,6 +52,14 @@ public class BeanTeacher {
 
     @Generated(hash = 1398456292)
     public BeanTeacher() {
+    }
+
+    public String getLoginName() {
+        return login_name;
+    }
+
+    public void setLoginName(String login_name) {
+        this.login_name = login_name;
     }
 
     public String getApi_id() {
@@ -170,5 +180,13 @@ public class BeanTeacher {
 
     public void setD_name(String d_name) {
         this.d_name = d_name;
+    }
+
+    public String getLogin_name() {
+        return this.login_name;
+    }
+
+    public void setLogin_name(String login_name) {
+        this.login_name = login_name;
     }
 }

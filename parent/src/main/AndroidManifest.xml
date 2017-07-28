@@ -332,7 +332,6 @@
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
-
         <!--MiPush-->
 
     </application>

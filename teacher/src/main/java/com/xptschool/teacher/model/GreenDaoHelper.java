@@ -288,27 +288,6 @@ public class GreenDaoHelper {
         return parent;
     }
 
-    public String getTokenByUID(String userId) {
-        BeanDeviceToken deviceToken = null;
-        if (readDaoSession != null) {
-            deviceToken = readDaoSession.getBeanDeviceTokenDao().queryBuilder()
-                    .where(BeanDeviceTokenDao.Properties.UserId.eq(userId)).limit(1).unique();
-        }
-        if (deviceToken == null) {
-            return null;
-        }
-        return deviceToken.getDeviceToken();
-    }
-
-    public void insertOrUpdateToken(BeanDeviceToken deviceToken) {
-        if (deviceToken == null) {
-            return;
-        }
-        if (writeDaoSession != null) {
-            writeDaoSession.getBeanDeviceTokenDao().insertOrReplace(deviceToken);
-        }
-    }
-
     public void insertBanner(List<BeanBanner> banners) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanBannerDao().deleteAll();

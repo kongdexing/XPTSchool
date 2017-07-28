@@ -25,7 +25,6 @@ public class DaoMaster extends AbstractDaoMaster {
         BeanChatDao.createTable(db, ifNotExists);
         BeanClassDao.createTable(db, ifNotExists);
         BeanCourseDao.createTable(db, ifNotExists);
-        BeanDeviceTokenDao.createTable(db, ifNotExists);
         BeanMyClassDao.createTable(db, ifNotExists);
         BeanTeacherDao.createTable(db, ifNotExists);
         ContactParentDao.createTable(db, ifNotExists);
@@ -39,7 +38,6 @@ public class DaoMaster extends AbstractDaoMaster {
         BeanChatDao.dropTable(db, ifExists);
         BeanClassDao.dropTable(db, ifExists);
         BeanCourseDao.dropTable(db, ifExists);
-        BeanDeviceTokenDao.dropTable(db, ifExists);
         BeanMyClassDao.dropTable(db, ifExists);
         BeanTeacherDao.dropTable(db, ifExists);
         ContactParentDao.dropTable(db, ifExists);
@@ -67,7 +65,6 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(BeanChatDao.class);
         registerDaoClass(BeanClassDao.class);
         registerDaoClass(BeanCourseDao.class);
-        registerDaoClass(BeanDeviceTokenDao.class);
         registerDaoClass(BeanMyClassDao.class);
         registerDaoClass(BeanTeacherDao.class);
         registerDaoClass(ContactParentDao.class);

@@ -22,21 +22,22 @@ public class BeanTeacherDao extends AbstractDao<BeanTeacher, Void> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Api_id = new Property(0, String.class, "api_id", false, "API_ID");
-        public final static Property Security_key = new Property(1, String.class, "security_key", false, "SECURITY_KEY");
-        public final static Property T_id = new Property(2, String.class, "t_id", false, "T_ID");
-        public final static Property Name = new Property(3, String.class, "name", false, "NAME");
-        public final static Property Phone = new Property(4, String.class, "phone", false, "PHONE");
-        public final static Property S_id = new Property(5, String.class, "s_id", false, "S_ID");
-        public final static Property S_name = new Property(6, String.class, "s_name", false, "S_NAME");
-        public final static Property A_id = new Property(7, String.class, "a_id", false, "A_ID");
-        public final static Property A_name = new Property(8, String.class, "a_name", false, "A_NAME");
-        public final static Property D_id = new Property(9, String.class, "d_id", false, "D_ID");
-        public final static Property D_name = new Property(10, String.class, "d_name", false, "D_NAME");
-        public final static Property Education = new Property(11, String.class, "education", false, "EDUCATION");
-        public final static Property Sex = new Property(12, String.class, "sex", false, "SEX");
-        public final static Property Charge = new Property(13, String.class, "charge", false, "CHARGE");
-        public final static Property U_id = new Property(14, String.class, "u_id", false, "U_ID");
+        public final static Property Login_name = new Property(0, String.class, "login_name", false, "LOGIN_NAME");
+        public final static Property Api_id = new Property(1, String.class, "api_id", false, "API_ID");
+        public final static Property Security_key = new Property(2, String.class, "security_key", false, "SECURITY_KEY");
+        public final static Property T_id = new Property(3, String.class, "t_id", false, "T_ID");
+        public final static Property Name = new Property(4, String.class, "name", false, "NAME");
+        public final static Property Phone = new Property(5, String.class, "phone", false, "PHONE");
+        public final static Property S_id = new Property(6, String.class, "s_id", false, "S_ID");
+        public final static Property S_name = new Property(7, String.class, "s_name", false, "S_NAME");
+        public final static Property A_id = new Property(8, String.class, "a_id", false, "A_ID");
+        public final static Property A_name = new Property(9, String.class, "a_name", false, "A_NAME");
+        public final static Property D_id = new Property(10, String.class, "d_id", false, "D_ID");
+        public final static Property D_name = new Property(11, String.class, "d_name", false, "D_NAME");
+        public final static Property Education = new Property(12, String.class, "education", false, "EDUCATION");
+        public final static Property Sex = new Property(13, String.class, "sex", false, "SEX");
+        public final static Property Charge = new Property(14, String.class, "charge", false, "CHARGE");
+        public final static Property U_id = new Property(15, String.class, "u_id", false, "U_ID");
     };
 
 
@@ -52,21 +53,22 @@ public class BeanTeacherDao extends AbstractDao<BeanTeacher, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"BEAN_TEACHER\" (" + //
-                "\"API_ID\" TEXT," + // 0: api_id
-                "\"SECURITY_KEY\" TEXT," + // 1: security_key
-                "\"T_ID\" TEXT," + // 2: t_id
-                "\"NAME\" TEXT," + // 3: name
-                "\"PHONE\" TEXT," + // 4: phone
-                "\"S_ID\" TEXT," + // 5: s_id
-                "\"S_NAME\" TEXT," + // 6: s_name
-                "\"A_ID\" TEXT," + // 7: a_id
-                "\"A_NAME\" TEXT," + // 8: a_name
-                "\"D_ID\" TEXT," + // 9: d_id
-                "\"D_NAME\" TEXT," + // 10: d_name
-                "\"EDUCATION\" TEXT," + // 11: education
-                "\"SEX\" TEXT," + // 12: sex
-                "\"CHARGE\" TEXT," + // 13: charge
-                "\"U_ID\" TEXT);"); // 14: u_id
+                "\"LOGIN_NAME\" TEXT," + // 0: login_name
+                "\"API_ID\" TEXT," + // 1: api_id
+                "\"SECURITY_KEY\" TEXT," + // 2: security_key
+                "\"T_ID\" TEXT," + // 3: t_id
+                "\"NAME\" TEXT," + // 4: name
+                "\"PHONE\" TEXT," + // 5: phone
+                "\"S_ID\" TEXT," + // 6: s_id
+                "\"S_NAME\" TEXT," + // 7: s_name
+                "\"A_ID\" TEXT," + // 8: a_id
+                "\"A_NAME\" TEXT," + // 9: a_name
+                "\"D_ID\" TEXT," + // 10: d_id
+                "\"D_NAME\" TEXT," + // 11: d_name
+                "\"EDUCATION\" TEXT," + // 12: education
+                "\"SEX\" TEXT," + // 13: sex
+                "\"CHARGE\" TEXT," + // 14: charge
+                "\"U_ID\" TEXT);"); // 15: u_id
     }
 
     /** Drops the underlying database table. */
@@ -79,79 +81,84 @@ public class BeanTeacherDao extends AbstractDao<BeanTeacher, Void> {
     protected final void bindValues(DatabaseStatement stmt, BeanTeacher entity) {
         stmt.clearBindings();
  
+        String login_name = entity.getLogin_name();
+        if (login_name != null) {
+            stmt.bindString(1, login_name);
+        }
+ 
         String api_id = entity.getApi_id();
         if (api_id != null) {
-            stmt.bindString(1, api_id);
+            stmt.bindString(2, api_id);
         }
  
         String security_key = entity.getSecurity_key();
         if (security_key != null) {
-            stmt.bindString(2, security_key);
+            stmt.bindString(3, security_key);
         }
  
         String t_id = entity.getT_id();
         if (t_id != null) {
-            stmt.bindString(3, t_id);
+            stmt.bindString(4, t_id);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(4, name);
+            stmt.bindString(5, name);
         }
  
         String phone = entity.getPhone();
         if (phone != null) {
-            stmt.bindString(5, phone);
+            stmt.bindString(6, phone);
         }
  
         String s_id = entity.getS_id();
         if (s_id != null) {
-            stmt.bindString(6, s_id);
+            stmt.bindString(7, s_id);
         }
  
         String s_name = entity.getS_name();
         if (s_name != null) {
-            stmt.bindString(7, s_name);
+            stmt.bindString(8, s_name);
         }
  
         String a_id = entity.getA_id();
         if (a_id != null) {
-            stmt.bindString(8, a_id);
+            stmt.bindString(9, a_id);
         }
  
         String a_name = entity.getA_name();
         if (a_name != null) {
-            stmt.bindString(9, a_name);
+            stmt.bindString(10, a_name);
         }
  
         String d_id = entity.getD_id();
         if (d_id != null) {
-            stmt.bindString(10, d_id);
+            stmt.bindString(11, d_id);
         }
  
         String d_name = entity.getD_name();
         if (d_name != null) {
-            stmt.bindString(11, d_name);
+            stmt.bindString(12, d_name);
         }
  
         String education = entity.getEducation();
         if (education != null) {
-            stmt.bindString(12, education);
+            stmt.bindString(13, education);
         }
  
         String sex = entity.getSex();
         if (sex != null) {
-            stmt.bindString(13, sex);
+            stmt.bindString(14, sex);
         }
  
         String charge = entity.getCharge();
         if (charge != null) {
-            stmt.bindString(14, charge);
+            stmt.bindString(15, charge);
         }
  
         String u_id = entity.getU_id();
         if (u_id != null) {
-            stmt.bindString(15, u_id);
+            stmt.bindString(16, u_id);
         }
     }
 
@@ -159,79 +166,84 @@ public class BeanTeacherDao extends AbstractDao<BeanTeacher, Void> {
     protected final void bindValues(SQLiteStatement stmt, BeanTeacher entity) {
         stmt.clearBindings();
  
+        String login_name = entity.getLogin_name();
+        if (login_name != null) {
+            stmt.bindString(1, login_name);
+        }
+ 
         String api_id = entity.getApi_id();
         if (api_id != null) {
-            stmt.bindString(1, api_id);
+            stmt.bindString(2, api_id);
         }
  
         String security_key = entity.getSecurity_key();
         if (security_key != null) {
-            stmt.bindString(2, security_key);
+            stmt.bindString(3, security_key);
         }
  
         String t_id = entity.getT_id();
         if (t_id != null) {
-            stmt.bindString(3, t_id);
+            stmt.bindString(4, t_id);
         }
  
         String name = entity.getName();
         if (name != null) {
-            stmt.bindString(4, name);
+            stmt.bindString(5, name);
         }
  
         String phone = entity.getPhone();
         if (phone != null) {
-            stmt.bindString(5, phone);
+            stmt.bindString(6, phone);
         }
  
         String s_id = entity.getS_id();
         if (s_id != null) {
-            stmt.bindString(6, s_id);
+            stmt.bindString(7, s_id);
         }
  
         String s_name = entity.getS_name();
         if (s_name != null) {
-            stmt.bindString(7, s_name);
+            stmt.bindString(8, s_name);
         }
  
         String a_id = entity.getA_id();
         if (a_id != null) {
-            stmt.bindString(8, a_id);
+            stmt.bindString(9, a_id);
         }
  
         String a_name = entity.getA_name();
         if (a_name != null) {
-            stmt.bindString(9, a_name);
+            stmt.bindString(10, a_name);
         }
  
         String d_id = entity.getD_id();
         if (d_id != null) {
-            stmt.bindString(10, d_id);
+            stmt.bindString(11, d_id);
         }
  
         String d_name = entity.getD_name();
         if (d_name != null) {
-            stmt.bindString(11, d_name);
+            stmt.bindString(12, d_name);
         }
  
         String education = entity.getEducation();
         if (education != null) {
-            stmt.bindString(12, education);
+            stmt.bindString(13, education);
         }
  
         String sex = entity.getSex();
         if (sex != null) {
-            stmt.bindString(13, sex);
+            stmt.bindString(14, sex);
         }
  
         String charge = entity.getCharge();
         if (charge != null) {
-            stmt.bindString(14, charge);
+            stmt.bindString(15, charge);
         }
  
         String u_id = entity.getU_id();
         if (u_id != null) {
-            stmt.bindString(15, u_id);
+            stmt.bindString(16, u_id);
         }
     }
 
@@ -243,42 +255,44 @@ public class BeanTeacherDao extends AbstractDao<BeanTeacher, Void> {
     @Override
     public BeanTeacher readEntity(Cursor cursor, int offset) {
         BeanTeacher entity = new BeanTeacher( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // api_id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // security_key
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // t_id
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // phone
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // s_id
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // s_name
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // a_id
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // a_name
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // d_id
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // d_name
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // education
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // sex
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // charge
-            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // u_id
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // login_name
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // api_id
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // security_key
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // t_id
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // name
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // phone
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // s_id
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // s_name
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // a_id
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // a_name
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // d_id
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // d_name
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // education
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // sex
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // charge
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // u_id
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, BeanTeacher entity, int offset) {
-        entity.setApi_id(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setSecurity_key(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setT_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setPhone(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setS_id(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setS_name(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setA_id(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setA_name(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setD_id(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setD_name(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setEducation(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
-        entity.setSex(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setCharge(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
-        entity.setU_id(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setLogin_name(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setApi_id(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setSecurity_key(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setT_id(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setPhone(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setS_id(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setS_name(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setA_id(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setA_name(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setD_id(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setD_name(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setEducation(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setSex(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setCharge(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setU_id(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

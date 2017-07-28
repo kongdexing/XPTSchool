@@ -1,4 +1,4 @@
-package com.xptschool.teacher.ui.main;
+package com.xptschool.teacher.ui.login;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +15,7 @@ import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
+import com.xptschool.teacher.ui.main.BaseActivity;
 
 import org.json.JSONObject;
 
@@ -48,7 +49,7 @@ public class BaseLoginActivity extends BaseActivity {
                             case HttpAction.SUCCESS:
                                 if (!SharedPreferencesUtil.getData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
                                     SharedPreferencesUtil.saveData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
-                                    UpushTokenHelper.switchAccount();
+                                    UpushTokenHelper.exitAccount();
                                 }
                                 SharedPreferencesUtil.saveData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);
                                 try {
@@ -58,6 +59,7 @@ public class BaseLoginActivity extends BaseActivity {
                                     JSONObject jsonLogin = jsonData.getJSONObject("login");
                                     Gson gson = new Gson();
                                     BeanTeacher teacher = gson.fromJson(jsonLogin.toString(), BeanTeacher.class);
+                                    teacher.setLogin_name(account);
                                     GreenDaoHelper.getInstance().insertTeacher(teacher);
                                     //删除联系人
                                     GreenDaoHelper.getInstance().deleteContacts();
