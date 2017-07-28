@@ -8,7 +8,10 @@ import com.xptschool.parent.model.ToSendMessage;
 
 /**
  * Created by dexing on 2017/5/8.
- * No1
+ * 管理聊天服务，视频通话服务
+ *  1.启动服务
+ *  2.停止服务
+ *  3.发送聊天消息
  */
 
 public class ServerManager {

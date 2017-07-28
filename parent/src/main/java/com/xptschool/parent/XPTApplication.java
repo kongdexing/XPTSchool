@@ -92,8 +92,6 @@ public class XPTApplication extends NgnApplication {
         //日志加密设置
         MobclickAgent.enableEncrypt(true);
 
-        startService(new Intent(this, MyNotificationService.class));
-
 //        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);//声音
 //        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);//呼吸灯
 //        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);//振动

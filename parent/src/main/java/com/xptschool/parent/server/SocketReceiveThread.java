@@ -21,7 +21,7 @@ import java.net.URLDecoder;
 
 /**
  * Created by dexing on 2017/5/12.
- * No1
+ * 聊天消息接收线程
  */
 
 public class SocketReceiveThread implements Runnable, Cloneable {

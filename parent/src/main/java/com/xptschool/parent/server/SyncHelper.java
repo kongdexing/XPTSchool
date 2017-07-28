@@ -22,7 +22,8 @@ import java.util.List;
 
 /**
  * Created by dexing on 2017/6/20.
- * No1
+ * 同步服务
+ * 1.来电时，如读取不到联系人信息，则同步联系人信息
  */
 
 public class SyncHelper {

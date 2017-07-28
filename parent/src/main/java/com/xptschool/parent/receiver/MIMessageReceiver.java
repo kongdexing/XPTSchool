@@ -1,4 +1,4 @@
-package com.xptschool.parent.push;
+package com.xptschool.parent.receiver;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,6 +11,7 @@ import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.push.UpushTokenHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

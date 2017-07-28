@@ -195,7 +195,7 @@
                 <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
             </intent-filter>
         </receiver>
-
+        <!--start 支付宝-->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -206,6 +206,7 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
+        <!--支付宝 end-->
         <activity
             android:name=".ui.wallet.pocket.PocketActivity"
             android:configChanges="orientation|keyboardHidden|fontScale"
@@ -319,7 +320,7 @@
         </receiver>
 
         <receiver
-            android:name="com.xptschool.parent.push.MIMessageReceiver"
+            android:name="com.xptschool.parent.receiver.MIMessageReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
