@@ -34,12 +34,13 @@ public class UpushTokenHelper {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.HOOK_PUSH_TOKEN,
                 new VolleyHttpParamsEntity()
                         .addParam("status", "1")    //1登录 2其他(切换\退出)
-                        .addParam("techer_mobile", teacher.getLoginName())
-                        .addParam("mobtype", "2") // 2Android 1ios
-                        .addParam("teacher_id", teacher.getU_id())
-                        .addParam("device_token_teacher", device_token)
-                        .addParam("mobilemodel", android.os.Build.MODEL)
-                        .addParam("pushtype", push)
+                        .addParam("user_name", teacher.getLoginName())
+                        .addParam("system_model", "1") //1Android 0ios
+                        .addParam("user_id", teacher.getU_id())
+                        .addParam("device_token", device_token)
+                        .addParam("mobile_model", android.os.Build.MODEL)
+                        .addParam("push_name", push)
+                        .addParam("user_type", "3")
                 , null);
     }
 
@@ -56,9 +57,10 @@ public class UpushTokenHelper {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.HOOK_PUSH_TOKEN,
                 new VolleyHttpParamsEntity()
                         .addParam("status", "2")    //1登录 2其他(切换\退出)
-                        .addParam("techer_mobile", teacher.getLoginName())
-                        .addParam("mobiletype", "2") //2Android 1ios
-                        .addParam("teacher_id", teacher.getU_id())
+                        .addParam("user_name", teacher.getLoginName())
+                        .addParam("system_model", "1") //1Android 0ios
+                        .addParam("user_id", teacher.getU_id())
+                        .addParam("user_type", "3")
                 , null);
 
     }
