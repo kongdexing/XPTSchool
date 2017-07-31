@@ -277,8 +277,19 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateVisible" />
 
-        <service android:name=".server.SocketService" />
+        <!--start socket 聊天-->
+        <service
+            android:name=".server.SocketService"
+            android:process=":xptpush" />
+        <receiver
+            android:name=".receiver.ChatNotificationReceiver"
+            android:process=":xptpush">
+        </receiver>
+        <!--socket 聊天 end-->
+
+        <!--视频通话-->
         <service android:name=".imsdroid.NativeService" />
+        <!--视频通话 end-->
 
         <!--MiPush-->
         <service

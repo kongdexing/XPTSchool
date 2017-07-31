@@ -482,7 +482,7 @@ public class ChatActivity extends ChatAppendixActivity {
             adapter.addData(chat);
             recycleView.smoothScrollToPosition(adapter.getItemCount());
         } else {
-            super.showMessageNotify(show, chat);
+            super.showMessageNotify(true, chat);
         }
     }
 

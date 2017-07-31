@@ -1,13 +1,22 @@
 package com.xptschool.parent.server;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.ActivityTaskHelper;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.receiver.ChatNotificationReceiver;
+import com.xptschool.parent.ui.chat.ChatActivity;
 import com.xptschool.parent.util.ChatUtil;
 
 import org.json.JSONObject;
@@ -186,6 +195,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                     intent.putExtra("chat", chat);
                     XPTApplication.getInstance().sendBroadcast(intent);
                     Log.i(TAG, "receive data success ");
+                    showNotify();
                 }
             } catch (Exception ex) {
                 Log.i(TAG, "receive data error:" + ex.getMessage());
@@ -195,6 +205,32 @@ public class SocketReceiveThread implements Runnable, Cloneable {
         } finally {
             Log.i(TAG, "finally SocketReceiveThread closed ");
             closeSocket(mSocket, outputStream, mmInStream);
+        }
+    }
+
+    private void showNotify() {
+        String topActName = ActivityTaskHelper.getRunningActivityName(XPTApplication.getInstance());
+        Log.i("BaseAct", "showMessageNotify topAct : " + topActName);
+        Log.i("BaseAct", "ChatActivity : " + ChatActivity.class.getName());
+        //判断ChatActivity是否在运行，不在当前运行，则弹出提示信息
+        if (!topActName.equals(ChatActivity.class.getName())) {
+            Log.i("BaseAct", "showNotify: ");
+            //点击通知栏后发送广播
+            Intent mainIntent = new Intent(XPTApplication.getInstance(), ChatNotificationReceiver.class);
+//            Intent mainIntent = new Intent("com.xptschool.parent.chat.notify");
+            PendingIntent mainPendingIntent = PendingIntent.getBroadcast(XPTApplication.getInstance(), this.hashCode(), mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            //消息提醒
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(XPTApplication.getInstance())
+                    .setSmallIcon(R.mipmap.ic_small_launcher)
+                    .setContentTitle("消息提醒")
+                    .setContentText("您有新未读聊天消息，请注意查看")
+                    .setContentIntent(mainPendingIntent)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true);
+
+            NotificationManager mNotifyManager = (NotificationManager) XPTApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotifyManager.notify(1, builder.build());
         }
     }
 

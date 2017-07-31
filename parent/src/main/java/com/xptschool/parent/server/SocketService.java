@@ -1,16 +1,25 @@
 package com.xptschool.parent.server;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.coolerfall.daemon.Daemon;
+import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.ActivityTaskHelper;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.ToSendMessage;
+import com.xptschool.parent.ui.chat.ChatActivity;
+import com.xptschool.parent.ui.contact.ContactsActivity;
 
 import java.io.InputStream;
 import java.io.OutputStream;

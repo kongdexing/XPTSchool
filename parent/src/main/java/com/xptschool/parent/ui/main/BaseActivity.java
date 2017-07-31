@@ -1,12 +1,16 @@
 package com.xptschool.parent.ui.main;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,9 +25,12 @@ import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.xptschool.parent.R;
+import com.xptschool.parent.common.ActivityTaskHelper;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanChat;
+import com.xptschool.parent.ui.chat.ChatActivity;
+import com.xptschool.parent.ui.contact.ContactsActivity;
 import com.xptschool.parent.ui.login.LoginActivity;
 
 import butterknife.ButterKnife;
@@ -232,20 +239,23 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showMessageNotify(boolean show, BeanChat chat) {
+        String topActName = ActivityTaskHelper.getRunningActivityName(this);
+        Log.i("BaseAct", "showMessageNotify topAct : " + topActName);
+        Log.i("BaseAct", "ChatActivity : " + ChatActivity.class.getName() + "  " + ChatActivity.class.getSimpleName());
         if (show) {
-//            Intent mainIntent = new Intent(this, ContactsActivity.class);
-//            PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//            //消息提醒
-//            NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-//                    .setSmallIcon(R.mipmap.ic_launcher)
-//                    .setContentTitle("消息提醒")
-//                    .setContentText("您有新未读聊天消息，请注意查看")
-//                    .setContentIntent(mainPendingIntent)
-//                    .setDefaults(Notification.DEFAULT_ALL)
-//                    .setAutoCancel(true);
-//            mNotifyManager.notify(1, builder.build());
+            Intent mainIntent = new Intent(this, ContactsActivity.class);
+            PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            //消息提醒
+            NotificationManager mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                    .setSmallIcon(R.mipmap.ic_small_launcher)
+                    .setContentTitle("消息提醒")
+                    .setContentText("您有新未读聊天消息，请注意查看")
+                    .setContentIntent(mainPendingIntent)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true);
+            mNotifyManager.notify(1, builder.build());
         }
     }
 
@@ -253,7 +263,6 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
             if (action.equals(BroadcastAction.RELOGIN)) {
                 intent = new Intent(BaseActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -262,12 +271,12 @@ public class BaseActivity extends AppCompatActivity {
             } else if (action.equals(BroadcastAction.MESSAGE_RECEIVED)) {
                 Bundle bundle = intent.getExtras();
                 if (bundle == null) {
-                    Log.i(TAG, "onReceive: bundle is null");
+                    Log.i("BaseAct", "onReceive: bundle is null");
                     return;
                 }
                 BeanChat chat = (BeanChat) bundle.getSerializable("chat");
-                Log.i(TAG, "onReceive parentId:" + chat.getParentId() + " teacherId:" + chat.getTeacherId() + "  content:" + chat.getContent());
-                showMessageNotify(true, chat);
+                Log.i("BaseAct", "onReceive parentId:" + chat.getParentId() + " teacherId:" + chat.getTeacherId() + "  content:" + chat.getContent());
+                showMessageNotify(false, chat);
             }
         }
     };
