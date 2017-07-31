@@ -184,7 +184,13 @@
             android:name=".ui.chat.video.CallScreen"
             android:screenOrientation="portrait" />
 
-        <service android:name=".server.SocketService" />
+        <service
+            android:name=".server.SocketService"
+            android:process=":xptpush" />
+        <receiver
+            android:name=".receiver.ChatNotificationReceiver"
+            android:process=":xptpush"></receiver>
+
         <service android:name="com.xptschool.teacher.imsdroid.NativeService" />
 
         <activity

@@ -210,19 +210,16 @@ public class SocketReceiveThread implements Runnable, Cloneable {
 
     private void showNotify() {
         String topActName = ActivityTaskHelper.getRunningActivityName(XPTApplication.getInstance());
-        Log.i("BaseAct", "showMessageNotify topAct : " + topActName);
-        Log.i("BaseAct", "ChatActivity : " + ChatActivity.class.getName());
         //判断ChatActivity是否在运行，不在当前运行，则弹出提示信息
         if (!topActName.equals(ChatActivity.class.getName())) {
             Log.i("BaseAct", "showNotify: ");
             //点击通知栏后发送广播
             Intent mainIntent = new Intent(XPTApplication.getInstance(), ChatNotificationReceiver.class);
-//            Intent mainIntent = new Intent("com.xptschool.parent.chat.notify");
             PendingIntent mainPendingIntent = PendingIntent.getBroadcast(XPTApplication.getInstance(), this.hashCode(), mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             //消息提醒
             NotificationCompat.Builder builder = new NotificationCompat.Builder(XPTApplication.getInstance())
-                    .setSmallIcon(R.mipmap.ic_small_launcher)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("消息提醒")
                     .setContentText("您有新未读聊天消息，请注意查看")
                     .setContentIntent(mainPendingIntent)

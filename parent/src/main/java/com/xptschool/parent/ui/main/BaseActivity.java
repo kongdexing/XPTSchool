@@ -239,9 +239,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void showMessageNotify(boolean show, BeanChat chat) {
-        String topActName = ActivityTaskHelper.getRunningActivityName(this);
-        Log.i("BaseAct", "showMessageNotify topAct : " + topActName);
-        Log.i("BaseAct", "ChatActivity : " + ChatActivity.class.getName() + "  " + ChatActivity.class.getSimpleName());
         if (show) {
             Intent mainIntent = new Intent(this, ContactsActivity.class);
             PendingIntent mainPendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT);
