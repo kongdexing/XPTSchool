@@ -76,9 +76,11 @@ public class MineFragment extends BaseFragment {
         super.onResume();
         int num = GreenDaoHelper.getInstance().getUnReadChats().size();
         if (num > 0) {
-            txtDot.setVisibility(View.VISIBLE);
+            if (txtDot != null)
+                txtDot.setVisibility(View.VISIBLE);
         } else {
-            txtDot.setVisibility(View.GONE);
+            if (txtDot != null)
+                txtDot.setVisibility(View.GONE);
         }
     }
 

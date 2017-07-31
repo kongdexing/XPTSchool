@@ -242,7 +242,7 @@ public class MainActivity extends BaseMainActivity {
                                 try {
                                     JSONObject jsonData = new JSONObject(httpResult.getData().toString());
                                     CommonUtil.initBeanStudentByHttpResult(jsonData.getJSONArray("stuData").toString());
-                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString(),account);
+                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString(), account);
                                     Intent intent = new Intent(MainActivity.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -349,6 +349,10 @@ public class MainActivity extends BaseMainActivity {
             txtUnReadNum.setText(num + "");
         } else {
             txtUnReadNum.setVisibility(View.GONE);
+        }
+
+        if (mineFragment != null) {
+            mineFragment.onResume();
         }
     }
 

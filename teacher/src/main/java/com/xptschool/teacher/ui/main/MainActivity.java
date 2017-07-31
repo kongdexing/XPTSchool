@@ -356,6 +356,10 @@ public class MainActivity extends BaseMainActivity {
         } else {
             txtUnReadNum.setVisibility(View.GONE);
         }
+
+        if (mineFragment != null) {
+            mineFragment.onResume();
+        }
     }
 
     BroadcastReceiver MyBannerReceiver = new BroadcastReceiver() {
