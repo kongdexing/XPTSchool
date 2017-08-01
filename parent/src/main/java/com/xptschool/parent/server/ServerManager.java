@@ -2,6 +2,7 @@ package com.xptschool.parent.server;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.ToSendMessage;
@@ -9,9 +10,9 @@ import com.xptschool.parent.model.ToSendMessage;
 /**
  * Created by dexing on 2017/5/8.
  * 管理聊天服务，视频通话服务
- *  1.启动服务
- *  2.停止服务
- *  3.发送聊天消息
+ * 1.启动服务
+ * 2.停止服务
+ * 3.发送聊天消息
  */
 
 public class ServerManager {
@@ -27,11 +28,21 @@ public class ServerManager {
         Intent intent = new Intent(context, SocketService.class);
         context.startService(intent);
 
-        context.startService(new Intent(context, NativeService.class));
+        startNativeService(context);
     }
 
     public void stopService(Context context) {
         context.stopService(new Intent(context, SocketService.class));
+        stopNativeService(context);
+    }
+
+    public void startNativeService(Context context) {
+        Log.i("Event", "startNativeService: ");
+        context.startService(new Intent(context, NativeService.class));
+    }
+
+    public void stopNativeService(Context context) {
+        Log.i("Event", "stopNativeService: ");
         context.stopService(new Intent(context, NativeService.class));
     }
 

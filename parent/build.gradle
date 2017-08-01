@@ -162,4 +162,8 @@ dependencies {
     compile 'io.github.rockerhieu:emojicon:1.4.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    compile(project(':network-events-library'))
+    // Greenrobot EventBus 3 Beta
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

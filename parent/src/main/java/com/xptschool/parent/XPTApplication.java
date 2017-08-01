@@ -1,14 +1,8 @@
 package com.xptschool.parent;
 
-import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Process;
 import android.support.multidex.MultiDex;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -30,19 +24,15 @@ import com.tencent.bugly.beta.Beta;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
-import com.xiaomi.channel.commonutils.logger.LoggerInterface;
-import com.xiaomi.mipush.sdk.Logger;
-import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.parent.common.LocalImageHelper;
+import com.xptschool.parent.imsdroid.NetWorkStatusChangeHelper;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.push.MyNotificationService;
 import com.xptschool.parent.ui.main.MainActivity;
 
 import org.doubango.ngn.NgnApplication;
 
 import java.io.File;
 import java.net.Proxy;
-import java.util.List;
 
 /**
  * Created by dexing on 2016/12/18.
@@ -67,6 +57,7 @@ public class XPTApplication extends NgnApplication {
         mInstance = this;
         init();
         initBugly();
+        NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
     }
 
     public static XPTApplication getInstance() {

@@ -93,17 +93,16 @@ public class NativeService extends NgnNativeService {
         super.onStart(intent, startId);
         Log.i(TAG, "onStart()");
         // register()
-        if (!Engine.getInstance().isStarted()) {
-            final Engine engine = getEngine();
-            if (engine == null) {
-                return;
-            }
+        if (mEngine == null) {
+            return;
+        }
+        if (!mEngine.isStarted()) {
             final Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (!engine.isStarted()) {
+                    if (!mEngine.isStarted()) {
                         Log.i(TAG, "Starts the engine from the splash screen");
-                        engine.start();
+                        mEngine.start();
                     }
                 }
             });
@@ -272,7 +271,11 @@ public class NativeService extends NgnNativeService {
     public void onDestroy() {
         Log.i(TAG, "onDestroy()");
         if (mBroadcastReceiver != null) {
-            unregisterReceiver(mBroadcastReceiver);
+            try {
+                unregisterReceiver(mBroadcastReceiver);
+            }catch (Exception ex){
+                Log.i(TAG, "onDestroy: not registered");
+            }
             mBroadcastReceiver = null;
         }
         if (mWakeLock != null) {
@@ -281,7 +284,9 @@ public class NativeService extends NgnNativeService {
                 mWakeLock = null;
             }
         }
-        getEngine().stop();
+        if (mEngine != null) {
+            mEngine.stop();
+        }
         super.onDestroy();
     }
 }
