@@ -1,8 +1,6 @@
 package com.jph.takephoto.compress;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 
 import com.jph.takephoto.luban.Luban;
 import com.jph.takephoto.luban.OnCompressListener;
@@ -13,8 +11,6 @@ import com.jph.takephoto.model.TImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * 压缩照片,采用luban

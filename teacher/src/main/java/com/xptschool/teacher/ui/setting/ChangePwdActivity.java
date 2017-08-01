@@ -16,8 +16,8 @@ import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.ui.login.LoginActivity;
+import com.xptschool.teacher.ui.main.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;

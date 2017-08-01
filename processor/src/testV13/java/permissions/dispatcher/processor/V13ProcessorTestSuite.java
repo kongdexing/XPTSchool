@@ -1,6 +1,7 @@
 package permissions.dispatcher.processor;
 
 import org.junit.Test;
+
 import permissions.dispatcher.processor.base.TestSuite;
 import permissions.dispatcher.processor.data.V13Source;
 

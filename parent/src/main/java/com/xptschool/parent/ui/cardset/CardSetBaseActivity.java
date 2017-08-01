@@ -1,13 +1,7 @@
 package com.xptschool.parent.ui.cardset;
 
-import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,19 +18,10 @@ import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.main.BaseActivity;
-import com.xptschool.parent.util.ContractClickListener;
 import com.xptschool.parent.view.CustomDialog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnNeverAskAgain;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.OnShowRationale;
-import permissions.dispatcher.PermissionRequest;
-import permissions.dispatcher.RuntimePermissions;
 
 public class CardSetBaseActivity extends ContractClickActivity {
 

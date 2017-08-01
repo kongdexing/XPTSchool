@@ -2,7 +2,6 @@ package com.xptschool.teacher.server;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 
 import com.xptschool.teacher.imsdroid.NativeService;

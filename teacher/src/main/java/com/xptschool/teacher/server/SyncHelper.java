@@ -1,7 +1,6 @@
 package com.xptschool.teacher.server;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -16,11 +15,9 @@ import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.ui.contact.ContactsActivity;
 
 import org.json.JSONObject;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.List;
 

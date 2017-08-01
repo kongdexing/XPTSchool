@@ -7,20 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.parent.R;
-import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.util.ToastUtils;
-import com.xptschool.parent.view.FilterImageView;
 
 import java.util.ArrayList;
 import java.util.Iterator;

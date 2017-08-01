@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,11 +27,11 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.model.ToSendMessage;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.model.ToSendMessage;
 import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.ui.chat.adapter.ChatAdapter;
 import com.xptschool.parent.ui.contact.ContactsDetailActivity;
@@ -41,7 +40,6 @@ import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

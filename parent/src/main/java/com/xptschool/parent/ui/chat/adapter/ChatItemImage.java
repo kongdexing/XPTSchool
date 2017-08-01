@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.android.widget.view.BubbleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;

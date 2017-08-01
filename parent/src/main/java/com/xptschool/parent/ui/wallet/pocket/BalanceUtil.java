@@ -8,12 +8,9 @@ import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.model.BeanStudent;
-import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.wallet.card.BeanCardBalance;
 
 import org.json.JSONArray;

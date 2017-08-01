@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.os.ConditionVariable;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.doubango.ngn.NgnApplication;
 import org.doubango.ngn.NgnEngine;

@@ -1,14 +1,11 @@
 package com.xptschool.teacher.util;
 
 import android.content.Context;
-import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.model.ContactParent;
 
 import java.nio.ByteBuffer;

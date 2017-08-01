@@ -3,6 +3,7 @@ package permissions.dispatcher.processor.base;
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+
 import permissions.dispatcher.processor.PermissionsProcessor;
 
 import static com.google.common.truth.Truth.ASSERT;

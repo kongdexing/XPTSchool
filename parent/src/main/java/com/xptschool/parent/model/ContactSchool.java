@@ -1,17 +1,11 @@
 package com.xptschool.parent.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Keep;
-import org.greenrobot.greendao.annotation.ToMany;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by dexing on 2016/12/8.

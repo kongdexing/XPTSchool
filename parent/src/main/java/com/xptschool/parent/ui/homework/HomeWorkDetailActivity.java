@@ -10,7 +10,6 @@ import com.android.widget.mygridview.MyGridView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.ui.album.AlbumActivity;
 import com.xptschool.parent.ui.album.AlbumGridAdapter;
 import com.xptschool.parent.view.imgloader.AlbumViewPager;
 

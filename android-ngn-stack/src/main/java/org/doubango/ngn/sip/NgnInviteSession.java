@@ -21,7 +21,6 @@
 */
 package org.doubango.ngn.sip;
 
-import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.media.NgnMediaType;
 import org.doubango.ngn.model.NgnDeviceInfo;
 import org.doubango.ngn.model.NgnHistoryEvent;

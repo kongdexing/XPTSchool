@@ -37,8 +37,6 @@ import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.services.INgnSoundService;
 import org.doubango.ngn.services.INgnStorageService;
 import org.doubango.ngn.services.impl.NgnConfigurationService;
-import org.doubango.ngn.services.impl.NgnContactService;
-import org.doubango.ngn.services.impl.NgnHistoryService;
 import org.doubango.ngn.services.impl.NgnHttpClientService;
 import org.doubango.ngn.services.impl.NgnNetworkService;
 import org.doubango.ngn.services.impl.NgnSipService;

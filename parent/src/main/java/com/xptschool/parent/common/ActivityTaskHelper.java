@@ -1,10 +1,7 @@
 package com.xptschool.parent.common;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
 
 import java.util.List;
 

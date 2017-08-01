@@ -36,7 +36,6 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.WifiLock;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.doubango.ngn.NgnApplication;
 import org.doubango.ngn.NgnEngine;

@@ -20,7 +20,6 @@ package com.android.widget.spinner;
 import android.content.Context;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class MaterialSpinnerAdapter<SpinnerModel> extends MaterialSpinnerBaseAdapter {
 

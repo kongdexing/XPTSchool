@@ -6,10 +6,8 @@ import android.widget.TextView;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanClassInfo;
-import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.bean.BeanNotice;
-import com.xptschool.parent.model.BeanStudent;
-import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.ui.main.BaseActivity;
 
 import java.util.List;

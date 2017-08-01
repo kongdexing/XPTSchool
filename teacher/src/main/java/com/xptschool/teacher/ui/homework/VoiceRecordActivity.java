@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.widget.MyPermissionUtil;
 import com.android.widget.audiorecorder.AudioManager;
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
@@ -23,7 +24,6 @@ import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.bean.BeanHomeWork;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.ui.album.AlbumActivity;
-import com.android.widget.MyPermissionUtil;
 import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;

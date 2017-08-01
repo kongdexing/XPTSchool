@@ -14,6 +14,7 @@ import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.model.InvokeParam;
 import com.jph.takephoto.model.TContextWrap;
 import com.jph.takephoto.uitl.TConstant;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 

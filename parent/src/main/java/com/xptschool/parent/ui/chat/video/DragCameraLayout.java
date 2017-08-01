@@ -7,10 +7,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.xptschool.parent.R;
-import com.xptschool.parent.util.ToastUtils;
 
 /**
  * Created by dexing on 2017/6/15.

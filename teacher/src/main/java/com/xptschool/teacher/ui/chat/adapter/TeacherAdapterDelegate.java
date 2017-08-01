@@ -14,13 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.audiorecorder.MediaPlayerManager;
-import com.android.widget.view.BubbleImageView;
 import com.android.widget.view.CircularImageView;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;

@@ -1,8 +1,6 @@
 package com.xptschool.parent.view.decorators;
 
-import android.graphics.Typeface;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 
 import com.android.widget.calendar.CalendarDay;
 import com.android.widget.calendar.DayViewDecorator;

@@ -5,8 +5,8 @@ import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.util.ChatUtil;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.io.File;
 import java.io.FileInputStream;

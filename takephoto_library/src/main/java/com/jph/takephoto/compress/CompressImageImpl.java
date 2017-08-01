@@ -2,7 +2,9 @@ package com.jph.takephoto.compress;
 
 import android.content.Context;
 import android.text.TextUtils;
+
 import com.jph.takephoto.model.TImage;
+
 import java.io.File;
 import java.util.ArrayList;
 

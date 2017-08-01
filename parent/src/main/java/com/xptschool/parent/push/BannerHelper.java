@@ -15,8 +15,6 @@ import com.xptschool.parent.model.BeanBanner;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
 
-import java.util.Random;
-
 /**
  * Created by dexing on 2017/3/24.
  * No1

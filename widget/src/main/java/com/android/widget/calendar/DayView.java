@@ -16,11 +16,9 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckedTextView;
-import android.widget.LinearLayout;
 
 import com.android.widget.calendar.format.DayFormatter;
 

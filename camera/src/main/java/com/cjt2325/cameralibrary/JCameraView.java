@@ -14,15 +14,12 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.cjt2325.cameralibrary.listener.CaptureListener;
@@ -32,7 +29,6 @@ import com.cjt2325.cameralibrary.listener.ReturnListener;
 import com.cjt2325.cameralibrary.listener.TypeListener;
 
 import java.io.File;
-import java.io.IOException;
 
 public class JCameraView extends RelativeLayout implements CameraInterface.CamOpenOverCallback, SurfaceHolder.Callback {
     private static final String TAG = "CJT";

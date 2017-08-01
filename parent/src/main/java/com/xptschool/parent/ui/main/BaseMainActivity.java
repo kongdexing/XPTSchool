@@ -1,9 +1,5 @@
 package com.xptschool.parent.ui.main;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,22 +9,10 @@ import com.umeng.message.PushAgent;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
-import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.imsdroid.Engine;
-import com.xptschool.parent.imsdroid.NativeService;
-import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.MyPushIntentService;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
-
-import org.doubango.ngn.NgnEngine;
-import org.doubango.ngn.events.NgnEventArgs;
-import org.doubango.ngn.events.NgnRegistrationEventArgs;
-import org.doubango.ngn.services.INgnConfigurationService;
-import org.doubango.ngn.services.INgnSipService;
-import org.doubango.ngn.sip.NgnSipSession;
-import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 /**
  * Created by dexing on 2017/6/5.

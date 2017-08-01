@@ -1,36 +1,16 @@
 package com.xptschool.parent.ui.wallet.pocket;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
 import com.android.widget.view.LoadMoreRecyclerView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
-import com.xptschool.parent.common.CommonUtil;
-import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.HttpErrorMsg;
-import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.ui.wallet.bankcard.AddBankCardActivity;
-import com.xptschool.parent.ui.wallet.bankcard.BankBtmPopView;
-import com.xptschool.parent.ui.wallet.bankcard.BankListAdapter;
 import com.xptschool.parent.ui.wallet.bankcard.BeanBankCard;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 

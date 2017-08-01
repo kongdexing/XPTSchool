@@ -1,9 +1,7 @@
 package com.xptschool.parent.ui.contact;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +10,11 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
-import com.xptschool.parent.bean.ContactType;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.ContactSchool;
 import com.xptschool.parent.model.ContactTeacher;

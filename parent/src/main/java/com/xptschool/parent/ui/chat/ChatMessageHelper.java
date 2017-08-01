@@ -1,8 +1,5 @@
 package com.xptschool.parent.ui.chat;
 
-import android.util.Log;
-import android.view.View;
-
 import com.xptschool.parent.model.ToSendMessage;
 
 import java.util.ArrayList;

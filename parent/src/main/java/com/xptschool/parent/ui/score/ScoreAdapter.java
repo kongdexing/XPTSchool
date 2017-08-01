@@ -6,14 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
 import com.xptschool.parent.R;
 import com.xptschool.parent.bean.BeanExam;
 import com.xptschool.parent.bean.BeanScore;
-import com.xptschool.parent.common.CommonUtil;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;

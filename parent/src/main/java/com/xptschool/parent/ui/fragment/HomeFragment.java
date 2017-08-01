@@ -10,27 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
-import com.android.volley.common.VolleyRequestListener;
-import com.android.volley.toolbox.Volley;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.MyTopPagerAdapter;
-import com.xptschool.parent.common.CommonUtil;
-import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanBanner;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.BeanTeacher;
-import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.BannerHelper;
-import com.xptschool.parent.ui.main.MainActivity;
 import com.xptschool.parent.ui.alarm.AlarmActivity;
 import com.xptschool.parent.ui.checkin.CheckinActivity;
 import com.xptschool.parent.ui.homework.HomeWorkActivity;
 import com.xptschool.parent.ui.leave.LeaveActivity;
+import com.xptschool.parent.ui.main.MainActivity;
 import com.xptschool.parent.ui.notice.NoticeActivity;
 import com.xptschool.parent.ui.question.QuestionActivity;
 import com.xptschool.parent.ui.score.ScoreActivity;
@@ -38,14 +27,11 @@ import com.xptschool.parent.view.AutoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
-import static com.xptschool.parent.http.HttpAction.SHOW_Banner;
 
 public class HomeFragment extends BaseFragment {
 

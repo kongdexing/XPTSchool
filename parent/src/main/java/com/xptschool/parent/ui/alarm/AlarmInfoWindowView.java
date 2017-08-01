@@ -1,15 +1,12 @@
 package com.xptschool.parent.ui.alarm;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
 import com.baidu.mapapi.model.LatLng;

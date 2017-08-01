@@ -11,13 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.widget.view.CircularImageView;
-import com.baidu.mapapi.map.Text;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
+import com.xptschool.parent.bean.BeanQuestion;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.bean.BeanQuestion;
 import com.xptschool.parent.model.BeanStudent;
 
 import java.util.ArrayList;

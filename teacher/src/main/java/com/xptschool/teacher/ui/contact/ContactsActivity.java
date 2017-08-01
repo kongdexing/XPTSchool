@@ -1,6 +1,5 @@
 package com.xptschool.teacher.ui.contact;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
@@ -30,7 +29,6 @@ import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.main.BaseActivity;
-import com.xptschool.teacher.util.ChatUtil;
 
 import org.json.JSONObject;
 

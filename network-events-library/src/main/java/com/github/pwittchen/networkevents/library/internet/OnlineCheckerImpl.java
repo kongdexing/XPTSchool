@@ -18,7 +18,9 @@ package com.github.pwittchen.networkevents.library.internet;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+
 import com.github.pwittchen.networkevents.library.receiver.InternetConnectionChangeReceiver;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;

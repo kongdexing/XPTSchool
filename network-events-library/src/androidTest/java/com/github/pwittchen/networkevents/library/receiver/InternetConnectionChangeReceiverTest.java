@@ -18,13 +18,13 @@ package com.github.pwittchen.networkevents.library.receiver;
 import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.github.pwittchen.networkevents.library.ConnectivityStatus;
 import com.github.pwittchen.networkevents.library.BusWrapper;
-import com.github.pwittchen.networkevents.library.logger.Logger;
+import com.github.pwittchen.networkevents.library.ConnectivityStatus;
 import com.github.pwittchen.networkevents.library.NetworkState;
+import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
+import com.github.pwittchen.networkevents.library.logger.Logger;
 import com.github.pwittchen.networkevents.library.utils.OttoBusWrapper;
 import com.github.pwittchen.networkevents.library.utils.TestUtils;
-import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 

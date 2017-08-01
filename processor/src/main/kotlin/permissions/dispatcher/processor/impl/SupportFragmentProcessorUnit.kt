@@ -2,7 +2,7 @@ package permissions.dispatcher.processor.impl
 
 import com.squareup.javapoet.MethodSpec
 import permissions.dispatcher.processor.RuntimePermissionsElement
-import permissions.dispatcher.processor.util.*
+import permissions.dispatcher.processor.util.typeMirrorOf
 import javax.lang.model.type.TypeMirror
 
 /**

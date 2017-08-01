@@ -3,12 +3,8 @@ package com.xptschool.teacher.common;
 import android.content.Context;
 import android.os.Environment;
 
-import com.xptschool.teacher.XPTApplication;
-
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

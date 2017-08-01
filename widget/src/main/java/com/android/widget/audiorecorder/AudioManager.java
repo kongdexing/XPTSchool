@@ -1,14 +1,10 @@
 package com.android.widget.audiorecorder;
 
-import android.content.Context;
 import android.media.MediaRecorder;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 /**

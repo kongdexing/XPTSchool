@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.jph.takephoto.model.TException;
 import com.jph.takephoto.model.TExceptionType;

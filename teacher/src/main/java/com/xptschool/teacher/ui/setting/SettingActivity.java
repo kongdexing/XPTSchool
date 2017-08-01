@@ -20,8 +20,8 @@ import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
 import com.xptschool.teacher.server.ServerManager;
-import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.ui.login.LoginActivity;
+import com.xptschool.teacher.ui.main.BaseActivity;
 import com.xptschool.teacher.ui.main.WebViewActivity;
 import com.xptschool.teacher.view.CustomDialog;
 

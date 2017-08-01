@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 
 import com.android.widget.view.DragPhotoView;
 import com.nostra13.universalimageloader.core.ImageLoader;

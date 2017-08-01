@@ -6,7 +6,6 @@ import android.os.IBinder;
 
 import com.coolerfall.daemon.Daemon;
 import com.umeng.message.PushAgent;
-import com.xptschool.parent.server.SocketService;
 
 /**
  * Created by dexing on 2017/5/19.

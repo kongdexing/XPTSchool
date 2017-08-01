@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.OrientationEventListener;
 import android.view.View;
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
@@ -20,7 +19,6 @@ import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.ui.main.BaseActivity;
 

@@ -2,9 +2,6 @@ package com.xptschool.parent.bean;
 
 import com.android.widget.spinner.SpinnerModel;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-
 /**
  * Created by dexing on 2016/11/24.
  */

@@ -16,7 +16,6 @@ import android.hardware.SensorManager;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Vibrator;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;

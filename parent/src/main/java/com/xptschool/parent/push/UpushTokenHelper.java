@@ -1,27 +1,12 @@
 package com.xptschool.parent.push;
 
-import android.content.Context;
-import android.os.Build;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
-import com.android.volley.common.VolleyRequestListener;
-import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.net.URLEncoder;
-import java.util.List;
 
 /**
  * Created by dexing on 2017/2/4.

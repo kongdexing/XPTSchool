@@ -1,20 +1,17 @@
 package com.xptschool.parent.ui.mine;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.xptschool.parent.R;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.ui.cardset.ChildFragment;
+import com.xptschool.parent.ui.main.BaseListActivity;
 
 import java.util.ArrayList;
 import java.util.List;

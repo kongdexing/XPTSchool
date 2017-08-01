@@ -25,11 +25,9 @@ import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.xptschool.parent.R;
-import com.xptschool.parent.common.ActivityTaskHelper;
 import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.ui.chat.ChatActivity;
 import com.xptschool.parent.ui.contact.ContactsActivity;
 import com.xptschool.parent.ui.login.LoginActivity;
 

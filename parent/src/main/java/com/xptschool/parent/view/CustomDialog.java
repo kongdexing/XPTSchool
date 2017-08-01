@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.common.CommonUtil;
 
 /**
  * Created by Administrator on 2016/10/28.

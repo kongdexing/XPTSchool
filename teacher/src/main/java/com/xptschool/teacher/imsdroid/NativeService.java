@@ -23,18 +23,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
 
 import com.coolerfall.daemon.Daemon;
 import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.push.AMHelper;
-import com.xptschool.teacher.server.SocketService;
 import com.xptschool.teacher.ui.chat.video.CallScreen;
 
 import org.doubango.ngn.NgnNativeService;

@@ -1,7 +1,5 @@
 package com.xptschool.parent.ui.contact;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
@@ -20,13 +18,13 @@ import com.android.widget.groupexpandable.WrapperExpandableListAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
+import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.ContactSchool;
 import com.xptschool.parent.model.ContactTeacher;
-import com.xptschool.parent.common.CommonUtil;
-import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
 

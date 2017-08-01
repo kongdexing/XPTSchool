@@ -1,6 +1,7 @@
 package permissions.dispatcher.processor;
 
 import org.junit.Test;
+
 import permissions.dispatcher.processor.base.TestSuite;
 
 public class ClasspathTestSuite extends TestSuite {

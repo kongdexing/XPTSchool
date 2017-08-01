@@ -4,7 +4,7 @@ import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.MethodSpec
 import permissions.dispatcher.processor.RuntimePermissionsElement
 import permissions.dispatcher.processor.exception.SupportV13MissingException
-import permissions.dispatcher.processor.util.*
+import permissions.dispatcher.processor.util.typeMirrorOf
 import javax.lang.model.type.TypeMirror
 
 class NativeFragmentProcessorUnit: BaseProcessorUnit() {

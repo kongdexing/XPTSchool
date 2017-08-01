@@ -2,13 +2,9 @@ package com.xptschool.teacher.ui.album;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.LayoutRes;
-import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -16,16 +12,11 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.widget.audiorecorder.AudioManager;
-import com.android.widget.audiorecorder.MediaPlayerManager;
-import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.compress.CompressConfig;
 import com.jph.takephoto.model.CropOptions;
@@ -33,25 +24,14 @@ import com.jph.takephoto.model.TImage;
 import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.model.TakePhotoOptions;
 import com.jph.takephoto.uitl.TFileUtils;
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloader;
-import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.bean.BeanHomeWork;
 import com.xptschool.teacher.common.LocalImageHelper;
-import com.xptschool.teacher.util.ToastUtils;
 import com.xptschool.teacher.view.AlbumSourceView;
 import com.xptschool.teacher.view.imgloader.AlbumViewPager;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by Administrator on 2016/10/29.

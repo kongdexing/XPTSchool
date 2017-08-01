@@ -2,9 +2,9 @@ package permissions.dispatcher.processor
 
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeVariableName
-import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.OnNeverAskAgain
+import permissions.dispatcher.OnPermissionDenied
 import permissions.dispatcher.OnShowRationale
 import permissions.dispatcher.processor.util.*
 import javax.lang.model.element.ExecutableElement

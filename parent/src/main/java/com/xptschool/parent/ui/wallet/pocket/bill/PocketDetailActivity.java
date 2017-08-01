@@ -1,7 +1,7 @@
 package com.xptschool.parent.ui.wallet.pocket.bill;
 
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.Toast;
 

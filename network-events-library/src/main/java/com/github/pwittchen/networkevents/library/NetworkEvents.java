@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+
 import com.github.pwittchen.networkevents.library.internet.OnlineChecker;
 import com.github.pwittchen.networkevents.library.internet.OnlineCheckerImpl;
 import com.github.pwittchen.networkevents.library.logger.Logger;

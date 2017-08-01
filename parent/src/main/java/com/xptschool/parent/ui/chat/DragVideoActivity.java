@@ -2,28 +2,20 @@ package com.xptschool.parent.ui.chat;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.SurfaceHolder;
 import android.widget.MediaController;
-import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.android.widget.view.DragLayoutView;
-import com.android.widget.view.DragPhotoView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.ui.main.BaseActivity;
 
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

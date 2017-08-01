@@ -2,9 +2,7 @@ package com.xptschool.parent.ui.wallet.bankcard;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,24 +20,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
-import com.xptschool.parent.common.ImageUtils;
-import com.xptschool.parent.common.LocalImageHelper;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.model.BeanStudent;
-import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.album.AlbumActivity;
 import com.xptschool.parent.ui.main.BaseListActivity;
-import com.xptschool.parent.ui.wallet.bill.BeanCadBill;
-import com.xptschool.parent.ui.wallet.bill.BillActivity;
-import com.xptschool.parent.ui.wallet.bill.BillAdapter;
-import com.xptschool.parent.util.ToastUtils;
-import com.xptschool.parent.view.AlbumSourceView;
 
-import org.json.JSONObject;
-
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;

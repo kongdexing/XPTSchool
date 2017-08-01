@@ -1,6 +1,5 @@
 package com.android.widget.calendar;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;

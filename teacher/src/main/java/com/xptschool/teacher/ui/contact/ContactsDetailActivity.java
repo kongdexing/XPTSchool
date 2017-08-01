@@ -19,22 +19,16 @@ import android.widget.Toast;
 
 import com.android.widget.view.CircularImageView;
 import com.android.widget.view.KenBurnsView;
-import com.jph.takephoto.app.TakePhoto;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.adapter.DividerItemDecoration;
 import com.xptschool.teacher.adapter.WrapContentLinearLayoutManager;
 import com.xptschool.teacher.common.ExtraKey;
-import com.xptschool.teacher.common.LocalImageHelper;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.ContactStudent;
 import com.xptschool.teacher.model.ContactTeacher;
-import com.xptschool.teacher.ui.album.AlbumActivity;
 import com.xptschool.teacher.ui.chat.ChatActivity;
 import com.xptschool.teacher.ui.main.BaseActivity;
-import com.xptschool.teacher.util.ToastUtils;
-import com.xptschool.teacher.view.AlbumSourceView;
 
-import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;

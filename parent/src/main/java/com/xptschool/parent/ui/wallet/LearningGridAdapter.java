@@ -18,7 +18,6 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
-import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.BeanLearningModule;
 import com.xptschool.parent.ui.main.WebViewActivity;

@@ -5,9 +5,6 @@ import android.util.Log;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.util.ChatUtil;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;

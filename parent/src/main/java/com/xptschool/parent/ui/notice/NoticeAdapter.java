@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,10 +14,9 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.bean.BeanClassInfo;
+import com.xptschool.parent.bean.BeanNotice;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.bean.BeanNotice;
-import com.xptschool.parent.model.GreenDaoHelper;
 
 import java.util.ArrayList;
 import java.util.List;

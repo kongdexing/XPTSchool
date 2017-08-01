@@ -1,47 +1,22 @@
 package com.xptschool.parent.ui.album;
 
 import android.Manifest;
-import android.content.Intent;
-import android.media.ExifInterface;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.widget.audiorecorder.MediaPlayerManager;
-import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloader;
-import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.xptschool.parent.R;
-import com.xptschool.parent.bean.BeanHomeWork;
-import com.xptschool.parent.common.ImageUtils;
-import com.xptschool.parent.common.LocalFile;
 import com.xptschool.parent.common.LocalImageHelper;
-import com.xptschool.parent.common.StringUtils;
 import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.view.imgloader.AlbumViewPager;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;

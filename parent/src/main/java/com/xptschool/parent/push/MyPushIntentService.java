@@ -9,7 +9,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.umeng.message.UmengMessageService;
-import com.umeng.message.common.UmLog;
 import com.umeng.message.entity.UMessage;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;

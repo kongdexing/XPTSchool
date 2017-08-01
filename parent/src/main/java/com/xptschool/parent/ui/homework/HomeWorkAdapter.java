@@ -10,23 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
-import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.bean.BeanHomeWork;
-import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.ui.chat.ChatActivity;
-import com.xptschool.parent.util.ChatUtil;
-import com.xptschool.parent.view.CustomDialog;
 
 import java.util.ArrayList;
 import java.util.List;

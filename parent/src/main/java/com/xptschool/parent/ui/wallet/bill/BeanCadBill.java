@@ -1,17 +1,5 @@
 package com.xptschool.parent.ui.wallet.bill;
 
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.xptschool.parent.R;
-import com.xptschool.parent.adapter.RecyclerViewHolderBase;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Created by dexing on 2017/4/13.
  * No1

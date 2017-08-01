@@ -21,8 +21,8 @@ import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
-import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.login.LoginActivity;
+import com.xptschool.parent.ui.main.BaseActivity;
 import com.xptschool.parent.ui.main.WebViewActivity;
 import com.xptschool.parent.view.CustomDialog;
 

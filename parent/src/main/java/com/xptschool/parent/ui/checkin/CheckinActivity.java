@@ -2,7 +2,6 @@ package com.xptschool.parent.ui.checkin;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -24,7 +23,6 @@ import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
-import com.xptschool.parent.ui.homework.HomeWorkActivity;
 import com.xptschool.parent.ui.main.BaseListActivity;
 
 import org.json.JSONObject;

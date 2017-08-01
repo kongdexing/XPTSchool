@@ -15,7 +15,6 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
 import com.xptschool.parent.ui.wallet.pocket.BeanPocketRecord;
-import com.xptschool.parent.ui.wallet.pocket.bill.BillDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;

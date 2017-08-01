@@ -1,9 +1,7 @@
 package com.xptschool.parent.ui.main;
 
-import android.content.Intent;
-import android.provider.ContactsContract;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 

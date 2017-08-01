@@ -19,8 +19,8 @@ import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.github.pwittchen.networkevents.library.BusWrapper;
-import com.github.pwittchen.networkevents.library.logger.Logger;
 import com.github.pwittchen.networkevents.library.event.WifiSignalStrengthChanged;
+import com.github.pwittchen.networkevents.library.logger.Logger;
 import com.github.pwittchen.networkevents.library.utils.OttoBusWrapper;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;

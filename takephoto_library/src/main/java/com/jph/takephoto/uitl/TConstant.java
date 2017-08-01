@@ -1,7 +1,6 @@
 package com.jph.takephoto.uitl;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * 常量类

@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,11 +16,9 @@ import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.ContactSchool;
 import com.xptschool.parent.model.ContactTeacher;
-import com.xptschool.parent.ui.chat.ChatActivity;
 import com.xptschool.parent.ui.main.BaseActivity;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class ContactsDetailActivity extends BaseActivity {
 

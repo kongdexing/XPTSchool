@@ -19,7 +19,6 @@ import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.ui.chat.ChatActivity;
-import com.xptschool.parent.ui.chat.DragPhotoActivity;
 import com.xptschool.parent.ui.chat.DragVideoActivity;
 
 import java.io.File;

@@ -20,7 +20,6 @@
 package org.doubango.ngn.utils;
 
 import org.doubango.ngn.NgnEngine;
-import org.doubango.ngn.model.NgnContact;
 import org.doubango.tinyWRAP.SipUri;
 
 //FIXME: THIS IS THE WORST CLASS YOU WILL FIND IN THE PROJECT ;)

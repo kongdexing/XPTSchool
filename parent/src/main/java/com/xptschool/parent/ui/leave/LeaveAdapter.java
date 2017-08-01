@@ -11,13 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.map.Text;
 import com.xptschool.parent.R;
 import com.xptschool.parent.adapter.BaseRecycleAdapter;
 import com.xptschool.parent.adapter.RecyclerViewHolderBase;
-import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.bean.BeanLeave;
-import com.xptschool.parent.bean.LeaveType;
 import com.xptschool.parent.common.ExtraKey;
 
 import java.util.ArrayList;

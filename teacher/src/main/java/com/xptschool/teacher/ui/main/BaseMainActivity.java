@@ -1,6 +1,5 @@
 package com.xptschool.teacher.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -11,7 +10,6 @@ import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.push.MyPushIntentService;
 import com.xptschool.teacher.push.UpushTokenHelper;
 import com.xptschool.teacher.server.ServerManager;

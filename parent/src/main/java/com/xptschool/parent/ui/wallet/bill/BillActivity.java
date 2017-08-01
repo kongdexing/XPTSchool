@@ -13,12 +13,10 @@ import com.android.widget.view.LoadMoreRecyclerView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xptschool.parent.R;
-import com.xptschool.parent.bean.BeanHomeWork;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.ui.homework.HomeWorkActivity;
 import com.xptschool.parent.ui.main.BaseListActivity;
 
 import org.json.JSONObject;

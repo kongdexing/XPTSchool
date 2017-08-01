@@ -20,7 +20,6 @@ import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanLearningModule;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.cardset.ContractClickActivity;
-import com.xptschool.parent.ui.wallet.card.CardRechargeActivity;
 import com.xptschool.parent.util.ToastUtils;
 import com.xptschool.parent.view.CustomEditDialog;
 

@@ -20,7 +20,6 @@
 package com.xptschool.teacher.imsdroid;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.util.Log;
 

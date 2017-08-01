@@ -4,17 +4,12 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
-import com.umeng.message.UTrack;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 import com.xptschool.parent.R;
-import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.ui.alarm.AlarmMapActivity;
 
 import java.util.Map;

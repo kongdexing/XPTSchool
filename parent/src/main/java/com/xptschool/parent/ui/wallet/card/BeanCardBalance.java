@@ -1,7 +1,5 @@
 package com.xptschool.parent.ui.wallet.card;
 
-import com.xptschool.parent.model.BeanStudent;
-
 /**
  * Created by dexing on 2017/4/13.
  * No1

@@ -9,7 +9,6 @@ import android.util.Log;
 import com.coolerfall.daemon.Daemon;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
-import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.ui.chat.ToSendMessage;
 
 import java.io.InputStream;

@@ -26,7 +26,6 @@ import com.xptschool.parent.view.decorators.OneDayDecorator;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class TimePickerPopupWindow extends PopupWindow implements View.OnClickListener {

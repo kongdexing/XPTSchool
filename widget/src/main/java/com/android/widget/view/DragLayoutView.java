@@ -10,8 +10,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
-import uk.co.senab.photoview.PhotoView;
-
 public class DragLayoutView extends LinearLayout {
     private Paint mPaint;
 
