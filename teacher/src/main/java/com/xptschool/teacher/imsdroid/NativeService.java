@@ -74,11 +74,16 @@ public class NativeService extends NgnNativeService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
+        if (mEngine == null) {
+            Log.i(TAG, "onCreate mEngine is null: ");
+            return;
+        }
+
         Daemon.run(NativeService.this,
                 NativeService.class, Daemon.INTERVAL_ONE_MINUTE);
 
-        mSipService = getEngine().getSipService();
-        this.mConfigurationService = getEngine().getConfigurationService();
+        mSipService = mEngine.getSipService();
+        this.mConfigurationService = mEngine.getConfigurationService();
 
         initNgnConfig();
 
@@ -94,15 +99,17 @@ public class NativeService extends NgnNativeService {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         Log.d(TAG, "onStart()");
-
-        if (!Engine.getInstance().isStarted()) {
-            final Engine engine = getEngine();
+        if (mEngine == null) {
+            Log.i(TAG, "onStart: mEngine is null");
+            return;
+        }
+        if (!mEngine.isStarted()) {
             final Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (!engine.isStarted()) {
+                    if (!mEngine.isStarted()) {
                         Log.d(TAG, "Starts the engine from the splash screen");
-                        engine.start();
+                        mEngine.start();
                     }
                 }
             });
@@ -111,9 +118,6 @@ public class NativeService extends NgnNativeService {
         } else {
             registerVideoServer();
         }
-
-        // register()
-
     }
 
     private Engine getEngine() {
@@ -270,7 +274,11 @@ public class NativeService extends NgnNativeService {
     public void onDestroy() {
         Log.i(TAG, "onDestroy()");
         if (mBroadcastReceiver != null) {
-            unregisterReceiver(mBroadcastReceiver);
+            try {
+                unregisterReceiver(mBroadcastReceiver);
+            } catch (Exception ex) {
+                Log.i(TAG, "onDestroy: not registered");
+            }
             mBroadcastReceiver = null;
         }
         if (mWakeLock != null) {
@@ -279,7 +287,9 @@ public class NativeService extends NgnNativeService {
                 mWakeLock = null;
             }
         }
-        getEngine().stop();
+        if (mEngine != null) {
+            mEngine.stop();
+        }
         super.onDestroy();
     }
 }

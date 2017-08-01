@@ -1,6 +1,5 @@
 package com.xptschool.teacher;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
@@ -23,14 +22,11 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.message.MsgConstant;
-import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 import com.xptschool.teacher.common.LocalImageHelper;
+import com.xptschool.teacher.imsdroid.NetWorkStatusChangeHelper;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.push.MyPushIntentService;
-import com.xptschool.teacher.push.MyUmengMessageHandler;
 import com.xptschool.teacher.ui.main.MainActivity;
 
 import org.doubango.ngn.NgnApplication;
@@ -60,6 +56,7 @@ public class XPTApplication extends NgnApplication {
         mInstance = this;
         init();
         initBugly();
+        NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
     }
 
     public static XPTApplication getInstance() {

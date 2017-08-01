@@ -76,7 +76,6 @@ public class SocketService extends Service {
             public void run() {
                 if (!isStop) {
                     receiveMessage();
-                    startService(new Intent(SocketService.this, NativeService.class));
                 }
             }
         }, 1000, 2 * 1000);

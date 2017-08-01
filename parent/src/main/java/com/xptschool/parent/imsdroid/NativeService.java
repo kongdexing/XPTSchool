@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.coolerfall.daemon.Daemon;
 import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
@@ -75,6 +76,9 @@ public class NativeService extends NgnNativeService {
             Log.i(TAG, "onCreate mEngine is null: ");
             return;
         }
+        Daemon.run(NativeService.this,
+                NativeService.class, Daemon.INTERVAL_ONE_MINUTE);
+
         mSipService = mEngine.getSipService();
         this.mConfigurationService = mEngine.getConfigurationService();
 

@@ -26,20 +26,23 @@ public class ServerManager {
         Intent intent = new Intent(context, SocketService.class);
         context.startService(intent);
 
-        context.startService(new Intent(context, NativeService.class));
+        startNativeService(context);
     }
 
     public void stopServer(Context context) {
         Log.i("Native", "stopServer: ");
         context.stopService(new Intent(context, SocketService.class));
-        context.stopService(new Intent(context, NativeService.class));
+        stopNativeService(context);
+    }
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 2 * 1000);
+    public void startNativeService(Context context) {
+        Log.i("Event", "startNativeService: ");
+        context.startService(new Intent(context, NativeService.class));
+    }
+
+    public void stopNativeService(Context context) {
+        Log.i("Event", "stopNativeService: ");
+        context.stopService(new Intent(context, NativeService.class));
     }
 
     public void sendMessage(ToSendMessage message) {
