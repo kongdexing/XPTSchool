@@ -261,3 +261,9 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
+
+##huawei push
+-keep class com.huawei.android.pushagent.**{*;}
+-keep class com.huawei.android. pushselfshow.**{*;}
+-keep class com.huawei.android. microkernel.**{*;}
+-keep class com.baidu.mapapi.**{*;}

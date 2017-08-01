@@ -46,12 +46,19 @@ android {
             keyAlias 'XPTSchool'
             keyPassword 'shuhai123'
         }
+        debugCfg {
+            storeFile file('../keystore/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
     }
 
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.debugCfg
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
@@ -166,4 +173,6 @@ dependencies {
     compile(project(':network-events-library'))
     // Greenrobot EventBus 3 Beta
     compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile 'com.huawei.android.hms:push:2.5.2.201'
 }
