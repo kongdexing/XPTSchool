@@ -57,6 +57,21 @@
     <!-- 访问Push APK provider需要的权限，SDK富媒体需要,无富媒体功能则不需要 -->
     <uses-permission android:name="com.huawei.pushagent.permission.RICHMEDIA_PROVIDER" />
 
+    <uses-permission android:name="com.meizu.flyme.push.permission.RECEIVE"></uses-permission>
+
+    <permission
+        android:name="${PACKAGE_NAME}.push.permission.MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="${PACKAGE_NAME}.push.permission.MESSAGE"></uses-permission>
+
+    <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="${PACKAGE_NAME}.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"></permission>
+    <uses-permission android:name="${PACKAGE_NAME}.permission.C2D_MESSAGE" />
+
     <application
         android:name=".XPTApplication"
         android:allowBackup="true"
@@ -82,6 +97,35 @@
         <meta-data
             android:name="com.huawei.hms.client.appid"
             android:value="100050369" />
+
+        <!--start 魅族-->
+        <meta-data
+            android:name="APP_ID"
+            android:value="${MZ_APP_ID}" />
+
+        <meta-data
+            android:name="APP_KEY"
+            android:value="${MZ_APP_KEY}" />
+
+        <!-- push应用定义消息receiver声明 -->
+        <receiver android:name=".receiver.PushMsgReceiver">
+            <intent-filter>
+                <!-- 接收push消息 -->
+                <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
+                <!-- 接收register消息-->
+                <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK" />
+                <!-- 接收unregister消息-->
+                <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK" />
+
+                <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
+                <action android:name="com.meizu.c2dm.intent.RECEIVE" />
+
+                <category android:name="${PACKAGE_NAME}"></category>
+            </intent-filter>
+        </receiver>
+        <service android:name=".server.ForegroundService" />
+
+        <!--魅族 end-->
 
         <activity
             android:name=".ui.main.MainActivity"

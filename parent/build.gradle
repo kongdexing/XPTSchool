@@ -5,6 +5,12 @@ apply plugin: 'org.greenrobot.greendao'
 // 依赖插件脚本
 //apply from: 'tinker-support.gradle'
 
+def MZAppId = project.getProperties().get("MZ_APP_ID") ?: "100999"
+def MZAppKey = project.getProperties().get("MZ_APP_KEY") ?: "80355073480594a99470dcacccd8cf2c"
+def appPackageName = project.getProperties().get("PACKAGE_NAME") ?: "com.meizu.pushdemo"
+
+println("appID = ${MZAppId} appKey = ${MZAppKey} appPackageName = ${appPackageName}")
+
 repositories {
     flatDir {
         dir 'libs'
@@ -26,7 +32,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [API_KEY_BAIDU       : rootProject.appKeyBaiduMap_parent,
                                 UMENG_APPKEY        : rootProject.UMENG_APPKEY_parent,
-                                UMENG_MESSAGE_SECRET: rootProject.UMENG_MESSAGE_SECRET_parent]
+                                UMENG_MESSAGE_SECRET: rootProject.UMENG_MESSAGE_SECRET_parent,
+                                MZ_APP_ID           : MZAppId,
+                                MZ_APP_KEY          : MZAppKey,
+                                PACKAGE_NAME        : appPackageName]
 
 //        ndk {
 //            //设置支持的SO库架构
@@ -175,4 +184,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     compile 'com.huawei.android.hms:push:2.5.2.201'
+    //meizu push
+    compile 'com.meizu.flyme.internet:push-internal:3.4.0@aar'
 }
