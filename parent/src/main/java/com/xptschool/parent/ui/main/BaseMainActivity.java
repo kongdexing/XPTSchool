@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.huawei.android.pushagent.api.PushManager;
 import com.huawei.hms.api.ConnectionResult;
 import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.api.HuaweiApiClient;
@@ -39,18 +40,6 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
         String carrier = android.os.Build.MANUFACTURER;
         Log.i(TAG, "onCreate: " + model + "  " + carrier);
 
-        //创建华为移动服务client实例用以使用华为push服务
-        //需要指定api为HuaweiId.PUSH_API
-        //连接回调以及连接失败监听
-        client = new HuaweiApiClient.Builder(this)
-                .addApi(HuaweiPush.PUSH_API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        //建议在oncreate的时候连接华为移动服务
-        //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
-        client.connect();
-
         if (carrier.toUpperCase().equals("XIAOMI")) {
             MiPushClient.registerPush(this, XPTApplication.APP_MIID, XPTApplication.APP_KEY);
             LoggerInterface newLogger = new LoggerInterface() {
@@ -73,6 +62,18 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             Logger.setLogger(this, newLogger);
             //推送可用
             MiPushClient.enablePush(this);
+        } else if (carrier.toUpperCase().equals("HUAWEI")) {
+            //创建华为移动服务client实例用以使用华为push服务
+            //需要指定api为HuaweiId.PUSH_API
+            //连接回调以及连接失败监听
+            client = new HuaweiApiClient.Builder(this)
+                    .addApi(HuaweiPush.PUSH_API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+            //建议在oncreate的时候连接华为移动服务
+            //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
+            client.connect();
         } else {
             //友盟
             final PushAgent mPushAgent = PushAgent.getInstance(this);
@@ -124,6 +125,8 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             return;
         }
 
+        PushManager.requestToken(this);
+
         Log.i(TAG, "异步接口获取push token");
         PendingResult<TokenResult> tokenResult = HuaweiPush.HuaweiPushApi.getToken(client);
         tokenResult.setResultCallback(new ResultCallback<TokenResult>() {
@@ -131,14 +134,14 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             @Override
             public void onResult(TokenResult result) {
                 //这边的结果只表明接口调用成功，是否能收到响应结果只在广播中接收
-                Log.i(TAG, "onResult: " + result.getTokenRes().getRetCode());
+                Log.i(TAG, "onResult code:" + result.getTokenRes().getRetCode() + "  token:" + result.getTokenRes().getToken());
             }
         });
     }
 
     @Override
     public void onConnected() {
-//华为移动服务client连接成功，在这边处理业务自己的事件
+        //华为移动服务client连接成功，在这边处理业务自己的事件
         Log.i(TAG, "HuaweiApiClient 连接成功");
         getHWTokenAsyn();
     }
@@ -185,7 +188,9 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
         super.onDestroy();
         //建议在onDestroy的时候停止连接华为移动服务
         //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
-        client.disconnect();
+        if (client != null) {
+            client.disconnect();
+        }
 
     }
 
