@@ -138,7 +138,7 @@ public class NativeService extends NgnNativeService {
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
         mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
         mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
-
+        mConfigurationService.putBoolean(NgnConfigurationEntry.NATT_STUN_DISCO, true);
 //        // Compute
         if (!mConfigurationService.commit()) {
             Log.e(TAG, "Failed to commit() configuration");
@@ -276,7 +276,7 @@ public class NativeService extends NgnNativeService {
         if (mBroadcastReceiver != null) {
             try {
                 unregisterReceiver(mBroadcastReceiver);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 Log.i(TAG, "onDestroy: not registered");
             }
             mBroadcastReceiver = null;
