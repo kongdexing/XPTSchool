@@ -57,20 +57,18 @@
     <!-- 访问Push APK provider需要的权限，SDK富媒体需要,无富媒体功能则不需要 -->
     <uses-permission android:name="com.huawei.pushagent.permission.RICHMEDIA_PROVIDER" />
 
+    <!--start meizu-->
     <uses-permission android:name="com.meizu.flyme.push.permission.RECEIVE"></uses-permission>
-
     <permission
         android:name="${PACKAGE_NAME}.push.permission.MESSAGE"
         android:protectionLevel="signature" />
-
     <uses-permission android:name="${PACKAGE_NAME}.push.permission.MESSAGE"></uses-permission>
-
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
-
     <permission
         android:name="${PACKAGE_NAME}.permission.C2D_MESSAGE"
         android:protectionLevel="signature"></permission>
     <uses-permission android:name="${PACKAGE_NAME}.permission.C2D_MESSAGE" />
+    <!--start meizu-->
 
     <application
         android:name=".XPTApplication"
@@ -397,7 +395,6 @@
         <!--MiPush-->
 
         <!--start 华为推送-->
-
         <activity
             android:name="com.huawei.hms.activity.BridgeActivity"
             android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"

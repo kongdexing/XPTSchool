@@ -7,7 +7,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 def MZAppId = project.getProperties().get("MZ_APP_ID") ?: "100999"
 def MZAppKey = project.getProperties().get("MZ_APP_KEY") ?: "80355073480594a99470dcacccd8cf2c"
-def appPackageName = project.getProperties().get("PACKAGE_NAME") ?: "com.meizu.pushdemo"
+def appPackageName = project.getProperties().get("PACKAGE_NAME") ?: "com.xptschool.parent"
 
 println("appID = ${MZAppId} appKey = ${MZAppKey} appPackageName = ${appPackageName}")
 

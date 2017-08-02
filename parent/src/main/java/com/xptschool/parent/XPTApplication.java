@@ -40,13 +40,11 @@ import java.net.Proxy;
  */
 public class XPTApplication extends NgnApplication {
 
-    // user your appid the key.
-    public static final String APP_MIID = "2882303761517599079";
-    // user your appid the key.
-    public static final String APP_KEY = "5961759967079";
+    public static final String APP_MIPUSH_ID = "2882303761517599079";
+    public static final String APP_MIPUSH_KEY = "5961759967079";
 
-    public static final String MZ_APP_ID = "3e1429a7a5"; // TODO bugly上注册的appid
-    public static final String MZ_APP_KEY = "3e1429a7a5"; // TODO bugly上注册的appid
+    public static final String MZ_APP_ID = "3e1429a7a5";
+    public static final String MZ_APP_KEY = "3e1429a7a5";
 
     public static final String APP_ID = "3e1429a7a5"; // TODO bugly上注册的appid
     private static XPTApplication mInstance;

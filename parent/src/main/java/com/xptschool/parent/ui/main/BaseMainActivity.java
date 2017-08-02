@@ -41,7 +41,7 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
         Log.i(TAG, "onCreate: " + model + "  " + carrier);
 
         if (carrier.toUpperCase().equals("XIAOMI")) {
-            MiPushClient.registerPush(this, XPTApplication.APP_MIID, XPTApplication.APP_KEY);
+            MiPushClient.registerPush(this, XPTApplication.APP_MIPUSH_ID, XPTApplication.APP_MIPUSH_KEY);
             LoggerInterface newLogger = new LoggerInterface() {
 
                 @Override
@@ -127,8 +127,6 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             client.connect();
             return;
         }
-
-//        PushManager.requestToken(this);
 
         Log.i(TAG, "异步接口获取push token");
         PendingResult<TokenResult> tokenResult = HuaweiPush.HuaweiPushApi.getToken(client);

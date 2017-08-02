@@ -5,6 +5,12 @@ apply plugin: 'org.greenrobot.greendao'
 // 依赖插件脚本
 //apply from: 'tinker-support.gradle'
 
+def MZAppId = project.getProperties().get("MZ_APP_ID") ?: "100999"
+def MZAppKey = project.getProperties().get("MZ_APP_KEY") ?: "80355073480594a99470dcacccd8cf2c"
+def appPackageName = project.getProperties().get("PACKAGE_NAME") ?: "com.xptschool.teacher"
+
+println("appID = ${MZAppId} appKey = ${MZAppKey} appPackageName = ${appPackageName}")
+
 repositories {
     flatDir {
         dir 'libs'
@@ -26,7 +32,10 @@ android {
 
         manifestPlaceholders = [API_KEY_BAIDU       : rootProject.appKeyBaiduMap_teacher,
                                 UMENG_APPKEY        : rootProject.UMENG_APPKEY_teacher,
-                                UMENG_MESSAGE_SECRET: rootProject.UMENG_MESSAGE_SECRET_teacher]
+                                UMENG_MESSAGE_SECRET: rootProject.UMENG_MESSAGE_SECRET_teacher,
+                                MZ_APP_ID           : MZAppId,
+                                MZ_APP_KEY          : MZAppKey,
+                                PACKAGE_NAME        : appPackageName]
 
 //        ndk {
 //            //设置支持的SO库架构
@@ -46,12 +55,19 @@ android {
             keyAlias 'XPTSchool'
             keyPassword 'shuhai123'
         }
+        debugCfg {
+            storeFile file('../keystore/debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
     }
 
     buildTypes {
         debug {
             debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.debugCfg
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
@@ -164,5 +180,9 @@ dependencies {
     compile(project(':network-events-library'))
     // Greenrobot EventBus 3 Beta
     compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile 'com.huawei.android.hms:push:2.5.2.201'
+    //meizu push
+    compile 'com.meizu.flyme.internet:push-internal:3.4.0@aar'
 
 }

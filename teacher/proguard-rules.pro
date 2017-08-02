@@ -248,3 +248,18 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 -keep class android.support.**{*;}
+
+##huawei push
+-keep class com.huawei.android.pushagent.**{*;}
+-keep class com.huawei.android. pushselfshow.**{*;}
+-keep class com.huawei.android. microkernel.**{*;}
+-keep class com.baidu.mapapi.**{*;}
+-keep class com.huawei.hms.**{*;}
+
+##meizu push
+-keep class com.meizu.cloud.pushsdk.** { *; }
+-dontwarn  com.meizu.cloud.pushsdk.**
+-keep class com.meizu.nebula.** { *; }
+-dontwarn com.meizu.nebula.**
+-keep class com.meizu.push.** { *; }
+-dontwarn com.meizu.push.**
