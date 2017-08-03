@@ -23,9 +23,9 @@ import com.xptschool.parent.util.Log;
  *           透传消息不会展示在通知栏，应用会收到onPushMsg
  * onEvent 该方法会在设置标签、点击打开通知栏消息、点击通知栏上的按钮之后被调用。由业务决定是否调用该函数。
  */
-public class HuaweiPushRevicer extends PushReceiver {
+public class HuaWeiPushReceiver extends PushReceiver {
 
-	public static final String TAG = "HuaweiPushRevicer";
+	public static final String TAG = HuaWeiPushReceiver.class.getSimpleName();
 
 	public static final String ACTION_UPDATEUI = "action.updateUI"; 
     @Override

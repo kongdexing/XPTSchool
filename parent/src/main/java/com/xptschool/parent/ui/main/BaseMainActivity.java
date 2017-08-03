@@ -1,8 +1,13 @@
 package com.xptschool.parent.ui.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.huawei.hms.api.ConnectionResult;
 import com.huawei.hms.api.HuaweiApiAvailability;
@@ -31,6 +36,7 @@ import com.xptschool.parent.server.ServerManager;
 public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener {
 
     private HuaweiApiClient client;
+    private UpdateUIBroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +80,9 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             //建议在oncreate的时候连接华为移动服务
             //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
             client.connect();
+            registerBroadcast();
         } else if (carrier.toUpperCase().equals("MEIZU")) {
             PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
-
         } else {
             //友盟
             final PushAgent mPushAgent = PushAgent.getInstance(this);
@@ -184,6 +190,42 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
         ServerManager.getInstance().startService(this);
     }
 
+    /**
+     * 以下代码为sample自身逻辑，和业务能力不相关
+     * 作用仅仅为了在sample界面上显示push相关信息
+     */
+    private void registerBroadcast() {
+        String ACTION_UPDATEUI = "action.updateUI";
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_UPDATEUI);
+        broadcastReceiver = new UpdateUIBroadcastReceiver();
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    /**
+     * 定义广播接收器（内部类）
+     */
+    private class UpdateUIBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int type = intent.getExtras().getInt("type");
+            if (type == 1) {
+                String token = intent.getExtras().getString("token");
+                Log.i(TAG, "onReceive token : " + token);
+                UpushTokenHelper.uploadDevicesToken(token, "HWPush");
+            } else if (type == 2) {
+                boolean status = intent.getExtras().getBoolean("pushState");
+                if (status == true) {
+                    Log.i(TAG, "onReceive: 已连接");
+                } else {
+                    Log.i(TAG, "onReceive: 未连接");
+                }
+            }
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -191,8 +233,12 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
         //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
         if (client != null) {
             client.disconnect();
-        }
+            try {
+                unregisterReceiver(broadcastReceiver);
+            } catch (Exception ex) {
 
+            }
+        }
     }
 
 }
