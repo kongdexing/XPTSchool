@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.push.MyPushIntentService;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
@@ -36,7 +38,7 @@ import com.xptschool.parent.server.ServerManager;
 public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener {
 
     private HuaweiApiClient client;
-    private UpdateUIBroadcastReceiver broadcastReceiver;
+    private UpdateUIBroadcastReceiver HWPushBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,8 +201,8 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_UPDATEUI);
-        broadcastReceiver = new UpdateUIBroadcastReceiver();
-        registerReceiver(broadcastReceiver, filter);
+        HWPushBroadcastReceiver = new UpdateUIBroadcastReceiver();
+        registerReceiver(HWPushBroadcastReceiver, filter);
     }
 
     /**
@@ -213,7 +215,8 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             int type = intent.getExtras().getInt("type");
             if (type == 1) {
                 String token = intent.getExtras().getString("token");
-                Log.i(TAG, "onReceive token : " + token);
+
+                Log.i(TAG, "onReceive token : " + token + "  IMEI:" + CommonUtil.getDeviceId());
                 UpushTokenHelper.uploadDevicesToken(token, "HWPush");
             } else if (type == 2) {
                 boolean status = intent.getExtras().getBoolean("pushState");
@@ -234,7 +237,7 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
         if (client != null) {
             client.disconnect();
             try {
-                unregisterReceiver(broadcastReceiver);
+                unregisterReceiver(HWPushBroadcastReceiver);
             } catch (Exception ex) {
 
             }
