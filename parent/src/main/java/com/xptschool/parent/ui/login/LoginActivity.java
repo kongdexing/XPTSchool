@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,24 +19,39 @@ import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.huawei.hms.api.ConnectionResult;
+import com.huawei.hms.api.HuaweiApiAvailability;
+import com.huawei.hms.api.HuaweiApiClient;
+import com.huawei.hms.support.api.push.HuaweiPush;
+import com.meizu.cloud.pushsdk.PushManager;
+import com.umeng.message.IUmengCallback;
+import com.umeng.message.PushAgent;
+import com.xiaomi.channel.commonutils.logger.LoggerInterface;
+import com.xiaomi.mipush.sdk.Logger;
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.model.BeanParent;
+import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.ui.main.BaseMainActivity;
 import com.xptschool.parent.ui.main.MainActivity;
+import com.xptschool.parent.ui.setting.SettingActivity;
 
 import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener {
 
     boolean showPassword = false;
     @BindView(R.id.llParent)
@@ -53,6 +69,8 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.imgCompany)
     ImageView imgCompany;
 
+    HuaweiApiClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +82,71 @@ public class LoginActivity extends BaseActivity {
             String origin = bundle.getString(ExtraKey.LOGIN_ORIGIN);
             if (origin != null && origin.equals("0")) {
                 showImgBack(false);
+                //推送不可用
+                //拒收通知
+                String model = android.os.Build.MODEL;
+                String carrier = android.os.Build.MANUFACTURER;
+                Log.i(TAG, "onCreate: " + model + "  " + carrier);
+
+                if (carrier.toUpperCase().equals("XIAOMI")) {
+                    //推送不可用
+                    MiPushClient.disablePush(this);
+                } else if (carrier.toUpperCase().equals("HUAWEI")) {
+                    client = new HuaweiApiClient.Builder(this)
+                            .addApi(HuaweiPush.PUSH_API)
+                            .addConnectionCallbacks(this)
+                            .addOnConnectionFailedListener(this)
+                            .build();
+                    client.connect();
+                    Log.i(TAG, "HUAWEI disable ");
+                } else if (carrier.toUpperCase().equals("MEIZU")) {
+//                    PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+                    PushManager.unRegister(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+                } else {
+                    PushAgent mPushAgent = PushAgent.getInstance(this);
+                    mPushAgent.disable(new IUmengCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Log.i(TAG, "PushAgent disable onSuccess: ");
+                        }
+
+                        @Override
+                        public void onFailure(String s, String s1) {
+                            Log.i(TAG, "PushAgent disable onFailure: " + s + " s1 " + s1);
+                        }
+                    });
+                }
+
             }
         }
 
         String userName = (String) SharedPreferencesUtil.getData(this, SharedPreferencesUtil.KEY_USER_NAME, "");
         edtAccount.setText(userName);
         edtAccount.setSelection(edtAccount.getText().length());
+    }
+
+    @Override
+    public void onConnected() {
+        //华为移动服务client连接成功，在这边处理业务自己的事件
+        Log.i(TAG, "HuaweiApiClient 连接成功");
+        new Thread() {
+            public void run() {
+                HuaweiPush.HuaweiPushApi.enableReceiveNotifyMsg(client, false);
+                HuaweiPush.HuaweiPushApi.enableReceiveNormalMsg(client, false);
+            }
+        }.start();
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        //HuaweiApiClient断开连接的时候，业务可以处理自己的事件
+        Log.i(TAG, "HuaweiApiClient 连接断开");
+        //HuaweiApiClient异常断开连接, if 括号里的条件可以根据需要修改
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.i(TAG, "HuaweiApiClient连接失败，错误码：" + result.getErrorCode());
     }
 
     private void initView() {
@@ -154,7 +231,7 @@ public class LoginActivity extends BaseActivity {
                             case HttpAction.SUCCESS:
                                 if (!SharedPreferencesUtil.getData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
                                     SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
-                                    UpushTokenHelper.exitAccount();
+                                    UpushTokenHelper.exitAccount(GreenDaoHelper.getInstance().getCurrentParent());
                                 }
                                 SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);
 

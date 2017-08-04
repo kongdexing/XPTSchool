@@ -70,6 +70,7 @@ public class NativeService extends NgnNativeService {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
+        mEngine = (Engine) Engine.getInstance();
         if (mEngine == null) {
             Log.i(TAG, "onCreate mEngine is null: ");
             return;
@@ -133,9 +134,14 @@ public class NativeService extends NgnNativeService {
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:" + userId + "@" + BuildConfig.CHAT_VIDEO_URL);
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, userId);
         mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
+
+        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, BuildConfig.CHAT_VIDEO_URL);
         mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putBoolean(NgnConfigurationEntry.NATT_STUN_DISCO, true);
+        mConfigurationService.putInt(NgnConfigurationEntry.NETWORK_PCSCF_PORT, NgnConfigurationEntry.DEFAULT_NETWORK_PCSCF_PORT);
+        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_TRANSPORT, "tcp");
+
+        mConfigurationService.putString(NgnConfigurationEntry.NATT_STUN_SERVER, BuildConfig.CHAT_VIDEO_URL);
+        mConfigurationService.putBoolean(NgnConfigurationEntry.NATT_USE_STUN_FOR_ICE, NgnConfigurationEntry.DEFAULT_NATT_USE_STUN_FOR_ICE);
 
         if (!mConfigurationService.commit()) {
             Log.e(TAG, "Failed to commit() configuration");

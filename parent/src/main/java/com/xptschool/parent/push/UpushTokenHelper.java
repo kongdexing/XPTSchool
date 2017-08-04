@@ -2,8 +2,11 @@ package com.xptschool.parent.push;
 
 import android.util.Log;
 
+import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
+import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
@@ -20,7 +23,7 @@ public class UpushTokenHelper {
     /**
      * @param device_token
      */
-    public static void uploadDevicesToken(String device_token, String push) {
+    public static void uploadDevicesToken(final String device_token, final String push) {
         Log.i(TAG, "uploadDevicesToken: " + device_token);
         if (device_token == null || device_token.isEmpty()) {
             return;
@@ -41,14 +44,30 @@ public class UpushTokenHelper {
                         .addParam("mobile_model", android.os.Build.MODEL)
                         .addParam("push_name", push)
                         .addParam("user_type", "4")
-                , null);
+                , new VolleyRequestListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onResponse(VolleyHttpResult volleyHttpResult) {
+//                        if (volleyHttpResult.getStatus() == HttpAction.FAILED) {
+//                            uploadDevicesToken(device_token, push);
+//                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
     }
 
     /**
      * 退出账号
      */
-    public static void exitAccount() {
-        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
+    public static void exitAccount(final BeanParent parent) {
         if (parent == null) {
             Log.i(TAG, "exitAccount: parent is null");
             return;
@@ -61,7 +80,24 @@ public class UpushTokenHelper {
                         .addParam("system_model", "1") //1Android 0ios
                         .addParam("user_id", parent.getU_id())
                         .addParam("user_type", "4")
-                , null);
+                , new VolleyRequestListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onResponse(VolleyHttpResult volleyHttpResult) {
+//                        if (volleyHttpResult.getStatus() == HttpAction.FAILED) {
+//                            exitAccount(parent);
+//                        }
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
 
     }
 
