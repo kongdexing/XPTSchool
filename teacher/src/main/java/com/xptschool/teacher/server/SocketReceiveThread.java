@@ -39,6 +39,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
 
     public SocketReceiveThread() {
         super();
+        Log.i(TAG, "SocketReceiveThread: " + this.hashCode());
     }
 
     public SocketReceiveThread cloneReceiveThread() {

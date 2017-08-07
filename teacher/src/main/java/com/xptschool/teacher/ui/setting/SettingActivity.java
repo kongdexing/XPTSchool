@@ -82,20 +82,6 @@ public class SettingActivity extends BaseActivity {
 
                         ServerManager.getInstance().stopServer(SettingActivity.this);
 
-                        //拒收通知
-                        PushAgent mPushAgent = PushAgent.getInstance(SettingActivity.this);
-                        mPushAgent.disable(new IUmengCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Log.i(TAG, "PushAgent disable onSuccess: ");
-                            }
-
-                            @Override
-                            public void onFailure(String s, String s1) {
-                                Log.i(TAG, "PushAgent disable onFailure: " + s + " s1 " + s1);
-                            }
-                        });
-
                         Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.putExtra(ExtraKey.LOGIN_ORIGIN, "0");

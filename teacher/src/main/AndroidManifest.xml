@@ -65,8 +65,10 @@
     <permission
         android:name="${PACKAGE_NAME}.push.permission.MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="${PACKAGE_NAME}.push.permission.MESSAGE"></uses-permission>
     <uses-permission android:name="com.meizu.c2dm.permission.RECEIVE" />
+
     <permission
         android:name="${PACKAGE_NAME}.permission.C2D_MESSAGE"
         android:protectionLevel="signature"></permission>
@@ -108,7 +110,7 @@
             android:value="${MZ_APP_KEY}" />
 
         <!-- push应用定义消息receiver声明 -->
-        <receiver android:name=".receiver.PushMsgReceiver">
+        <receiver android:name="com.xptschool.parent.receiver.PushMsgReceiver">
             <intent-filter>
                 <!-- 接收push消息 -->
                 <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
@@ -331,7 +333,9 @@
             android:grantUriPermissions="true"></provider>
 
         <!-- 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
-        <receiver android:name=".receiver.HuaweiPushRevicer">
+        <receiver
+            android:name="com.xptschool.teacher.receiver.HuaweiPushRevicer"
+            android:exported="false">
             <intent-filter>
                 <!-- 必须,用于接收token-->
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />

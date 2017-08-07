@@ -14,7 +14,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huawei.hms.api.ConnectionResult;
+import com.huawei.hms.api.HuaweiApiClient;
+import com.huawei.hms.support.api.push.HuaweiPush;
+import com.meizu.cloud.pushsdk.PushManager;
+import com.umeng.message.IUmengCallback;
+import com.umeng.message.PushAgent;
+import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.server.ServerManager;
@@ -24,7 +32,7 @@ import com.xptschool.teacher.util.ToastUtils;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseLoginActivity {
+public class LoginActivity extends BaseLoginActivity implements HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener {
 
     boolean showPassword = false;
     @BindView(R.id.llParent)
@@ -44,6 +52,8 @@ public class LoginActivity extends BaseLoginActivity {
     @BindView(R.id.txtForgetPWD)
     TextView txtForgetPWD;
 
+    HuaweiApiClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +65,40 @@ public class LoginActivity extends BaseLoginActivity {
             String origin = bundle.getString(ExtraKey.LOGIN_ORIGIN);
             if (origin != null && origin.equals("0")) {
                 showImgBack(false);
+
+                //拒收通知
+                String model = android.os.Build.MODEL;
+                String carrier = android.os.Build.MANUFACTURER;
+                Log.i(TAG, "onCreate: " + model + "  " + carrier);
+
+                if (carrier.toUpperCase().equals("XIAOMI")) {
+                    //推送不可用
+                    MiPushClient.disablePush(this);
+                } else if (carrier.toUpperCase().equals("HUAWEI")) {
+                    client = new HuaweiApiClient.Builder(this)
+                            .addApi(HuaweiPush.PUSH_API)
+                            .addConnectionCallbacks(this)
+                            .addOnConnectionFailedListener(this)
+                            .build();
+                    client.connect();
+                    Log.i(TAG, "HUAWEI disable ");
+                } else if (carrier.toUpperCase().equals("MEIZU")) {
+//                    PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+                    PushManager.unRegister(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+                } else {
+                    PushAgent mPushAgent = PushAgent.getInstance(this);
+                    mPushAgent.disable(new IUmengCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Log.i(TAG, "PushAgent disable onSuccess: ");
+                        }
+
+                        @Override
+                        public void onFailure(String s, String s1) {
+                            Log.i(TAG, "PushAgent disable onFailure: " + s + " s1 " + s1);
+                        }
+                    });
+                }
             }
         }
 
@@ -79,6 +123,30 @@ public class LoginActivity extends BaseLoginActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onConnected() {
+        //华为移动服务client连接成功，在这边处理业务自己的事件
+        Log.i(TAG, "HuaweiApiClient 连接成功");
+        new Thread() {
+            public void run() {
+                HuaweiPush.HuaweiPushApi.enableReceiveNotifyMsg(client, false);
+                HuaweiPush.HuaweiPushApi.enableReceiveNormalMsg(client, false);
+            }
+        }.start();
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        //HuaweiApiClient断开连接的时候，业务可以处理自己的事件
+        Log.i(TAG, "HuaweiApiClient 连接断开");
+        //HuaweiApiClient异常断开连接, if 括号里的条件可以根据需要修改
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.i(TAG, "HuaweiApiClient连接失败，错误码：" + result.getErrorCode());
     }
 
     @OnClick({R.id.imgDel, R.id.imgToggle, R.id.btnLogin, R.id.txtForgetPWD})
