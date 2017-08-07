@@ -191,7 +191,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                     intent.putExtra("chat", chat);
                     XPTApplication.getInstance().sendBroadcast(intent);
                     Log.i(TAG, "receive data success ");
-                    showNotify();
+//                    showNotify();
                 }
             } catch (Exception ex) {
                 Log.i(TAG, "receive data error:" + ex.getMessage());
