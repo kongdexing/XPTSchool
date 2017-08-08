@@ -203,7 +203,6 @@ public class CaptureLayout extends RelativeLayout {
         });
 
         //btn_cancel
-
         btn_cancel = new TypeButton(getContext(), TypeButton.TYPE_CANCEL, button_size);
         final LayoutParams btn_cancel_param = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         btn_cancel_param.addRule(CENTER_VERTICAL, TRUE);
@@ -263,7 +262,6 @@ public class CaptureLayout extends RelativeLayout {
         });
 
         //txt_tip
-
         txt_tip = new TextView(getContext());
         LayoutParams txt_param = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         txt_param.setMargins(0, 0, 0, 0);

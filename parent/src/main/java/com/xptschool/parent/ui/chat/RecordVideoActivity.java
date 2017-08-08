@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,15 +16,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.cjt2325.cameralibrary.JCameraView;
+import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.cjt2325.cameralibrary.listener.JCameraListener;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.UUID;
 
 public class RecordVideoActivity extends AppCompatActivity {
+
     private final int GET_PERMISSION_REQUEST = 100; //权限申请自定义码
     private JCameraView jCameraView;
     private boolean granted = false;
@@ -89,6 +93,18 @@ public class RecordVideoActivity extends AppCompatActivity {
                 RecordVideoActivity.this.finish();
             }
         });
+
+        jCameraView.setErrorListener(new ErrorListener() {
+            @Override
+            public void onError() {
+//                jCameraView.
+                Log.i("CJT", "camera open onError: RecordVideoAct");
+//                jCameraView.cameraPermissionDenied();
+                setResult(-1);
+                finish();
+            }
+        });
+
         //6.0动态权限获取
         getPermissions();
     }
@@ -100,7 +116,7 @@ public class RecordVideoActivity extends AppCompatActivity {
         fullScreen();
     }
 
-    private void fullScreen(){
+    private void fullScreen() {
         View decorView = getWindow().getDecorView();
         if (Build.VERSION.SDK_INT >= 19) {
             decorView.setSystemUiVisibility(

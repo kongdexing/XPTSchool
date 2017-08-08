@@ -260,20 +260,24 @@ public class CameraInterface {
         if (mCamera == null) {
             openCamera(SELECTED_CAMERA);
         }
-        callback.cameraHasOpened();
+
+        if (mCamera != null) {
+            callback.cameraHasOpened();
+        }
     }
 
     private void openCamera(int id) {
         try {
             this.mCamera = Camera.open(id);
+            if (Build.VERSION.SDK_INT > 17 && this.mCamera != null) {
+                this.mCamera.enableShutterSound(false);
+            }
         } catch (Exception var3) {
+            Log.i(TAG, "openCamera: " + var3.getMessage());
+            mCamera = null;
             if (this.errorListener != null) {
                 this.errorListener.onError();
             }
-        }
-
-        if (Build.VERSION.SDK_INT > 17 && this.mCamera != null) {
-            this.mCamera.enableShutterSound(false);
         }
     }
 
@@ -332,10 +336,16 @@ public class CameraInterface {
                 mCamera.setDisplayOrientation(90);
                 mCamera.startPreview();
                 isPreviewing = true;
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (Exception e) {
-                mCamera.stopPreview();
+                try {
+                    mCamera.stopPreview();
+                } catch (Exception ex) {
+                    Log.i(TAG, "doStartPreview stopPreview: " + ex.getMessage());
+                }
+
+                if (errorListener != null) {
+                    errorListener.onError();
+                }
             }
         }
         Log.i(TAG, "=== Start Preview ===");
@@ -354,7 +364,7 @@ public class CameraInterface {
                 mCamera.release();
                 mCamera = null;
                 Log.i(TAG, "=== Stop Camera ===");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -372,7 +382,7 @@ public class CameraInterface {
                 mCamera.release();
                 mCamera = null;
                 Log.i(TAG, "=== Destroy Camera ===");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -413,6 +423,14 @@ public class CameraInterface {
         if (mCamera == null) {
             openCamera(SELECTED_CAMERA);
         }
+
+        if (mCamera == null) {
+            if (callback != null) {
+                callback.onError();
+            }
+            return;
+        }
+
         if (mediaRecorder == null) {
             mediaRecorder = new MediaRecorder();
         }
@@ -603,10 +621,9 @@ public class CameraInterface {
         return x;
     }
 
-    public void setErrorLinsenter(ErrorListener errorListener) {
+    public void setErrorListener(ErrorListener errorListener) {
         this.errorListener = errorListener;
     }
-
 
     interface StopRecordCallback {
         void recordResult(String url);

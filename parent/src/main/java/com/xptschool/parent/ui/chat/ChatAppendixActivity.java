@@ -17,6 +17,7 @@ import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.jph.takephoto.uitl.TFileUtils;
 import com.xptschool.parent.BuildConfig;
+import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.imsdroid.NativeService;
@@ -24,6 +25,7 @@ import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.ui.chat.video.CallScreen;
 import com.xptschool.parent.ui.main.BaseListActivity;
 import com.xptschool.parent.util.ChatUtil;
+import com.xptschool.parent.util.ToastUtils;
 
 import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.media.NgnMediaType;
@@ -42,14 +44,12 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
     private NgnEngine mEngine;
-    private INgnConfigurationService mConfigurationService;
     private INgnSipService mSipService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
         mEngine = NgnEngine.getInstance();
-        mConfigurationService = mEngine.getConfigurationService();
         mSipService = mEngine.getSipService();
         super.onCreate(savedInstanceState);
     }
@@ -62,15 +62,23 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult requestCode: " + requestCode + "  resultCode:" + resultCode);
+
         if (requestCode == 1000) {
-            //拍照，录像
             if (resultCode == 1001) {
+                //拍照
                 String path = data.getStringExtra("path");
                 takeSuccess(path, ChatUtil.TYPE_FILE, 0);
             } else if (resultCode == 1002) {
+                //录像
                 String path = data.getStringExtra("path");
                 long duration = data.getLongExtra("duration", 0);
                 videoSuccess(path, duration);
+            } else if (resultCode == -1) {
+                Log.i(TAG, " permission_open_camera_fail ");
+                //摄像头权限未开启
+                ToastUtils.showToast(this, R.string.permission_open_camera_fail);
+//                Toast.makeText(this, R.string.permission_open_camera_fail, Toast.LENGTH_SHORT);
             }
         } else {
             getTakePhoto().onActivityResult(requestCode, resultCode, data);
@@ -143,19 +151,13 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         startActivityForResult(new Intent(this, RecordVideoActivity.class), 1000);
     }
 
-    public boolean startVideo(ContactTeacher teacher) {
+    public void startVideo(ContactTeacher teacher) {
         if (!mSipService.isRegistered()) {
             startService(new Intent(this, NativeService.class));
             Toast.makeText(this, "正在登录...", Toast.LENGTH_SHORT).show();
-            return false;
+            return;
         }
 
-        final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", teacher.getU_id(), BuildConfig.CHAT_VIDEO_URL));
-        if (validUri == null) {
-            Toast.makeText(this, "呼叫失败", Toast.LENGTH_SHORT).show();
-//            mTvLog.setText("failed to normalize sip uri '" + phoneNumber + "'");
-            return false;
-        }
         NgnAVSession avSession = NgnAVSession.createOutgoingSession(mSipService.getSipStack(), NgnMediaType.AudioVideo);
         Intent i = new Intent();
         i.setClass(this, CallScreen.class);
@@ -163,7 +165,6 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         i.putExtra(ExtraKey.EXTRAT_SIP_SESSION_ID, avSession.getId());
         i.putExtra(ExtraKey.EXTRAT_TEACHER_ID, teacher);
         startActivity(i);
-        return avSession.makeCall(validUri);
     }
 
     private void configCompress(TakePhoto takePhoto) {

@@ -124,6 +124,14 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         if (showFront) {
             CameraInterface.getInstance().setSelectedCamera(CameraInterface.getInstance().CAMERA_FRONT_POSITION);
         }
+
+//        setErrorListener(new ErrorListener() {
+//            @Override
+//            public void onError() {
+//                cameraPermissionDenied();
+//            }
+//        });
+
         a.recycle();
         initData();
         initView();
@@ -181,6 +189,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                 }.start();
             }
         });
+
         //CaptureLayout
         mCaptureLayout = new CaptureLayout(mContext);
         LayoutParams layout_param = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -409,6 +418,11 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         mVideoView.getHolder().addCallback(this);
     }
 
+    public void cameraPermissionDenied() {
+        mCaptureLayout.setTextWithAnimation("摄像头开启失败\n建议检查安防校园是否被允许使用摄像头");
+        mCaptureLayout.setEnabled(false);
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -614,8 +628,8 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     }
 
     //启动Camera错误回调
-    public void setErrorLisenter(ErrorListener errorListener) {
-        CameraInterface.getInstance().setErrorLinsenter(errorListener);
+    public void setErrorListener(ErrorListener errorListener) {
+        CameraInterface.getInstance().setErrorListener(errorListener);
     }
 
     //设置CaptureButton功能（拍照和录像）
