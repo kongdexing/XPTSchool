@@ -51,7 +51,6 @@ public class CallScreen extends CallBaseScreen {
     @BindView(R.id.screen_av_relativeLayout)
     RelativeLayout mMainLayout;
     private MediaPlayer mp = new MediaPlayer();
-    private TryingView mViewTrying; //呼出界面
     private CallingView mViewInCallVideo;  //呼入界面
 
     @Override
@@ -194,7 +193,7 @@ public class CallScreen extends CallBaseScreen {
     private void loadTryingView() {
         Log.d(TAG, "loadTryingView()");
 
-        mViewTrying = new TryingView(this, new ErrorListener() {
+        TryingView mViewTrying = new TryingView(this, new ErrorListener() {
             @Override
             public void onError() {
                 Log.i(TAG, "camera open onError: ");

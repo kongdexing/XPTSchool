@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cjt2325.cameralibrary.JCameraView;
+import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -50,14 +51,15 @@ public class TryingView extends LinearLayout {
 
     private tryingClickListener mTryingClickListener;
 
-    public TryingView(Context context) {
-        this(context, null);
+    public TryingView(Context context, ErrorListener cameraError) {
+        this(context, null, cameraError);
     }
 
-    public TryingView(Context context, @Nullable AttributeSet attrs) {
+    public TryingView(Context context, @Nullable AttributeSet attrs, ErrorListener cameraError) {
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.view_call_trying, this, true);
         ButterKnife.bind(this);
+        jcameraview.setErrorListener(cameraError);
     }
 
     public void setTryingClickListener(tryingClickListener mTryingClickListener) {

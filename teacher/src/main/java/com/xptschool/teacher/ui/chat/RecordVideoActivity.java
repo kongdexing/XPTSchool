@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.cjt2325.cameralibrary.JCameraView;
+import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.cjt2325.cameralibrary.listener.JCameraListener;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
@@ -88,6 +89,15 @@ public class RecordVideoActivity extends AppCompatActivity {
                 RecordVideoActivity.this.finish();
             }
         });
+
+        jCameraView.setErrorListener(new ErrorListener() {
+            @Override
+            public void onError() {
+                setResult(-1);
+                finish();
+            }
+        });
+
         //6.0动态权限获取
         getPermissions();
     }

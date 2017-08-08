@@ -110,7 +110,7 @@
             android:value="${MZ_APP_KEY}" />
 
         <!-- push应用定义消息receiver声明 -->
-        <receiver android:name="com.xptschool.parent.receiver.PushMsgReceiver">
+        <receiver android:name="com.xptschool.teacher.receiver.PushMsgReceiver">
             <intent-filter>
                 <!-- 接收push消息 -->
                 <action android:name="com.meizu.flyme.push.intent.MESSAGE" />

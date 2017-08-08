@@ -16,13 +16,14 @@ import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.jph.takephoto.uitl.TFileUtils;
-import com.xptschool.teacher.BuildConfig;
+import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.ui.chat.video.CallScreen;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
+import com.xptschool.teacher.util.ToastUtils;
 
 import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.media.NgnMediaType;
@@ -73,6 +74,11 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
                 String path = data.getStringExtra("path");
                 long duration = data.getLongExtra("duration", 0);
                 videoSuccess(path, duration);
+            } else if (resultCode == -1) {
+                Log.i(TAG, " permission_open_camera_fail ");
+                //摄像头权限未开启
+                ToastUtils.showToast(this, R.string.permission_open_camera_fail);
+//                Toast.makeText(this, R.string.permission_open_camera_fail, Toast.LENGTH_SHORT);
             }
         } else {
             getTakePhoto().onActivityResult(requestCode, resultCode, data);
@@ -144,18 +150,13 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         startActivityForResult(new Intent(this, RecordVideoActivity.class), 1000);
     }
 
-    public boolean startVideo(ContactParent parent) {
+    public void startVideo(ContactParent parent) {
         if (!mSipService.isRegistered()) {
             startService(new Intent(this, NativeService.class));
             Toast.makeText(this, "正在登录...", Toast.LENGTH_SHORT).show();
-            return false;
+            return;
         }
-        final String validUri = NgnUriUtils.makeValidSipUri(String.format("sip:%s@%s", parent.getUser_id(), BuildConfig.CHAT_VIDEO_URL));
-        if (validUri == null) {
-            Toast.makeText(this, "呼叫失败", Toast.LENGTH_SHORT).show();
-//            mTvLog.setText("failed to normalize sip uri '" + phoneNumber + "'");
-            return false;
-        }
+
         NgnAVSession avSession = NgnAVSession.createOutgoingSession(mSipService.getSipStack(), NgnMediaType.AudioVideo);
         Intent i = new Intent();
         i.setClass(this, CallScreen.class);
@@ -163,7 +164,6 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
         i.putExtra(CallScreen.EXTRAT_SIP_SESSION_ID, avSession.getId());
         i.putExtra(CallScreen.EXTRAT_PARENT_ID, parent);
         startActivity(i);
-        return avSession.makeCall(validUri);
     }
 
     private void configCompress(TakePhoto takePhoto) {

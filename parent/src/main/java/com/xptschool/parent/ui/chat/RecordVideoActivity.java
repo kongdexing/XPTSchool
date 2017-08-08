@@ -97,9 +97,6 @@ public class RecordVideoActivity extends AppCompatActivity {
         jCameraView.setErrorListener(new ErrorListener() {
             @Override
             public void onError() {
-//                jCameraView.
-                Log.i("CJT", "camera open onError: RecordVideoAct");
-//                jCameraView.cameraPermissionDenied();
                 setResult(-1);
                 finish();
             }
