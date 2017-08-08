@@ -146,11 +146,13 @@ public class ChatActivity extends ChatAppendixActivity {
 
             @Override
             public void onStartRecord() {
+                Log.i(TAG, "onStartRecord: ");
                 SoundPlayHelper.getInstance().stopPlay();
             }
 
             @Override
             public void onPermissionAsk() {
+                Log.i(TAG, "onPermissionAsk: ");
                 final int version = Build.VERSION.SDK_INT;
                 if (version > 19) {
                     ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
@@ -162,6 +164,7 @@ public class ChatActivity extends ChatAppendixActivity {
 
             @Override
             public void onPermissionDenied() {
+                Log.i(TAG, "onPermissionDenied: ");
                 final int version = Build.VERSION.SDK_INT;
                 if (version > 19) {
                     ChatActivityPermissionsDispatcher.onStartRecordingWithCheck(ChatActivity.this);
@@ -172,6 +175,7 @@ public class ChatActivity extends ChatAppendixActivity {
             }
 
             public void onFinish(float seconds, String filePath) {
+                Log.i(TAG, "onFinish: ");
                 Recorder recorder = new Recorder(seconds, filePath);
                 File file = new File(recorder.getFilePath());
                 if (file.length() == 0) {
@@ -196,6 +200,16 @@ public class ChatActivity extends ChatAppendixActivity {
                     }
                 } catch (Exception ex) {
                     Log.i(TAG, "viewClick: " + ex.getMessage());
+                }
+            }
+
+            @Override
+            public void onMediaRecorderError(Exception ex) {
+                if ("Permission deny!".equals(ex.getMessage())) {
+                    ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_never_askagain);
+                    CommonUtil.goAppDetailSettingIntent(ChatActivity.this);
+                } else {
+                    ToastUtils.showToast(ChatActivity.this, R.string.voice_recorder_error);
                 }
             }
         });
@@ -265,7 +279,7 @@ public class ChatActivity extends ChatAppendixActivity {
 
     @NeedsPermission({Manifest.permission.RECORD_AUDIO})
     void onStartRecording() {
-
+        Log.i(TAG, "onStartRecording: ");
     }
 
     @OnPermissionDenied({Manifest.permission.RECORD_AUDIO})

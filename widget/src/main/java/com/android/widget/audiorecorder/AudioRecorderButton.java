@@ -47,6 +47,7 @@ public class AudioRecorderButton extends Button {
     private static final int MSG_VOICE_CHANGED = 0x111;
     //取消提示对话框
     private static final int MSG_DIALOG_DIMISS = 0x112;
+    private String TAG = AudioRecorderButton.class.getSimpleName();
 
     /**
      * @description 获取音量大小的线程
@@ -120,7 +121,11 @@ public class AudioRecorderButton extends Button {
                     mAudioManager.prepareAudio();
                     return false;
                 } catch (Exception ex) {
-
+                    reset();
+                    Log.e(TAG, "onLongClick error : " + ex.getMessage());
+                    if (audioRecorderCallBack != null) {
+                        audioRecorderCallBack.onMediaRecorderError(ex);
+                    }
                 }
                 return true;
             }
@@ -146,6 +151,8 @@ public class AudioRecorderButton extends Button {
         void onPermissionAsk();
 
         void onPermissionDenied();
+
+        void onMediaRecorderError(Exception ex);
     }
 
     private AudioRecorderCallBack audioRecorderCallBack;
@@ -213,7 +220,11 @@ public class AudioRecorderButton extends Button {
                 }
                 if (!isRecording || mTime < 0.6f) {//如果时间少于0.6s，则提示录音过短
                     mDialogManager.tooShort();
-                    mAudioManager.cancel();
+                    try {
+                        mAudioManager.cancel();
+                    } catch (Exception ex) {
+                        Log.i(TAG, "onTouchEvent: " + ex.getMessage());
+                    }
                     // 延迟显示对话框
                     mHandler.sendEmptyMessageDelayed(MSG_DIALOG_DIMISS, 1000);
                 } else if (mCurrentState == STATE_RECORDING) {
@@ -255,7 +266,6 @@ public class AudioRecorderButton extends Button {
         if (y < -DISTANCE_Y_CANCEL || y > getHeight() + DISTANCE_Y_CANCEL) {
             return true;
         }
-
         return false;
     }
 
@@ -274,7 +284,6 @@ public class AudioRecorderButton extends Button {
                     setBackgroundResource(R.drawable.btn_recorder_normal);
                     setText(R.string.str_recorder_normal);
                     break;
-
                 case STATE_RECORDING:
                     setBackgroundResource(R.drawable.btn_recorder_recording);
                     setText(R.string.str_recorder_recording);
@@ -282,7 +291,6 @@ public class AudioRecorderButton extends Button {
                         mDialogManager.recording();
                     }
                     break;
-
                 case STATE_CANCEL:
                     setBackgroundResource(R.drawable.btn_recorder_recording);
                     mDialogManager.wantToCancel();

@@ -123,6 +123,7 @@
     <string name="permission_voice_denied">未授予录音权限</string>
     <string name="permission_voice_rationale">请求授予录音权限</string>
     <string name="permission_voice_never_askagain">已禁止该应用的录音权限，请去设置中进行设置</string>
+    <string name="voice_recorder_error">录音错误</string>
 
     <string name="permission_never_askagain">已禁止该应用的【读取手机信息】或【读写文件】或【录音】权限，请去设置中进行设置</string>
     <string name="permission_open_camera_fail">摄像头开启失败\n建议检查安防校园是否被允许使用摄像头</string>

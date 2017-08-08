@@ -213,8 +213,18 @@ public class ChatActivity extends ChatAppendixActivity {
                 } catch (Exception ex) {
                     Log.i(TAG, "viewClick: " + ex.getMessage());
                 }
-
             }
+
+            @Override
+            public void onMediaRecorderError(Exception ex) {
+                if ("Permission deny!".equals(ex.getMessage())) {
+                    ToastUtils.showToast(ChatActivity.this, R.string.permission_voice_never_askagain);
+                    CommonUtil.goAppDetailSettingIntent(ChatActivity.this);
+                } else {
+                    ToastUtils.showToast(ChatActivity.this, R.string.voice_recorder_error);
+                }
+            }
+
         });
 
         edtContent.addTextChangedListener(new TextWatcher() {

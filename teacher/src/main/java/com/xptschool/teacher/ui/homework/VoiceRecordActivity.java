@@ -301,13 +301,20 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
             }
         });
 
+        setImgMicStatus(Voice_Recording);
+
         try {
             mAudioManager.prepareAudio();
         } catch (Exception ex) {
+            setImgMicStatus(Voice_UnRecord);
+            if ("Permission deny!".equals(ex.getMessage())) {
+                ToastUtils.showToast(VoiceRecordActivity.this, R.string.permission_voice_never_askagain);
+                CommonUtil.goAppDetailSettingIntent(VoiceRecordActivity.this);
+            } else {
+                ToastUtils.showToast(VoiceRecordActivity.this, R.string.voice_recorder_error);
+            }
             Log.i(TAG, "onStartRecording: error " + ex.getMessage());
         }
-
-        setImgMicStatus(Voice_Recording);
     }
 
     @Override
@@ -420,6 +427,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     }
 
     private void setImgMicStatus(int status) {
+        Log.i(TAG, "setImgMicStatus: " + status);
         if (status == Voice_Play) {
             imgMic.setBackgroundResource(R.drawable.selector_voice_play);
         } else if (status == Voice_Stop) {
