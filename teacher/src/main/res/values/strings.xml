@@ -106,6 +106,7 @@
     <string name="msg_month_cannot_overstep">只能查询当月日期的数据</string>
     <string name="msg_exit">确定要退出当前账号吗？</string>
 
+    <string name="permission_location_denied">未授予获取位置信息权限</string>
     <string name="permission_location_rationale">请求授予定位权限</string>
     <string name="permission_location_never_askagain">已禁止该应用的定位权限，请去设置中进行设置</string>
     <string name="permission_storage_denied">已禁止该应用的读写文件权限</string>

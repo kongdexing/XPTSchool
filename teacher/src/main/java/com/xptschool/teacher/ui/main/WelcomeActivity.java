@@ -31,8 +31,8 @@ public class WelcomeActivity extends BaseLoginActivity {
 
         setContentView(R.layout.activity_welcome);
         showActionBar(false);
-
-        WelcomeActivityPermissionsDispatcher.canReadPhoneStateWithCheck(this);
+        analyLogin();
+//        WelcomeActivityPermissionsDispatcher.canReadPhoneStateWithCheck(this);
     }
 
     @Override
@@ -49,6 +49,10 @@ public class WelcomeActivity extends BaseLoginActivity {
             Manifest.permission.RECORD_AUDIO})
     void canReadPhoneState() {
         Log.i(TAG, "canReadPhoneState: ");
+        analyLogin();
+    }
+
+    private void analyLogin() {
         final Intent intent = new Intent();
 
         String userName = (String) SharedPreferencesUtil.getData(this, SharedPreferencesUtil.KEY_USER_NAME, "");
