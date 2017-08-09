@@ -277,6 +277,15 @@ public class NativeService extends NgnNativeService {
     @Override
     public void onDestroy() {
         Log.i(TAG, "onDestroy()");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (mEngine != null) {
+                    mEngine.stop();
+                }
+            }
+        }).start();
+
         if (mBroadcastReceiver != null) {
             try {
                 unregisterReceiver(mBroadcastReceiver);
@@ -290,9 +299,6 @@ public class NativeService extends NgnNativeService {
                 mWakeLock.release();
                 mWakeLock = null;
             }
-        }
-        if (mEngine != null) {
-            mEngine.stop();
         }
         super.onDestroy();
     }
