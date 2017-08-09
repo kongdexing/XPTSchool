@@ -386,7 +386,7 @@ public class ChatActivity extends ChatAppendixActivity {
                 break;
             case R.id.llVideo:
                 llAttachment.setVisibility(View.GONE);
-                startVideo(teacher);
+                ChatActivityPermissionsDispatcher.canOpenCameraWithCheck(this);
                 break;
         }
     }
@@ -463,6 +463,32 @@ public class ChatActivity extends ChatAppendixActivity {
 
     private void smoothBottom() {
         recycleView.smoothScrollToPosition(adapter.getItemCount());
+    }
+
+    @NeedsPermission({Manifest.permission.CAMERA})
+    void canOpenCamera() {
+        Log.i(TAG, "canOpenCamera: ");
+        startVideo(teacher);
+    }
+
+    @OnPermissionDenied({Manifest.permission.CAMERA})
+    void onOpenCameraDenied() {
+        Log.i(TAG, "onOpenCameraDenied: ");
+        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale({Manifest.permission.CAMERA})
+    void showRationaleForOpenCamera(PermissionRequest request) {
+        Log.i(TAG, "showRationaleForOpenCamera: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.CAMERA})
+    void onOpenCameraNeverAskAgain() {
+        Log.i(TAG, "onOpenCameraNeverAskAgain: ");
+        Toast.makeText(this, R.string.permission_camera_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
+//        finish();
     }
 
     @Override

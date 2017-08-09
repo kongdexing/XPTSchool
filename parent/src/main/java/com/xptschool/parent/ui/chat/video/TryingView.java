@@ -63,6 +63,12 @@ public class TryingView extends LinearLayout {
         jcameraview.setErrorListener(cameraError);
     }
 
+    public void onReOpenCamera() {
+        if (jcameraview != null) {
+            jcameraview.openCamera();
+        }
+    }
+
     public void setTryingClickListener(tryingClickListener mTryingClickListener) {
         this.mTryingClickListener = mTryingClickListener;
     }

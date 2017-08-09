@@ -272,11 +272,11 @@ public class CameraInterface {
             if (Build.VERSION.SDK_INT > 17 && this.mCamera != null) {
                 this.mCamera.enableShutterSound(false);
             }
-        } catch (Exception var3) {
-            Log.i(TAG, "openCamera: " + var3.getMessage());
+        } catch (Exception ex) {
+            Log.i(TAG, "openCamera: " + ex.getMessage());
             mCamera = null;
             if (this.errorListener != null) {
-                this.errorListener.onError();
+                this.errorListener.onError(ex.getMessage());
             }
         }
     }
@@ -342,9 +342,10 @@ public class CameraInterface {
                 } catch (Exception ex) {
                     Log.i(TAG, "doStartPreview stopPreview: " + ex.getMessage());
                 }
+                Log.i(TAG, "doStartPreview: " + e.getMessage());
 
                 if (errorListener != null) {
-                    errorListener.onError();
+                    errorListener.onError(e.getMessage());
                 }
             }
         }

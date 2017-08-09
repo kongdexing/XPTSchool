@@ -219,7 +219,8 @@ public class CallScreen extends CallBaseScreen {
 
         TryingView mViewTrying = new TryingView(this, new ErrorListener() {
             @Override
-            public void onError() {
+            public void onError(String error) {
+                Log.i(TAG, "open camera error: " + error);
                 mHandler.sendEmptyMessage(1001);
             }
         });

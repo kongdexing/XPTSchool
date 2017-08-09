@@ -133,7 +133,6 @@ public class MainActivity extends BaseMainActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // NOTE: delegate the permission handling to generated method
         if (permissions != null && permissions.length > 0) {
             Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
         }

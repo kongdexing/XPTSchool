@@ -120,6 +120,8 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
     @Override
     public void onReceiveLocation(BDLocation location) {
         // map view 销毁后不在处理新接收的位置
+        Log.i(TAG, "onReceiveLocation: " + location.getAddrStr());
+
         if (location == null || mMapView == null) {
             return;
         }

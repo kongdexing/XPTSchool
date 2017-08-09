@@ -41,7 +41,7 @@ public class RecordVideoActivity extends AppCompatActivity {
         jCameraView.setSaveVideoPath(XPTApplication.getInstance().getCachePath());
 
         //JCameraView监听
-        jCameraView.setJCameraLisenter(new JCameraListener() {
+        jCameraView.setJCameraListener(new JCameraListener() {
             @Override
             public void captureSuccess(Bitmap bitmap) {
                 //获取图片bitmap
@@ -92,7 +92,7 @@ public class RecordVideoActivity extends AppCompatActivity {
 
         jCameraView.setErrorListener(new ErrorListener() {
             @Override
-            public void onError() {
+            public void onError(String error) {
                 setResult(-1);
                 finish();
             }

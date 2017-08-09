@@ -1,5 +1,6 @@
 package com.xptschool.parent.ui.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -7,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +52,14 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MapFragment extends MapBaseFragment {
 
     @BindView(R.id.spnStudents)
@@ -147,6 +156,15 @@ public class MapFragment extends MapBaseFragment {
         viewClick(llLocation);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissions != null && permissions.length > 0) {
+            Log.i(TAG, "onRequestPermissionsResult: " + permissions[0]);
+        }
+        MapFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
     @OnClick({R.id.txtSDate, R.id.txtEDate, R.id.llLocation, R.id.llTrack, R.id.llRailings, R.id.spnStudents, R.id.llAlarm, R.id.llMyLocation})
     void viewClick(View view) {
         switch (view.getId()) {
@@ -210,9 +228,37 @@ public class MapFragment extends MapBaseFragment {
                 startActivity(new Intent(getContext(), AlarmActivity.class));
                 break;
             case R.id.llMyLocation:
-                isFirstLoc = true;
+                MapFragmentPermissionsDispatcher.onLocationPermitWithCheck(this);
                 break;
         }
+    }
+
+    @NeedsPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    void onLocationPermit() {
+        Log.i(TAG, "onLocationPermit: ");
+        isFirstLoc = true;
+    }
+
+    @OnPermissionDenied(Manifest.permission.ACCESS_FINE_LOCATION)
+    void onLocationDenied() {
+        Log.i(TAG, "onLocationDenied: ");
+        // NOTE: Deal with a denied permission, e.g. by showing specific UI
+        // or disabling certain functionality
+        Toast.makeText(this.getContext(), R.string.permission_location_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale(Manifest.permission.ACCESS_FINE_LOCATION)
+    void showRationaleForLocation(PermissionRequest request) {
+        // NOTE: Show a rationale to explain why the permission is needed, e.g. with a dialog.
+        // Call proceed() or cancel() on the provided PermissionRequest to continue or abort
+        Log.i(TAG, "showRationaleForLocation: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain(Manifest.permission.ACCESS_FINE_LOCATION)
+    void onLocationNeverAskAgain() {
+        Log.i(TAG, "onLocationNeverAskAgain: ");
+        Toast.makeText(this.getContext(), R.string.permission_location_never_askagain, Toast.LENGTH_SHORT).show();
     }
 
     private void resetDefaultBg(View currentView) {

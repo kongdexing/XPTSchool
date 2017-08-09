@@ -52,7 +52,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     //两者都可以
     public static final int BUTTON_STATE_BOTH = 0x103;
 
-    private JCameraListener jCameraLisenter;
+    private JCameraListener jCameraListener;
 
     private Context mContext;
     private VideoView mVideoView;
@@ -124,13 +124,6 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         if (showFront) {
             CameraInterface.getInstance().setSelectedCamera(CameraInterface.getInstance().CAMERA_FRONT_POSITION);
         }
-
-//        setErrorListener(new ErrorListener() {
-//            @Override
-//            public void onError() {
-//                cameraPermissionDenied();
-//            }
-//        });
 
         a.recycle();
         initData();
@@ -380,6 +373,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                 CameraInterface.getInstance().setZoom(zoom, CameraInterface.TYPE_RECORDER);
             }
         });
+
         mCaptureLayout.setTypeListener(new TypeListener() {
             @Override
             public void cancel() {
@@ -406,21 +400,17 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
                 }
             }
         });
+
         mCaptureLayout.setReturnListener(new ReturnListener() {
             @Override
             public void onReturn() {
-                if (jCameraLisenter != null && !takePictureing) {
-                    jCameraLisenter.quit();
+                if (jCameraListener != null && !takePictureing) {
+                    jCameraListener.quit();
                 }
             }
         });
         //END >>>>>>> captureLayout lisenter callback
         mVideoView.getHolder().addCallback(this);
-    }
-
-    public void cameraPermissionDenied() {
-        mCaptureLayout.setTextWithAnimation("摄像头开启失败\n建议检查安防校园是否被允许使用摄像头");
-        mCaptureLayout.setEnabled(false);
     }
 
     @Override
@@ -556,21 +546,21 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         animSet.start();
     }
 
-    public void setJCameraLisenter(JCameraListener jCameraLisenter) {
-        this.jCameraLisenter = jCameraLisenter;
+    public void setJCameraListener(JCameraListener jCameraListener) {
+        this.jCameraListener = jCameraListener;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void handlerPictureOrVideo(int type, boolean confirm) {
         Log.i(TAG, "handlerPictureOrVideo: type " + type);
-        if (jCameraLisenter == null || type == -1) {
+        if (jCameraListener == null || type == -1) {
             return;
         }
         switch (type) {
             case TYPE_PICTURE:
                 mPhoto.setVisibility(INVISIBLE);
                 if (confirm && captureBitmap != null) {
-                    jCameraLisenter.captureSuccess(captureBitmap);
+                    jCameraListener.captureSuccess(captureBitmap);
                 } else {
                     if (captureBitmap != null) {
                         captureBitmap.recycle();
@@ -581,7 +571,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
             case TYPE_VIDEO:
                 if (confirm) {
                     //回调录像成功后的URL
-                    jCameraLisenter.recordSuccess(videoUrl, videoDuration);
+                    jCameraListener.recordSuccess(videoUrl, videoDuration);
                 } else {
                     //删除视频
                     File file = new File(videoUrl);
@@ -645,6 +635,10 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i("CJT", "surfaceCreated");
+//        openCamera();
+    }
+
+    public void openCamera() {
         new Thread() {
             @Override
             public void run() {

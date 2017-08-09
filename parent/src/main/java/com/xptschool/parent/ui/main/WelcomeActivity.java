@@ -38,7 +38,13 @@ public class WelcomeActivity extends BaseActivity {
         setContentView(R.layout.activity_welcome);
         showActionBar(false);
 
-        WelcomeActivityPermissionsDispatcher.canReadPhoneStateWithCheck(this);
+        analyLogin();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        WelcomeActivityPermissionsDispatcher.canReadPhoneStateWithCheck(this);
     }
 
     @Override
@@ -54,8 +60,11 @@ public class WelcomeActivity extends BaseActivity {
             Manifest.permission.RECORD_AUDIO})
     void canReadPhoneState() {
         Log.i(TAG, "canReadPhoneState: ");
-        final Intent intent = new Intent();
+        analyLogin();
+    }
 
+    private void analyLogin() {
+        final Intent intent = new Intent();
         String userName = (String) SharedPreferencesUtil.getData(this, SharedPreferencesUtil.KEY_USER_NAME, "");
         String password = (String) SharedPreferencesUtil.getData(this, SharedPreferencesUtil.KEY_PWD, "");
         String splash_init = (String) SharedPreferencesUtil.getData(this, SharedPreferencesUtil.KEY_SPLASH_INIT, "0");

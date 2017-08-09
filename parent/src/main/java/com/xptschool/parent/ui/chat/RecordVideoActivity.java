@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.cjt2325.cameralibrary.listener.JCameraListener;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +42,7 @@ public class RecordVideoActivity extends AppCompatActivity {
         jCameraView.setSaveVideoPath(XPTApplication.getInstance().getCachePath());
 
         //JCameraView监听
-        jCameraView.setJCameraLisenter(new JCameraListener() {
+        jCameraView.setJCameraListener(new JCameraListener() {
 
             @Override
             public void captureSuccess(Bitmap bitmap) {
@@ -96,7 +94,7 @@ public class RecordVideoActivity extends AppCompatActivity {
 
         jCameraView.setErrorListener(new ErrorListener() {
             @Override
-            public void onError() {
+            public void onError(String error) {
                 setResult(-1);
                 finish();
             }

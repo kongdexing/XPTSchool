@@ -189,8 +189,8 @@ public class NgnConfigurationEntry {
 	public static final boolean DEFAULT_NATT_USE_ICE = false;
 	public static final boolean DEFAULT_NATT_USE_STUN_FOR_ICE = true;
 	public static final boolean DEFAULT_NATT_USE_TURN_FOR_ICE = false;
-	public static final boolean DEFAULT_NATT_STUN_DISCO = false;
-	public static final String DEFAULT_NATT_STUN_SERVER = "numb.viagenie.ca";
+	public static final boolean DEFAULT_NATT_STUN_DISCO = true;
+	public static final String DEFAULT_NATT_STUN_SERVER = "video.pcuion.com";
 	public static final int DEFAULT_NATT_STUN_PORT = 3478;
 	public static final String DEFAULT_NATT_STUN_USERNAME = "";
 	public static final String DEFAULT_NATT_STUN_PASSWORD = "";

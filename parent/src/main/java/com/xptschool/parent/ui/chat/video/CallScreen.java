@@ -17,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.cjt2325.cameralibrary.CameraInterface;
+import com.cjt2325.cameralibrary.JCameraView;
 import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
@@ -51,6 +53,7 @@ public class CallScreen extends CallBaseScreen {
     @BindView(R.id.screen_av_relativeLayout)
     RelativeLayout mMainLayout;
     private MediaPlayer mp = new MediaPlayer();
+    private TryingView mViewTrying;     //呼出界面
     private CallingView mViewInCallVideo;  //呼入界面
 
     @Override
@@ -120,7 +123,6 @@ public class CallScreen extends CallBaseScreen {
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         Log.i(TAG, "onCreate: ");
         loadView();
-
     }
 
     @Override
@@ -136,6 +138,10 @@ public class CallScreen extends CallBaseScreen {
     void canOpenCamera() {
         Log.i(TAG, "canOpenCamera: ");
 //        loadView();
+        //打开摄像头
+        if (mViewTrying != null) {
+            mViewTrying.onReOpenCamera();
+        }
     }
 
     @OnPermissionDenied({Manifest.permission.CAMERA})
@@ -155,7 +161,8 @@ public class CallScreen extends CallBaseScreen {
     void onOpenCameraNeverAskAgain() {
         Log.i(TAG, "onOpenCameraNeverAskAgain: ");
         Toast.makeText(this, R.string.permission_camera_never_askagain, Toast.LENGTH_SHORT).show();
-        CommonUtil.goAppDetailSettingIntent(this);
+        hangUpCall();
+//        CommonUtil.goAppDetailSettingIntent(this);
 //        finish();
     }
 
@@ -193,10 +200,10 @@ public class CallScreen extends CallBaseScreen {
     private void loadTryingView() {
         Log.d(TAG, "loadTryingView()");
 
-        TryingView mViewTrying = new TryingView(this, new ErrorListener() {
+        mViewTrying = new TryingView(this, new ErrorListener() {
             @Override
-            public void onError() {
-                Log.i(TAG, "camera open onError: ");
+            public void onError(String error) {
+                Log.i(TAG, "camera open onError: " + error);
                 mHandler.sendEmptyMessage(1001);
             }
         });
