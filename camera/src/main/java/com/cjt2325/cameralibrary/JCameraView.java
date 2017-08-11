@@ -632,14 +632,21 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
         CameraInterface.getInstance().setMediaQuality(quality);
     }
 
+
+    boolean toOpenCamera = false;
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i("CJT", "surfaceCreated");
-//        openCamera();
+        if (toOpenCamera) {
+            openCamera();
+            toOpenCamera = false;
+        }
     }
 
     public void openCamera() {
         Log.i(TAG, "openCamera: ");
+        toOpenCamera = true;
         new Thread() {
             @Override
             public void run() {

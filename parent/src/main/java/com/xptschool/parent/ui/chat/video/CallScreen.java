@@ -17,12 +17,9 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.cjt2325.cameralibrary.CameraInterface;
-import com.cjt2325.cameralibrary.JCameraView;
 import com.cjt2325.cameralibrary.listener.ErrorListener;
 import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
-import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.util.ToastUtils;
@@ -89,7 +86,7 @@ public class CallScreen extends CallBaseScreen {
                 //开始呼叫
                 mSession.makeCall(validUri);
                 //push ios
-                pushIOSCall(contactTeacher);
+                setTimerTask();
             } else if ("incoming".equals(callType)) {
                 try {
                     long session_id = extras.getLong(ExtraKey.EXTRAT_SIP_SESSION_ID);
@@ -304,6 +301,7 @@ public class CallScreen extends CallBaseScreen {
     }
 
     public void loadInCallVideoView() {
+        super.loadInCallVideoView();
         Log.d(TAG, "loadInCallVideoView()");
         if (mViewInCallVideo == null) {
             mViewInCallVideo = new CallingView(this);
@@ -362,8 +360,6 @@ public class CallScreen extends CallBaseScreen {
             if (mp != null) {
                 mp.release();
             }
-
-            mTimerTaskQoS.cancel();
         } catch (Exception ex) {
             Log.i(TAG, "onDestroy: " + ex.getMessage());
         }

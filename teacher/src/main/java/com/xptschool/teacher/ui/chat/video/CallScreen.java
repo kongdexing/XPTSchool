@@ -90,7 +90,6 @@ public class CallScreen extends CallBaseScreen {
                 mSession.makeCall(validUri);
 
                 setTimerTask();
-//                pushIOSCall(contactParent);
             } else if ("incoming".equals(callType)) {
                 try {
                     long session_id = extras.getLong(EXTRAT_SIP_SESSION_ID);

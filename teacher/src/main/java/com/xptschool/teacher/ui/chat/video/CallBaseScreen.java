@@ -156,7 +156,7 @@ public class CallBaseScreen extends BaseActivity {
         }
     }
 
-    public void pushIOSCall() {
+    private void pushIOSCall() {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.VIDEO_CALL_IOS_PUSH,
                 new VolleyHttpParamsEntity()
                         .addParam("user_id", contactParent.getUser_id())
