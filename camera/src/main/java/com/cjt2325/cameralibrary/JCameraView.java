@@ -634,10 +634,12 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
 
 
     boolean toOpenCamera = false;
+    boolean surfaceCreate = false;
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i("CJT", "surfaceCreated");
+        surfaceCreate = true;
         if (toOpenCamera) {
             openCamera();
             toOpenCamera = false;
@@ -645,8 +647,15 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     }
 
     public void openCamera() {
-        Log.i(TAG, "openCamera: ");
         toOpenCamera = true;
+
+        if (!surfaceCreate) {
+            Log.i(TAG, "openCamera surfaceCreate not ");
+            return;
+        }
+        Log.i(TAG, "openCamera: ");
+        surfaceCreate = false;
+
         new Thread() {
             @Override
             public void run() {

@@ -288,7 +288,15 @@ public class CameraInterface {
             SELECTED_CAMERA = CAMERA_POST_POSITION;
         }
         doStopCamera();
-        mCamera = Camera.open(SELECTED_CAMERA);
+        try {
+            mCamera = Camera.open(SELECTED_CAMERA);
+        } catch (Exception ex) {
+            if (errorListener != null) {
+                errorListener.onError(ex.getMessage());
+            }
+            mCamera = null;
+            return;
+        }
         doStartPreview(mHolder, screenProp);
         callback.cameraSwitchSuccess();
     }

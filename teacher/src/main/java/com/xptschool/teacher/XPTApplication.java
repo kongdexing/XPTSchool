@@ -56,10 +56,13 @@ public class XPTApplication extends NgnApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        long startT = System.currentTimeMillis();
+        Log.i(TAG, "onCreate: start");
         mInstance = this;
         init();
         initBugly();
         NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
+        Log.i(TAG, "onCreate: end consume  " + (System.currentTimeMillis() - startT));
     }
 
     public static XPTApplication getInstance() {
@@ -171,7 +174,7 @@ public class XPTApplication extends NgnApplication {
             cacheDir = getCacheDir();
         File sdCardDir = Environment.getExternalStorageDirectory();//获取SDCard目录
 //            config.diskCache(new UnlimitedDiskCache(new File(sdCardDir.getAbsolutePath() + "/XPTteacher")));
-        Log.i(TAG, "getCachePath: "+sdCardDir.getAbsolutePath());
+        Log.i(TAG, "getCachePath: " + sdCardDir.getAbsolutePath());
         if (cacheDir == null) {
             cacheDir = new File(sdCardDir.getAbsolutePath() + "/XPTteacher");
             Log.i(TAG, "cacheDir is null " + cacheDir.getAbsolutePath());
