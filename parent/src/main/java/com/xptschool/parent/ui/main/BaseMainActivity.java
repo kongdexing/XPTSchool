@@ -74,9 +74,11 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             //建议在oncreate的时候连接华为移动服务
             //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
             client.connect();
-        } else if (carrier.toUpperCase().equals("MEIZU")) {
-            PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
-        } else {
+        }
+//        else if (carrier.toUpperCase().equals("MEIZU")) {
+//            PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+//        }
+        else {
             //友盟
             final PushAgent mPushAgent = PushAgent.getInstance(this);
             mPushAgent.setDebugMode(false);

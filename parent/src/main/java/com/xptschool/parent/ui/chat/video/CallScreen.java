@@ -136,11 +136,13 @@ public class CallScreen extends CallBaseScreen {
 
     @NeedsPermission({Manifest.permission.CAMERA})
     void canOpenCamera() {
-        Log.i(TAG, "canOpenCamera: ");
 //        loadView();
         //打开摄像头
         if (mViewTrying != null) {
+            Log.i(TAG, "canOpenCamera: ");
             mViewTrying.onReOpenCamera();
+        } else {
+            Log.i(TAG, "canOpenCamera mViewTrying is null ");
         }
     }
 
@@ -349,6 +351,8 @@ public class CallScreen extends CallBaseScreen {
                 unregisterReceiver(mSipBroadCastRecv);
                 mSipBroadCastRecv = null;
             }
+
+            hangUpCall();
 
             if (mSession != null) {
                 mSession.setContext(null);

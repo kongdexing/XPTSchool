@@ -639,6 +639,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     }
 
     public void openCamera() {
+        Log.i(TAG, "openCamera: ");
         new Thread() {
             @Override
             public void run() {

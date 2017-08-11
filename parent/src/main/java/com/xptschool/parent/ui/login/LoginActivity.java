@@ -99,10 +99,11 @@ public class LoginActivity extends BaseActivity implements HuaweiApiClient.Conne
                             .build();
                     client.connect();
                     Log.i(TAG, "HUAWEI disable ");
-                } else if (carrier.toUpperCase().equals("MEIZU")) {
-//                    PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
-                    PushManager.unRegister(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
-                } else {
+                }
+//                else if (carrier.toUpperCase().equals("MEIZU")) {
+//                    PushManager.unRegister(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+//                }
+                else {
                     PushAgent mPushAgent = PushAgent.getInstance(this);
                     mPushAgent.disable(new IUmengCallback() {
                         @Override

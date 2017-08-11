@@ -28,9 +28,8 @@ import org.doubango.ngn.events.NgnInviteEventArgs;
 import org.doubango.ngn.sip.NgnAVSession;
 import org.doubango.ngn.sip.NgnInviteSession;
 import org.doubango.ngn.utils.NgnContentType;
-import org.doubango.ngn.utils.NgnTimer;
-import org.doubango.tinyWRAP.QoS;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -44,10 +43,6 @@ public class CallBaseScreen extends BaseActivity {
     public NgnAVSession mSession;
     public ContactParent contactParent;
 
-    private NgnTimer mTimerInCall;
-    private NgnTimer mTimerSuicide;
-    private NgnTimer mTimerQoS;
-
     public final static String EXTRAT_SIP_SESSION_ID = "SipSession";
     public final static String EXTRAT_PARENT_ID = "Parent";
     public final static String EXTRAT_CALL_TYPE = "Call_Type";
@@ -55,15 +50,12 @@ public class CallBaseScreen extends BaseActivity {
     public boolean mSendDeviceInfo;
     public int mLastOrientation; // values: portrait, landscape...
     public static int mLastRotation; // values: degrees
-
+    private Timer mTimer;
     private OrientationEventListener mListener;
 
     public CallBaseScreen() {
         super();
         mEngine = NgnEngine.getInstance();
-        mTimerInCall = new NgnTimer();
-        mTimerSuicide = new NgnTimer();
-        mTimerQoS = new NgnTimer();
     }
 
     @Override
@@ -139,10 +131,35 @@ public class CallBaseScreen extends BaseActivity {
         }
     }
 
-    public void pushIOSCall(ContactParent parent) {
+    public void setTimerTask() {
+        try {
+            if (mTimer == null) {
+                mTimer = new Timer();
+            }
+
+            mTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    pushIOSCall();
+                }
+            }, 10, 3 * 1000);
+        } catch (Exception ex) {
+            //执行异常后，重新发送打电话请求
+            pushIOSCall();
+            Log.i(TAG, "setTimerTask error: " + ex.getMessage());
+        }
+    }
+
+    public void cancelTimerTask() {
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
+    }
+
+    public void pushIOSCall() {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.VIDEO_CALL_IOS_PUSH,
                 new VolleyHttpParamsEntity()
-                        .addParam("user_id", parent.getUser_id())
+                        .addParam("user_id", contactParent.getUser_id())
                         .addParam("type", "1"), new VolleyRequestListener() {
                     @Override
                     public void onStart() {
@@ -159,6 +176,8 @@ public class CallBaseScreen extends BaseActivity {
     }
 
     public void hangUpCallToPush() {
+        cancelTimerTask();
+
         if (contactParent == null) {
             return;
         }
@@ -239,7 +258,6 @@ public class CallBaseScreen extends BaseActivity {
 
                             if (mSession != null) {
                                 applyCamRotation(mSession.compensCamRotation(true));
-                                mTimerQoS.schedule(mTimerTaskQoS, 0, 3000);
                             }
 
                             switch (args.getEventType()) {
@@ -249,12 +267,7 @@ public class CallBaseScreen extends BaseActivity {
                                 }
                                 case MEDIA_UPDATED: {
                                     Log.i(TAG, "handleSipEvent: MEDIA_UPDATED");
-//                            if ((mIsVideoCall = (mSession.getMediaType() == NgnMediaType.AudioVideo || mSession.getMediaType() == NgnMediaType.Video))) {
-//                            loadInCallVideoView();
                                     loadInCallVideoView();
-//                            } else {
-//                                loadInCallAudioView();
-//                            }
                                     break;
                                 }
                                 default: {
@@ -277,7 +290,7 @@ public class CallBaseScreen extends BaseActivity {
     }
 
     public void loadInCallVideoView() {
-
+        cancelTimerTask();
     }
 
     public String getStateDesc(NgnInviteSession.InviteState state) {
@@ -305,28 +318,6 @@ public class CallBaseScreen extends BaseActivity {
     public void showSecondInComing(Intent intent) {
 
     }
-
-    public final TimerTask mTimerTaskQoS = new TimerTask() {
-        @Override
-        public void run() {
-            if (mSession != null) {
-                final QoS qos = mSession.getQoSVideo();
-                if (qos != null) {
-                    try {
-//                        Log.i(TAG, "run: " + "Quality: 		" + (int) (qos.getQavg() * 100) + "%\n" +
-//                                "Receiving:		" + qos.getBandwidthDownKbps() + "Kbps\n" +
-//                                "Sending:		" + qos.getBandwidthUpKbps() + "Kbps\n" +
-//                                "Size in:	    " + qos.getVideoInWidth() + "x" + qos.getVideoInHeight() + "\n" +
-//                                "Size out:		" + qos.getVideoOutWidth() + "x" + qos.getVideoOutHeight() + "\n" +
-//                                "Fps in:        " + qos.getVideoInAvgFps() + "\n" +
-//                                "Encode time:   " + qos.getVideoEncAvgTime() + "ms / frame\n" +
-//                                "Decode time:   " + qos.getVideoDecAvgTime() + "ms / frame\n");
-                    } catch (Exception e) {
-                    }
-                }
-            }
-        }
-    };
 
     private void applyCamRotation(int rotation) {
         if (mSession != null) {

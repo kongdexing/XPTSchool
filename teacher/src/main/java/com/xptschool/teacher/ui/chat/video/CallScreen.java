@@ -53,6 +53,7 @@ public class CallScreen extends CallBaseScreen {
 
     private CallingView mViewInCallVideo;
     private MediaPlayer mp = new MediaPlayer();
+    private TryingView mViewTrying;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,8 @@ public class CallScreen extends CallBaseScreen {
                 //开始呼叫
                 mSession.makeCall(validUri);
 
-                pushIOSCall(contactParent);
+                setTimerTask();
+//                pushIOSCall(contactParent);
             } else if ("incoming".equals(callType)) {
                 try {
                     long session_id = extras.getLong(EXTRAT_SIP_SESSION_ID);
@@ -121,7 +123,8 @@ public class CallScreen extends CallBaseScreen {
         mLastRotation = -1;
         mLastOrientation = -1;
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-        CallScreenPermissionsDispatcher.canOpenCameraWithCheck(this);
+        loadView();
+//        CallScreenPermissionsDispatcher.canOpenCameraWithCheck(this);
     }
 
     @Override
@@ -136,7 +139,12 @@ public class CallScreen extends CallBaseScreen {
     @NeedsPermission({Manifest.permission.CAMERA})
     void canOpenCamera() {
         Log.i(TAG, "canOpenCamera: ");
-        loadView();
+        if (mViewTrying != null) {
+            Log.i(TAG, "canOpenCamera: ");
+            mViewTrying.onReOpenCamera();
+        } else {
+            Log.i(TAG, "canOpenCamera mViewTrying is null ");
+        }
     }
 
     @OnPermissionDenied({Manifest.permission.CAMERA})
@@ -217,7 +225,7 @@ public class CallScreen extends CallBaseScreen {
     private void loadTryingView() {
         Log.d(TAG, "loadTryingView()");
 
-        TryingView mViewTrying = new TryingView(this, new ErrorListener() {
+        mViewTrying = new TryingView(this, new ErrorListener() {
             @Override
             public void onError(String error) {
                 Log.i(TAG, "open camera error: " + error);
@@ -286,6 +294,9 @@ public class CallScreen extends CallBaseScreen {
 
         mMainLayout.removeAllViews();
         mMainLayout.addView(mViewTrying);
+
+        //判断权限
+        CallScreenPermissionsDispatcher.canOpenCameraWithCheck(this);
     }
 
     private boolean hangUpCall() {
@@ -317,6 +328,8 @@ public class CallScreen extends CallBaseScreen {
     };
 
     public void loadInCallVideoView() {
+        super.loadInCallVideoView();
+
         Log.d(TAG, "loadInCallVideoView()");
         if (mViewInCallVideo == null) {
             mViewInCallVideo = new CallingView(this);
@@ -366,6 +379,8 @@ public class CallScreen extends CallBaseScreen {
                 mSipBroadCastRecv = null;
             }
 
+            hangUpCall();
+
             if (mSession != null) {
                 mSession.setContext(null);
                 mSession.decRef();
@@ -375,7 +390,6 @@ public class CallScreen extends CallBaseScreen {
                 mp.release();
             }
 
-            mTimerTaskQoS.cancel();
         } catch (Exception ex) {
             Log.i(TAG, "onDestroy: " + ex.getMessage());
         }

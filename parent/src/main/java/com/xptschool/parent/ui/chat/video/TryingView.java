@@ -65,7 +65,10 @@ public class TryingView extends LinearLayout {
 
     public void onReOpenCamera() {
         if (jcameraview != null) {
+            Log.i(TAG, "onReOpenCamera openCamera: ");
             jcameraview.openCamera();
+        } else {
+            Log.i(TAG, "onReOpenCamera jcameraview is null");
         }
     }
 
