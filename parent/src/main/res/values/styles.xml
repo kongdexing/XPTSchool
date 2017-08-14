@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="translucent" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/translucent</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -15,15 +10,9 @@
         <item name="colorAccent2">@color/colorAccent2</item>
         <item name="txt_primary_color">@color/text_white</item>
         <item name="android:windowBackground">@drawable/logo_welcome</item>
-        <!--<item name="android:windowAnimationStyle">@style/AnimationActivity</item>-->
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
         <item name="android:textColorSecondary">@color/text_black</item>
         <item name="android:textColor">@color/text_black</item>
-    </style>
-
-    <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:screenOrientation">portrait</item>
     </style>
 
     <!-- Activity显示消失动画 -->
@@ -186,4 +175,10 @@
         <item name="android:shadowRadius">20</item>
 
     </style>
+
+    <style name="translucent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/translucent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 </resources>

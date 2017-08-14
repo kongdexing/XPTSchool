@@ -75,7 +75,7 @@ public class SocketService extends Service {
             public void run() {
                 if (!isStop) {
                     receiveMessage();
-                    Log.i("Native", "start NativeService ");
+                    Log.i(TAG, "start receiveMessage ");
                 }
             }
         }, 1000, 2 * 1000);

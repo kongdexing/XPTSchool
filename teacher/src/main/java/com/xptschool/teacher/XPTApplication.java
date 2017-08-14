@@ -54,15 +54,21 @@ public class XPTApplication extends NgnApplication {
     public static String TAG = XPTApplication.class.getSimpleName();
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+        // 安装tinker
+        Beta.installTinker();
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "onCreate: start");
-        long startT = System.currentTimeMillis();
         mInstance = this;
         init();
         initBugly();
         NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
-        Log.i(TAG, "onCreate: end consume  " + (System.currentTimeMillis() - startT));
     }
 
     public static XPTApplication getInstance() {
@@ -204,13 +210,4 @@ public class XPTApplication extends NgnApplication {
         return display.getWidth() / 4;
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        // you must install multiDex whatever tinker is installed!
-        MultiDex.install(base);
-
-        // 安装tinker
-        Beta.installTinker();
-    }
 }

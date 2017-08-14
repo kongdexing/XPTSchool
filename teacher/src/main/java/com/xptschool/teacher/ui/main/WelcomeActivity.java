@@ -2,6 +2,7 @@ package com.xptschool.teacher.ui.main;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class WelcomeActivity extends BaseLoginActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_welcome);
+        llContent.setBackgroundColor(Color.TRANSPARENT);
         showActionBar(false);
         analyLogin();
 //        WelcomeActivityPermissionsDispatcher.canReadPhoneStateWithCheck(this);
@@ -111,8 +113,8 @@ public class WelcomeActivity extends BaseLoginActivity {
     protected void onLoginSuccess() {
         super.onLoginSuccess();
         Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
@@ -122,7 +124,7 @@ public class WelcomeActivity extends BaseLoginActivity {
         super.onLoginFailed(msg);
         ToastUtils.showToast(this, msg);
         Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(ExtraKey.LOGIN_ORIGIN, "0");
         startActivity(intent);
         finish();
