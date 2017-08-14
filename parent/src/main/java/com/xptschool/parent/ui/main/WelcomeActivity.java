@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.main;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -12,6 +13,7 @@ import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
@@ -34,8 +36,10 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(XPTApplication.TAG, "WelcomeActivity onCreate: ");
 
         setContentView(R.layout.activity_welcome);
+        llContent.setBackgroundColor(Color.TRANSPARENT);
         showActionBar(false);
 
         analyLogin();

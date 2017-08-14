@@ -56,8 +56,8 @@ public class XPTApplication extends NgnApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        long startT = System.currentTimeMillis();
         Log.i(TAG, "onCreate: start");
+        long startT = System.currentTimeMillis();
         mInstance = this;
         init();
         initBugly();

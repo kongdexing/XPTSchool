@@ -51,14 +51,35 @@ public class XPTApplication extends NgnApplication {
     public static final String WXAPP_ID = "wx1af4f660ce9e6b37";
     private Display display;
     public static String TAG = XPTApplication.class.getSimpleName();
+    private long startT = 0;
+
+    /**
+     * bugly打包
+     *
+     * @param base
+     */
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        Log.i(TAG, "XPTApplication attachBaseContext: start");
+        startT = System.currentTimeMillis();
+
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+
+        // 安装tinker
+        Beta.installTinker();
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         mInstance = this;
         init();
         initBugly();
         NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
+        Log.i(TAG, "XPTApplication onCreate: end consume  " + (System.currentTimeMillis() - startT));
     }
 
     public static XPTApplication getInstance() {
@@ -201,17 +222,4 @@ public class XPTApplication extends NgnApplication {
         return display.getWidth() / 4;
     }
 
-    /**
-     * bugly打包
-     * @param base
-     */
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        // you must install multiDex whatever tinker is installed!
-        MultiDex.install(base);
-
-        // 安装tinker
-        Beta.installTinker();
-    }
 }
