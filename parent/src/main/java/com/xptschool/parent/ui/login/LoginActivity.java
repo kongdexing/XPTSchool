@@ -39,6 +39,7 @@ import com.xptschool.parent.http.HttpErrorMsg;
 import com.xptschool.parent.http.MyVolleyRequestListener;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.push.DeviceHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
 import com.xptschool.parent.ui.main.BaseActivity;
@@ -87,10 +88,10 @@ public class LoginActivity extends BaseActivity implements HuaweiApiClient.Conne
                 String carrier = android.os.Build.MANUFACTURER;
                 Log.i(TAG, "onCreate: " + model + "  " + carrier);
 
-                if (carrier.toUpperCase().equals("XIAOMI")) {
+                if (carrier.toUpperCase().equals(DeviceHelper.M_XIAOMI)) {
                     //推送不可用
                     MiPushClient.disablePush(this);
-                } else if (carrier.toUpperCase().equals("HUAWEI")) {
+                } else if (carrier.toUpperCase().equals(DeviceHelper.M_HUAWEI)) {
                     client = new HuaweiApiClient.Builder(this)
                             .addApi(HuaweiPush.PUSH_API)
                             .addConnectionCallbacks(this)
@@ -98,11 +99,9 @@ public class LoginActivity extends BaseActivity implements HuaweiApiClient.Conne
                             .build();
                     client.connect();
                     Log.i(TAG, "HUAWEI disable ");
-                }
-//                else if (carrier.toUpperCase().equals("MEIZU")) {
-//                    PushManager.unRegister(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
-//                }
-                else {
+                } else if (carrier.toUpperCase().equals(DeviceHelper.M_MEIZU)) {
+                    PushManager.unRegister(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+                } else {
                     PushAgent mPushAgent = PushAgent.getInstance(this);
                     mPushAgent.disable(new IUmengCallback() {
                         @Override

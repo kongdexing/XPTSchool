@@ -11,6 +11,7 @@ import com.xiaomi.mipush.sdk.MiPushCommandMessage;
 import com.xiaomi.mipush.sdk.MiPushMessage;
 import com.xiaomi.mipush.sdk.PushMessageReceiver;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.push.DeviceHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 
 import java.text.SimpleDateFormat;
@@ -180,7 +181,7 @@ public class MIMessageReceiver extends PushMessageReceiver {
                 mRegId = cmdArg1;
                 //register_success
                 //注册成功
-                UpushTokenHelper.uploadDevicesToken(mRegId, "MIPush");
+                UpushTokenHelper.uploadDevicesToken(mRegId, DeviceHelper.P_XIAOMI);
             } else {
                 //register_fail
 

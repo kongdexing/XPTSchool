@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.huawei.hms.support.api.push.PushReceiver;
+import com.xptschool.parent.push.DeviceHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.util.Log;
 
@@ -33,7 +34,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
         Log.i(TAG, "belongId为:" + belongId);
         Log.i(TAG, "Token为:" + token);
 
-        UpushTokenHelper.uploadDevicesToken(token, "HWPush");
+        UpushTokenHelper.uploadDevicesToken(token, DeviceHelper.P_HUAWEI);
     }
 
     @Override
