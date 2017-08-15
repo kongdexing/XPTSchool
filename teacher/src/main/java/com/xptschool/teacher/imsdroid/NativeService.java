@@ -100,21 +100,20 @@ public class NativeService extends NgnNativeService {
             Log.i(TAG, "onStart: mEngine is null");
             return;
         }
-        if (!mEngine.isStarted()) {
-            final Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!mEngine.isStarted()) {
-                        Log.d(TAG, "Starts the engine from the splash screen");
-                        mEngine.start();
-                    }
+
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!mEngine.isStarted()) {
+                    Log.d(TAG, "Starts the engine from the splash screen");
+                    mEngine.start();
+                } else {
+                    registerVideoServer();
                 }
-            });
-            thread.setPriority(Thread.MAX_PRIORITY);
-            thread.start();
-        } else {
-            registerVideoServer();
-        }
+            }
+        });
+        thread.setPriority(Thread.MAX_PRIORITY);
+        thread.start();
     }
 
     private Engine getEngine() {
