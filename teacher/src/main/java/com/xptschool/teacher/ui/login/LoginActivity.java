@@ -58,7 +58,6 @@ public class LoginActivity extends BaseLoginActivity implements HuaweiApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setTitle(R.string.login);
         initView();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -109,21 +108,21 @@ public class LoginActivity extends BaseLoginActivity implements HuaweiApiClient.
     }
 
     private void initView() {
-        llParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int heightDiff = llParent.getRootView().getHeight();
-                int height = llParent.getHeight();
-                int diff = heightDiff - height;
-                Log.i(TAG, "onGlobalLayout  rootH " + heightDiff + "  height:" + height + " diff:" + diff);
-                if (diff > 400) {
-                    //键盘弹起
-                    imgCompany.setVisibility(View.GONE);
-                } else {
-                    imgCompany.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+//        llParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                int heightDiff = llParent.getRootView().getHeight();
+//                int height = llParent.getHeight();
+//                int diff = heightDiff - height;
+//                Log.i(TAG, "onGlobalLayout  rootH " + heightDiff + "  height:" + height + " diff:" + diff);
+//                if (diff > 400) {
+//                    //键盘弹起
+//                    imgCompany.setVisibility(View.GONE);
+//                } else {
+//                    imgCompany.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
     }
 
     @Override
