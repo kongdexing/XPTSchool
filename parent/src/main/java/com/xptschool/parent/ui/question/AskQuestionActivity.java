@@ -22,7 +22,9 @@ import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.BeanTeacher;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseActivity;
+import com.xptschool.parent.util.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,17 +56,23 @@ public class AskQuestionActivity extends BaseActivity {
     }
 
     private void initData() {
-        spnStudents.setItems(GreenDaoHelper.getInstance().getStudents());
+        List<BeanStudent> students = GreenDaoHelper.getInstance().getStudents();
+
+
         spnStudents.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner materialSpinner, int i, long l, Object o) {
                 getTeacherByStudent();
             }
         });
-
-        spnTeacher.setItems("正在获取老师信息");
-
-        getTeacherByStudent();
+        if (students.size() == 0) {
+            spnStudents.setItems("暂无学生");
+            spnTeacher.setItems("无老师信息");
+        } else {
+            spnStudents.setItems(students);
+            spnTeacher.setItems("正在获取老师信息");
+            getTeacherByStudent();
+        }
     }
 
     private void getTeacherByStudent() {
@@ -116,6 +124,19 @@ public class AskQuestionActivity extends BaseActivity {
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.btnSubmit:
+                //判断学生，老师信息
+                Object student = spnStudents.getSelectedItem();
+                if (!(student instanceof BeanStudent)) {
+                    ToastUtils.showToast(this, "暂无学生");
+                    return;
+                }
+
+                Object teacher = spnTeacher.getSelectedItem();
+                if (!(teacher instanceof BeanTeacher)) {
+                    ToastUtils.showToast(this, "无老师信息");
+                    return;
+                }
+
                 if (edtQTitle.getText().toString().trim().isEmpty()) {
                     Toast.makeText(this, R.string.toast_question_title_empty, Toast.LENGTH_SHORT).show();
                     return;
