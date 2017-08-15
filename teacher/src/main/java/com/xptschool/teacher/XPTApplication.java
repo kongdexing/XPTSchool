@@ -45,8 +45,8 @@ public class XPTApplication extends NgnApplication {
     // user your appid the key.
     public static final String APP_MIPUSH_KEY = "5661760111174";
 
-    public static final String MZ_APP_ID = "3e1429a7a5";
-    public static final String MZ_APP_KEY = "3e1429a7a5";
+    public static final String MZ_APP_ID = "111066";
+    public static final String MZ_APP_KEY = "94dd2aa5483a4d109cb8e357fc862d40";
 
     public static final String APP_ID = "3a3021ce3c"; // TODO 替换成bugly上注册的appid
     private static XPTApplication mInstance;

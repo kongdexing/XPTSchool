@@ -19,6 +19,7 @@ import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.push.DeviceHelper;
 import com.xptschool.teacher.push.MyPushIntentService;
 import com.xptschool.teacher.push.UpushTokenHelper;
 import com.xptschool.teacher.server.ServerManager;
@@ -40,8 +41,8 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
         String model = android.os.Build.MODEL;
         String carrier = android.os.Build.MANUFACTURER;
         Log.i(TAG, "onCreate: " + model + "  " + carrier);
-        if (carrier.toUpperCase().equals("XIAOMI")) {
 
+        if (carrier.toUpperCase().equals(DeviceHelper.M_XIAOMI)) {
             MiPushClient.registerPush(this, XPTApplication.APP_MIPUSH_ID, XPTApplication.APP_MIPUSH_KEY);
             LoggerInterface newLogger = new LoggerInterface() {
 
@@ -63,7 +64,7 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             Logger.setLogger(this, newLogger);
             //推送可用
             MiPushClient.enablePush(this);
-        } else if (carrier.toUpperCase().equals("HUAWEI")) {
+        } else if (carrier.toUpperCase().equals(DeviceHelper.M_HUAWEI)) {
             //创建华为移动服务client实例用以使用华为push服务
             //需要指定api为HuaweiId.PUSH_API
             //连接回调以及连接失败监听
@@ -75,12 +76,9 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
             //建议在oncreate的时候连接华为移动服务
             //业务可以根据自己业务的形态来确定client的连接和断开的时机，但是确保connect和disconnect必须成对出现
             client.connect();
-        }
-//        else if (carrier.toUpperCase().equals("MEIZU")) {
-//            PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
-//
-//        }
-        else {
+        } else if (carrier.toUpperCase().equals(DeviceHelper.M_MEIZU)) {
+            PushManager.register(this, XPTApplication.MZ_APP_ID, XPTApplication.MZ_APP_KEY);
+        } else {
             //友盟
             final PushAgent mPushAgent = PushAgent.getInstance(this);
             mPushAgent.setDebugMode(false);
@@ -99,7 +97,7 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
                         public void onSuccess(String deviceToken) {
                             //注册成功会返回device token
                             Log.i(TAG, "onSuccess: deviceToken " + deviceToken);
-                            UpushTokenHelper.uploadDevicesToken(deviceToken, "UPush");
+                            UpushTokenHelper.uploadDevicesToken(deviceToken, DeviceHelper.P_UMENG);
                         }
 
                         @Override
