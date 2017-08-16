@@ -30,42 +30,42 @@ import com.github.pwittchen.networkevents.library.logger.Logger;
  * or when device goes off-line
  */
 public final class ConnectivityChanged {
-  private static final String MESSAGE_FORMAT = "ConnectivityChanged: %s";
-  private final ConnectivityStatus connectivityStatus;
-  private final Context context;
+    private static final String MESSAGE_FORMAT = "ConnectivityChanged: %s";
+    private final ConnectivityStatus connectivityStatus;
+    private final Context context;
 
-  public ConnectivityChanged(ConnectivityStatus connectivityStatus, Logger logger,
-      Context context) {
-    this.connectivityStatus = connectivityStatus;
-    this.context = context;
-    String message = String.format(MESSAGE_FORMAT, connectivityStatus.toString());
-    logger.log(message);
-  }
-
-  public ConnectivityStatus getConnectivityStatus() {
-    return connectivityStatus;
-  }
-
-  public MobileNetworkType getMobileNetworkType() {
-
-    if (connectivityStatus != ConnectivityStatus.MOBILE_CONNECTED) {
-      return MobileNetworkType.UNKNOWN;
+    public ConnectivityChanged(ConnectivityStatus connectivityStatus, Logger logger,
+                               Context context) {
+        this.connectivityStatus = connectivityStatus;
+        this.context = context;
+        String message = String.format(MESSAGE_FORMAT, connectivityStatus.toString());
+        logger.log(message);
     }
 
-    TelephonyManager telephonyManager =
-        (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-    switch (telephonyManager.getNetworkType()) {
-      case (TelephonyManager.NETWORK_TYPE_LTE):
-        return MobileNetworkType.LTE;
-      case (TelephonyManager.NETWORK_TYPE_HSPAP):
-        return MobileNetworkType.HSPAP;
-      case (TelephonyManager.NETWORK_TYPE_EDGE):
-        return MobileNetworkType.EDGE;
-      case (TelephonyManager.NETWORK_TYPE_GPRS):
-        return MobileNetworkType.GPRS;
-      default:
-        return MobileNetworkType.UNKNOWN;
+    public ConnectivityStatus getConnectivityStatus() {
+        return connectivityStatus;
     }
-  }
+
+    public MobileNetworkType getMobileNetworkType() {
+
+        if (connectivityStatus != ConnectivityStatus.MOBILE_CONNECTED) {
+            return MobileNetworkType.UNKNOWN;
+        }
+
+        TelephonyManager telephonyManager =
+                (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        switch (telephonyManager.getNetworkType()) {
+            case (TelephonyManager.NETWORK_TYPE_LTE):
+                return MobileNetworkType.LTE;
+            case (TelephonyManager.NETWORK_TYPE_HSPAP):
+                return MobileNetworkType.HSPAP;
+            case (TelephonyManager.NETWORK_TYPE_EDGE):
+                return MobileNetworkType.EDGE;
+            case (TelephonyManager.NETWORK_TYPE_GPRS):
+                return MobileNetworkType.GPRS;
+            default:
+                return MobileNetworkType.UNKNOWN;
+        }
+    }
 }

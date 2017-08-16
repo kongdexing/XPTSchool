@@ -21,31 +21,31 @@ import android.net.NetworkInfo;
 
 public final class NetworkHelper {
 
-  private NetworkHelper() {
-  }
-
-  /**
-   * Helper method, which checks if device is connected to WiFi or mobile network.
-   *
-   * @param context Activity or application context
-   * @return boolean true if is connected to mobile or WiFi network.
-   */
-  public static boolean isConnectedToWiFiOrMobileNetwork(Context context) {
-    final String service = Context.CONNECTIVITY_SERVICE;
-    final ConnectivityManager manager = (ConnectivityManager) context.getSystemService(service);
-    final NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-
-    if (networkInfo == null) {
-      return false;
+    private NetworkHelper() {
     }
 
-    final boolean isWifiNetwork = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
-    final boolean isMobileNetwork = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+    /**
+     * Helper method, which checks if device is connected to WiFi or mobile network.
+     *
+     * @param context Activity or application context
+     * @return boolean true if is connected to mobile or WiFi network.
+     */
+    public static boolean isConnectedToWiFiOrMobileNetwork(Context context) {
+        final String service = Context.CONNECTIVITY_SERVICE;
+        final ConnectivityManager manager = (ConnectivityManager) context.getSystemService(service);
+        final NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 
-    if (isWifiNetwork || isMobileNetwork) {
-      return true;
+        if (networkInfo == null) {
+            return false;
+        }
+
+        final boolean isWifiNetwork = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        final boolean isMobileNetwork = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+
+        if (isWifiNetwork || isMobileNetwork) {
+            return true;
+        }
+
+        return false;
     }
-
-    return false;
-  }
 }

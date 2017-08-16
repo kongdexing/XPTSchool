@@ -302,6 +302,7 @@ public interface INgnSipService extends INgnBaseService {
      * @return the registration state
      */
     ConnectionState getRegistrationState();
+    void setConnectionState(ConnectionState state);
     boolean isXcapEnabled();
     boolean isPublicationEnabled();
     boolean isSubscriptionEnabled();

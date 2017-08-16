@@ -1,5 +1,9 @@
 package com.xptschool.teacher.imsdroid;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,9 +12,11 @@ import com.github.pwittchen.networkevents.library.ConnectivityStatus;
 import com.github.pwittchen.networkevents.library.NetworkEvents;
 import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
 import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.server.ServerManager;
 
+import org.doubango.ngn.services.INgnSipService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -21,10 +27,11 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class NetWorkStatusChangeHelper {
 
-    private String TAG = NetWorkStatusChangeHelper.class.getSimpleName();
+    private String TAG = "Native";
     private static NetWorkStatusChangeHelper instance;
     private BusWrapper busWrapper;
     private NetworkEvents networkEvents;
+    private boolean firstReceive = true;
 
     private NetWorkStatusChangeHelper() {
     }
@@ -42,8 +49,17 @@ public class NetWorkStatusChangeHelper {
         networkEvents = new NetworkEvents(XPTApplication.getInstance(), busWrapper).enableInternetCheck()
                 .enableWifiScan();
         busWrapper.register(this);
-        networkEvents.setPingParameters("www.baidu.com", 80, 30);
+        networkEvents.setPingParameters("www.baidu.com", 80, 2000);
         networkEvents.register();
+    }
+
+    public void disableNetWorkChange() {
+        if (busWrapper != null) {
+            busWrapper.unregister(this);
+        }
+        if (networkEvents != null) {
+            networkEvents.unregister();
+        }
     }
 
     @NonNull
@@ -68,11 +84,6 @@ public class NetWorkStatusChangeHelper {
         };
     }
 
-    private void stop() {
-        busWrapper.unregister(this);
-        networkEvents.unregister();
-    }
-
     @SuppressWarnings("unused")
     @Subscribe
     public void onEvent(ConnectivityChanged event) {
@@ -83,10 +94,42 @@ public class NetWorkStatusChangeHelper {
             Log.i(TAG, "onEvent: login success");
             if (connect_status.equals(ConnectivityStatus.WIFI_CONNECTED_HAS_INTERNET.toString()) ||
                     connect_status.equals(ConnectivityStatus.MOBILE_CONNECTED.toString())) {
-                Log.i(TAG, "onEvent: register native service");
-                ServerManager.getInstance().stopNativeService(XPTApplication.getInstance());
-                ServerManager.getInstance().startNativeService(XPTApplication.getInstance());
+                if (firstReceive) {
+                    Log.i(TAG, "first receive network change ");
+                    firstReceive = false;
+                    return;
+                }
+                //若当前用户在线，则stopService，重新开启
+                if (NativeService.isRegistered()) {
+                    Log.i(TAG, "stop NgnEngineServer and restart: ");
+                    IntentFilter filter = new IntentFilter(BroadcastAction.IMSSERVER_DESTROY);
+                    XPTApplication.getInstance().registerReceiver(IMSServerDestroyReceiver, filter);
+                    ServerManager.getInstance().stopNativeService(XPTApplication.getContext());
+                } else {
+                    Log.i(TAG, "start Ngn server: ");
+                    ServerManager.getInstance().startNativeService(XPTApplication.getContext());
+                }
+//                mEngine.stop();
+//                INgnSipService mSipService = mEngine.getSipService();
+//                if (mSipService.isRegistered()) {
+//
+//                } else {
+//                    Log.i(TAG, "start Ngn server: ");
+//                    ServerManager.getInstance().startNativeService(XPTApplication.getInstance());
+//                }
             }
         }
     }
+
+    BroadcastReceiver IMSServerDestroyReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BroadcastAction.IMSSERVER_DESTROY.equals(action)) {
+                Log.i(TAG, "after destroy ngnServer start Ngn server: ");
+                ServerManager.getInstance().startNativeService(XPTApplication.getInstance());
+                XPTApplication.getInstance().unregisterReceiver(this);
+            }
+        }
+    };
 }

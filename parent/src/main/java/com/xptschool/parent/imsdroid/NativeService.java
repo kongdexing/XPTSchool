@@ -70,7 +70,7 @@ public class NativeService extends NgnNativeService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate()");
+        Log.i(TAG, "onCreate()");
         mEngine = (Engine) Engine.getInstance();
         if (mEngine == null) {
             Log.i(TAG, "onCreate mEngine is null: ");
@@ -97,23 +97,30 @@ public class NativeService extends NgnNativeService {
         super.onStart(intent, startId);
         Log.i(TAG, "onStart()");
         // register()
+    }
+
+    /**
+     * START_NOT_STICKY, 表明不要重建service. 这可以避免在非必要的情况下浪费系统的资源.
+     * START_STICKY, 表明需要重建service, 并在重建service之后调用onStartCommand()方法, 传递给该方法的intent为null.
+     * START_REDELIVER_INTENT, 表明需要重建service, 并在重建service之后调用onStartCommand()方法,
+     *                         传递给该方法的intent为service被摧毁之前接收到的最后一个intent.
+     * @param intent
+     * @param flags
+     * @param startId
+     * @return
+     */
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "onStartCommand: ");
         if (mEngine == null) {
-            return;
+            Log.i(TAG, "onStart: mEngine is null");
+            return START_STICKY;
         }
 
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (!mEngine.isStarted()) {
-                    Log.i(TAG, "Starts the engine from the splash screen");
-                    mEngine.start();
-                } else {
-                    registerVideoServer();
-                }
-            }
-        });
-        thread.setPriority(Thread.MAX_PRIORITY);
-        thread.start();
+        if (mEngine.start()) {
+            registerVideoServer();
+        }
+        return START_STICKY;
     }
 
     private Engine getEngine() {

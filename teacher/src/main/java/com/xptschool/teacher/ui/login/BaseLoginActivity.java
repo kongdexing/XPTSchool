@@ -12,9 +12,11 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.imsdroid.NetWorkStatusChangeHelper;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.push.UpushTokenHelper;
+import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.ui.main.BaseActivity;
 
 import org.json.JSONObject;
@@ -87,7 +89,7 @@ public class BaseLoginActivity extends BaseActivity {
     }
 
     protected void onLoginSuccess() {
-
+        ServerManager.getInstance().startSocketServer(this);
     }
 
     protected void onLoginFailed(String msg) {

@@ -51,8 +51,6 @@ public class Engine extends NgnEngine {
     public static final int ACTION_SHOW_SMS = 4;
     public static final int ACTION_SHOW_CHAT_SCREEN = 5;
 
-//    private IScreenService mScreenService;
-
     public static NgnEngine getInstance() {
         if (sInstance == null) {
             sInstance = new Engine();
@@ -71,6 +69,7 @@ public class Engine extends NgnEngine {
 
     @Override
     public boolean stop() {
+        Log.i(TAG, "stop: ");
         return super.stop();
     }
 

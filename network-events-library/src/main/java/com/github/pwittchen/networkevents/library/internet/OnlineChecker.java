@@ -16,7 +16,7 @@
 package com.github.pwittchen.networkevents.library.internet;
 
 public interface OnlineChecker {
-  void check();
+    void check();
 
-  void setPingParameters(String host, int port, int timeoutInMs);
+    void setPingParameters(String host, int port, int timeoutInMs);
 }

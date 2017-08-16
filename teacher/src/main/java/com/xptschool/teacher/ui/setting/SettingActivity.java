@@ -80,7 +80,7 @@ public class SettingActivity extends BaseActivity {
                         UpushTokenHelper.exitAccount();
                         GreenDaoHelper.getInstance().clearData();
 
-                        ServerManager.getInstance().stopServer(SettingActivity.this);
+                        ServerManager.getInstance().stopSocketServer(SettingActivity.this);
 
                         Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

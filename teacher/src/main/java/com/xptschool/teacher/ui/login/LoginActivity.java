@@ -203,8 +203,6 @@ public class LoginActivity extends BaseLoginActivity implements HuaweiApiClient.
             progress.setVisibility(View.INVISIBLE);
         btnLogin.setEnabled(true);
 
-        ServerManager.getInstance().stopServer(this);
-
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

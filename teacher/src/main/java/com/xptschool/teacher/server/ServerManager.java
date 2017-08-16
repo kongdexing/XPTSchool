@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.xptschool.teacher.imsdroid.NativeService;
+import com.xptschool.teacher.imsdroid.NetWorkStatusChangeHelper;
 import com.xptschool.teacher.ui.chat.ToSendMessage;
 
 /**
@@ -21,27 +22,42 @@ public class ServerManager {
         return mInstance;
     }
 
-    public void startServer(Context context) {
+    /**
+     * 登录成功后，启动socket服务
+     *
+     * @param context
+     */
+    public void startSocketServer(Context context) {
         Intent intent = new Intent(context, SocketService.class);
         context.startService(intent);
 
         startNativeService(context);
     }
 
-    public void stopServer(Context context) {
+    /**
+     * 用户退出后停止服务
+     */
+    public void stopSocketServer(Context context) {
         Log.i("Native", "stopServer: ");
         context.stopService(new Intent(context, SocketService.class));
+
         stopNativeService(context);
+
+        NetWorkStatusChangeHelper.getInstance().disableNetWorkChange();
     }
 
     public void startNativeService(Context context) {
         Log.i("Event", "startNativeService: ");
-        context.startService(new Intent(context, NativeService.class));
+        Intent intent = new Intent(context, NativeService.class);
+        intent.putExtra(NativeService.ENGINE_TYPE, true);
+        context.startService(intent);
     }
 
     public void stopNativeService(Context context) {
         Log.i("Event", "stopNativeService: ");
-        context.stopService(new Intent(context, NativeService.class));
+        Intent intent = new Intent(context, NativeService.class);
+        intent.putExtra(NativeService.ENGINE_TYPE, false);
+        context.startService(intent);
     }
 
     public void sendMessage(ToSendMessage message) {

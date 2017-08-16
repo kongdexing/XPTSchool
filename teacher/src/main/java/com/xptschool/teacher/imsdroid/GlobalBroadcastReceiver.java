@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.xptschool.teacher.server.ServerManager;
+
 import org.doubango.ngn.utils.NgnConfigurationEntry;
 import org.doubango.ngn.utils.NgnStringUtils;
 
@@ -40,9 +42,10 @@ public class GlobalBroadcastReceiver extends BroadcastReceiver {
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             SharedPreferences settings = context.getSharedPreferences(NgnConfigurationEntry.SHARED_PREF_NAME, 0);
             if (settings != null && settings.getBoolean(NgnConfigurationEntry.GENERAL_AUTOSTART.toString(), NgnConfigurationEntry.DEFAULT_GENERAL_AUTOSTART)) {
-                Intent i = new Intent(context, NativeService.class);
-                i.putExtra("autostarted", true);
-                context.startService(i);
+//                Intent i = new Intent(context, NativeService.class);
+//                i.putExtra("autostarted", true);
+//                context.startService(i);
+                ServerManager.getInstance().startNativeService(context);
             }
         } else if (Intent.ACTION_NEW_OUTGOING_CALL.equals(action) && Engine.getInstance().getSipService().isRegistered()) {
             final String number = getResultData();

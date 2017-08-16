@@ -183,7 +183,7 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
     @Override
     protected void onResume() {
         super.onResume();
-        ServerManager.getInstance().startServer(this);
+//        ServerManager.getInstance().startServer(this);
     }
 
     @Override

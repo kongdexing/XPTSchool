@@ -169,6 +169,15 @@ public class NgnSipService extends NgnBaseService implements INgnSipService,
     }
 
     @Override
+    public void setConnectionState(ConnectionState state) {
+        if (mRegSession != null) {
+            mRegSession.setConnectionState(state);
+        } else {
+            Log.i(TAG, "setConnectionState mRegSession is null ");
+        }
+    }
+
+    @Override
     public boolean isXcapEnabled() {
         // TODO Auto-generated method stub
         return false;
@@ -610,8 +619,11 @@ public class NgnSipService extends NgnBaseService implements INgnSipService,
                     // Registration
                     if (mSipService.mRegSession != null
                             && mSipService.mRegSession.getId() == sessionId) {
-                        mSipService.mRegSession
-                                .setConnectionState(ConnectionState.CONNECTING);
+//                        mSipService.mRegSession
+//                                .setConnectionState(ConnectionState.CONNECTING);
+
+                        mSipService.setConnectionState(ConnectionState.CONNECTING);
+
                         mSipService
                                 .broadcastRegistrationEvent(new NgnRegistrationEventArgs(
                                         sessionId,
@@ -1105,7 +1117,7 @@ public class NgnSipService extends NgnBaseService implements INgnSipService,
                     NgnMessagingSession imSession;
                     if (_session == null) {
                     /*
-					 * "Server-side-session" e.g. Initial MESSAGE sent by the
+                     * "Server-side-session" e.g. Initial MESSAGE sent by the
 					 * remote party
 					 */
                         _session = e.takeSessionOwnership();

@@ -84,8 +84,8 @@ public class NetWorkStatusChangeHelper {
             if (connect_status.equals(ConnectivityStatus.WIFI_CONNECTED_HAS_INTERNET.toString()) ||
                     connect_status.equals(ConnectivityStatus.MOBILE_CONNECTED.toString())) {
                 Log.i(TAG, "onEvent: register native service");
-                ServerManager.getInstance().stopNativeService(XPTApplication.getInstance());
-                ServerManager.getInstance().startNativeService(XPTApplication.getInstance());
+//                ServerManager.getInstance().stopNativeService(XPTApplication.getInstance());
+//                ServerManager.getInstance().startNativeService(XPTApplication.getInstance());
             }
         }
     }

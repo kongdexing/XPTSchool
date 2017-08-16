@@ -26,49 +26,52 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public final class OnlineCheckerImpl implements OnlineChecker {
-  private static final String DEFAULT_PING_HOST = "www.google.com";
-  private static final int DEFAULT_PING_PORT = 80;
-  private static final int DEFAULT_PING_TIMEOUT_IN_MS = 2000;
+    private static final String DEFAULT_PING_HOST = "www.baidu.com";
+    private static final int DEFAULT_PING_PORT = 80;
+    private static final int DEFAULT_PING_TIMEOUT_IN_MS = 2000;
 
-  private final Context context;
-  private String pingHost;
-  private int pingPort;
-  private int pingTimeout;
+    private final Context context;
+    private String pingHost;
+    private int pingPort;
+    private int pingTimeout;
 
-  public OnlineCheckerImpl(Context context) {
-    this.context = context;
-    this.pingHost = DEFAULT_PING_HOST;
-    this.pingPort = DEFAULT_PING_PORT;
-    this.pingTimeout = DEFAULT_PING_TIMEOUT_IN_MS;
-  }
+    public OnlineCheckerImpl(Context context) {
+        this.context = context;
+        this.pingHost = DEFAULT_PING_HOST;
+        this.pingPort = DEFAULT_PING_PORT;
+        this.pingTimeout = DEFAULT_PING_TIMEOUT_IN_MS;
+    }
 
-  @Override public void check() {
-    new AsyncTask<Void, Void, Void>() {
-      @Override protected Void doInBackground(Void... params) {
-        boolean isOnline = false;
-        try {
-          Socket socket = new Socket();
-          socket.connect(new InetSocketAddress(pingHost, pingPort), pingTimeout);
-          isOnline = socket.isConnected();
-        } catch (IOException e) {
-          isOnline = false;
-        } finally {
-          sendBroadcast(isOnline);
-        }
-        return null;
-      }
-    }.execute();
-  }
+    @Override
+    public void check() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                boolean isOnline = false;
+                try {
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress(pingHost, pingPort), pingTimeout);
+                    isOnline = socket.isConnected();
+                } catch (IOException e) {
+                    isOnline = false;
+                } finally {
+                    sendBroadcast(isOnline);
+                }
+                return null;
+            }
+        }.execute();
+    }
 
-  @Override public void setPingParameters(String host, int port, int timeoutInMs) {
-    this.pingHost = host;
-    this.pingPort = port;
-    this.pingTimeout = timeoutInMs;
-  }
+    @Override
+    public void setPingParameters(String host, int port, int timeoutInMs) {
+        this.pingHost = host;
+        this.pingPort = port;
+        this.pingTimeout = timeoutInMs;
+    }
 
-  private void sendBroadcast(boolean isOnline) {
-    Intent intent = new Intent(InternetConnectionChangeReceiver.INTENT);
-    intent.putExtra(InternetConnectionChangeReceiver.INTENT_EXTRA, isOnline);
-    context.sendBroadcast(intent);
-  }
+    private void sendBroadcast(boolean isOnline) {
+        Intent intent = new Intent(InternetConnectionChangeReceiver.INTENT);
+        intent.putExtra(InternetConnectionChangeReceiver.INTENT_EXTRA, isOnline);
+        context.sendBroadcast(intent);
+    }
 }

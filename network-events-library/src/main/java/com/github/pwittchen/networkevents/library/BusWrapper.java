@@ -16,9 +16,9 @@
 package com.github.pwittchen.networkevents.library;
 
 public interface BusWrapper {
-  void register(Object object);
+    void register(Object object);
 
-  void unregister(Object object);
+    void unregister(Object object);
 
-  void post(Object event);
+    void post(Object event);
 }
