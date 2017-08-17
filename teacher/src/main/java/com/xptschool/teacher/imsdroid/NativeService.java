@@ -28,11 +28,7 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.coolerfall.daemon.Daemon;
-import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.R;
-import com.xptschool.teacher.common.BroadcastAction;
-import com.xptschool.teacher.model.BeanTeacher;
-import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.chat.video.CallScreen;
 
 import org.doubango.ngn.NgnNativeService;
@@ -43,21 +39,15 @@ import org.doubango.ngn.events.NgnMsrpEventArgs;
 import org.doubango.ngn.events.NgnRegistrationEventArgs;
 import org.doubango.ngn.events.NgnRegistrationEventTypes;
 import org.doubango.ngn.media.NgnMediaType;
-import org.doubango.ngn.services.INgnConfigurationService;
-import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
-import org.doubango.ngn.sip.NgnSipSession;
-import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 public class NativeService extends NgnNativeService {
+
     private final static String TAG = NativeService.class.getCanonicalName();
     public static final String ACTION_STATE_EVENT = TAG + ".ACTION_STATE_EVENT";
     public static final String ENGINE_TYPE = "ENGINE_TYPE";
     private PowerManager.WakeLock mWakeLock;
     private Engine mEngine;
-    //login video chat server
-    private static INgnSipService mSipService;
-    private INgnConfigurationService mConfigurationService;
 
     public NativeService() {
         super();
@@ -81,11 +71,6 @@ public class NativeService extends NgnNativeService {
         Daemon.run(NativeService.this,
                 NativeService.class, Daemon.INTERVAL_ONE_MINUTE);
 
-        mSipService = mEngine.getSipService();
-        this.mConfigurationService = mEngine.getConfigurationService();
-
-        initNgnConfig();
-
         final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (powerManager != null && mWakeLock == null) {
             mWakeLock = powerManager.newWakeLock(PowerManager.ON_AFTER_RELEASE
@@ -98,133 +83,28 @@ public class NativeService extends NgnNativeService {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         Log.i(TAG, "onStart() ");
-//        if (mEngine == null) {
-//            Log.i(TAG, "onStart: mEngine is null");
-//            return;
-//        }
-//
-//        Bundle bundle = intent.getExtras();
-//        try {
-//            boolean engine = bundle.getBoolean(NativeService.ENGINE_TYPE);
-//            Log.i(TAG, "onStart() engine " + engine);
-//            if (engine) {
-//                if (mEngine.start()) {
-//                    registerVideoServer();
-//                }
-//            } else {
-//                //停止服务
-//                if (mEngine.isStarted()) {
-//                    boolean stopRes = mEngine.stop();
-//                    Log.i(TAG, "onStart: stop engine result " + stopRes);
-//                } else {
-//                    onDestroy();
-//                }
-//            }
-//        } catch (Exception ex) {
-//            Log.i(TAG, "onStart error: " + ex.getMessage());
-//        }
-    }
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
+        intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
+        intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
+        intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
+        registerReceiver(mBroadcastReceiver, intentFilter);
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (mEngine == null) {
-            Log.i(TAG, "onStartCommand: mEngine is null");
-            return START_REDELIVER_INTENT;
-        }
+        if (intent != null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null && bundle.getBoolean("autostarted")) {
 
-        Bundle bundle = intent.getExtras();
-        if (bundle == null) {
-            Log.i(TAG, "onStartCommand bundle is null ");
-            return START_REDELIVER_INTENT;
-        }
-
-        try {
-            boolean engine = bundle.getBoolean(NativeService.ENGINE_TYPE);
-            Log.i(TAG, "onStartCommand() engine " + engine);
-            if (engine) {
-                if (mEngine.start()) {
-                    registerVideoServer();
-                }
-            } else {
-                //停止服务
-                if (mEngine.isStarted()) {
-                    boolean stopRes = mEngine.stop();
-                    Log.i(TAG, "onStartCommand: stop engine result " + stopRes);
-                } else {
-                    onDestroy();
-                }
             }
-        } catch (Exception ex) {
-            Log.i(TAG, "onStartCommand error: " + ex.getMessage());
         }
-        return START_REDELIVER_INTENT;
-    }
 
-    private Engine getEngine() {
-        return (Engine) Engine.getInstance();
-    }
-
-    private void initNgnConfig() {
-        BeanTeacher teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
-        if (teacher == null) {
-            Log.i(TAG, "initNgnConfig: teacher is null");
-            return;
+        if (mEngine.start()) {
+            mEngine.getSipService().register(null);
         }
-        String userId = teacher.getU_id();
-//        userId = "1002";
-        Log.i(TAG, "initNgnConfig userId: " + userId);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_DISPLAY_NAME, teacher.getName());
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:" + userId + "@" + BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, userId);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
 
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putInt(NgnConfigurationEntry.NETWORK_PCSCF_PORT, NgnConfigurationEntry.DEFAULT_NETWORK_PCSCF_PORT);
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_TRANSPORT, "tcp");
-
-        mConfigurationService.putBoolean(NgnConfigurationEntry.NATT_STUN_DISCO, true);
-        mConfigurationService.putString(NgnConfigurationEntry.NATT_STUN_SERVER, BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putBoolean(NgnConfigurationEntry.NATT_USE_STUN_FOR_ICE, NgnConfigurationEntry.DEFAULT_NATT_USE_STUN_FOR_ICE);
-
-        if (!mConfigurationService.commit()) {
-            Log.e(TAG, "Failed to commit() configuration");
-        }
-    }
-
-    private void registerVideoServer() {
-        if (mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTED &&
-                mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTING) {
-            final IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
-            intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
-            intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
-            intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
-            registerReceiver(mBroadcastReceiver, intentFilter);
-
-            // alert()
-            final Intent i = new Intent(ACTION_STATE_EVENT);
-            i.putExtra("started", true);
-            sendBroadcast(i);
-
-            mSipService.register(this);
-            Log.i(TAG, "register sip server");
-        } else {
-            Log.i(TAG, "sip server has registered");
-        }
-    }
-
-    public static boolean isRegistered() {
-        if (mSipService == null) {
-            Log.i(TAG, "isRegistered mSipService is null");
-            return false;
-        }
-        Log.i(TAG, "isRegistered: " + mSipService.getRegistrationState());
-        if (mSipService.getRegistrationState() == NgnSipSession.ConnectionState.CONNECTED) {
-            return true;
-        } else {
-            return false;
-        }
+        // alert()
+        final Intent i = new Intent(ACTION_STATE_EVENT);
+        i.putExtra("started", true);
+        sendBroadcast(i);
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -244,17 +124,12 @@ public class NativeService extends NgnNativeService {
                 Log.i(TAG, "ACTION_REGISTRATION_EVENT onReceive: " + args.getEventType());
                 switch ((type = args.getEventType())) {
                     case REGISTRATION_OK:
-                        mSipService.setConnectionState(NgnSipSession.ConnectionState.CONNECTED);
-                        Log.i(TAG, "REGISTRATION_OK ConnectionState : " + mSipService.getRegistrationState());
                         NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
                         break;
                     case REGISTRATION_NOK:
                     case REGISTRATION_INPROGRESS:
-                        Log.i(TAG, "onReceive REGISTRATION_INPROGRESS : " + mSipService.getRegistrationState());
                     case UNREGISTRATION_INPROGRESS:
                     case UNREGISTRATION_OK:
-                        mSipService.setConnectionState(NgnSipSession.ConnectionState.TERMINATED);
-                        break;
                     case UNREGISTRATION_NOK:
                     default:
                         break;
@@ -356,6 +231,5 @@ public class NativeService extends NgnNativeService {
                 mWakeLock = null;
             }
         }
-        sendBroadcast(new Intent(BroadcastAction.IMSSERVER_DESTROY));
     }
 }

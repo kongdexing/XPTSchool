@@ -611,7 +611,7 @@ public class NgnSipService extends NgnBaseService implements INgnSipService,
                     .getResponseCode() : eventCode;
 
             Log.i(TAG,
-                    String.format("OnDialogEvent (%s,%d)", phrase, sessionId));
+                    String.format("OnDialogEvent (%s,%d,%d)", phrase, sessionId, eventCode));
 
             switch (eventCode) {
                 // == Connecting ==
@@ -1151,7 +1151,7 @@ public class NgnSipService extends NgnBaseService implements INgnSipService,
 
                     if (NgnStringUtils.equals(contentType, NgnContentType.SMS_3GPP,
                             true)) {
-					/* ==== 3GPP SMSIP === */
+                    /* ==== 3GPP SMSIP === */
                         ByteBuffer buffer = ByteBuffer.allocateDirect(bytes.length);
                         buffer.put(bytes);
                         SMSData smsData = SMSEncoder.decode(buffer,
@@ -1159,7 +1159,7 @@ public class NgnSipService extends NgnBaseService implements INgnSipService,
                         if (smsData != null) {
                             twrap_sms_type_t smsType = smsData.getType();
                             if (smsType == twrap_sms_type_t.twrap_sms_type_rpdata) {
-							/* === We have received a RP-DATA message === */
+                            /* === We have received a RP-DATA message === */
                                 long payLength = smsData.getPayloadLength();
                                 String SMSC = message
                                         .getSipHeaderValue("P-Asserted-Identity");
