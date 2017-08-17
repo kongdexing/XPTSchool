@@ -23,7 +23,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
 
@@ -44,8 +43,6 @@ import org.doubango.ngn.sip.NgnAVSession;
 public class NativeService extends NgnNativeService {
 
     private final static String TAG = NativeService.class.getCanonicalName();
-    public static final String ACTION_STATE_EVENT = TAG + ".ACTION_STATE_EVENT";
-    public static final String ENGINE_TYPE = "ENGINE_TYPE";
     private PowerManager.WakeLock mWakeLock;
     private Engine mEngine;
 
@@ -90,21 +87,9 @@ public class NativeService extends NgnNativeService {
         intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
         registerReceiver(mBroadcastReceiver, intentFilter);
 
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null && bundle.getBoolean("autostarted")) {
-
-            }
-        }
-
         if (mEngine.start()) {
             mEngine.getSipService().register(null);
         }
-
-        // alert()
-        final Intent i = new Intent(ACTION_STATE_EVENT);
-        i.putExtra("started", true);
-        sendBroadcast(i);
     }
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {

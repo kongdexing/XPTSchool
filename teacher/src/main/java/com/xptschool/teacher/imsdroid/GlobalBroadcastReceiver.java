@@ -42,9 +42,7 @@ public class GlobalBroadcastReceiver extends BroadcastReceiver {
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             SharedPreferences settings = context.getSharedPreferences(NgnConfigurationEntry.SHARED_PREF_NAME, 0);
             if (settings != null && settings.getBoolean(NgnConfigurationEntry.GENERAL_AUTOSTART.toString(), NgnConfigurationEntry.DEFAULT_GENERAL_AUTOSTART)) {
-                Intent i = new Intent(context, NativeService.class);
-                i.putExtra("autostarted", true);
-                context.startService(i);
+                ImsSipHelper.getInstance().startEngine();
             }
         } else if (Intent.ACTION_NEW_OUTGOING_CALL.equals(action) && Engine.getInstance().getSipService().isRegistered()) {
             final String number = getResultData();

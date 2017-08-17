@@ -28,7 +28,7 @@ public class ImsSipHelper {
         mSipService = getEngine().getSipService();
     }
 
-    protected Engine getEngine() {
+    private Engine getEngine() {
         return (Engine) Engine.getInstance();
     }
 
@@ -37,6 +37,14 @@ public class ImsSipHelper {
             instance = new ImsSipHelper();
         }
         return instance;
+    }
+
+    public boolean isSipRegistered() {
+        return mSipService.isRegistered();
+    }
+
+    public INgnSipService getSipService() {
+        return mSipService;
     }
 
     private void SipConfigCommit() {

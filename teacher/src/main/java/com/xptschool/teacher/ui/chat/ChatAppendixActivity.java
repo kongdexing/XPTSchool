@@ -18,19 +18,15 @@ import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.jph.takephoto.uitl.TFileUtils;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.imsdroid.NativeService;
+import com.xptschool.teacher.imsdroid.ImsSipHelper;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.ui.chat.video.CallScreen;
 import com.xptschool.teacher.ui.main.BaseListActivity;
 import com.xptschool.teacher.util.ChatUtil;
 import com.xptschool.teacher.util.ToastUtils;
 
-import org.doubango.ngn.NgnEngine;
 import org.doubango.ngn.media.NgnMediaType;
-import org.doubango.ngn.services.INgnConfigurationService;
-import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
-import org.doubango.ngn.utils.NgnUriUtils;
 
 /**
  * Created by dexing on 2017/6/2.
@@ -41,18 +37,10 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
-    private NgnEngine mEngine;
-    private INgnConfigurationService mConfigurationService;
-    private INgnSipService mSipService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
-
-        mEngine = NgnEngine.getInstance();
-        mConfigurationService = mEngine.getConfigurationService();
-        mSipService = mEngine.getSipService();
-
         super.onCreate(savedInstanceState);
     }
 
@@ -151,13 +139,16 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void startVideo(ContactParent parent) {
-        if (!mSipService.isRegistered()) {
-            startService(new Intent(this, NativeService.class));
+
+        if (!ImsSipHelper.getInstance().isSipRegistered()) {
+            ImsSipHelper.getInstance().startEngine();
             Toast.makeText(this, "正在登录...", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        NgnAVSession avSession = NgnAVSession.createOutgoingSession(mSipService.getSipStack(), NgnMediaType.AudioVideo);
+        NgnAVSession avSession = NgnAVSession.createOutgoingSession(ImsSipHelper.getInstance().getSipService().getSipStack(),
+                NgnMediaType.AudioVideo);
+
         Intent i = new Intent();
         i.setClass(this, CallScreen.class);
         i.putExtra(CallScreen.EXTRAT_CALL_TYPE, "outgoing");

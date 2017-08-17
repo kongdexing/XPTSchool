@@ -1,9 +1,5 @@
 package com.xptschool.teacher.imsdroid;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -13,14 +9,10 @@ import com.github.pwittchen.networkevents.library.ConnectivityStatus;
 import com.github.pwittchen.networkevents.library.NetworkEvents;
 import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
 import com.xptschool.teacher.XPTApplication;
-import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
-import com.xptschool.teacher.server.ServerManager;
 
-import org.doubango.ngn.services.INgnSipService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.meta.SimpleSubscriberInfo;
 
 /**
  * Created by dexing on 2017/8/1 0001.
@@ -103,9 +95,6 @@ public class NetWorkStatusChangeHelper {
                 }
 
                 Log.i(TAG, "stop NgnEngineServer and restart: ");
-//                IntentFilter filter = new IntentFilter(BroadcastAction.IMSSERVER_DESTROY);
-//                XPTApplication.getInstance().registerReceiver(IMSServerDestroyReceiver, filter);
-//                ServerManager.getInstance().stopNativeService(XPTApplication.getContext());
                 ImsSipHelper.getInstance().unRegisterSipServer();
 
                 new Handler().postDelayed(new Runnable() {
@@ -115,21 +104,6 @@ public class NetWorkStatusChangeHelper {
                     }
                 }, 2000);
 
-                //若当前用户在线，则stopService，重新开启
-//                if (NativeService.isRegistered()) {
-//                    Log.i(TAG, "stop NgnEngineServer and restart: ");
-//                } else {
-//                    Log.i(TAG, "start Ngn server: ");
-//                    ServerManager.getInstance().startNativeService(XPTApplication.getContext());
-//                }
-//                mEngine.stop();
-//                INgnSipService mSipService = mEngine.getSipService();
-//                if (mSipService.isRegistered()) {
-//
-//                } else {
-//                    Log.i(TAG, "start Ngn server: ");
-//                    ServerManager.getInstance().startNativeService(XPTApplication.getInstance());
-//                }
             }
         }
     }

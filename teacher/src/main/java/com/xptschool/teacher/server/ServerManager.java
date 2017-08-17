@@ -32,8 +32,6 @@ public class ServerManager {
         Intent intent = new Intent(context, SocketService.class);
         context.startService(intent);
 
-//        startNativeService(context);
-
         ImsSipHelper.getInstance().startEngine();
     }
 
@@ -44,24 +42,9 @@ public class ServerManager {
         Log.i("Native", "stopServer: ");
         context.stopService(new Intent(context, SocketService.class));
 
-//        stopNativeService(context);
-
+        ImsSipHelper.getInstance().unRegisterSipServer();
         NetWorkStatusChangeHelper.getInstance().disableNetWorkChange();
     }
-
-//    public void startNativeService(Context context) {
-//        Log.i("Event", "startNativeService: ");
-//        Intent intent = new Intent(context, NativeService.class);
-//        intent.putExtra(NativeService.ENGINE_TYPE, true);
-//        context.startService(intent);
-//    }
-//
-//    public void stopNativeService(Context context) {
-//        Log.i("Event", "stopNativeService: ");
-//        Intent intent = new Intent(context, NativeService.class);
-//        intent.putExtra(NativeService.ENGINE_TYPE, false);
-//        context.startService(intent);
-//    }
 
     public void sendMessage(ToSendMessage message) {
         if (mSocketService == null) {
