@@ -72,7 +72,6 @@ public class XPTApplication extends NgnApplication {
         mInstance = this;
         init();
         initBugly();
-        NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
     }
 
     public static XPTApplication getInstance() {

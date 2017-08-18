@@ -1,5 +1,6 @@
 package com.xptschool.parent.imsdroid;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -21,10 +22,11 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class NetWorkStatusChangeHelper {
 
-    private String TAG = NetWorkStatusChangeHelper.class.getSimpleName();
+    private String TAG = "Native";
     private static NetWorkStatusChangeHelper instance;
     private BusWrapper busWrapper;
     private NetworkEvents networkEvents;
+    private boolean firstReceive = true;
 
     private NetWorkStatusChangeHelper() {
     }
@@ -42,8 +44,17 @@ public class NetWorkStatusChangeHelper {
         networkEvents = new NetworkEvents(XPTApplication.getInstance(), busWrapper).enableInternetCheck()
                 .enableWifiScan();
         busWrapper.register(this);
-        networkEvents.setPingParameters("www.baidu.com", 80, 30);
+        networkEvents.setPingParameters("www.baidu.com", 80, 2000);
         networkEvents.register();
+    }
+
+    public void disableNetWorkChange() {
+        if (busWrapper != null) {
+            busWrapper.unregister(this);
+        }
+        if (networkEvents != null) {
+            networkEvents.unregister();
+        }
     }
 
     @NonNull
@@ -68,11 +79,6 @@ public class NetWorkStatusChangeHelper {
         };
     }
 
-    private void stop() {
-        busWrapper.unregister(this);
-        networkEvents.unregister();
-    }
-
     @SuppressWarnings("unused")
     @Subscribe
     public void onEvent(ConnectivityChanged event) {
@@ -83,9 +89,22 @@ public class NetWorkStatusChangeHelper {
             Log.i(TAG, "onEvent: login success");
             if (connect_status.equals(ConnectivityStatus.WIFI_CONNECTED_HAS_INTERNET.toString()) ||
                     connect_status.equals(ConnectivityStatus.MOBILE_CONNECTED.toString())) {
-                Log.i(TAG, "onEvent: register native service");
-//                ServerManager.getInstance().stopNativeService(XPTApplication.getInstance());
-//                ServerManager.getInstance().startNativeService(XPTApplication.getInstance());
+                if (firstReceive) {
+                    Log.i(TAG, "first receive network change ");
+                    firstReceive = false;
+                    return;
+                }
+
+                Log.i(TAG, "stop NgnEngineServer and restart: ");
+                ImsSipHelper.getInstance().unRegisterSipServer();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ImsSipHelper.getInstance().registerSipServer();
+                    }
+                }, 2000);
+
             }
         }
     }

@@ -2,12 +2,10 @@ package com.xptschool.parent.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,44 +13,25 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
 import com.huawei.hms.api.ConnectionResult;
-import com.huawei.hms.api.HuaweiApiAvailability;
 import com.huawei.hms.api.HuaweiApiClient;
 import com.huawei.hms.support.api.push.HuaweiPush;
 import com.meizu.cloud.pushsdk.PushManager;
 import com.umeng.message.IUmengCallback;
 import com.umeng.message.PushAgent;
-import com.xiaomi.channel.commonutils.logger.LoggerInterface;
-import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
-import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
-import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.HttpErrorMsg;
-import com.xptschool.parent.http.MyVolleyRequestListener;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.DeviceHelper;
-import com.xptschool.parent.push.UpushTokenHelper;
-import com.xptschool.parent.server.ServerManager;
-import com.xptschool.parent.ui.main.BaseActivity;
-import com.xptschool.parent.ui.main.BaseMainActivity;
 import com.xptschool.parent.ui.main.MainActivity;
-import com.xptschool.parent.ui.setting.SettingActivity;
-
-import org.json.JSONObject;
+import com.xptschool.parent.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity implements HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener {
+public class LoginActivity extends BaseLoginActivity implements HuaweiApiClient.ConnectionCallbacks, HuaweiApiClient.OnConnectionFailedListener {
 
     boolean showPassword = false;
     @BindView(R.id.llParent)
@@ -207,64 +186,34 @@ public class LoginActivity extends BaseActivity implements HuaweiApiClient.Conne
         showPassword = show;
     }
 
-    private void login(final String account, final String password) {
-
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.LOGIN,
-                new VolleyHttpParamsEntity()
-                        .addParam("username", account)
-                        .addParam("password", password)
-                        .addParam("type", "4"),
-                new MyVolleyRequestListener() {
-                    @Override
-                    public void onStart() {
-                        if (progress != null)
-                            progress.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onResponse(VolleyHttpResult httpResult) {
-                        super.onResponse(httpResult);
-                        if (progress != null)
-                            progress.setVisibility(View.INVISIBLE);
-                        switch (httpResult.getStatus()) {
-                            case HttpAction.SUCCESS:
-                                if (!SharedPreferencesUtil.getData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
-                                    SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
-                                    UpushTokenHelper.exitAccount(GreenDaoHelper.getInstance().getCurrentParent());
-                                }
-                                SharedPreferencesUtil.saveData(LoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);
-
-                                ServerManager.getInstance().stopService(LoginActivity.this);
-
-                                try {
-                                    JSONObject jsonData = new JSONObject(httpResult.getData().toString());
-                                    CommonUtil.initBeanStudentByHttpResult(jsonData.getJSONArray("stuData").toString());
-                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString(), account);
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                } catch (Exception ex) {
-                                    Log.i(TAG, "onResponse: exception " + ex.getMessage());
-                                    Toast.makeText(LoginActivity.this, HttpErrorMsg.ERROR_JSON, Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                            default:
-                                Toast.makeText(LoginActivity.this, httpResult.getInfo(), Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        btnLogin.setEnabled(true);
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this, R.string.login_failed, Toast.LENGTH_SHORT).show();
-                        if (progress != null)
-                            progress.setVisibility(View.INVISIBLE);
-                        btnLogin.setEnabled(true);
-                        Log.i(TAG, "onErrorResponse: " + error.getMessage());
-                    }
-                });
+    @Override
+    protected void onStartLogin() {
+        super.onStartLogin();
+        if (progress != null)
+            progress.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    protected void onLoginSuccess() {
+        super.onLoginSuccess();
+        if (progress != null)
+            progress.setVisibility(View.INVISIBLE);
+        btnLogin.setEnabled(true);
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onLoginFailed(String msg) {
+        super.onLoginFailed(msg);
+        ToastUtils.showToast(this, msg);
+        if (progress != null)
+            progress.setVisibility(View.INVISIBLE);
+        btnLogin.setEnabled(true);
+    }
+
 }

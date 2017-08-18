@@ -27,11 +27,8 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.coolerfall.daemon.Daemon;
-import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
-import com.xptschool.parent.model.BeanParent;
-import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.chat.video.CallScreen;
 
 import org.doubango.ngn.NgnNativeService;
@@ -42,21 +39,13 @@ import org.doubango.ngn.events.NgnMsrpEventArgs;
 import org.doubango.ngn.events.NgnRegistrationEventArgs;
 import org.doubango.ngn.events.NgnRegistrationEventTypes;
 import org.doubango.ngn.media.NgnMediaType;
-import org.doubango.ngn.services.INgnConfigurationService;
-import org.doubango.ngn.services.INgnSipService;
 import org.doubango.ngn.sip.NgnAVSession;
-import org.doubango.ngn.sip.NgnSipSession;
-import org.doubango.ngn.utils.NgnConfigurationEntry;
 
 public class NativeService extends NgnNativeService {
     private final static String TAG = NativeService.class.getSimpleName();
-    public static final String ACTION_STATE_EVENT = TAG + ".ACTION_STATE_EVENT";
 
     private PowerManager.WakeLock mWakeLock;
     private Engine mEngine;
-    //login video chat server
-    private INgnSipService mSipService;
-    private INgnConfigurationService mConfigurationService;
 
     public NativeService() {
         super();
@@ -79,11 +68,6 @@ public class NativeService extends NgnNativeService {
         Daemon.run(NativeService.this,
                 NativeService.class, Daemon.INTERVAL_ONE_MINUTE);
 
-        mSipService = mEngine.getSipService();
-        this.mConfigurationService = mEngine.getConfigurationService();
-
-        initNgnConfig();
-
         final PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (powerManager != null && mWakeLock == null) {
             mWakeLock = powerManager.newWakeLock(PowerManager.ON_AFTER_RELEASE
@@ -96,89 +80,15 @@ public class NativeService extends NgnNativeService {
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
         Log.i(TAG, "onStart()");
-        // register()
-    }
-
-    /**
-     * START_NOT_STICKY, 表明不要重建service. 这可以避免在非必要的情况下浪费系统的资源.
-     * START_STICKY, 表明需要重建service, 并在重建service之后调用onStartCommand()方法, 传递给该方法的intent为null.
-     * START_REDELIVER_INTENT, 表明需要重建service, 并在重建service之后调用onStartCommand()方法,
-     *                         传递给该方法的intent为service被摧毁之前接收到的最后一个intent.
-     * @param intent
-     * @param flags
-     * @param startId
-     * @return
-     */
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand: ");
-        if (mEngine == null) {
-            Log.i(TAG, "onStart: mEngine is null");
-            return START_STICKY;
-        }
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
+        intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
+        intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
+        intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
+        registerReceiver(mBroadcastReceiver, intentFilter);
 
         if (mEngine.start()) {
-            registerVideoServer();
-        }
-        return START_STICKY;
-    }
-
-    private Engine getEngine() {
-        try {
-            return (Engine) Engine.getInstance();
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    private void initNgnConfig() {
-        BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-        if (parent == null) {
-            Log.i(TAG, "initNgnConfig: parent is null");
-            return;
-        }
-        String userId = parent.getU_id();
-        Log.i(TAG, "initNgnConfig userId: " + userId);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_DISPLAY_NAME, parent.getParent_name());
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPU, "sip:" + userId + "@" + BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_IMPI, userId);
-        mConfigurationService.putString(NgnConfigurationEntry.IDENTITY_PASSWORD, "1234");
-
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_REALM, "sip:" + BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_PCSCF_HOST, BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putInt(NgnConfigurationEntry.NETWORK_PCSCF_PORT, NgnConfigurationEntry.DEFAULT_NETWORK_PCSCF_PORT);
-        mConfigurationService.putString(NgnConfigurationEntry.NETWORK_TRANSPORT, "tcp");
-
-        mConfigurationService.putBoolean(NgnConfigurationEntry.NATT_STUN_DISCO, true);
-        mConfigurationService.putString(NgnConfigurationEntry.NATT_STUN_SERVER, BuildConfig.CHAT_VIDEO_URL);
-        mConfigurationService.putBoolean(NgnConfigurationEntry.NATT_USE_STUN_FOR_ICE, NgnConfigurationEntry.DEFAULT_NATT_USE_STUN_FOR_ICE);
-
-        // Compute
-        if (!mConfigurationService.commit()) {
-            Log.e(TAG, "Failed to commit() configuration");
-        }
-        Log.i(TAG, "initNgnConfig: ");
-    }
-
-    private void registerVideoServer() {
-        if (mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTED &&
-                mSipService.getRegistrationState() != NgnSipSession.ConnectionState.CONNECTING) {
-            Log.i(TAG, "registerVideoServer register");
-            final IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(NgnRegistrationEventArgs.ACTION_REGISTRATION_EVENT);
-            intentFilter.addAction(NgnInviteEventArgs.ACTION_INVITE_EVENT);
-            intentFilter.addAction(NgnMessagingEventArgs.ACTION_MESSAGING_EVENT);
-            intentFilter.addAction(NgnMsrpEventArgs.ACTION_MSRP_EVENT);
-            registerReceiver(mBroadcastReceiver, intentFilter);
-
-            //
-            final Intent i = new Intent(ACTION_STATE_EVENT);
-            i.putExtra("started", true);
-            sendBroadcast(i);
-
-            mSipService.register(this);
-        } else {
-            Log.i(TAG, "sip server has registered");
+            mEngine.getSipService().register(null);
         }
     }
 
@@ -199,6 +109,7 @@ public class NativeService extends NgnNativeService {
                 Log.i(TAG, "ACTION_REGISTRATION_EVENT onReceive: " + args.getEventType());
                 switch ((type = args.getEventType())) {
                     case REGISTRATION_OK:
+                        NetWorkStatusChangeHelper.getInstance().initNetWorkChange();
                     case REGISTRATION_NOK:
                     case REGISTRATION_INPROGRESS:
                     case UNREGISTRATION_INPROGRESS:
@@ -286,16 +197,8 @@ public class NativeService extends NgnNativeService {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         Log.i(TAG, "onDestroy()");
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (mEngine != null) {
-                    mEngine.stop();
-                }
-            }
-        }).start();
-
         if (mBroadcastReceiver != null) {
             try {
                 unregisterReceiver(mBroadcastReceiver);
@@ -310,6 +213,5 @@ public class NativeService extends NgnNativeService {
                 mWakeLock = null;
             }
         }
-        super.onDestroy();
     }
 }

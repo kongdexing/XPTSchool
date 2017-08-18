@@ -20,6 +20,7 @@ import com.xptschool.parent.BuildConfig;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.ExtraKey;
+import com.xptschool.parent.imsdroid.ImsSipHelper;
 import com.xptschool.parent.imsdroid.NativeService;
 import com.xptschool.parent.model.ContactTeacher;
 import com.xptschool.parent.ui.chat.video.CallScreen;
@@ -43,14 +44,10 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
 
     private TakePhoto takePhoto;
     private InvokeParam invokeParam;
-    private NgnEngine mEngine;
-    private INgnSipService mSipService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getTakePhoto().onCreate(savedInstanceState);
-        mEngine = NgnEngine.getInstance();
-        mSipService = mEngine.getSipService();
         super.onCreate(savedInstanceState);
     }
 
@@ -152,13 +149,14 @@ public class ChatAppendixActivity extends BaseListActivity implements TakePhoto.
     }
 
     public void startVideo(ContactTeacher teacher) {
-        if (!mSipService.isRegistered()) {
-            startService(new Intent(this, NativeService.class));
+        if (!ImsSipHelper.getInstance().isSipRegistered()) {
+            ImsSipHelper.getInstance().startEngine();
             Toast.makeText(this, "正在登录...", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        NgnAVSession avSession = NgnAVSession.createOutgoingSession(mSipService.getSipStack(), NgnMediaType.AudioVideo);
+        NgnAVSession avSession = NgnAVSession.createOutgoingSession(ImsSipHelper.getInstance().getSipService().getSipStack(),
+                NgnMediaType.AudioVideo);
         Intent i = new Intent();
         i.setClass(this, CallScreen.class);
         i.putExtra(ExtraKey.EXTRAT_CALL_TYPE, "outgoing");

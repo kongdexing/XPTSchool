@@ -8,20 +8,13 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
-import com.android.volley.common.VolleyHttpParamsEntity;
-import com.android.volley.common.VolleyHttpResult;
-import com.android.volley.common.VolleyHttpService;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
-import com.xptschool.parent.http.HttpAction;
-import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.ui.login.BaseLoginActivity;
 import com.xptschool.parent.ui.login.LoginActivity;
-
-import org.json.JSONObject;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -31,7 +24,7 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends BaseLoginActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +36,6 @@ public class WelcomeActivity extends BaseActivity {
         showActionBar(false);
 
         analyLogin();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        WelcomeActivityPermissionsDispatcher.canReadPhoneStateWithCheck(this);
     }
 
     @Override
@@ -116,48 +103,23 @@ public class WelcomeActivity extends BaseActivity {
         CommonUtil.goAppDetailSettingIntent(this);
     }
 
-    private void login(final String account, final String password) {
-        VolleyHttpService.getInstance().sendPostRequest(HttpAction.LOGIN,
-                new VolleyHttpParamsEntity()
-                        .addParam("username", account)
-                        .addParam("password", password)
-                        .addParam("type", "4"),
-                new MyVolleyRequestListener() {
-                    @Override
-                    public void onStart() {
-                    }
+    @Override
+    protected void onStartLogin() {
+        super.onStartLogin();
+    }
 
-                    @Override
-                    public void onResponse(VolleyHttpResult httpResult) {
-                        super.onResponse(httpResult);
-                        switch (httpResult.getStatus()) {
-                            case HttpAction.SUCCESS:
-                                try {
-                                    JSONObject jsonData = new JSONObject(httpResult.getData().toString());
-                                    CommonUtil.initBeanStudentByHttpResult(jsonData.getJSONArray("stuData").toString());
-                                    CommonUtil.initParentInfoByHttpResult(jsonData.getJSONObject("login").toString(), account);
-                                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                                    finish();
-                                } catch (Exception ex) {
-                                    Log.i(TAG, "onResponse: error " + ex.getMessage());
-                                    startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-                                    finish();
-                                }
-                                break;
-                            default:
-                                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-                                finish();
-                                break;
-                        }
-                    }
+    @Override
+    protected void onLoginSuccess() {
+        super.onLoginSuccess();
+        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+        finish();
+    }
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i(TAG, "onErrorResponse: " + error);
-                        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
-                        finish();
-                    }
-                });
+    @Override
+    protected void onLoginFailed(String msg) {
+        super.onLoginFailed(msg);
+        startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+        finish();
     }
 
 }

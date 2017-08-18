@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.xptschool.parent.imsdroid.ImsSipHelper;
 import com.xptschool.parent.imsdroid.NativeService;
+import com.xptschool.parent.imsdroid.NetWorkStatusChangeHelper;
 import com.xptschool.parent.model.ToSendMessage;
 
 /**
@@ -28,22 +30,14 @@ public class ServerManager {
         Intent intent = new Intent(context, SocketService.class);
         context.startService(intent);
 
-        startNativeService(context);
+        ImsSipHelper.getInstance().startEngine();
     }
 
     public void stopService(Context context) {
         context.stopService(new Intent(context, SocketService.class));
-        stopNativeService(context);
-    }
 
-    public void startNativeService(Context context) {
-        Log.i("Event", "startNativeService: ");
-        context.startService(new Intent(context, NativeService.class));
-    }
-
-    public void stopNativeService(Context context) {
-        Log.i("Event", "stopNativeService: ");
-        context.stopService(new Intent(context, NativeService.class));
+        ImsSipHelper.getInstance().unRegisterSipServer();
+        NetWorkStatusChangeHelper.getInstance().disableNetWorkChange();
     }
 
     public void sendMessage(ToSendMessage message) {

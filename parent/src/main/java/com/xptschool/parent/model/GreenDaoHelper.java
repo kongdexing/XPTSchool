@@ -122,16 +122,10 @@ public class GreenDaoHelper {
         }
     }
 
-    public void insertSchoolInfo(List<ContactSchool> schools) {
+    public void deleteContact() {
         if (writeDaoSession != null) {
+            writeDaoSession.getContactTeacherDao().deleteAll();
             writeDaoSession.getContactSchoolDao().deleteAll();
-            writeDaoSession.getContactSchoolDao().insertOrReplaceInTx(schools);
-        }
-    }
-
-    public void insertContactParent(List<ContactParent> parents) {
-        if (writeDaoSession != null) {
-            writeDaoSession.getContactParentDao().insertInTx(parents);
         }
     }
 
@@ -148,6 +142,13 @@ public class GreenDaoHelper {
                     .where(ContactTeacherDao.Properties.U_id.eq(t_u_id)).limit(1).unique();
         }
         return null;
+    }
+
+    public void insertSchoolInfo(List<ContactSchool> schools) {
+        if (writeDaoSession != null) {
+            writeDaoSession.getContactSchoolDao().deleteAll();
+            writeDaoSession.getContactSchoolDao().insertOrReplaceInTx(schools);
+        }
     }
 
     public List<ContactSchool> getSchoolInfo() {

@@ -76,9 +76,6 @@ public class SocketService extends Service {
             public void run() {
                 if (!isStop) {
                     receiveMessage();
-//                    if (!NativeService.isRegistered()) {
-//                        ServerManager.getInstance().startNativeService(XPTApplication.getContext());
-//                    }
                 }
             }
         }, 1000, 2 * 1000);
