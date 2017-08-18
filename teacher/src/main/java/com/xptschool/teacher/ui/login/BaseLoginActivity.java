@@ -12,6 +12,7 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.http.MyVolleyRequestListener;
+import com.xptschool.teacher.imsdroid.ImsSipHelper;
 import com.xptschool.teacher.imsdroid.NetWorkStatusChangeHelper;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -51,6 +52,7 @@ public class BaseLoginActivity extends BaseActivity {
                             case HttpAction.SUCCESS:
                                 if (!SharedPreferencesUtil.getData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
                                     SharedPreferencesUtil.saveData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
+                                    ImsSipHelper.getInstance().stopSipServer();
                                     UpushTokenHelper.exitAccount();
                                 }
                                 SharedPreferencesUtil.saveData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);

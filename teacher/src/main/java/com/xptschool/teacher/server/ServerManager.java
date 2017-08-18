@@ -42,7 +42,7 @@ public class ServerManager {
         Log.i("Native", "stopServer: ");
         context.stopService(new Intent(context, SocketService.class));
 
-        ImsSipHelper.getInstance().unRegisterSipServer();
+        ImsSipHelper.getInstance().stopSipServer();
         NetWorkStatusChangeHelper.getInstance().disableNetWorkChange();
     }
 
