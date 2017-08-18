@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.widget.roundcornerprogressbar.RoundCornerProgressBar;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
@@ -102,12 +103,12 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         txtTime.setText(alarm.getCreate_time());
     }
 
-    public void setHistoryData(BeanHTLocation location, BeanStudent student, MyOnGetGeoCoderResultListener listener) {
+    public void setHistoryData(BeanHTLocation location, LatLng latLng, BeanStudent student, MyOnGetGeoCoderResultListener listener) {
         myOnGetGeoCoderResultListener = listener;
-        if (location.getLatLng() != null) {
+        if (latLng != null) {
             // 反Geo搜索
             mSearch.reverseGeoCode(new ReverseGeoCodeOption()
-                    .location(location.getLatLng()));
+                    .location(latLng));
         }
         trAlarmType.setVisibility(View.GONE);
         trLocationType.setVisibility(VISIBLE);

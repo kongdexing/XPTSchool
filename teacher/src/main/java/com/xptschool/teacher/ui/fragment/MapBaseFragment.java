@@ -77,6 +77,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
     private int MapInfoTop = 0;
     private int RailIndex = 0;
     private boolean isShowLocation = false;
+    public boolean isBindRoadForHistoryTrack = false;
     private InfoWindow locationInfoWindow;
     public BeanStudent currentStudent;
     private BitmapDescriptor mBlueTexture = null;
@@ -132,7 +133,6 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
         mBaiduMap.setMyLocationData(locData);
         LatLng ll = new LatLng(location.getLatitude(),
                 location.getLongitude());
-        Log.i(TAG, "onReceiveLocation: " + ll.longitude + "--" + ll.latitude + "  " + isFirstLoc);
 
         MarkerOptions markerOptions = new MarkerOptions().position(ll).icon(
                 BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.location_marker)));
@@ -275,13 +275,13 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                         Log.i(TAG, "handleMessage: htLocation size " + htLocations.size());
 
                         //起点
-                        final LatLng bdStartLatlng = htLocations.get(0).getLatLng();
+                        final LatLng bdStartLatlng = htLocations.get(0).getLatLng(isBindRoadForHistoryTrack);
                         if (bdStartLatlng != null) {
                             MarkerOptions markerStartOptions = new MarkerOptions().position(bdStartLatlng).icon(
                                     BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_walk_start)));
                             final Marker startMarker = (Marker) mBaiduMap.addOverlay(markerStartOptions);
                             final AlarmInfoWindowView alarmInfoWindowView = new AlarmInfoWindowView(getContext());
-                            alarmInfoWindowView.setHistoryData(htLocations.get(0), currentStudent, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
+                            alarmInfoWindowView.setHistoryData(htLocations.get(0), bdStartLatlng, currentStudent, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
                                 @Override
                                 public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
                                     final InfoWindow infoWindow = new InfoWindow(alarmInfoWindowView, bdStartLatlng, MapInfoTop);
@@ -310,14 +310,14 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                             });
                         }
                         //终点
-                        final LatLng bdEndLatlng = htLocations.get(htLocations.size() - 1).getLatLng();
+                        final LatLng bdEndLatlng = htLocations.get(htLocations.size() - 1).getLatLng(isBindRoadForHistoryTrack);
                         if (bdEndLatlng != null) {
                             MarkerOptions markerEndOptions = new MarkerOptions().position(bdEndLatlng).icon(
                                     BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_walk_end)));
                             final Marker endMarker = (Marker) mBaiduMap.addOverlay(markerEndOptions);
 
                             final AlarmInfoWindowView endInfoWindowView = new AlarmInfoWindowView(getContext());
-                            endInfoWindowView.setHistoryData(htLocations.get(htLocations.size() - 1), currentStudent, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
+                            endInfoWindowView.setHistoryData(htLocations.get(htLocations.size() - 1), bdEndLatlng, currentStudent, new AlarmInfoWindowView.MyOnGetGeoCoderResultListener() {
                                 @Override
                                 public void onGetReverseGeoCodeResult(ReverseGeoCodeResult reverseGeoCodeResult) {
                                     final InfoWindow infoWindow = new InfoWindow(endInfoWindowView, bdEndLatlng, MapInfoTop);
@@ -347,7 +347,7 @@ public class MapBaseFragment extends BaseFragment implements BDLocationListener,
                         }
 
                         for (int i = 0; i < htLocations.size(); i++) {
-                            LatLng latLngBD = htLocations.get(i).getLatLng();
+                            LatLng latLngBD = htLocations.get(i).getLatLng(isBindRoadForHistoryTrack);
                             if (latLngBD != null) {
                                 points.add(latLngBD);
                                 bounds.include(latLngBD);

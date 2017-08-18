@@ -65,9 +65,13 @@ public class BeanHTLocation {
         this.type = type;
     }
 
-    public LatLng getLatLng() {
+    public LatLng getLatLng(boolean isBindRoadForHistoryTrack) {
         try {
-            return CommonUtil.convertGPS2BD(new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
+            if (isBindRoadForHistoryTrack) {
+                return new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+            } else {
+                return CommonUtil.convertGPS2BD(new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
+            }
         } catch (Exception ex) {
             return null;
         }
