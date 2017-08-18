@@ -12,6 +12,7 @@ import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.http.MyVolleyRequestListener;
+import com.xptschool.parent.imsdroid.ImsSipHelper;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.push.UpushTokenHelper;
 import com.xptschool.parent.server.ServerManager;
@@ -49,6 +50,8 @@ public class BaseLoginActivity extends BaseActivity {
                             case HttpAction.SUCCESS:
                                 if (!SharedPreferencesUtil.getData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, "").equals(account)) {
                                     SharedPreferencesUtil.saveData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_USER_NAME, account);
+                                    ImsSipHelper.getInstance().stopSipServer();
+                                    //切换账号
                                     UpushTokenHelper.exitAccount(GreenDaoHelper.getInstance().getCurrentParent());
                                 }
                                 SharedPreferencesUtil.saveData(BaseLoginActivity.this, SharedPreferencesUtil.KEY_PWD, password);

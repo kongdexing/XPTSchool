@@ -47,6 +47,26 @@ public class ImsSipHelper {
         return mSipService;
     }
 
+    public void startEngine() {
+        SipConfigCommit();
+
+        Log.i(TAG, "startEngine: ");
+        final Engine engine = getEngine();
+        final Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (!engine.isStarted()) {
+                    boolean startRes = engine.start();
+                    Log.i(TAG, "Starts the engine result:" + startRes);
+                } else {
+                    Log.i(TAG, "engine is started");
+                }
+            }
+        });
+        thread.setPriority(Thread.MAX_PRIORITY);
+        thread.start();
+    }
+
     private void SipConfigCommit() {
         BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
         if (parent == null) {
@@ -78,32 +98,29 @@ public class ImsSipHelper {
         }
     }
 
-    public void startEngine() {
-        SipConfigCommit();
-
-        Log.i(TAG, "startEngine: ");
-        final Engine engine = getEngine();
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (!engine.isStarted()) {
-                    Log.i(TAG, "Starts the engine from the splash screen");
-                    engine.start();
-                }
-            }
-        });
-        thread.setPriority(Thread.MAX_PRIORITY);
-        thread.start();
-    }
-
     public void registerSipServer() {
         Log.i(TAG, "register");
-        mSipService.register(XPTApplication.getContext());
+        if (mSipService != null) {
+            boolean regRes = mSipService.register(XPTApplication.getContext());
+            Log.i(TAG, "registerSipServer result: " + regRes);
+        }
     }
 
     public void unRegisterSipServer() {
         Log.i(TAG, "unRegister");
-        mSipService.unRegister();
+        if (mSipService != null) {
+            boolean unRegRes = mSipService.unRegister();
+            Log.i(TAG, "unRegisterSipServer result: " + unRegRes);
+        }
+    }
+
+    public void stopSipServer() {
+        Log.i(TAG, "stopSipServer: ");
+        if (mSipService != null) {
+            unRegisterSipServer();
+            boolean stopRes = getEngine().stop();
+            Log.i(TAG, "stopSipServer result: " + stopRes);
+        }
     }
 
     private void triggerSipServer() {

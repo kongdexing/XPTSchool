@@ -36,7 +36,7 @@ public class ServerManager {
     public void stopService(Context context) {
         context.stopService(new Intent(context, SocketService.class));
 
-        ImsSipHelper.getInstance().unRegisterSipServer();
+        ImsSipHelper.getInstance().stopSipServer();
         NetWorkStatusChangeHelper.getInstance().disableNetWorkChange();
     }
 

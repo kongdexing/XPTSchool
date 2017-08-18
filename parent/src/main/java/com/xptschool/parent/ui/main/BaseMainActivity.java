@@ -22,7 +22,6 @@ import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.push.DeviceHelper;
 import com.xptschool.parent.push.MyPushIntentService;
 import com.xptschool.parent.push.UpushTokenHelper;
-import com.xptschool.parent.server.ServerManager;
 
 /**
  * Created by dexing on 2017/6/5.
@@ -181,9 +180,7 @@ public class BaseMainActivity extends BaseActivity implements HuaweiApiClient.Co
     @Override
     protected void onResume() {
         super.onResume();
-        ServerManager.getInstance().startService(this);
     }
-
 
     @Override
     protected void onDestroy() {
