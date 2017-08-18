@@ -100,13 +100,12 @@ public class AlarmInfoWindowView extends RelativeLayout implements OnGetGeoCoder
         txtTime.setText(alarm.getCreate_time());
     }
 
-    public void setHistoryData(BeanHTLocation location, BeanStudent student, MyOnGetGeoCoderResultListener listener) {
+    public void setHistoryData(BeanHTLocation location, LatLng latLng, BeanStudent student, MyOnGetGeoCoderResultListener listener) {
         myOnGetGeoCoderResultListener = listener;
-        LatLng latLng = location.getLatLng();
         if (latLng != null) {
             // 反Geo搜索
             mSearch.reverseGeoCode(new ReverseGeoCodeOption()
-                    .location(location.getLatLng()));
+                    .location(latLng));
         }
         trAlarmType.setVisibility(View.GONE);
         trLocationType.setVisibility(VISIBLE);

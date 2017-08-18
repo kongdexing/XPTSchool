@@ -14,10 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -76,6 +78,14 @@ public class MapFragment extends MapBaseFragment {
     LinearLayout llTrack;
     @BindView(R.id.llRailings)
     LinearLayout llRailings;
+
+    @BindView(R.id.llBindRoad)
+    LinearLayout llBindRoad;
+    @BindView(R.id.switchBindRoad)
+    Button switchBindRoad;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progress_bar;
 
     private Timer timer = null;
     private TimerTask task;
@@ -165,7 +175,8 @@ public class MapFragment extends MapBaseFragment {
         MapFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    @OnClick({R.id.txtSDate, R.id.txtEDate, R.id.llLocation, R.id.llTrack, R.id.llRailings, R.id.spnStudents, R.id.llAlarm, R.id.llMyLocation})
+    @OnClick({R.id.txtSDate, R.id.txtEDate, R.id.llLocation, R.id.llTrack, R.id.llRailings,
+            R.id.switchBindRoad, R.id.spnStudents, R.id.llAlarm, R.id.llMyLocation})
     void viewClick(View view) {
         switch (view.getId()) {
             case R.id.txtSDate:
@@ -189,6 +200,7 @@ public class MapFragment extends MapBaseFragment {
                 } else {
                     cancelRTLocationTimer();
                 }
+                llBindRoad.setVisibility(View.GONE);
                 resetDefaultBg(view);
                 llTrack.setTag(false);
                 llRailings.setTag(false);
@@ -199,15 +211,20 @@ public class MapFragment extends MapBaseFragment {
                         Toast.makeText(mContext, R.string.toast_choose_student, Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     cancelRTLocationTimer();
                     getHistoryTrackByStu(startTime, endTime);
                 } else {
                     mHandler.removeCallbacksAndMessages(null);
                 }
+                llBindRoad.setVisibility(View.VISIBLE);
                 resetDefaultBg(view);
                 llLocation.setTag(false);
                 llRailings.setTag(false);
+                break;
+            case R.id.switchBindRoad:
+                isBindRoadForHistoryTrack = !isBindRoadForHistoryTrack;
+                switchBindRoad.setBackgroundResource(isBindRoadForHistoryTrack ? R.drawable.layer_switch_on : R.drawable.layer_switch_off);
+                getHistoryTrackByStu(startTime, endTime);
                 break;
             case R.id.llRailings:
                 if (view.getTag() == null || !(Boolean) view.getTag()) {
@@ -220,6 +237,7 @@ public class MapFragment extends MapBaseFragment {
                     cancelRTLocationTimer();
                     getStudentRail();
                 }
+                llBindRoad.setVisibility(View.GONE);
                 resetDefaultBg(view);
                 llTrack.setTag(false);
                 llLocation.setTag(false);
@@ -422,20 +440,42 @@ public class MapFragment extends MapBaseFragment {
                 });
     }
 
+    /**
+     * 历史轨迹
+     * state绑路状态  0 不绑路  1 绑路
+     *
+     * @param sDate
+     * @param eDate
+     */
     private void getHistoryTrackByStu(String sDate, String eDate) {
+        String state_bind_road = "0";
+        if (isBindRoadForHistoryTrack) {
+            state_bind_road = "1";
+        }
+
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.Track_HistoryTrack, new VolleyHttpParamsEntity()
                         .addParam("sdate", sDate + ":00")
                         .addParam("edate", eDate + ":00")
+                        .addParam("state", state_bind_road)
                         .addParam("stu_id", currentStudent.getStu_id())
                         .addParam("token", CommonUtil.encryptToken(HttpAction.Track_HistoryTrack)),
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
+                        if (progress_bar != null)
+                            progress_bar.setVisibility(View.VISIBLE);
+                        if (switchBindRoad != null)
+                            switchBindRoad.setEnabled(false);
                     }
 
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        if (progress_bar != null)
+                            progress_bar.setVisibility(View.GONE);
+                        if (switchBindRoad != null)
+                            switchBindRoad.setEnabled(true);
+
                         switch (volleyHttpResult.getStatus()) {
                             case HttpAction.SUCCESS:
                                 try {
@@ -457,6 +497,10 @@ public class MapFragment extends MapBaseFragment {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
                         super.onErrorResponse(volleyError);
+                        if (progress_bar != null)
+                            progress_bar.setVisibility(View.GONE);
+                        if (switchBindRoad != null)
+                            switchBindRoad.setEnabled(true);
                     }
                 });
     }
@@ -469,11 +513,16 @@ public class MapFragment extends MapBaseFragment {
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
+                        if (progress_bar != null)
+                            progress_bar.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onResponse(VolleyHttpResult volleyHttpResult) {
                         super.onResponse(volleyHttpResult);
+                        if (progress_bar != null)
+                            progress_bar.setVisibility(View.GONE);
+
                         switch (volleyHttpResult.getStatus()) {
                             case HttpAction.SUCCESS:
                                 try {
@@ -497,6 +546,8 @@ public class MapFragment extends MapBaseFragment {
 
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        if (progress_bar != null)
+                            progress_bar.setVisibility(View.GONE);
                         Toast.makeText(mContext, "获取失败", Toast.LENGTH_SHORT).show();
                     }
                 });
