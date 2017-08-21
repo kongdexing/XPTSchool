@@ -213,10 +213,12 @@ public class MapFragment extends MapBaseFragment {
                     }
                     cancelRTLocationTimer();
                     getHistoryTrackByStu(startTime, endTime);
+                    llBindRoad.setVisibility(View.VISIBLE);
                 } else {
                     mHandler.removeCallbacksAndMessages(null);
+                    llBindRoad.setVisibility(View.GONE);
                 }
-                llBindRoad.setVisibility(View.VISIBLE);
+
                 resetDefaultBg(view);
                 llLocation.setTag(false);
                 llRailings.setTag(false);

@@ -151,6 +151,7 @@ public class RecordVideoActivity extends AppCompatActivity {
                     ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 //具有权限
                 granted = true;
+                jCameraView.openCamera();
             } else {
                 //不具有获取权限，需要进行权限申请
                 ActivityCompat.requestPermissions(RecordVideoActivity.this, new String[]{
@@ -189,7 +190,8 @@ public class RecordVideoActivity extends AppCompatActivity {
                 }
                 if (size == 0) {
                     granted = true;
-                    jCameraView.onResume();
+                    jCameraView.openCamera();
+//                    jCameraView.onResume();
                 } else {
                     Toast.makeText(this, "请到设置-权限管理中开启", Toast.LENGTH_SHORT).show();
                     finish();

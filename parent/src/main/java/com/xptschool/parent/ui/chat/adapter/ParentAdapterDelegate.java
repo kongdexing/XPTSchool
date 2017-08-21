@@ -2,13 +2,17 @@ package com.xptschool.parent.ui.chat.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +26,7 @@ import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.chat.SoundPlayHelper;
 import com.xptschool.parent.util.ChatUtil;
+import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.util.List;
@@ -169,12 +174,48 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.videoView.setChatInfo(chat);
             }
         }
+
+        //show popup
+        viewHolder.llContent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final ChatOptionView optionView = new ChatOptionView(mContext);
+                final PopupWindow chatPopup = new PopupWindow(optionView,
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+                chatPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                chatPopup.setTouchable(true);
+                chatPopup.setBackgroundDrawable(new ColorDrawable());
+                //弹出操作项控件宽高
+                optionView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                int v_width = optionView.getMeasuredWidth();
+                int v_height = optionView.getMeasuredHeight();
+                Log.i(TAG, "onLongClick: optionView width=" + v_width + "  height:" + v_height
+                        + "  content width:" + viewHolder.llContent.getMeasuredHeight());
+
+                int[] location = new int[2];
+                v.getLocationOnScreen(location);
+                int x = location[0];
+                int y = location[1];
+                Log.i(TAG, "onLongClick: " + "x:" + x + " y:" + y);
+                if (y > 600) {
+                    //控件上显示
+                    chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y - v_height));
+                } else {
+                    //控件下显示
+                    chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y + viewHolder.llContent.getMeasuredHeight()));
+                }
+                return false;
+            }
+        });
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imgUser)
         CircularImageView imgUser;
+
+        @BindView(R.id.llContent)
+        LinearLayout llContent;
 
         @BindView(R.id.txtContent)
         EmojiconTextView txtContent;
