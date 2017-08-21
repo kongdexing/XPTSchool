@@ -1,6 +1,7 @@
 package com.android.widget.audiorecorder;
 
 import android.media.MediaRecorder;
+import android.os.Handler;
 import android.util.Log;
 
 import java.io.File;
@@ -150,12 +151,17 @@ public class AudioManager {
      * @time 2016/6/25 9:50
      */
     public void release() {
-        mMediaRecorder.stop();
-        mMediaRecorder.reset();
-        mMediaRecorder = null;
-        if (mAudioStateListener != null) {
-            mAudioStateListener.onRelease();
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMediaRecorder.stop();
+                mMediaRecorder.reset();
+                mMediaRecorder = null;
+                if (mAudioStateListener != null) {
+                    mAudioStateListener.onRelease();
+                }
+            }
+        }, 300);
     }
 
     /**
