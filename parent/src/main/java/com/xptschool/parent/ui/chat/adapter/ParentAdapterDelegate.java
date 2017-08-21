@@ -102,6 +102,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
+            viewHolder.llContent.setOnLongClickListener(new MyLongClickListener(viewHolder));
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             Log.i(TAG, "onBindViewHolder amr:" + chat.getFileName());
             //录音
@@ -121,8 +122,11 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             viewHolder.img_recorder_anim.setTag(chat);
             SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
             Log.i(TAG, "onBindViewHolder: parent playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
+
+            viewHolder.rlVoice.getParent().requestDisallowInterceptTouchEvent(true);
+
             //点击播放
-            viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
+            viewHolder.rlVoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 声音播放动画
@@ -148,6 +152,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                     });
                 }
             });
+            viewHolder.rlVoice.setOnLongClickListener(new MyLongClickListener(viewHolder));
         } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
             //文件，图片
             //file path
@@ -161,6 +166,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.imageView.setVisibility(View.VISIBLE);
                 viewHolder.imageView.setChatInfo(chat);
             }
+            viewHolder.imageView.setImageViewLongClickListener(new MyLongClickListener(viewHolder));
         } else if ((ChatUtil.TYPE_VIDEO + "").equals(chat.getType())) {
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             Log.i(TAG, "video: " + file.getPath());
@@ -170,43 +176,49 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             } else {
                 viewHolder.error_file.setVisibility(View.GONE);
                 viewHolder.videoView.setVisibility(View.VISIBLE);
-//                viewHolder.bubbleImageView.se
                 viewHolder.videoView.setChatInfo(chat);
             }
+            viewHolder.videoView.setVideoLongClickListener(new MyLongClickListener(viewHolder));
+        }
+    }
+
+    class MyLongClickListener implements View.OnLongClickListener {
+
+        private MyViewHolder viewHolder;
+
+        private MyLongClickListener(MyViewHolder holder) {
+            viewHolder = holder;
         }
 
-        //show popup
-        viewHolder.llContent.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                final ChatOptionView optionView = new ChatOptionView(mContext);
-                final PopupWindow chatPopup = new PopupWindow(optionView,
-                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-                chatPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                chatPopup.setTouchable(true);
-                chatPopup.setBackgroundDrawable(new ColorDrawable());
-                //弹出操作项控件宽高
-                optionView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                int v_width = optionView.getMeasuredWidth();
-                int v_height = optionView.getMeasuredHeight();
-                Log.i(TAG, "onLongClick: optionView width=" + v_width + "  height:" + v_height
-                        + "  content width:" + viewHolder.llContent.getMeasuredHeight());
+        @Override
+        public boolean onLongClick(View v) {
+            final ChatOptionView optionView = new ChatOptionView(mContext);
+            final PopupWindow chatPopup = new PopupWindow(optionView,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+            chatPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            chatPopup.setTouchable(true);
+            chatPopup.setBackgroundDrawable(new ColorDrawable());
+            //弹出操作项控件宽高
+            optionView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            int v_width = optionView.getMeasuredWidth();
+            int v_height = optionView.getMeasuredHeight();
+            Log.i(TAG, "onLongClick: optionView width=" + v_width + "  height:" + v_height);
+            Log.i(TAG, "onLongClick: content width:" + viewHolder.llContent.getMeasuredWidth() + " height:" + viewHolder.llContent.getMeasuredHeight());
 
-                int[] location = new int[2];
-                v.getLocationOnScreen(location);
-                int x = location[0];
-                int y = location[1];
-                Log.i(TAG, "onLongClick: " + "x:" + x + " y:" + y);
-                if (y > 600) {
-                    //控件上显示
-                    chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y - v_height));
-                } else {
-                    //控件下显示
-                    chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y + viewHolder.llContent.getMeasuredHeight()));
-                }
-                return false;
+            int[] location = new int[2];
+            v.getLocationOnScreen(location);
+            int x = location[0];
+            int y = location[1];
+            Log.i(TAG, "onLongClick: " + "x:" + x + " y:" + y);
+            if (y > 600) {
+                //控件上显示
+                chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y - v_height));
+            } else {
+                //控件下显示
+                chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y + viewHolder.llContent.getMeasuredHeight()));
             }
-        });
+            return false;
+        }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

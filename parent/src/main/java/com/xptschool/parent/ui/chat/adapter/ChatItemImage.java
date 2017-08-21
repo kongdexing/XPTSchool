@@ -83,6 +83,10 @@ public class ChatItemImage extends LinearLayout {
         });
     }
 
+    public void setImageViewLongClickListener(OnLongClickListener listener) {
+        bubView.setOnLongClickListener(listener);
+    }
+
     public static int readPictureDegree(String path) {
         int degree = 0;
         try {

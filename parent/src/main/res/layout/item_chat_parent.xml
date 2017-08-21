@@ -68,15 +68,15 @@
                 android:id="@+id/rlVoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/id_recorder_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:text="12'"
+                    android:layout_marginRight="@dimen/dp_6"
+                    android:text="2"
                     android:textColor="#ff777777" />
 
                 <RelativeLayout
@@ -85,13 +85,13 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/id_recorder_time"
-                    android:background="@drawable/chatto_bg_focused">
+                    android:background="@drawable/chatto_bg">
 
                     <View
                         android:id="@+id/id_recorder_anim"
                         android:layout_width="@dimen/dp_25"
                         android:layout_height="@dimen/dp_25"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/adj" />
 
