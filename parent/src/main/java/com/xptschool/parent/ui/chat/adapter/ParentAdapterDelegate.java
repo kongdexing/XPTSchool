@@ -202,20 +202,24 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             optionView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
             int v_width = optionView.getMeasuredWidth();
             int v_height = optionView.getMeasuredHeight();
-            Log.i(TAG, "onLongClick: optionView width=" + v_width + "  height:" + v_height);
-            Log.i(TAG, "onLongClick: content width:" + viewHolder.llContent.getMeasuredWidth() + " height:" + viewHolder.llContent.getMeasuredHeight());
 
+            int c_width = viewHolder.llContent.getMeasuredWidth();
+            int c_height = viewHolder.llContent.getMeasuredHeight();
+            Log.i(TAG, "onLongClick: optionView width=" + v_width + "  height:" + v_height);
+            Log.i(TAG, "onLongClick: content width:" + c_width + " height:" + c_height);
+
+            //计算控件在屏幕的位置
             int[] location = new int[2];
             v.getLocationOnScreen(location);
             int x = location[0];
             int y = location[1];
             Log.i(TAG, "onLongClick: " + "x:" + x + " y:" + y);
-            if (y > 600) {
+            if (y > (c_height + v_height)) {
                 //控件上显示
                 chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y - v_height));
             } else {
                 //控件下显示
-                chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y + viewHolder.llContent.getMeasuredHeight()));
+                chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y + c_height));
             }
             return false;
         }
