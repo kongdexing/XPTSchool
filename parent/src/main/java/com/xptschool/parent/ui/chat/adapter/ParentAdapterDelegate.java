@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -21,9 +20,12 @@ import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.ui.chat.QuickAction.ActionItem;
+import com.xptschool.parent.ui.chat.QuickAction.ChatOptionView;
 import com.xptschool.parent.ui.chat.SoundPlayHelper;
 import com.xptschool.parent.util.ChatUtil;
 import com.xptschool.parent.util.ToastUtils;
@@ -97,12 +99,15 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         viewHolder.imageView.setVisibility(View.GONE);
         viewHolder.videoView.setVisibility(View.GONE);
 
+        View longClickView = null;
+
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
 
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
-            viewHolder.llContent.setOnLongClickListener(new MyLongClickListener(viewHolder));
+            longClickView = viewHolder.llContent;
+
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             Log.i(TAG, "onBindViewHolder amr:" + chat.getFileName());
             //录音
@@ -152,7 +157,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                     });
                 }
             });
-            viewHolder.rlVoice.setOnLongClickListener(new MyLongClickListener(viewHolder));
+            longClickView = viewHolder.rlVoice;
         } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
             //文件，图片
             //file path
@@ -166,7 +171,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.imageView.setVisibility(View.VISIBLE);
                 viewHolder.imageView.setChatInfo(chat);
             }
-            viewHolder.imageView.setImageViewLongClickListener(new MyLongClickListener(viewHolder));
+            longClickView = viewHolder.imageView;
         } else if ((ChatUtil.TYPE_VIDEO + "").equals(chat.getType())) {
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             Log.i(TAG, "video: " + file.getPath());
@@ -178,24 +183,57 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.videoView.setVisibility(View.VISIBLE);
                 viewHolder.videoView.setChatInfo(chat);
             }
-            viewHolder.videoView.setVideoLongClickListener(new MyLongClickListener(viewHolder));
+            longClickView = viewHolder.videoView;
         }
+
+        longClickView.setOnLongClickListener(new MyLongClickListener(viewHolder, chat));
+
     }
 
     class MyLongClickListener implements View.OnLongClickListener {
 
         private MyViewHolder viewHolder;
+        private BeanChat chat;
 
-        private MyLongClickListener(MyViewHolder holder) {
-            viewHolder = holder;
+        private MyLongClickListener(MyViewHolder holder, BeanChat chat) {
+            this.viewHolder = holder;
+            this.chat = chat;
         }
 
         @Override
         public boolean onLongClick(View v) {
+            Log.i(TAG, "onLongClick chat time: " + chat.getTime());
             final ChatOptionView optionView = new ChatOptionView(mContext);
             final PopupWindow chatPopup = new PopupWindow(optionView,
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-            chatPopup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+            ActionItem deleteItem = new ActionItem();
+            deleteItem.setTitle(mContext.getString(R.string.label_chat_option_delete));
+            deleteItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtils.showToast(mContext, "delete");
+                    chatPopup.dismiss();
+                }
+            });
+            //添加删除按钮
+            optionView.addAction(deleteItem);
+
+            if (CommonUtil.isIn2Min(chat.getTime())) {
+                ActionItem revertItem = new ActionItem();
+                revertItem.setTitle(mContext.getString(R.string.label_chat_option_revert));
+                revertItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastUtils.showToast(mContext, "revert");
+                        chatPopup.dismiss();
+                    }
+                });
+                //两分钟之内发送的消息，添加撤回按钮
+                optionView.addAction(revertItem);
+            }
+
+
             chatPopup.setTouchable(true);
             chatPopup.setBackgroundDrawable(new ColorDrawable());
             //弹出操作项控件宽高

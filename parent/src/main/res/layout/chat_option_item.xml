@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llOption"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/mine_item_selector"
+    android:clickable="true"
+    android:padding="@dimen/dp_5"
+    android:minWidth="@dimen/dp_100">
+
+    <TextView
+        android:id="@+id/txtOption"
+        style="@style/mineText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_18"
+        android:text="@string/label_chat_option_revert" />
+
+</LinearLayout>

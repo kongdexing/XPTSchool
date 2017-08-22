@@ -309,4 +309,21 @@ public class CommonUtil {
         String uuid = UUID.randomUUID().toString().replace("-", "");
         return uuid;
     }
+
+    public static boolean isIn2Min(String time) {
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date oldTime = df.parse(time);
+            long diff = new Date().getTime() - oldTime.getTime();
+            Log.i(TAG, "isIn2Min diff: " + diff);
+            if (diff >= 2 * 1000 * 60) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
 }
