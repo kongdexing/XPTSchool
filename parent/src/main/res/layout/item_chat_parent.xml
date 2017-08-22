@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rlQuestionItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -60,15 +59,15 @@
                 android:background="@drawable/chatto_bg"
                 android:gravity="center_vertical"
                 android:maxWidth="@dimen/dp_250"
-                android:text=""
+                android:text="123"
                 android:textSize="@dimen/sp_16"
-                android:visibility="gone" />
+                android:visibility="visible" />
             <!--声音-->
             <RelativeLayout
                 android:id="@+id/rlVoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/id_recorder_time"
@@ -124,9 +123,30 @@
 
         <com.android.widget.view.CircularImageView
             android:id="@+id/imgUser"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
+            android:layout_width="@dimen/dp_45"
+            android:layout_height="@dimen/dp_45"
             android:layout_alignParentRight="true"
-            android:background="@drawable/user_defaulthead" />
+            android:background="@drawable/user_defaulthead"
+            android:visibility="visible" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llRevert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shardow"
+        android:padding="@dimen/dp_5"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txtRevert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你撤回了一条消息"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
 </LinearLayout>

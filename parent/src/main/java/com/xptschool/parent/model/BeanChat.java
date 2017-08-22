@@ -30,7 +30,7 @@ public class BeanChat implements Serializable {
     private String seconds; //语音时长
     private String content; //文字信息
     private boolean isSend = false; //是否为发出
-    private int sendStatus; //0发送中，1成功，2失败
+    private int sendStatus; //0发送中，1成功，2失败，3撤回
     private String time;
     private boolean hasRead = true; //已读未读
 

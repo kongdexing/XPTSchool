@@ -71,7 +71,30 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
 
-        //家长提问，提问发送状态
+        viewHolder.imgUser.setVisibility(View.GONE);
+        viewHolder.txtContent.setVisibility(View.GONE);
+        viewHolder.rlVoice.setVisibility(View.GONE);
+        viewHolder.imageView.setVisibility(View.GONE);
+        viewHolder.videoView.setVisibility(View.GONE);
+
+        //判断是否为撤回
+        if (chat.getSendStatus() == ChatUtil.STATUS_REVERT) {
+            viewHolder.llRevert.setVisibility(View.VISIBLE);
+//            viewHolder.txtRevert.setText("");
+            return;
+        } else {
+            viewHolder.llRevert.setVisibility(View.GONE);
+        }
+
+        if (parent.getSex().equals("1")) {
+            viewHolder.imgUser.setVisibility(View.VISIBLE);
+            viewHolder.imgUser.setImageResource(R.drawable.parent_father);
+        } else {
+            viewHolder.imgUser.setVisibility(View.VISIBLE);
+            viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
+        }
+
+        //判断发送状态
         if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
             viewHolder.llResend.setVisibility(View.VISIBLE);
             viewHolder.sendProgress.setVisibility(View.GONE);
@@ -86,26 +109,19 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
             viewHolder.sendProgress.setVisibility(View.VISIBLE);
             viewHolder.llResend.setVisibility(View.GONE);
+        } else if (chat.getSendStatus() == ChatUtil.STATUS_REVERT) {
+
+
         } else {
             viewHolder.sendProgress.setVisibility(View.GONE);
             viewHolder.llResend.setVisibility(View.GONE);
         }
 
-        if (parent.getSex().equals("1")) {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_father);
-        } else {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
-        }
-        viewHolder.txtContent.setVisibility(View.GONE);
-        viewHolder.rlVoice.setVisibility(View.GONE);
-        viewHolder.imageView.setVisibility(View.GONE);
-        viewHolder.videoView.setVisibility(View.GONE);
 
         View longClickView = null;
 
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
-
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
             longClickView = viewHolder.llContent;
@@ -214,7 +230,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             deleteItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.showToast(mContext, "delete "+ chat.getMsgId());
+                    ToastUtils.showToast(mContext, "delete " + chat.getMsgId());
                     chatPopup.dismiss();
 
                     Intent intent = new Intent();
@@ -232,8 +248,13 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 revertItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showToast(mContext, "revert");
+                        ToastUtils.showToast(mContext, "revert " + chat.getMsgId());
                         chatPopup.dismiss();
+
+                        Intent intent = new Intent();
+                        intent.putExtra("message", chat.getMsgId());
+                        intent.setAction(BroadcastAction.MESSAGE_REVERT_SUCCESS);
+                        XPTApplication.getInstance().sendBroadcast(intent);
                     }
                 });
                 //两分钟之内发送的消息，添加撤回按钮
@@ -306,6 +327,11 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
         @BindView(R.id.videoView)
         ChatItemVideo videoView;
+
+        @BindView(R.id.llRevert)
+        LinearLayout llRevert;
+        @BindView(R.id.txtRevert)
+        TextView txtRevert;
 
         public MyViewHolder(View itemView) {
             super(itemView);

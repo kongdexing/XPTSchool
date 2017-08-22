@@ -4,38 +4,18 @@
         <!-- show rectangle area -->
         <shape android:shape="rectangle">
             <gradient
-                android:angle="180"
+                android:angle="0"
                 android:centerColor="#dddddd"
                 android:centerX="50%"
                 android:centerY="50%"
-                android:endColor="#f8f8f8"
-                android:startColor="#f8f8f8" />
+                android:endColor="#dddddd"
+                android:startColor="#dddddd" />
 
             <corners
                 android:bottomLeftRadius="3dip"
                 android:bottomRightRadius="3dip"
                 android:topLeftRadius="3dip"
                 android:topRightRadius="3dip" />
-        </shape>
-    </item>
-    <!-- layout foreground -->
-    <item
-        android:bottom="5dp"
-        android:left="20dp"
-        android:right="20dp"
-        android:top="5dp">
-        <!-- show rectangle area -->
-        <shape android:shape="rectangle">
-            <gradient
-                android:angle="0"
-                android:endColor="#FFFFFF"
-                android:startColor="#FFFFFF" />
-
-            <corners
-                android:bottomLeftRadius="4dip"
-                android:bottomRightRadius="4dip"
-                android:topLeftRadius="4dip"
-                android:topRightRadius="4dip" />
         </shape>
     </item>
 </layer-list>

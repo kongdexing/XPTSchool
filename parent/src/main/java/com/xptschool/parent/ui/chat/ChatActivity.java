@@ -554,11 +554,9 @@ public class ChatActivity extends ChatAppendixActivity {
                 if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
                     chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
                     adapter.updateData(chat);
-                    GreenDaoHelper.getInstance().updateChat(chat);
                 } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
                     chat.setSendStatus(ChatUtil.STATUS_FAILED);
                     adapter.updateData(chat);
-                    GreenDaoHelper.getInstance().updateChat(chat);
                 }
             } else if (action.equals(BroadcastAction.MESSAGE_DELETE_SUCCESS)) {
                 chat = GreenDaoHelper.getInstance().getChatByMsgId(msgId);
@@ -567,6 +565,14 @@ public class ChatActivity extends ChatAppendixActivity {
                     return;
                 }
                 adapter.removeData(chat);
+            } else if(action.equals(BroadcastAction.MESSAGE_REVERT_SUCCESS)){
+                chat = GreenDaoHelper.getInstance().getChatByMsgId(msgId);
+                if (chat == null || chat.getChatId() == null) {
+                    Log.i(TAG, "onReceive: MESSAGE_DELETE_SUCCESS chat is null");
+                    return;
+                }
+                chat.setSendStatus(ChatUtil.STATUS_REVERT);
+                adapter.updateData(chat);
             }
         }
     };

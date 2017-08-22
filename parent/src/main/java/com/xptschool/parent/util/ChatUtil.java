@@ -27,6 +27,7 @@ public class ChatUtil {
     public static int STATUS_SENDING = 0;
     public static int STATUS_SUCCESS = 1;
     public static int STATUS_FAILED = 2;
+    public static int STATUS_REVERT = 3;
 
     public static char TYPE_TEXT = '0'; //0文字，1文件，2语音
     public static char TYPE_FILE = '1';

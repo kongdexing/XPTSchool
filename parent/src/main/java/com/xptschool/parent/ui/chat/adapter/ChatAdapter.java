@@ -91,6 +91,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     public void updateData(BeanChat chat) {
+        GreenDaoHelper.getInstance().updateChat(chat);
         Log.i(TAG, "updateData: ");
         for (int i = 0; i < listChat.size(); i++) {
             if (listChat.get(i).getChatId().equals(chat.getChatId())) {
@@ -122,7 +123,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
         void onResend(BeanChat chat, int position) {
             chat.setSendStatus(ChatUtil.STATUS_SENDING);
             updateData(chat);
-            GreenDaoHelper.getInstance().updateChat(chat);
             chat.onReSendChatToMessage();
         }
     }
