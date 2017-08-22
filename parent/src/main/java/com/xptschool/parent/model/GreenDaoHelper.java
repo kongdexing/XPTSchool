@@ -198,6 +198,14 @@ public class GreenDaoHelper {
         }
     }
 
+    public BeanChat getChatByMsgId(String msgId) {
+        if (readDaoSession != null) {
+            return readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.MsgId.eq(msgId)).unique();
+        }
+        return null;
+    }
+
     /**
      * 根据老师id，获取跟此老师的聊天记录
      *

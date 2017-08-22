@@ -1,6 +1,7 @@
 package com.xptschool.parent.ui.chat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -20,6 +21,7 @@ import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.parent.R;
 import com.xptschool.parent.XPTApplication;
+import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
@@ -171,7 +173,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.imageView.setVisibility(View.VISIBLE);
                 viewHolder.imageView.setChatInfo(chat);
             }
-            longClickView = viewHolder.imageView;
+            longClickView = viewHolder.imageView.bubView;
         } else if ((ChatUtil.TYPE_VIDEO + "").equals(chat.getType())) {
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             Log.i(TAG, "video: " + file.getPath());
@@ -183,7 +185,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.videoView.setVisibility(View.VISIBLE);
                 viewHolder.videoView.setChatInfo(chat);
             }
-            longClickView = viewHolder.videoView;
+            longClickView = viewHolder.videoView.bubView;
         }
 
         longClickView.setOnLongClickListener(new MyLongClickListener(viewHolder, chat));
@@ -212,8 +214,13 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             deleteItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.showToast(mContext, "delete");
+                    ToastUtils.showToast(mContext, "delete "+ chat.getMsgId());
                     chatPopup.dismiss();
+
+                    Intent intent = new Intent();
+                    intent.putExtra("message", chat.getMsgId());
+                    intent.setAction(BroadcastAction.MESSAGE_DELETE_SUCCESS);
+                    XPTApplication.getInstance().sendBroadcast(intent);
                 }
             });
             //添加删除按钮
@@ -232,7 +239,6 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 //两分钟之内发送的消息，添加撤回按钮
                 optionView.addAction(revertItem);
             }
-
 
             chatPopup.setTouchable(true);
             chatPopup.setBackgroundDrawable(new ColorDrawable());

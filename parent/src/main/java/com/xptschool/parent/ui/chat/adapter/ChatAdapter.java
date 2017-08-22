@@ -103,14 +103,23 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     //  删除数据
-    public void removeData(int position) {
-        listChat.remove(position);
-        notifyItemRemoved(listChat.size());
+    public void removeData(BeanChat chat) {
+        if (chat == null || chat.getChatId() == null) {
+            return;
+        }
+
+        for (int i = 0; i < listChat.size(); i++) {
+            if (listChat.get(i).getChatId().equals(chat.getChatId())) {
+                Log.i(TAG, "updateData chatId : " + chat.getChatId() + "  position:" + i);
+                listChat.remove(i);
+                notifyItemRemoved(i);
+                break;
+            }
+        }
     }
 
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
-//            removeData(position);
             chat.setSendStatus(ChatUtil.STATUS_SENDING);
             updateData(chat);
             GreenDaoHelper.getInstance().updateChat(chat);

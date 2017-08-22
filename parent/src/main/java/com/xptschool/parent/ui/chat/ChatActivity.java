@@ -127,6 +127,9 @@ public class ChatActivity extends ChatAppendixActivity {
         filter.addAction(BroadcastAction.MESSAGE_SEND_START);
         filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
         filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
+        filter.addAction(BroadcastAction.MESSAGE_DELETE_SUCCESS);
+        filter.addAction(BroadcastAction.MESSAGE_REVERT_SUCCESS);
+
         this.registerReceiver(messageReceiver, filter);
     }
 
@@ -537,23 +540,33 @@ public class ChatActivity extends ChatAppendixActivity {
 
             String msgId = bundle.getString("message");
             Log.i(TAG, "onReceive message id: " + msgId);
-            ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(msgId);
-            if (sendMsg == null) {
-                Log.i(TAG, "onReceive: send msg is null");
-                return;
-            }
             BeanChat chat = new BeanChat();
-            chat.parseMessageToChat(sendMsg);
-            chat.setHasRead(true);
 
-            if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
-                chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
-                adapter.updateData(chat);
-                GreenDaoHelper.getInstance().updateChat(chat);
-            } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
-                chat.setSendStatus(ChatUtil.STATUS_FAILED);
-                adapter.updateData(chat);
-                GreenDaoHelper.getInstance().updateChat(chat);
+            if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS) || action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+                ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(msgId);
+                if (sendMsg == null) {
+                    Log.i(TAG, "onReceive: send msg is null");
+                    return;
+                }
+                chat.parseMessageToChat(sendMsg);
+                chat.setHasRead(true);
+
+                if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
+                    chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                    adapter.updateData(chat);
+                    GreenDaoHelper.getInstance().updateChat(chat);
+                } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+                    chat.setSendStatus(ChatUtil.STATUS_FAILED);
+                    adapter.updateData(chat);
+                    GreenDaoHelper.getInstance().updateChat(chat);
+                }
+            } else if (action.equals(BroadcastAction.MESSAGE_DELETE_SUCCESS)) {
+                chat = GreenDaoHelper.getInstance().getChatByMsgId(msgId);
+                if (chat == null || chat.getChatId() == null) {
+                    Log.i(TAG, "onReceive: MESSAGE_DELETE_SUCCESS chat is null");
+                    return;
+                }
+                adapter.removeData(chat);
             }
         }
     };

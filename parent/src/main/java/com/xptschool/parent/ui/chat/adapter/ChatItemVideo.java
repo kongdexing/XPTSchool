@@ -87,8 +87,4 @@ public class ChatItemVideo extends LinearLayout {
 
     }
 
-    public void setVideoLongClickListener(OnLongClickListener listener) {
-        bubView.setOnLongClickListener(listener);
-    }
-
 }

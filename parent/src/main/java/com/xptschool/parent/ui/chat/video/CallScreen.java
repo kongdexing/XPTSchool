@@ -302,6 +302,8 @@ public class CallScreen extends CallBaseScreen {
 
     public void loadInCallVideoView() {
         super.loadInCallVideoView();
+        //判断录音权限
+
         Log.d(TAG, "loadInCallVideoView()");
         if (mViewInCallVideo == null) {
             mViewInCallVideo = new CallingView(this);
