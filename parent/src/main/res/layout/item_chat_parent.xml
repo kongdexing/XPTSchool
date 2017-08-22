@@ -49,8 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_5"
             android:layout_marginTop="@dimen/dp_5"
-            android:layout_toLeftOf="@+id/imgUser"
-            android:longClickable="true">
+            android:layout_toLeftOf="@+id/imgUser">
             <!--文字-->
             <io.github.rockerhieu.emojicon.EmojiconTextView
                 android:id="@+id/txtContent"
@@ -59,7 +58,7 @@
                 android:background="@drawable/chatto_bg"
                 android:gravity="center_vertical"
                 android:maxWidth="@dimen/dp_250"
-                android:text="123"
+                android:text=""
                 android:textSize="@dimen/sp_16"
                 android:visibility="visible" />
             <!--声音-->

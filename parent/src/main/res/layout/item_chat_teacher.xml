@@ -7,22 +7,21 @@
     android:padding="@dimen/dp_5">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <com.android.widget.view.CircularImageView
             android:id="@+id/imgUser"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
+            android:layout_width="@dimen/dp_45"
+            android:layout_height="@dimen/dp_45"
             android:background="@drawable/user_defaulthead" />
 
         <LinearLayout
             android:id="@+id/llContent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_100"
             android:layout_marginTop="@dimen/dp_5"
             android:layout_toRightOf="@+id/imgUser">
 
@@ -30,13 +29,16 @@
                 android:id="@+id/txtContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:background="@drawable/chatfrom_bg"
-                android:clickable="true"
-                android:gravity="center|center_vertical"
+                android:gravity="center_vertical"
+                android:maxWidth="@dimen/dp_250"
+                android:paddingBottom="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_15"
+                android:paddingRight="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10"
                 android:text=""
                 android:textSize="@dimen/sp_16"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:id="@+id/rlVoice"
@@ -97,6 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
+
             <!--视频-->
             <com.xptschool.parent.ui.chat.adapter.ChatItemVideo
                 android:id="@+id/videoView"

@@ -201,7 +201,7 @@ public class GreenDaoHelper {
     public BeanChat getChatByMsgId(String msgId) {
         if (readDaoSession != null) {
             return readDaoSession.getBeanChatDao().queryBuilder()
-                    .where(BeanChatDao.Properties.MsgId.eq(msgId)).unique();
+                    .where(BeanChatDao.Properties.ChatId.eq(msgId)).unique();
         }
         return null;
     }
