@@ -148,7 +148,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 Log.i(TAG, "onBindViewHolder: parent playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
 
                 //点击播放
-                viewHolder.rlVoice.setOnClickListener(new View.OnClickListener() {
+                viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // 声音播放动画
@@ -162,7 +162,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                         animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                         animation.start();
 
-                        Log.i(TAG, "onClick: parent playSound");
+                        Log.i(TAG, "onClick: parent playSound "+file.getPath());
                         // 播放录音
                         MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 

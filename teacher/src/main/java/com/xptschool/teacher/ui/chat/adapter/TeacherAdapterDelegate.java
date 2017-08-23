@@ -159,10 +159,13 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                         AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                         animation.start();
 
+                        Log.i(TAG, "onClick: teacher playSound "+file.getPath());
+
                         // 播放录音
                         MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
 
                             public void onCompletion(MediaPlayer mp) {
+                                Log.i(TAG, "onCompletion: ");
                                 //播放完成后修改图片
                                 viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj);
                             }

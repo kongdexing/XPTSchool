@@ -9,7 +9,7 @@ import android.content.Context;
 
 public class BaseAdapterDelegate {
 
-    public String TAG = "";
+    public String TAG = BaseAdapterDelegate.class.getSimpleName();
     public Context mContext;
 
     public BaseAdapterDelegate(Context context) {

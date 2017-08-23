@@ -16,7 +16,7 @@ public class BaseAdapterDelegate {
 
     public BaseAdapterDelegate(Context context) {
         this.mContext = context;
-//        TAG = "";
+        TAG = mContext.getClass().getSimpleName();
     }
 
 }
