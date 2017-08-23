@@ -18,10 +18,11 @@ public class ToSendMessage {
 
     private String TAG = ToSendMessage.class.getSimpleName();
     private String id;
-    private char type; //0文字，1文件，2语音, 3视频
+    private char type; //0文字，1文件，2语音, 3视频，4撤回（filename为chatId）
     private int size;   //
     private String filename;
-    private int second = 0;
+    private int second = 0;  //语音时长
+    private int sendStatus = ChatUtil.STATUS_SENDING;
     private String parentId;
     private String teacherId;
     private String content;
@@ -30,6 +31,8 @@ public class ToSendMessage {
 
     public ToSendMessage() {
         this.id = CommonUtil.getUUID();
+        this.parentId = "0";
+        this.teacherId = "0";
     }
 
     public byte[] packData(FileInputStream inputStream) {
@@ -82,6 +85,7 @@ public class ToSendMessage {
             bs_name.read(b_username);
         } catch (IOException e) {
             e.printStackTrace();
+            Log.i(TAG, "b_username error: " + e.getMessage());
         }
 
         byte[] b_filename = new byte[ChatUtil.fileNameLength];
@@ -138,6 +142,7 @@ public class ToSendMessage {
             message = URLEncoder.encode(message, "utf-8");
             return getBytes(message.getBytes());
         } catch (Exception ex) {
+            Log.i(TAG, "packData: error " + ex.getMessage());
             return null;
         }
     }
@@ -204,6 +209,14 @@ public class ToSendMessage {
 
     public void setSecond(int second) {
         this.second = second;
+    }
+
+    public int getSendStatus() {
+        return sendStatus;
+    }
+
+    public void setSendStatus(int sendStatus) {
+        this.sendStatus = sendStatus;
     }
 
     public String getContent() {

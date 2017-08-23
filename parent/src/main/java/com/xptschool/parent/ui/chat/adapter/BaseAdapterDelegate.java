@@ -13,7 +13,6 @@ public class BaseAdapterDelegate {
 
     public String TAG = BaseAdapterDelegate.class.getSimpleName();
     public Context mContext;
-    public BeanChat currentChat;
 
     public BaseAdapterDelegate(Context context) {
         this.mContext = context;

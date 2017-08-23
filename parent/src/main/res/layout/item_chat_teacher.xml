@@ -37,8 +37,8 @@
                 android:paddingRight="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_10"
                 android:text=""
-                android:textSize="@dimen/sp_16"
-                android:visibility="visible" />
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/rlVoice"
@@ -52,6 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/dp_10"
                     android:background="@drawable/chatfrom_bg">
 
                     <View

@@ -198,12 +198,18 @@ public class GreenDaoHelper {
         }
     }
 
-    public BeanChat getChatByMsgId(String msgId) {
+    public BeanChat getChatByChatId(String chatId) {
         if (readDaoSession != null) {
             return readDaoSession.getBeanChatDao().queryBuilder()
-                    .where(BeanChatDao.Properties.ChatId.eq(msgId)).unique();
+                    .where(BeanChatDao.Properties.ChatId.eq(chatId)).unique();
         }
         return null;
+    }
+
+    public void deleteChatByChat(BeanChat chat) {
+        if (writeDaoSession != null) {
+            writeDaoSession.getBeanChatDao().delete(chat);
+        }
     }
 
     /**

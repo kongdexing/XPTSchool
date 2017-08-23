@@ -28,11 +28,15 @@ public class ChatUtil {
     public static int STATUS_SUCCESS = 1;
     public static int STATUS_FAILED = 2;
     public static int STATUS_REVERT = 3;
+    public static int STATUS_RESENDING = 4;
+
 
     public static char TYPE_TEXT = '0'; //0文字，1文件，2语音
     public static char TYPE_FILE = '1';
     public static char TYPE_AMR = '2';
     public static char TYPE_VIDEO = '3';
+    public static char TYPE_REVERT = '4';
+
     public static ContactTeacher currentChatTeacher = null;
 
     public static String getCurrentDateHms() {
@@ -125,8 +129,8 @@ public class ChatUtil {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
-        //最小宽度为屏幕宽度的百分之十五
-        return (int) (outMetrics.widthPixels * 0.15f);
+        //最小宽度为屏幕宽度的百分之20
+        return (int) (outMetrics.widthPixels * 0.18f);
     }
 
     public static int getChatMaxWidth(Context context) {
@@ -135,7 +139,7 @@ public class ChatUtil {
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         //最大宽度为屏幕宽度的百分之
-        return (int) (outMetrics.widthPixels * 0.4f);
+        return (int) (outMetrics.widthPixels * 0.6f);
     }
 
 }

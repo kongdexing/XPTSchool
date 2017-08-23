@@ -2,6 +2,7 @@ package com.xptschool.parent.model;
 
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.server.ServerManager;
+import com.xptschool.parent.ui.chat.ChatMessageHelper;
 import com.xptschool.parent.util.ChatUtil;
 
 import org.greenrobot.greendao.annotation.Entity;
@@ -31,12 +32,13 @@ public class BeanChat implements Serializable {
     private String content; //文字信息
     private boolean isSend = false; //是否为发出
     private int sendStatus; //0发送中，1成功，2失败，3撤回
-    private String time;
+    private String time;  //发送时间
+
     private boolean hasRead = true; //已读未读
 
     @Generated(hash = 500737609)
     public BeanChat(String chatId, String msgId, String type, int size, String parentId, String teacherId, String fileName, String seconds,
-            String content, boolean isSend, int sendStatus, String time, boolean hasRead) {
+                    String content, boolean isSend, int sendStatus, String time, boolean hasRead) {
         this.chatId = chatId;
         this.msgId = msgId;
         this.type = type;
@@ -176,6 +178,7 @@ public class BeanChat implements Serializable {
         this.setChatId(sendMsg.getId());
         this.setMsgId(sendMsg.getId());
         this.setIsSend(true);
+        this.setSendStatus(sendMsg.getSendStatus());
         this.setType(sendMsg.getType() + "");
         this.setContent(sendMsg.getContent());
         this.setSeconds(sendMsg.getSecond() + "");
@@ -197,6 +200,7 @@ public class BeanChat implements Serializable {
             message.setParentId(getParentId());
             message.setTeacherId(getTeacherId());
             message.setTime(getTime());
+            message.setSendStatus(getSendStatus());
             byte[] allByte = null;
             if (ChatUtil.TYPE_AMR == message.getType() || ChatUtil.TYPE_VIDEO == message.getType() || ChatUtil.TYPE_FILE == message.getType()) {
                 File file = new File(XPTApplication.getInstance().getCachePath() + "/" + getFileName());
@@ -209,6 +213,7 @@ public class BeanChat implements Serializable {
             }
             if (allByte != null) {
                 message.setAllData(allByte);
+                ChatMessageHelper.getInstance().putMessage(message);
                 ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {
