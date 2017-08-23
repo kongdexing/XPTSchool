@@ -328,6 +328,14 @@ public class GreenDaoHelper {
         }
     }
 
+    public BeanChat getChatByMsgId(String msgId) {
+        if (readDaoSession != null) {
+            return readDaoSession.getBeanChatDao().queryBuilder()
+                    .where(BeanChatDao.Properties.ChatId.eq(msgId)).unique();
+        }
+        return null;
+    }
+
     public int getChatCountByChatId(String chatId) {
         long chats = 0;
         if (readDaoSession != null) {

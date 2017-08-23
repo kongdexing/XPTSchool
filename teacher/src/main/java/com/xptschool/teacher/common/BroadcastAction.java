@@ -16,6 +16,8 @@ public class BroadcastAction {
     public static String MESSAGE_SEND_START = "com.xptschool.teacher.message.send.sending";
     public static String MESSAGE_SEND_SUCCESS = "com.xptschool.teacher.message.send.success";
     public static String MESSAGE_SEND_FAILED = "com.xptschool.teacher.message.send.failed";
+    public static String MESSAGE_DELETE_SUCCESS = "com.xptschool.parent.message.delete.success";
+    public static String MESSAGE_REVERT_SUCCESS = "com.xptschool.parent.message.revert.success";
 
     public static String MESSAGE_RECEIVED = "com.xptschool.teacher.message.receive";
 

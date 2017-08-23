@@ -165,6 +165,9 @@
     <string name="string_call_hangup">挂断</string>
     <string name="string_call_camera_switch">转换摄像头</string>
 
+    <string name="label_chat_option_revert">撤回</string>
+    <string name="label_chat_option_delete">删除</string>
+
     <string name="title_check_user">忘记密码</string>
     <string name="title_forgot_password">忘记密码</string>
     <string name="string_phone">手机号:</string>

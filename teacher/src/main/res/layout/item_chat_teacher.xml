@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dp_8"
             android:layout_toLeftOf="@+id/llContent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/llContent"
@@ -57,12 +57,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/chatto_bg"
-                android:clickable="true"
-                android:gravity="center|center_vertical"
+                android:gravity="center_vertical"
                 android:maxWidth="@dimen/dp_200"
                 android:text=""
                 android:textSize="@dimen/sp_16"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <RelativeLayout
                 android:id="@+id/rlVoice"
@@ -125,9 +124,28 @@
 
         <com.android.widget.view.CircularImageView
             android:id="@+id/imgUser"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
+            android:layout_width="@dimen/dp_45"
+            android:layout_height="@dimen/dp_45"
             android:layout_alignParentRight="true"
             android:background="@drawable/user_defaulthead" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llRevert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shardow"
+        android:padding="@dimen/dp_5"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txtRevert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你撤回了一条消息"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
 </LinearLayout>

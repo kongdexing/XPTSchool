@@ -2,6 +2,7 @@ package com.xptschool.teacher.ui.chat.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.xptschool.teacher.model.BeanChat;
@@ -88,6 +89,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     public void updateData(BeanChat chat) {
+        GreenDaoHelper.getInstance().updateChat(chat);
         for (int i = 0; i < listChat.size(); i++) {
             if (listChat.get(i).getChatId().equals(chat.getChatId())) {
                 listChat.set(i, chat);
@@ -98,17 +100,25 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
     //  删除数据
-    public void removeData(int position) {
-        listChat.remove(position);
-        notifyItemRemoved(listChat.size());
+    public void removeData(BeanChat chat) {
+        if (chat == null || chat.getChatId() == null) {
+            return;
+        }
+
+        for (int i = 0; i < listChat.size(); i++) {
+            if (listChat.get(i).getChatId().equals(chat.getChatId())) {
+                Log.i(TAG, "updateData chatId : " + chat.getChatId() + "  position:" + i);
+                listChat.remove(i);
+                notifyItemRemoved(i);
+                break;
+            }
+        }
     }
 
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
-//            removeData(position);
             chat.setSendStatus(ChatUtil.STATUS_SENDING);
             updateData(chat);
-            GreenDaoHelper.getInstance().updateChat(chat);
             chat.onReSendChatToMessage();
         }
     }

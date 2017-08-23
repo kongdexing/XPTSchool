@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.server.ServerManager;
+import com.xptschool.teacher.ui.chat.ChatMessageHelper;
 import com.xptschool.teacher.ui.chat.ToSendMessage;
 import com.xptschool.teacher.util.ChatUtil;
 
@@ -213,6 +214,7 @@ public class BeanChat implements Serializable {
             }
             if (allByte != null) {
                 message.setAllData(allByte);
+                ChatMessageHelper.getInstance().putMessage(message);
                 ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {

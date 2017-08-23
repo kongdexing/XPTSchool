@@ -113,6 +113,8 @@ public class ChatActivity extends ChatAppendixActivity {
         filter.addAction(BroadcastAction.MESSAGE_SEND_START);
         filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
         filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
+        filter.addAction(BroadcastAction.MESSAGE_DELETE_SUCCESS);
+        filter.addAction(BroadcastAction.MESSAGE_REVERT_SUCCESS);
         this.registerReceiver(messageReceiver, filter);
 
     }
@@ -487,39 +489,59 @@ public class ChatActivity extends ChatAppendixActivity {
     public BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            if (bundle == null) {
-                Log.i(TAG, "onReceive: bundle is null");
-                return;
-            }
             String action = intent.getAction();
             Log.i(TAG, "onReceive: " + action);
-
             if (action.equals(BroadcastAction.MESSAGE_SEND_START)) {
                 smoothBottom();
                 return;
             }
 
-            String msgId = bundle.getString("message");
-            ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(msgId);
-            if (sendMsg == null) {
+            Bundle bundle = intent.getExtras();
+            if (bundle == null) {
+                Log.i(TAG, "onReceive: bundle is null");
                 return;
             }
 
+            String msgId = bundle.getString("message");
+            Log.i(TAG, "onReceive message id: " + msgId);
             BeanChat chat = new BeanChat();
-            chat.parseMessageToChat(sendMsg);
-            chat.setHasRead(true);
-            if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
-                chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
-                adapter.updateData(chat);
-                GreenDaoHelper.getInstance().updateChat(chat);
 
-            } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
-                chat.setSendStatus(ChatUtil.STATUS_FAILED);
+            if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS) || action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+                ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(msgId);
+                if (sendMsg == null) {
+                    return;
+                }
+                chat.parseMessageToChat(sendMsg);
+                chat.setHasRead(true);
+                if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
+                    chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                    adapter.updateData(chat);
+                } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+                    chat.setSendStatus(ChatUtil.STATUS_FAILED);
+                    adapter.updateData(chat);
+                }
+            } else if (action.equals(BroadcastAction.MESSAGE_DELETE_SUCCESS)) {
+                try {
+                    chat = GreenDaoHelper.getInstance().getChatByMsgId(msgId);
+                    if (chat == null || chat.getChatId() == null) {
+                        Log.i(TAG, "onReceive: MESSAGE_DELETE_SUCCESS chat is null");
+                        return;
+                    }
+                    adapter.removeData(chat);
+                } catch (Exception ex) {
+                    Log.i(TAG, "MESSAGE_DELETE_SUCCESS error: " + ex.getMessage());
+                }
+            } else if (action.equals(BroadcastAction.MESSAGE_REVERT_SUCCESS)) {
+                chat = GreenDaoHelper.getInstance().getChatByMsgId(msgId);
+                if (chat == null || chat.getChatId() == null) {
+                    Log.i(TAG, "onReceive: MESSAGE_DELETE_SUCCESS chat is null");
+                    return;
+                }
+                chat.setSendStatus(ChatUtil.STATUS_REVERT);
                 adapter.updateData(chat);
-                GreenDaoHelper.getInstance().updateChat(chat);
-
             }
+
+
         }
     };
 
