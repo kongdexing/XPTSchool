@@ -101,47 +101,47 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             final File file = new File(XPTApplication.getInstance().getCachePath() + "/" + chat.getFileName());
             if (!file.exists()) {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
-                return;
-            }
-
-            viewHolder.img_recorder_anim.setTag(chat);
-            SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
-            Log.i(TAG, "onBindViewHolder: teacher playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
-
-            if (!chat.isHasRead()) {
-                viewHolder.view_unRead.setVisibility(View.VISIBLE);
             } else {
-                viewHolder.view_unRead.setVisibility(View.GONE);
-            }
+                viewHolder.error_file.setVisibility(View.GONE);
+                viewHolder.img_recorder_anim.setTag(chat);
+                SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
+                Log.i(TAG, "onBindViewHolder: teacher playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
 
-            //点击播放
-            viewHolder.rlVoice.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 声音播放动画
-                    if (viewHolder.img_recorder_anim != null) {
-                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
-                    }
+                if (!chat.isHasRead()) {
+                    viewHolder.view_unRead.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.view_unRead.setVisibility(View.GONE);
+                }
 
-                    SoundPlayHelper.getInstance().stopPlay();
-
-                    viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim_right);
-                    AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
-                    animation.start();
-
-                    Log.i(TAG, "onClick: teacher playSound");
-
-                    // 播放录音
-                    MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
-
-                        public void onCompletion(MediaPlayer mp) {
-                            //播放完成后修改图片
+                //点击播放
+                viewHolder.rlVoice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 声音播放动画
+                        if (viewHolder.img_recorder_anim != null) {
                             viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
                         }
-                    });
-                    updateReadStatus(chat, viewHolder);
-                }
-            });
+
+                        SoundPlayHelper.getInstance().stopPlay();
+
+                        viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.play_anim_right);
+                        AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
+                        animation.start();
+
+                        Log.i(TAG, "onClick: teacher playSound");
+
+                        // 播放录音
+                        MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
+
+                            public void onCompletion(MediaPlayer mp) {
+                                //播放完成后修改图片
+                                viewHolder.img_recorder_anim.setBackgroundResource(R.drawable.adj_right);
+                            }
+                        });
+                        updateReadStatus(chat, viewHolder);
+                    }
+                });
+            }
             longClickView = viewHolder.rlVoice;
         } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
             updateReadStatus(chat, viewHolder);

@@ -141,8 +141,9 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.error_file.setVisibility(View.GONE);
                 RelativeLayout.LayoutParams voiceAnimLP = (RelativeLayout.LayoutParams) viewHolder.img_recorder_anim.getLayoutParams();
                 voiceAnimLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-
+                voiceAnimLP.setMargins(0, 0, 30, 0);
                 viewHolder.img_recorder_anim.setTag(chat);
+
                 SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
                 Log.i(TAG, "onBindViewHolder: parent playSoundViews size " + SoundPlayHelper.getInstance().getPlaySoundViewSize());
 
