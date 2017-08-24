@@ -161,6 +161,7 @@ public class SocketService extends Service {
                 }
 
                 if (message.getType() == ChatUtil.TYPE_REVERT) {
+                    //发送消息类型为撤回的消息
                     Log.i(TAG, "revert message: " + message.getFilename());
                     Intent revertIntent = new Intent();
                     revertIntent.putExtra("chatId", message.getId());
@@ -168,6 +169,7 @@ public class SocketService extends Service {
                     XPTApplication.getInstance().sendBroadcast(revertIntent);
                     return;
                 } else {
+                    //发送聊天消息，发送成功接收返回的chatId
                     outputStream.flush();
                     mSocket.shutdownOutput();
 

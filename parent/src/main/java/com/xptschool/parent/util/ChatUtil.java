@@ -31,7 +31,7 @@ public class ChatUtil {
     public static int STATUS_RESENDING = 4;
 
 
-    public static char TYPE_TEXT = '0'; //0文字，1文件，2语音
+    public static char TYPE_TEXT = '0'; //0文字，1文件，2语音，3视频 ,4撤回
     public static char TYPE_FILE = '1';
     public static char TYPE_AMR = '2';
     public static char TYPE_VIDEO = '3';

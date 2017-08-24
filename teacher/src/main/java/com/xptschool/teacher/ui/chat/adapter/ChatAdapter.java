@@ -117,7 +117,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
-            chat.setSendStatus(ChatUtil.STATUS_SENDING);
+            chat.setSendStatus(ChatUtil.STATUS_RESENDING);
             updateData(chat);
             chat.onReSendChatToMessage();
         }

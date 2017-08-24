@@ -26,9 +26,11 @@ import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.ui.chat.QuickAction.ActionItem;
 import com.xptschool.teacher.ui.chat.QuickAction.ChatOptionView;
 import com.xptschool.teacher.ui.chat.SoundPlayHelper;
+import com.xptschool.teacher.ui.chat.ToSendMessage;
 import com.xptschool.teacher.util.ChatUtil;
 import com.xptschool.teacher.util.ToastUtils;
 
@@ -85,6 +87,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         } else {
             viewHolder.llRevert.setVisibility(View.GONE);
         }
+
         //判断男女头像
         if (teacher.getSex().equals("1")) {
             viewHolder.imgUser.setVisibility(View.VISIBLE);
@@ -94,7 +97,9 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             viewHolder.imgUser.setImageResource(R.drawable.teacher_woman);
         }
 
-        if (chat.getSendStatus() == ChatUtil.STATUS_FAILED) {
+        //判断发送状态
+        int sendStatus = chat.getSendStatus();
+        if (sendStatus == ChatUtil.STATUS_FAILED) {
             viewHolder.llResend.setVisibility(View.VISIBLE);
             viewHolder.sendProgress.setVisibility(View.GONE);
             viewHolder.llResend.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +110,10 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                     }
                 }
             });
-        } else if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
+        } else if (sendStatus == ChatUtil.STATUS_SENDING || sendStatus == ChatUtil.STATUS_RESENDING) {
             viewHolder.sendProgress.setVisibility(View.VISIBLE);
             viewHolder.llResend.setVisibility(View.GONE);
-        } else if (chat.getSendStatus() == ChatUtil.STATUS_SUCCESS) {
+        } else if (sendStatus == ChatUtil.STATUS_SUCCESS) {
             viewHolder.sendProgress.setVisibility(View.GONE);
             viewHolder.llResend.setVisibility(View.GONE);
         }
@@ -134,10 +139,11 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.error_file.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.error_file.setVisibility(View.GONE);
-//            IntentFilter filter = new IntentFilter(BroadcastAction.PLAY_STOP_OTHER);
-//            mContext.registerReceiver(playSoundReceiver, filter);
-
+                RelativeLayout.LayoutParams voiceAnimLP = (RelativeLayout.LayoutParams) viewHolder.img_recorder_anim.getLayoutParams();
+                voiceAnimLP.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+                voiceAnimLP.setMargins(0, 0, 30, 0);
                 viewHolder.img_recorder_anim.setTag(chat);
+
                 SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
 
                 //点击播放
@@ -159,7 +165,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                         AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                         animation.start();
 
-                        Log.i(TAG, "onClick: teacher playSound "+file.getPath());
+                        Log.i(TAG, "onClick: teacher playSound " + file.getPath());
 
                         // 播放录音
                         MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
@@ -217,6 +223,11 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
 
         @Override
         public boolean onLongClick(View v) {
+            if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
+                Log.i(TAG, "onLongClick: is sending");
+                return false;
+            }
+
             Log.i(TAG, "onLongClick chat time: " + chat.getTime());
             final ChatOptionView optionView = new ChatOptionView(mContext);
             final PopupWindow chatPopup = new PopupWindow(optionView,
@@ -227,11 +238,10 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             deleteItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.showToast(mContext, "delete " + chat.getMsgId());
                     chatPopup.dismiss();
 
                     Intent intent = new Intent();
-                    intent.putExtra("message", chat.getChatId());
+                    intent.putExtra("chatId", chat.getChatId());
                     intent.setAction(BroadcastAction.MESSAGE_DELETE_SUCCESS);
                     XPTApplication.getInstance().sendBroadcast(intent);
                 }
@@ -248,10 +258,12 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                         ToastUtils.showToast(mContext, "revert " + chat.getMsgId());
                         chatPopup.dismiss();
 
-                        Intent intent = new Intent();
-                        intent.putExtra("message", chat.getMsgId());
-                        intent.setAction(BroadcastAction.MESSAGE_REVERT_SUCCESS);
-                        XPTApplication.getInstance().sendBroadcast(intent);
+                        ToSendMessage message = new ToSendMessage();
+                        message.setType(ChatUtil.TYPE_REVERT);
+                        message.setId(chat.getChatId());
+                        message.setFilename(chat.getMsgId());
+                        message.setAllData(message.packData(""));
+                        ServerManager.getInstance().sendMessage(message);
                     }
                 });
                 //两分钟之内发送的消息，添加撤回按钮

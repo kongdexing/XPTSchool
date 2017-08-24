@@ -89,7 +89,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                     Log.i(TAG, "b_size:" + chat.getSize());
                 }
 
-                if (0 >= chat.getSize()) {
+                if (0 >= chat.getSize() && !chat.getType().equals(ChatUtil.TYPE_REVERT)) {
                     return;
                 }
 
@@ -112,6 +112,17 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                 }
                 //判断chatID是否存在，存在则
                 if (GreenDaoHelper.getInstance().isExistChat(chat.getChatId())) {
+                    if (chat.getType().equals(ChatUtil.TYPE_FILE)) {
+                        BeanChat localChat = GreenDaoHelper.getInstance().getChatByChatId(chat.getChatId());
+                        localChat.setSendStatus(ChatUtil.STATUS_REVERT);
+
+                        GreenDaoHelper.getInstance().deleteChatByChatId(chat.getChatId());
+                        //发送撤回广播
+                        //send broadcast
+                        Intent intent = new Intent(BroadcastAction.MESSAGE_REVERT_SUCCESS);
+                        intent.putExtra("chat", chat);
+                        XPTApplication.getInstance().sendBroadcast(intent);
+                    }
                     return;
                 }
 

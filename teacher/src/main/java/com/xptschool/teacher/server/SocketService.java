@@ -11,10 +11,12 @@ import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.ui.chat.ToSendMessage;
+import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -125,11 +127,14 @@ public class SocketService extends Service {
 
             Socket mSocket = null;
             OutputStream outputStream = null;
+            InputStream inputStream = null;
+
             try {
                 mSocket = new Socket(socketIP, socketPort);
                 if (mSocket == null || !mSocket.isConnected()) {
                     Log.i(TAG, "SocketSendThread run: socket is null or unconnected");
                     intent.setAction(BroadcastAction.MESSAGE_SEND_FAILED);
+                    XPTApplication.getInstance().sendBroadcast(intent);
                     return;
                 }
                 outputStream = mSocket.getOutputStream();
@@ -149,18 +154,47 @@ public class SocketService extends Service {
                         n = -1;
                     }
                 }
-//                outputStream.write(message.getAllData());
-                outputStream.flush();
+
+                if (message.getType() == ChatUtil.TYPE_REVERT) {
+                    //发送消息类型为撤回的消息
+                    Log.i(TAG, "revert message: " + message.getFilename());
+                    Intent revertIntent = new Intent();
+                    revertIntent.putExtra("chatId", message.getId());
+                    revertIntent.setAction(BroadcastAction.MESSAGE_REVERT_SUCCESS);
+                    XPTApplication.getInstance().sendBroadcast(revertIntent);
+                    return;
+                } else {
+                    //发送聊天消息，发送成功接收返回的chatId
+                    outputStream.flush();
+                    mSocket.shutdownOutput();
+
+                    inputStream = mSocket.getInputStream();
+                    byte[] buffer = new byte[10];
+                    while (inputStream.read(buffer) != -1) {
+                        try {
+                            String chatId = URLDecoder.decode(new String(buffer), "utf-8").trim();
+                            Log.i(TAG, "receive chatId utf-8: " + chatId.trim());
+                            intent.putExtra("chatId", chatId);
+                            // Send the obtained bytes to the UI Activity
+                        } catch (Exception e) {
+                            Log.i(TAG, "disconnected " + e.getMessage());
+                            break;
+                        }
+                    }
+                }
+
                 //发送完成
                 intent.setAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
+                XPTApplication.getInstance().sendBroadcast(intent);
                 Log.i(TAG, "write success");
             } catch (Exception e) {
                 //发送失败
                 intent.setAction(BroadcastAction.MESSAGE_SEND_FAILED);
+                XPTApplication.getInstance().sendBroadcast(intent);
                 Log.e(TAG, "Exception during write", e);
             } finally {
-                closeSocket(mSocket, outputStream, null);
-                XPTApplication.getInstance().sendBroadcast(intent);
+                Log.i(TAG, "finally close socket " + this.getId());
+                closeSocket(mSocket, outputStream, inputStream);
             }
         }
 

@@ -310,7 +310,7 @@ public class ChatActivity extends ChatAppendixActivity {
         List<BeanChat> chats = new ArrayList<>();
         for (int i = pageChatList.size() - 1; i > -1; i--) {
             BeanChat chat = pageChatList.get(i);
-            if (chat.getSendStatus() == ChatUtil.STATUS_SENDING) {
+            if (chat.getSendStatus() == ChatUtil.STATUS_SENDING || chat.getSendStatus() == ChatUtil.STATUS_RESENDING) {
                 chat.setSendStatus(ChatUtil.STATUS_FAILED);
             }
             pageChatList.set(i, chat);
@@ -502,46 +502,62 @@ public class ChatActivity extends ChatAppendixActivity {
                 return;
             }
 
-            String msgId = bundle.getString("message");
-            Log.i(TAG, "onReceive message id: " + msgId);
             BeanChat chat = new BeanChat();
 
             if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS) || action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
+                String msgId = bundle.getString("message");
+                Log.i(TAG, "onReceive message id: " + msgId);
                 ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(msgId);
                 if (sendMsg == null) {
+                    Log.i(TAG, "onReceive: send msg is null");
                     return;
                 }
                 chat.parseMessageToChat(sendMsg);
                 chat.setHasRead(true);
+
                 if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
-                    chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
-                    adapter.updateData(chat);
+                    String chatId = bundle.getString("chatId");
+
+                    if (chat.getSendStatus() == ChatUtil.STATUS_RESENDING) {
+                        //重新发送成功，将原信息删除，在列表中重新追加新的一条
+                        adapter.removeData(chat);
+                        chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                        chat.setMsgId(chatId);
+                        chat.setTime(CommonUtil.getCurrentDateHms());
+                        adapter.addData(chat);
+                    } else {
+                        chat.setMsgId(chatId);
+                        chat.setTime(CommonUtil.getCurrentDateHms());
+                        chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                        adapter.updateData(chat);
+                    }
                 } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {
                     chat.setSendStatus(ChatUtil.STATUS_FAILED);
                     adapter.updateData(chat);
                 }
             } else if (action.equals(BroadcastAction.MESSAGE_DELETE_SUCCESS)) {
                 try {
-                    chat = GreenDaoHelper.getInstance().getChatByMsgId(msgId);
+                    String chatId = bundle.getString("chatId");
+                    chat = GreenDaoHelper.getInstance().getChatByChatId(chatId);
                     if (chat == null || chat.getChatId() == null) {
                         Log.i(TAG, "onReceive: MESSAGE_DELETE_SUCCESS chat is null");
                         return;
                     }
                     adapter.removeData(chat);
+                    GreenDaoHelper.getInstance().deleteChatByChat(chat);
                 } catch (Exception ex) {
                     Log.i(TAG, "MESSAGE_DELETE_SUCCESS error: " + ex.getMessage());
                 }
             } else if (action.equals(BroadcastAction.MESSAGE_REVERT_SUCCESS)) {
-                chat = GreenDaoHelper.getInstance().getChatByMsgId(msgId);
+                String chatId = bundle.getString("chatId");
+                chat = GreenDaoHelper.getInstance().getChatByChatId(chatId);
                 if (chat == null || chat.getChatId() == null) {
-                    Log.i(TAG, "onReceive: MESSAGE_DELETE_SUCCESS chat is null");
+                    Log.i(TAG, "onReceive: MESSAGE_REVERT_SUCCESS chat is null");
                     return;
                 }
                 chat.setSendStatus(ChatUtil.STATUS_REVERT);
                 adapter.updateData(chat);
             }
-
-
         }
     };
 

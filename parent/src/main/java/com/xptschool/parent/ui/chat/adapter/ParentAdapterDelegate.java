@@ -88,6 +88,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             viewHolder.llRevert.setVisibility(View.GONE);
         }
 
+        //判断男女头像
         if (parent.getSex().equals("1")) {
             viewHolder.imgUser.setVisibility(View.VISIBLE);
             viewHolder.imgUser.setImageResource(R.drawable.parent_father);

@@ -30,6 +30,12 @@ public class ToSendMessage {
     private String content;
     private byte[] allData;
 
+    public ToSendMessage() {
+        this.id = CommonUtil.getUUID();
+        this.parentId = "0";
+        this.teacherId = "0";
+    }
+
     public byte[] packData(FileInputStream inputStream) {
         byte[] allData = null;
         try {
@@ -131,10 +137,6 @@ public class ToSendMessage {
         } catch (Exception ex) {
             return null;
         }
-    }
-
-    public ToSendMessage() {
-        this.id = CommonUtil.getUUID();
     }
 
     public String getId() {
