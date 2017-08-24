@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,16 +59,28 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
 
-        if (parent.getSex().equals("1")) {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_father);
+        //判断是否为撤回
+        if (chat.getSendStatus() == ChatUtil.STATUS_REVERT) {
+            viewHolder.llRevert.setVisibility(View.VISIBLE);
+            viewHolder.txtRevert.setText("\"" + parent.getName() + "\"撤回了一条消息");
+            return;
         } else {
-            viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
+            viewHolder.llRevert.setVisibility(View.GONE);
         }
 
+        viewHolder.imgUser.setVisibility(View.GONE);
         viewHolder.txtContent.setVisibility(View.GONE);
         viewHolder.rlVoice.setVisibility(View.GONE);
         viewHolder.imageView.setVisibility(View.GONE);
         viewHolder.videoView.setVisibility(View.GONE);
+
+        if (parent.getSex().equals("1")) {
+            viewHolder.imgUser.setVisibility(View.VISIBLE);
+            viewHolder.imgUser.setImageResource(R.drawable.parent_father);
+        } else {
+            viewHolder.imgUser.setVisibility(View.VISIBLE);
+            viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
+        }
 
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
@@ -118,7 +131,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                     AnimationDrawable animation = (AnimationDrawable) viewHolder.img_recorder_anim.getBackground();
                     animation.start();
 
-                    Log.i(TAG, "onClick: parent playSound "+file.getPath());
+                    Log.i(TAG, "onClick: parent playSound " + file.getPath());
 
                     // 播放录音
                     MediaPlayerManager.playSound(file.getPath(), new MediaPlayer.OnCompletionListener() {
@@ -205,6 +218,11 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
         @BindView(R.id.videoView)
         ChatItemVideo videoView;
+
+        @BindView(R.id.llRevert)
+        LinearLayout llRevert;
+        @BindView(R.id.txtRevert)
+        TextView txtRevert;
 
         public MyViewHolder(View itemView) {
             super(itemView);
