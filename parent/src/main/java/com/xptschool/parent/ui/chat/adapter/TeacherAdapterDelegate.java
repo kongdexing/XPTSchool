@@ -126,7 +126,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                 }
 
                 //点击播放
-                viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
+                viewHolder.rlVoice.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // 声音播放动画
@@ -185,6 +185,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             }
             longClickView = viewHolder.videoView.bubView;
         }
+
         longClickView.setOnLongClickListener(new MyLongClickListener(viewHolder, chat));
     }
 

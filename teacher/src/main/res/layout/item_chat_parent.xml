@@ -18,11 +18,10 @@
 
         <LinearLayout
             android:id="@+id/llContent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_100"
             android:layout_marginTop="@dimen/dp_5"
             android:layout_toRightOf="@+id/imgUser">
 
@@ -31,7 +30,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/chatfrom_bg"
-                android:clickable="true"
                 android:gravity="center|center_vertical"
                 android:text=""
                 android:textSize="@dimen/sp_16"
@@ -41,6 +39,7 @@
                 android:id="@+id/rlVoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:visibility="gone">
 
                 <RelativeLayout

@@ -1,14 +1,18 @@
 package com.xptschool.teacher.ui.chat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,9 +20,12 @@ import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.ContactParent;
 import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.ui.chat.QuickAction.ActionItem;
+import com.xptschool.teacher.ui.chat.QuickAction.ChatOptionView;
 import com.xptschool.teacher.ui.chat.SoundPlayHelper;
 import com.xptschool.teacher.util.ChatUtil;
 
@@ -82,11 +89,14 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             viewHolder.imgUser.setImageResource(R.drawable.parent_mother);
         }
 
+        View longClickView = null;
+
         if ((ChatUtil.TYPE_TEXT + "").equals(chat.getType())) {
             viewHolder.txtContent.setVisibility(View.VISIBLE);
             //聊天内容
             viewHolder.txtContent.setText(chat.getContent());
             updateReadStatus(chat, viewHolder);
+            longClickView = viewHolder.llContent;
         } else if ((ChatUtil.TYPE_AMR + "").equals(chat.getType())) {
             //录音
             viewHolder.rlVoice.setVisibility(View.VISIBLE);
@@ -113,7 +123,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
             SoundPlayHelper.getInstance().insertPlayView(viewHolder.img_recorder_anim);
 
             //点击播放
-            viewHolder.id_recorder_length.setOnClickListener(new View.OnClickListener() {
+            viewHolder.rlVoice.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 声音播放动画
@@ -145,6 +155,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                     updateReadStatus(chat, viewHolder);
                 }
             });
+            longClickView = viewHolder.rlVoice;
         } else if ((ChatUtil.TYPE_FILE + "").equals(chat.getType())) {
             updateReadStatus(chat, viewHolder);
             //文件，图片
@@ -159,6 +170,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.imageView.setVisibility(View.VISIBLE);
                 viewHolder.imageView.setChatInfo(chat);
             }
+            longClickView = viewHolder.imageView.bubView;
         } else if ((ChatUtil.TYPE_VIDEO + "").equals(chat.getType())) {
             updateReadStatus(chat, viewHolder);
 
@@ -172,6 +184,69 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.videoView.setVisibility(View.VISIBLE);
                 viewHolder.videoView.setChatInfo(chat);
             }
+            longClickView = viewHolder.videoView.bubView;
+        }
+        longClickView.setOnLongClickListener(new MyLongClickListener(viewHolder, chat));
+    }
+
+    class MyLongClickListener implements View.OnLongClickListener {
+
+        private MyViewHolder viewHolder;
+        private BeanChat chat;
+
+        private MyLongClickListener(MyViewHolder holder, BeanChat chat) {
+            this.viewHolder = holder;
+            this.chat = chat;
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            final ChatOptionView optionView = new ChatOptionView(mContext);
+            final PopupWindow chatPopup = new PopupWindow(optionView,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+
+            ActionItem deleteItem = new ActionItem();
+            deleteItem.setTitle(mContext.getString(R.string.label_chat_option_delete));
+            deleteItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chatPopup.dismiss();
+
+                    Intent intent = new Intent();
+                    intent.putExtra("message", chat.getChatId());
+                    intent.setAction(BroadcastAction.MESSAGE_DELETE_SUCCESS);
+                    XPTApplication.getInstance().sendBroadcast(intent);
+                }
+            });
+            //添加删除按钮
+            optionView.addAction(deleteItem);
+
+            chatPopup.setTouchable(true);
+            chatPopup.setBackgroundDrawable(new ColorDrawable());
+            //弹出操作项控件宽高
+            optionView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            int v_width = optionView.getMeasuredWidth();
+            int v_height = optionView.getMeasuredHeight();
+
+            int c_width = viewHolder.llContent.getMeasuredWidth();
+            int c_height = viewHolder.llContent.getMeasuredHeight();
+            Log.i(TAG, "onLongClick: optionView v_width=" + v_width + "  v_height:" + v_height);
+            Log.i(TAG, "onLongClick: content c_width:" + c_width + " c_height:" + c_height);
+
+            //计算控件在屏幕的位置
+            int[] location = new int[2];
+            v.getLocationOnScreen(location);
+            int x = location[0];
+            int y = location[1];
+            Log.i(TAG, "onLongClick: " + "x:" + x + " y:" + y);
+            if (y > (c_height + v_height)) {
+                //控件上显示
+                chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x + c_width - v_width / 2), (y - v_height));
+            } else {
+                //控件下显示
+                chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x + c_width - v_width / 2), (y + c_height));
+            }
+            return false;
         }
     }
 
@@ -191,6 +266,9 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
         @BindView(R.id.imgUser)
         CircularImageView imgUser;
+
+        @BindView(R.id.llContent)
+        LinearLayout llContent;
 
         @BindView(R.id.txtContent)
         EmojiconTextView txtContent;
