@@ -594,7 +594,7 @@ public class ChatActivity extends ChatAppendixActivity {
                 String chatId = bundle.getString("chatId");
                 chat = GreenDaoHelper.getInstance().getChatByChatId(chatId);
                 if (chat == null || chat.getChatId() == null) {
-                    Log.i(TAG, "onReceive: MESSAGE_REVERT_SUCCESS chat is null");
+                    Log.i(TAG, "onReceive: MESSAGE_REVERT_SUCCESS chat is null chatId " + chatId);
                     return;
                 }
                 chat.setSendStatus(ChatUtil.STATUS_REVERT);

@@ -206,6 +206,12 @@ public class GreenDaoHelper {
         return null;
     }
 
+    public void deleteChatByChatId(String chatId) {
+        if (writeDaoSession != null) {
+            writeDaoSession.getBeanChatDao().deleteByKey(chatId);
+        }
+    }
+
     public void deleteChatByChat(BeanChat chat) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanChatDao().delete(chat);
