@@ -88,6 +88,11 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                     chat.setSize(ChatUtil.byteArray2Int(b_size));
                     Log.i(TAG, "b_size:" + chat.getSize());
                 }
+
+                if (chat.getType() == null) {
+                    Log.i(TAG, "receive type is null");
+                    return;
+                }
                 //无数据，并且不为撤回消息，则返回
                 if (0 >= chat.getSize() && !chat.getType().equals(ChatUtil.TYPE_REVERT + "")) {
                     Log.i(TAG, "size=0 and not revert message");
@@ -118,10 +123,9 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                         //将数据改为已撤回
                         BeanChat localChat = GreenDaoHelper.getInstance().getChatByChatId(chat.getChatId());
                         localChat.setSendStatus(ChatUtil.STATUS_REVERT);
-
-                        GreenDaoHelper.getInstance().deleteChatByChatId(chat.getChatId());
+                        //本地先更新，防止广播接收不到情况（广播只有在当前聊天界面才可收到）
+                        GreenDaoHelper.getInstance().updateChat(localChat);
                         //发送撤回广播
-                        //send broadcast
                         Intent intent = new Intent(BroadcastAction.MESSAGE_REVERT_SUCCESS);
                         intent.putExtra("chatId", chat.getChatId());
                         XPTApplication.getInstance().sendBroadcast(intent);

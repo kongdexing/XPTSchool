@@ -66,6 +66,12 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         }
         final MyViewHolder viewHolder = (MyViewHolder) holder;
 
+        viewHolder.imgUser.setVisibility(View.GONE);
+        viewHolder.txtContent.setVisibility(View.GONE);
+        viewHolder.rlVoice.setVisibility(View.GONE);
+        viewHolder.imageView.setVisibility(View.GONE);
+        viewHolder.videoView.setVisibility(View.GONE);
+
         //判断是否为撤回
         if (chat.getSendStatus() == ChatUtil.STATUS_REVERT) {
             viewHolder.llRevert.setVisibility(View.VISIBLE);
@@ -74,12 +80,6 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         } else {
             viewHolder.llRevert.setVisibility(View.GONE);
         }
-
-        viewHolder.imgUser.setVisibility(View.GONE);
-        viewHolder.txtContent.setVisibility(View.GONE);
-        viewHolder.rlVoice.setVisibility(View.GONE);
-        viewHolder.imageView.setVisibility(View.GONE);
-        viewHolder.videoView.setVisibility(View.GONE);
 
         if (parent.getSex().equals("1")) {
             viewHolder.imgUser.setVisibility(View.VISIBLE);
