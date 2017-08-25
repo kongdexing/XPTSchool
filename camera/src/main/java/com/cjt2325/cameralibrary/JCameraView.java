@@ -437,6 +437,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
      * start preview
      */
     public void onResume() {
+        Log.i(TAG, "onResume: ");
         CameraInterface.getInstance().registerSensorManager(mContext);
         CameraInterface.getInstance().setSwitchView(mSwitchCamera);
     }
@@ -647,6 +648,7 @@ public class JCameraView extends RelativeLayout implements CameraInterface.CamOp
     }
 
     public void openCamera() {
+        Log.i(TAG, "openCamera: ");
         toOpenCamera = true;
 
         if (!surfaceCreate) {
