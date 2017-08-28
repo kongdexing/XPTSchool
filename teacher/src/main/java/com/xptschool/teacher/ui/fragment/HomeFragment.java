@@ -140,7 +140,7 @@ public class HomeFragment extends BaseFragment {
 
     public void reloadTopFragment(List<BeanBanner> banners) {
         Log.i(TAG, "reloadTopFragment: " + banners.size());
-        if (topAdapter != null) {
+        if (topAdapter != null && banners.size() > 0) {
             topBanners = banners;
             BeanBanner banner = banners.get(0);
             if (banner != null) {
