@@ -74,7 +74,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         viewHolder.videoView.setVisibility(View.GONE);
 
         //判断是否为撤回
-        if (chat.getSendStatus() == ChatUtil.STATUS_REVOKE) {
+        if (chat.getSendStatus() == ChatUtil.STATUS_RECALL) {
             viewHolder.llRevert.setVisibility(View.VISIBLE);
             viewHolder.txtRevert.setText("\"" + teacher.getName() + "\"撤回了一条消息");
             return;

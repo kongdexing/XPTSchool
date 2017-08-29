@@ -436,7 +436,7 @@ public class ChatActivity extends ChatAppendixActivity {
             BeanChat chat = pageChatList.get(i);
             if (chat.getSendStatus() == ChatUtil.STATUS_SENDING || chat.getSendStatus() == ChatUtil.STATUS_RESENDING) {
                 chat.setSendStatus(ChatUtil.STATUS_FAILED);
-            } else if (chat.getSendStatus() == ChatUtil.STATUS_REVOKING) {
+            } else if (chat.getSendStatus() == ChatUtil.STATUS_RECALLING) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
             }
             pageChatList.set(i, chat);
@@ -604,12 +604,13 @@ public class ChatActivity extends ChatAppendixActivity {
                 Log.i(TAG, "MESSAGE_RECALL status: "+status);
 
                 if ("start".equals(status)) {
-                    chat.setSendStatus(ChatUtil.STATUS_REVOKING);
+                    chat.setSendStatus(ChatUtil.STATUS_RECALLING);
                 } else if ("success".equals(status)) {
-                    chat.setSendStatus(ChatUtil.STATUS_REVOKE);
+                    chat.setSendStatus(ChatUtil.STATUS_RECALL);
                 } else if ("failed".equals(status)) {
                     chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
                 }
+                //判断chat是否存在，不存在则新增一条
                 adapter.updateData(chat);
             }
         }

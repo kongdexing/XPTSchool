@@ -84,7 +84,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
         viewHolder.videoView.setVisibility(View.GONE);
 
         //判断是否为撤回
-        if (chat.getSendStatus() == ChatUtil.STATUS_REVOKE) {
+        if (chat.getSendStatus() == ChatUtil.STATUS_RECALL) {
             viewHolder.llRevert.setVisibility(View.VISIBLE);
 //            viewHolder.txtRevert.setText("");
             return;
@@ -115,7 +115,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 }
             });
         } else if (sendStatus == ChatUtil.STATUS_SENDING || sendStatus == ChatUtil.STATUS_RESENDING
-                || sendStatus == ChatUtil.STATUS_REVOKING) {
+                || sendStatus == ChatUtil.STATUS_RECALLING) {
             viewHolder.sendProgress.setVisibility(View.VISIBLE);
             viewHolder.llResend.setVisibility(View.GONE);
         } else {
@@ -276,27 +276,27 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
                                     @Override
                                     public void onResponse(VolleyHttpResult volleyHttpResult) {
-                                        Intent revertIntent = new Intent();
-                                        revertIntent.setAction(BroadcastAction.MESSAGE_RECALL);
-                                        revertIntent.putExtra("chatId", chat.getChatId());
+                                        Intent recallIntent = new Intent();
+                                        recallIntent.setAction(BroadcastAction.MESSAGE_RECALL);
+                                        recallIntent.putExtra("chatId", chat.getChatId());
                                         switch (volleyHttpResult.getStatus()) {
                                             case HttpAction.SUCCESS:
-                                                revertIntent.putExtra("status", "success");
+                                                recallIntent.putExtra("status", "success");
                                                 break;
                                             case HttpAction.FAILED:
-                                                revertIntent.putExtra("status", "failed");
+                                                recallIntent.putExtra("status", "failed");
                                                 break;
                                         }
-                                        XPTApplication.getInstance().sendBroadcast(revertIntent);
+                                        XPTApplication.getInstance().sendBroadcast(recallIntent);
                                     }
 
                                     @Override
                                     public void onErrorResponse(VolleyError volleyError) {
-                                        Intent revertIntent = new Intent();
-                                        revertIntent.putExtra("chatId", chat.getChatId());
-                                        revertIntent.putExtra("status", "failed");
-                                        revertIntent.setAction(BroadcastAction.MESSAGE_RECALL);
-                                        XPTApplication.getInstance().sendBroadcast(revertIntent);
+                                        Intent recallIntent = new Intent();
+                                        recallIntent.putExtra("chatId", chat.getChatId());
+                                        recallIntent.putExtra("status", "failed");
+                                        recallIntent.setAction(BroadcastAction.MESSAGE_RECALL);
+                                        XPTApplication.getInstance().sendBroadcast(recallIntent);
                                     }
                                 });
 
