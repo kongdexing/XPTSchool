@@ -59,6 +59,7 @@ public class DialogManager {
         mIcon = (ImageView) view.findViewById(R.id.id_recorder_dialog_icon);
         mVoice = (ImageView) view.findViewById(R.id.id_recorder_dialog_voice);
         mLable = (TextView) view.findViewById(R.id.id_recorder_dialog_label);
+        mDialog.setCancelable(false);
         mDialog.show();
     }
 

@@ -160,31 +160,21 @@ public class SocketService extends Service {
                     }
                 }
 
-                if (message.getType() == ChatUtil.TYPE_REVERT) {
-                    //发送消息类型为撤回的消息
-                    Log.i(TAG, "revert message: " + message.getFilename());
-                    Intent revertIntent = new Intent();
-                    revertIntent.putExtra("chatId", message.getId());
-                    revertIntent.setAction(BroadcastAction.MESSAGE_REVERT_SUCCESS);
-                    XPTApplication.getInstance().sendBroadcast(revertIntent);
-                    return;
-                } else {
-                    //发送聊天消息，发送成功接收返回的chatId
-                    outputStream.flush();
-                    mSocket.shutdownOutput();
+                //发送聊天消息，发送成功接收返回的chatId
+                outputStream.flush();
+                mSocket.shutdownOutput();
 
-                    inputStream = mSocket.getInputStream();
-                    byte[] buffer = new byte[10];
-                    while (inputStream.read(buffer) != -1) {
-                        try {
-                            String chatId = URLDecoder.decode(new String(buffer), "utf-8").trim();
-                            Log.i(TAG, "receive chatId utf-8: " + chatId.trim());
-                            intent.putExtra("chatId", chatId);
-                            // Send the obtained bytes to the UI Activity
-                        } catch (Exception e) {
-                            Log.i(TAG, "disconnected " + e.getMessage());
-                            break;
-                        }
+                inputStream = mSocket.getInputStream();
+                byte[] buffer = new byte[10];
+                while (inputStream.read(buffer) != -1) {
+                    try {
+                        String chatId = URLDecoder.decode(new String(buffer), "utf-8").trim();
+                        Log.i(TAG, "receive chatId utf-8: " + chatId.trim());
+                        intent.putExtra("chatId", chatId);
+                        // Send the obtained bytes to the UI Activity
+                    } catch (Exception e) {
+                        Log.i(TAG, "disconnected " + e.getMessage());
+                        break;
                     }
                 }
 

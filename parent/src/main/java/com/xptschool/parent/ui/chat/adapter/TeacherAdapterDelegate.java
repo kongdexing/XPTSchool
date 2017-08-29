@@ -28,7 +28,6 @@ import com.xptschool.parent.ui.chat.QuickAction.ActionItem;
 import com.xptschool.parent.ui.chat.QuickAction.ChatOptionView;
 import com.xptschool.parent.ui.chat.SoundPlayHelper;
 import com.xptschool.parent.util.ChatUtil;
-import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.util.List;
@@ -75,7 +74,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         viewHolder.videoView.setVisibility(View.GONE);
 
         //判断是否为撤回
-        if (chat.getSendStatus() == ChatUtil.STATUS_REVERT) {
+        if (chat.getSendStatus() == ChatUtil.STATUS_REVOKE) {
             viewHolder.llRevert.setVisibility(View.VISIBLE);
             viewHolder.txtRevert.setText("\"" + teacher.getName() + "\"撤回了一条消息");
             return;

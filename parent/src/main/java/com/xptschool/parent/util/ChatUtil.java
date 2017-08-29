@@ -27,9 +27,9 @@ public class ChatUtil {
     public static int STATUS_SENDING = 0;
     public static int STATUS_SUCCESS = 1;
     public static int STATUS_FAILED = 2;
-    public static int STATUS_REVERT = 3;
+    public static int STATUS_REVOKE = 3;
     public static int STATUS_RESENDING = 4;
-
+    public static int STATUS_REVOKING = 5;
 
     public static char TYPE_TEXT = '0'; //0文字，1文件，2语音，3视频 ,4撤回
     public static char TYPE_FILE = '1';
