@@ -79,4 +79,8 @@ public class HttpAction {
     public static String FORGOT_PWD_STEP3 = HEAD + "ForgetPwd/checkCode";
     public static String FORGOT_PWD_STEP4 = HEAD + "ForgetPwd/PasswordReset";
 
+    //消息撤回
+    public static String MESSAGE_RECALL = HEAD + "Telephone/recallMsg";
+    public static String MESSAGE_RECALL_SHOW = HEAD + "Telephone/recallMsgShow";
+
 }

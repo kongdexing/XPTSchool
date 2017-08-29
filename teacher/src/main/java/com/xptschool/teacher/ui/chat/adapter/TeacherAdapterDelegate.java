@@ -17,12 +17,18 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.common.VolleyHttpParamsEntity;
+import com.android.volley.common.VolleyHttpResult;
+import com.android.volley.common.VolleyHttpService;
+import com.android.volley.common.VolleyRequestListener;
 import com.android.widget.audiorecorder.MediaPlayerManager;
 import com.android.widget.view.CircularImageView;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
 import com.xptschool.teacher.common.CommonUtil;
+import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -80,7 +86,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         viewHolder.videoView.setVisibility(View.GONE);
 
         //判断是否为撤回
-        if (chat.getSendStatus() == ChatUtil.STATUS_REVERT) {
+        if (chat.getSendStatus() == ChatUtil.STATUS_RECALL) {
             viewHolder.llRevert.setVisibility(View.VISIBLE);
 //            viewHolder.txtRevert.setText("");
             return;
@@ -110,7 +116,8 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                     }
                 }
             });
-        } else if (sendStatus == ChatUtil.STATUS_SENDING || sendStatus == ChatUtil.STATUS_RESENDING) {
+        } else if (sendStatus == ChatUtil.STATUS_SENDING || sendStatus == ChatUtil.STATUS_RESENDING
+                || sendStatus == ChatUtil.STATUS_RECALLING) {
             viewHolder.sendProgress.setVisibility(View.VISIBLE);
             viewHolder.llResend.setVisibility(View.GONE);
         } else if (sendStatus == ChatUtil.STATUS_SUCCESS) {
@@ -258,12 +265,45 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                         ToastUtils.showToast(mContext, "revert " + chat.getMsgId());
                         chatPopup.dismiss();
 
-                        ToSendMessage message = new ToSendMessage();
-                        message.setType(ChatUtil.TYPE_REVERT);
-                        message.setId(chat.getChatId());
-                        message.setFilename(chat.getMsgId());
-                        message.setAllData(message.packData(""));
-                        ServerManager.getInstance().sendMessage(message);
+                        //发起http请求
+                        VolleyHttpService.getInstance().sendPostRequest(HttpAction.MESSAGE_RECALL,
+                                new VolleyHttpParamsEntity()
+                                        .addParam("chatid", chat.getMsgId()), new VolleyRequestListener() {
+                                    @Override
+                                    public void onStart() {
+                                        Intent intent = new Intent();
+                                        intent.putExtra("chatId", chat.getChatId());
+                                        intent.putExtra("status", "start");
+                                        intent.setAction(BroadcastAction.MESSAGE_RECALL);
+                                        XPTApplication.getInstance().sendBroadcast(intent);
+                                    }
+
+                                    @Override
+                                    public void onResponse(VolleyHttpResult volleyHttpResult) {
+                                        Intent revertIntent = new Intent();
+                                        revertIntent.setAction(BroadcastAction.MESSAGE_RECALL);
+                                        revertIntent.putExtra("chatId", chat.getChatId());
+                                        switch (volleyHttpResult.getStatus()) {
+                                            case HttpAction.SUCCESS:
+                                                revertIntent.putExtra("status", "success");
+                                                break;
+                                            case HttpAction.FAILED:
+                                                revertIntent.putExtra("status", "failed");
+                                                break;
+                                        }
+                                        XPTApplication.getInstance().sendBroadcast(revertIntent);
+                                    }
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError volleyError) {
+                                        Intent revertIntent = new Intent();
+                                        revertIntent.putExtra("chatId", chat.getChatId());
+                                        revertIntent.putExtra("status", "failed");
+                                        revertIntent.setAction(BroadcastAction.MESSAGE_RECALL);
+                                        XPTApplication.getInstance().sendBroadcast(revertIntent);
+                                    }
+                                });
+
                     }
                 });
                 //两分钟之内发送的消息，添加撤回按钮

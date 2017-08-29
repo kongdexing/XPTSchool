@@ -114,7 +114,7 @@ public class ChatActivity extends ChatAppendixActivity {
         filter.addAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
         filter.addAction(BroadcastAction.MESSAGE_SEND_FAILED);
         filter.addAction(BroadcastAction.MESSAGE_DELETE_SUCCESS);
-        filter.addAction(BroadcastAction.MESSAGE_REVERT_SUCCESS);
+        filter.addAction(BroadcastAction.MESSAGE_RECALL);
         this.registerReceiver(messageReceiver, filter);
 
     }
@@ -312,6 +312,8 @@ public class ChatActivity extends ChatAppendixActivity {
             BeanChat chat = pageChatList.get(i);
             if (chat.getSendStatus() == ChatUtil.STATUS_SENDING || chat.getSendStatus() == ChatUtil.STATUS_RESENDING) {
                 chat.setSendStatus(ChatUtil.STATUS_FAILED);
+            } else if (chat.getSendStatus() == ChatUtil.STATUS_RECALLING) {
+                chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
             }
             pageChatList.set(i, chat);
             chats.add(chat);
@@ -548,14 +550,24 @@ public class ChatActivity extends ChatAppendixActivity {
                 } catch (Exception ex) {
                     Log.i(TAG, "MESSAGE_DELETE_SUCCESS error: " + ex.getMessage());
                 }
-            } else if (action.equals(BroadcastAction.MESSAGE_REVERT_SUCCESS)) {
+            } else if (action.equals(BroadcastAction.MESSAGE_RECALL)) {
                 String chatId = bundle.getString("chatId");
                 chat = GreenDaoHelper.getInstance().getChatByChatId(chatId);
                 if (chat == null || chat.getChatId() == null) {
-                    Log.i(TAG, "onReceive: MESSAGE_REVERT_SUCCESS chat is null");
+                    Log.i(TAG, "onReceive: MESSAGE_RECALL chat is null chatId " + chatId);
                     return;
                 }
-                chat.setSendStatus(ChatUtil.STATUS_REVERT);
+
+                String status = bundle.getString("status");
+                Log.i(TAG, "MESSAGE_RECALL status: " + status);
+
+                if ("start".equals(status)) {
+                    chat.setSendStatus(ChatUtil.STATUS_RECALLING);
+                } else if ("success".equals(status)) {
+                    chat.setSendStatus(ChatUtil.STATUS_RECALL);
+                } else if ("failed".equals(status)) {
+                    chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                }
                 adapter.updateData(chat);
             }
         }
