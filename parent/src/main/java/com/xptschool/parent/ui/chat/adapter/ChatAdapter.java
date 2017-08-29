@@ -74,11 +74,12 @@ public class ChatAdapter extends RecyclerView.Adapter {
         if (listChat.size() == 0) {
             listChat = chats;
         } else {
-            List<BeanChat> newList = new ArrayList<BeanChat>();
-            for (Iterator<BeanChat> it = chats.iterator(); it.hasNext(); ) {
-                newList.add(it.next());
-            }
-            listChat.addAll(0, newList);
+//            List<BeanChat> newList = new ArrayList<BeanChat>();
+//            for (Iterator<BeanChat> it = chats.iterator(); it.hasNext(); ) {
+//                newList.add(it.next());
+//            }
+//            listChat.addAll(0, newList);
+            listChat.addAll(chats);
         }
         notifyDataSetChanged();
     }
@@ -86,8 +87,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
     //  添加数据
     public void addData(BeanChat chat) {
         Log.i(TAG, "addData: " + chat.getChatId());
-        listChat.add(listChat.size(), chat);
-        notifyItemInserted(listChat.size());
+        listChat.add(0, chat);
+        notifyItemInserted(0);
     }
 
     private boolean isExist(String chatId) {
