@@ -21,8 +21,8 @@ import java.io.Serializable;
 public class BeanChat implements Serializable {
 
     @Id
-    private String chatId;
-    private String msgId;
+    private String chatId;  //为发送方消息时，代表UUID；为接收方消息时，为服务器数据库中的chatId；
+    private String msgId;   //服务器中chatId
     private String type;
     private int size;
     private String parentId;

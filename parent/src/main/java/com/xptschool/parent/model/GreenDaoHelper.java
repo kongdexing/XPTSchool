@@ -243,7 +243,7 @@ public class GreenDaoHelper {
             chats = readDaoSession.getBeanChatDao().queryBuilder()
                     .where(BeanChatDao.Properties.TeacherId.eq(teacherId),
                             BeanChatDao.Properties.ParentId.eq(currentParent == null ? "" : currentParent.getU_id()))
-                    .orderDesc(BeanChatDao.Properties.Time)
+                    .orderDesc(BeanChatDao.Properties.MsgId)
                     .offset(offset)
                     .limit(15).list();
         }

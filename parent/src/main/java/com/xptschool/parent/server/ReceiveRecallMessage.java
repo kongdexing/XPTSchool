@@ -55,6 +55,7 @@ public class ReceiveRecallMessage {
                                         JSONObject object = array.getJSONObject(i);
                                         BeanChat chat = new BeanChat();
                                         chat.setChatId(object.getString("chatid"));
+                                        chat.setMsgId(object.getString("chatid"));
                                         chat.setTeacherId(object.getString("sender_id"));
                                         chat.setParentId(parent.getU_id());
                                         chat.setSendStatus(ChatUtil.STATUS_RECALL);
