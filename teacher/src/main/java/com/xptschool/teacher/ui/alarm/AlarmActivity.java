@@ -210,7 +210,8 @@ public class AlarmActivity extends BaseListActivity {
                                     recycleView.notifyMoreFinish(resultPage.getTotal_page() > resultPage.getPage());
 
                                 } catch (Exception ex) {
-                                    llCheckTitle.setVisibility(View.GONE);
+                                    if (llCheckTitle != null)
+                                        llCheckTitle.setVisibility(View.GONE);
                                     Toast.makeText(AlarmActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
