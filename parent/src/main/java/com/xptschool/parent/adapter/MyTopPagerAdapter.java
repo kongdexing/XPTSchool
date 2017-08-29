@@ -46,7 +46,6 @@ public class MyTopPagerAdapter extends PagerAdapter {
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getCount() {
         return beanBanners.size();

@@ -145,7 +145,7 @@ public class NgnNetworkService  extends NgnBaseService implements INgnNetworkSer
 	@Override
 	public boolean start() {
 		Log.i(TAG, "Starting...");
-		mWifiManager = (WifiManager) NgnApplication.getContext().getSystemService(Context.WIFI_SERVICE);
+		mWifiManager = (WifiManager) NgnApplication.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
 		if(mWifiManager == null){
 			Log.e(TAG, "WiFi manager is Null");

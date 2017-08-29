@@ -264,8 +264,8 @@
 
 ##huawei push
 -keep class com.huawei.android.pushagent.**{*;}
--keep class com.huawei.android. pushselfshow.**{*;}
--keep class com.huawei.android. microkernel.**{*;}
+##-keep class com.huawei.android. pushselfshow.**{*;}
+##-keep class com.huawei.android. microkernel.**{*;}
 -keep class com.baidu.mapapi.**{*;}
 -keep class com.huawei.hms.**{*;}
 
