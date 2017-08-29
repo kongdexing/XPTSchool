@@ -88,7 +88,20 @@ public class ChatAdapter extends RecyclerView.Adapter {
         notifyItemInserted(listChat.size());
     }
 
+    private boolean isExist(String chatId) {
+        for (int i = 0; i < listChat.size(); i++) {
+            if (listChat.get(i).getChatId().equals(chatId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void updateData(BeanChat chat) {
+        if (!isExist(chat.getChatId())) {
+            addData(chat);
+            return;
+        }
         GreenDaoHelper.getInstance().updateChat(chat);
         for (int i = 0; i < listChat.size(); i++) {
             if (listChat.get(i).getChatId().equals(chat.getChatId())) {

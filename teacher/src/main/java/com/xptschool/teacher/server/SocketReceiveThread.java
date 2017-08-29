@@ -113,6 +113,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                 byte[] b_chatid = new byte[4];
                 if (mmInStream.read(b_chatid) != -1) {
                     chat.setChatId(ChatUtil.byteArray2Int(b_chatid) + "");
+                    chat.setMsgId(chat.getChatId());
                     Log.i(TAG, "b_chatid:" + chat.getChatId());
                 }
                 //判断chatID是否存在，存在则
