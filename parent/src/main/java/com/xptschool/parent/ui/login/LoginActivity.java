@@ -25,7 +25,9 @@ import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.push.DeviceHelper;
+import com.xptschool.parent.ui.chat.ChatActivity;
 import com.xptschool.parent.ui.main.MainActivity;
+import com.xptschool.parent.util.ChatUtil;
 import com.xptschool.parent.util.ToastUtils;
 
 import butterknife.BindView;
@@ -161,6 +163,7 @@ public class LoginActivity extends BaseLoginActivity implements HuaweiApiClient.
 
                 if ((!TextUtils.isEmpty(account)) && (!TextUtils.isEmpty(password))) {
                     btnLogin.setEnabled(false);
+                    ChatUtil.hideInputWindow(LoginActivity.this, btnLogin);
                     login(account, password);
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.error_empty_login, Toast.LENGTH_SHORT).show();
