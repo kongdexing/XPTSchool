@@ -213,7 +213,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                     chatPopup.dismiss();
 
                     Intent intent = new Intent();
-                    intent.putExtra("message", chat.getChatId());
+                    intent.putExtra("chatId", chat.getChatId());
                     intent.setAction(BroadcastAction.MESSAGE_DELETE_SUCCESS);
                     XPTApplication.getInstance().sendBroadcast(intent);
                 }
