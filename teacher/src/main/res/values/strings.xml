@@ -60,6 +60,7 @@
     <string name="label_starttime">布置时间：</string>
     <string name="label_time">时间：</string>
     <string name="label_endtime">完成时间：</string>
+    <string name="label_hint_endtime">点击选择完成时间</string>
     <string name="label_homework_title">作业名称：</string>
     <string name="label_homework_title_option">作业名称：%1$s</string>
     <string name="label_leave_starttime">请假时间：</string>
