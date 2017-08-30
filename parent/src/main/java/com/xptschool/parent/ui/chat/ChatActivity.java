@@ -153,6 +153,7 @@ public class ChatActivity extends ChatAppendixActivity {
                     return;
                 }
                 getChatList();
+                recycleView.smoothScrollBy(0, -200);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
