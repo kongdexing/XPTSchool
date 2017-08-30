@@ -79,7 +79,7 @@ public class PocketDetailActivity extends BaseListActivity {
             @Override
             public void onStart() {
                 super.onStart();
-                if (swipeRefreshLayout != null) {
+                if (swipeRefreshLayout != null && resultPage.getPage() == 1) {
                     swipeRefreshLayout.setRefreshing(true);
                 }
             }
@@ -87,7 +87,7 @@ public class PocketDetailActivity extends BaseListActivity {
             @Override
             public void onResponse(VolleyHttpResult volleyHttpResult) {
                 super.onResponse(volleyHttpResult);
-                if (swipeRefreshLayout != null) {
+                if (swipeRefreshLayout != null && resultPage.getPage() == 1) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 switch (volleyHttpResult.getStatus()) {
@@ -134,7 +134,7 @@ public class PocketDetailActivity extends BaseListActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 super.onErrorResponse(volleyError);
-                if (swipeRefreshLayout != null) {
+                if (swipeRefreshLayout != null && resultPage.getPage() == 1) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }

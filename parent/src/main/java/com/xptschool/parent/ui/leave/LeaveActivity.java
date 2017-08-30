@@ -193,7 +193,7 @@ public class LeaveActivity extends BaseListActivity {
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
-                        if (swipe_refresh_widget != null) {
+                        if (swipe_refresh_widget != null && resultPage.getPage() == 1) {
                             swipe_refresh_widget.setRefreshing(true);
                         }
                     }
@@ -201,7 +201,7 @@ public class LeaveActivity extends BaseListActivity {
                     @Override
                     public void onResponse(VolleyHttpResult httpResult) {
                         super.onResponse(httpResult);
-                        if (swipe_refresh_widget != null) {
+                        if (swipe_refresh_widget != null && resultPage.getPage() == 1) {
                             swipe_refresh_widget.setRefreshing(false);
                         }
                         switch (httpResult.getStatus()) {
@@ -247,7 +247,7 @@ public class LeaveActivity extends BaseListActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         super.onErrorResponse(error);
-                        if (swipe_refresh_widget != null) {
+                        if (swipe_refresh_widget != null && resultPage.getPage() == 1) {
                             swipe_refresh_widget.setRefreshing(false);
                         }
                     }

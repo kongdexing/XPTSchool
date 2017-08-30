@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_10"
                 android:gravity="center"
-                android:text="点钟"
+                android:text="HH"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/sp_14" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_10"
                 android:gravity="center"
-                android:text="分钟"
+                android:text="mm"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/sp_14" />
 
