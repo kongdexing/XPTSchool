@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.cardset;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -61,7 +62,7 @@ public class CardWhiteListActivity extends CardSetBaseActivity implements View.O
         btnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_bg_normal));
         btnSubmit.setText(R.string.btn_confirm);
         btnSubmit.setTextColor(getResources().getColor(R.color.colorWhite));
-        btnSubmit.setTextSize(16);
+        btnSubmit.setTextSize(TypedValue.COMPLEX_UNIT_PX, (int) getResources().getDimension(R.dimen.sp_14));
         btnSubmit.setOnClickListener(this);
 
         llContent = new LinearLayout(this);

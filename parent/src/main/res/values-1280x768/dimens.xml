@@ -41,16 +41,16 @@
 
     <dimen name="sp_10">8sp</dimen>
     <dimen name="sp_12">10sp</dimen>
-    <dimen name="sp_13">12dp</dimen>
-    <dimen name="sp_14">12dp</dimen>
-    <dimen name="sp_15">13dp</dimen>
-    <dimen name="sp_16">14dp</dimen>
-    <dimen name="sp_18">16dp</dimen>
-    <dimen name="sp_20">18dp</dimen>
-    <dimen name="sp_22">20dp</dimen>
-    <dimen name="sp_24">22dp</dimen>
-    <dimen name="sp_26">24dp</dimen>
-    <dimen name="sp_30">28dp</dimen>
+    <dimen name="sp_13">12sp</dimen>
+    <dimen name="sp_14">12sp</dimen>
+    <dimen name="sp_15">13sp</dimen>
+    <dimen name="sp_16">14sp</dimen>
+    <dimen name="sp_18">16sp</dimen>
+    <dimen name="sp_20">18sp</dimen>
+    <dimen name="sp_22">20sp</dimen>
+    <dimen name="sp_24">22sp</dimen>
+    <dimen name="sp_26">24sp</dimen>
+    <dimen name="sp_30">28sp</dimen>
 
     <item format="float" name="sp_int_10" type="dimen">8</item>
     <item format="float" name="sp_int_12" type="dimen">10</item>
