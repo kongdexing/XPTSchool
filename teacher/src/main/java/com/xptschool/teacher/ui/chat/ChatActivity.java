@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -86,7 +87,6 @@ public class ChatActivity extends ChatAppendixActivity {
     private BeanTeacher currentTeacher;
     private boolean isInputWindowShow = false;
     private boolean showAttachment = false;
-    private List<BeanChat> pageChatList;
     private int currentOffset = 0, localDataCount = 0;
 
     @Override
@@ -123,6 +123,9 @@ public class ChatActivity extends ChatAppendixActivity {
         ChatUtil.showInputWindow(ChatActivity.this, edtContent);
 
         initRecyclerView(recycleView, swipeRefreshLayout);
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recycleView.getLayoutManager();
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setReverseLayout(true);
 
         adapter = new ChatAdapter(this);
         adapter.setCurrentParent(parent);
@@ -135,14 +138,14 @@ public class ChatActivity extends ChatAppendixActivity {
                     swipeRefreshLayout.setRefreshing(false);
                     return;
                 }
-                getChatList(false);
+                getChatList();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
         localDataCount = GreenDaoHelper.getInstance().getChatsByParentId(parent.getUser_id()).size();
         Log.i(TAG, "initView: localDataCount " + localDataCount);
-        getChatList(true);
+        getChatList();
 
         mAudioRecorderButton.setAudioRecorderCallBack(new AudioRecorderButton.AudioRecorderCallBack() {
 
@@ -250,7 +253,6 @@ public class ChatActivity extends ChatAppendixActivity {
                 if (diff > 400) {
                     //键盘弹起
                     isInputWindowShow = true;
-                    smoothBottom();
                     if (showAttachment) {
 
                     } else {
@@ -302,34 +304,23 @@ public class ChatActivity extends ChatAppendixActivity {
         CommonUtil.goAppDetailSettingIntent(this);
     }
 
-    private void getChatList(boolean toLast) {
-        pageChatList = GreenDaoHelper.getInstance().getPageChatsByParentId(parent.getUser_id(), currentOffset);
+    private void getChatList() {
+        List<BeanChat> pageChatList = GreenDaoHelper.getInstance().getPageChatsByParentId(parent.getUser_id(), currentOffset);
         if (pageChatList.size() == 0) {
             return;
         }
         List<BeanChat> chats = new ArrayList<>();
-        for (int i = pageChatList.size() - 1; i > -1; i--) {
+        for (int i = 0; i < pageChatList.size(); i++) {
             BeanChat chat = pageChatList.get(i);
             if (chat.getSendStatus() == ChatUtil.STATUS_SENDING || chat.getSendStatus() == ChatUtil.STATUS_RESENDING) {
                 chat.setSendStatus(ChatUtil.STATUS_FAILED);
             } else if (chat.getSendStatus() == ChatUtil.STATUS_RECALLING) {
                 chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
             }
-            pageChatList.set(i, chat);
             chats.add(chat);
         }
         adapter.appendData(chats);
         currentOffset = adapter.getItemCount();
-        if (toLast) {
-            smoothBottom();
-        } else {
-            int position = pageChatList.size() - 1;
-            View topView = getLayoutManager().getChildAt(position);          //获取可视的第一个view
-            if (topView != null) {
-                int topY = topView.getTop();
-                recycleView.smoothScrollBy(0, topY);
-            }
-        }
     }
 
     @OnClick({R.id.id_recorder_button, R.id.imgVoiceOrText, R.id.btnSend, R.id.imgPlus, R.id.edtContent,
@@ -392,7 +383,6 @@ public class ChatActivity extends ChatAppendixActivity {
                 }
                 break;
             case R.id.imgPlus:
-                smoothBottom();
                 showAttachment = llAttachment.getVisibility() == View.VISIBLE ? false : true;
                 Log.i(TAG, "viewClick: imgPlus showAttachment " + showAttachment);
                 ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
@@ -478,14 +468,14 @@ public class ChatActivity extends ChatAppendixActivity {
         //判断是否为当前正在聊天家长发来的信息
         if (chat.getParentId().equals(parent.getUser_id())) {
             adapter.addData(chat);
-            recycleView.smoothScrollToPosition(adapter.getItemCount());
+            recycleView.smoothScrollToPosition(0);
         } else {
             super.showMessageNotify(true, chat);
         }
     }
 
     private void smoothBottom() {
-        recycleView.smoothScrollToPosition(adapter.getItemCount());
+        recycleView.smoothScrollToPosition(0);
     }
 
     public BroadcastReceiver messageReceiver = new BroadcastReceiver() {
