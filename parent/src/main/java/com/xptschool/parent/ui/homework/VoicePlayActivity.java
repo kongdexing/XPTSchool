@@ -41,9 +41,11 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
     TextView txtProgress;
     //是否开始播放标志
     private boolean isPlaying = false;
+    private boolean isPaused = false;
     //记录播放时间
     private float mPlayTime;
     public String localAmrFile = null;
+    private int MaxLength = 120;
     //播放录音
     private static final int MSG_VOICE_PLAY = 0x113;
 
@@ -89,10 +91,13 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
     void viewOnClick(View view) {
         switch (view.getId()) {
             case R.id.imgVoice:
-                if (VoiceStatus == Voice_Play) {
+                Log.i(TAG, "viewOnClick isPaused: " + isPaused);
+                if (!isPlaying) {
                     onPlayVoice();
-                } else if (VoiceStatus == Voice_Stop) {
-                    onStopPlay();
+                } else if (!isPaused) {
+                    onPausePlay();
+                } else {
+                    onResumePlay();
                 }
                 break;
         }
@@ -100,8 +105,10 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
 
     @Override
     public void onPlayVoice() {
+        Log.i(TAG, "onPlayVoice: ");
         if (VoiceStatus == Voice_Play) {
             isPlaying = true;
+            isPaused = false;
             mPlayTime = 0;
             new Thread(playVoiceRunnable).start();
             //播放录音
@@ -111,6 +118,7 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
                     //播放完成后改为播放状态
                     setImgMicStatus(Voice_Play);
                     isPlaying = false;
+                    isPaused = false;
                     if (voiceBar != null) {
                         initProgress((int) voiceBar.getMax(), (int) voiceBar.getMax());
                     }
@@ -122,19 +130,33 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
     }
 
     @Override
-    public void onStopPlay() {
+    public void onPausePlay() {
+        Log.i(TAG, "onPausePlay: ");
         if (VoiceStatus == Voice_Stop) {
             MediaPlayerManager.pause();
-            isPlaying = false;
+            isPaused = true;
             //改为播放状态
             setImgMicStatus(Voice_Play);
+        }
+    }
+
+    @Override
+    public void onResumePlay() {
+        Log.i(TAG, "onResumePlay: ");
+        if (VoiceStatus == Voice_Play) {
+            isPlaying = true;
+            isPaused = false;
+            new Thread(playVoiceRunnable).start();
+            MediaPlayerManager.resume();
+            //改为暂停状态
+            setImgMicStatus(Voice_Stop);
         }
     }
 
     private Runnable playVoiceRunnable = new Runnable() {
 
         public void run() {
-            while (isPlaying) {
+            while (isPlaying && !isPaused) {
                 try {
                     Thread.sleep(100);
                     mPlayTime += 0.1f;//录音时间计算
@@ -205,7 +227,7 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
                     imgVoice.setEnabled(true);
                 }
                 txtProgress.setText(duration + "\"");
-                initProgress(duration, 0);
+                initProgress(duration, duration);
                 setImgMicStatus(Voice_Play);
 
 //                Log.i(TAG, "completed: " + task.getPath() + " " + task.getTargetFilePath());
@@ -254,12 +276,12 @@ public class VoicePlayActivity extends AlbumActivity implements VoicePlayListene
         } catch (Exception ex) {
 
         }
-        return duration > 120 ? 120 : duration;
+        return duration > MaxLength ? MaxLength : duration;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        onStopPlay();
+        onPausePlay();
     }
 }

@@ -486,7 +486,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                 int duration = getAmrDuration(task.getPath());
                 txtProgress.setText(duration + "\"");
                 maxLength = duration;
-                initProgress(0);
+                initProgress(maxLength);
                 setImgMicStatus(Voice_Play);
             }
 
