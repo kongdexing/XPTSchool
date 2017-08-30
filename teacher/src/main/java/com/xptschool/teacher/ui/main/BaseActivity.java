@@ -122,7 +122,12 @@ public class BaseActivity extends AppCompatActivity {
 
     public void setTxtRight(String str) {
         if (txtRight != null) {
-            txtRight.setText(str);
+            if (str == null || str.isEmpty()) {
+                txtRight.setVisibility(View.GONE);
+            } else {
+                txtRight.setVisibility(View.VISIBLE);
+                txtRight.setText(str);
+            }
         }
     }
 
