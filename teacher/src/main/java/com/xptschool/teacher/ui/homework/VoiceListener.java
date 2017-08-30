@@ -13,6 +13,8 @@ public interface VoiceListener {
 
     void onPlayVoice();
 
-    void onStopPlay();
+    void onPausePlay();
+
+    void onResumePlay();
 
 }

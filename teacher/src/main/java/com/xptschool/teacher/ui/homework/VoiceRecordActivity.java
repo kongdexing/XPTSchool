@@ -74,6 +74,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     private boolean isRecording = false;
     //是否开始播放标志
     private boolean isPlaying = false;
+    private boolean isPaused = false;
     //记录录音时间
     private float mTime;
     //记录播放时间
@@ -122,7 +123,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         if (VoiceStatus == Voice_Recording) {
             onStopRecording();
         } else if (VoiceStatus == Voice_Stop) {
-            onStopPlay();
+            onPausePlay();
             initProgress(0);
         } else {
 
@@ -134,7 +135,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         if (VoiceStatus == Voice_Recording) {
             onStopRecording();
         } else if (VoiceStatus == Voice_Stop) {
-            onStopPlay();
+            onPausePlay();
         }
     }
 
@@ -216,38 +217,6 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         }
     };
 
-    private void resetUnRecord() {
-        setImgMicStatus(Voice_UnRecord);
-        initProgress(0);
-        imgDelete.setVisibility(View.GONE);
-        txtProgress.setVisibility(View.GONE);
-        reset();
-    }
-
-    private Runnable mGetVoiceLevelRunnable = new Runnable() {
-
-        public void run() {
-            while (isRecording) {//判断正在录音
-                try {
-                    Thread.sleep(100);
-                    mTime += 0.1f;//录音时间计算
-                    mHandler.sendEmptyMessage(MSG_VOICE_CHANGED);//每0.1秒发送消息
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            while (isPlaying) {
-                try {
-                    Thread.sleep(100);
-                    mPlayTime += 0.1f;//录音时间计算
-                    mHandler.sendEmptyMessage(MSG_VOICE_PLAY);//每0.1秒发送消息
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    };
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -273,12 +242,14 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
 //            VoiceRecordActivityPermissionsDispatcher.onStartRecordingWithCheck(this);
         } else if (VoiceStatus == Voice_Recording) {
             onStopRecording();
-        } else if (VoiceStatus == Voice_Play) {
+        } else if (!isPlaying) {
             //play voice
             onPlayVoice();
-        } else if (VoiceStatus == Voice_Stop) {
-            //stop play
-            onStopPlay();
+        } else if (!isPaused) {
+            //pause play
+            onPausePlay();
+        } else {
+            onResumePlay();
         }
     }
 
@@ -356,8 +327,9 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     public void onPlayVoice() {
         //开始播放动画
         isPlaying = true;
+        isPaused = false;
         mPlayTime = 0;
-        new Thread(mGetVoiceLevelRunnable).start();
+        new Thread(playVoiceRunnable).start();
         String filePath = mAudioManager.getCurrentFilePath();
         if (filePath == null) {
             filePath = localAmrFile;
@@ -368,6 +340,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         MediaPlayerManager.playSound(filePath, new MediaPlayer.OnCompletionListener() {
 
             public void onCompletion(MediaPlayer mp) {
+                Log.i(TAG, "onCompletion: ");
                 //播放完成后改为播放状态
                 setImgMicStatus(Voice_Play);
                 reset();
@@ -380,13 +353,26 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     }
 
     @Override
-    public void onStopPlay() {
+    public void onPausePlay() {
         if (VoiceStatus == Voice_Stop) {
-            Log.i(TAG, "onStopPlay: ");
+            Log.i(TAG, "onPausePlay: ");
             MediaPlayerManager.pause();
-            isPlaying = false;
+            isPaused = true;
             //改为播放状态
             setImgMicStatus(Voice_Play);
+        }
+    }
+
+    @Override
+    public void onResumePlay() {
+        Log.i(TAG, "onResumePlay: ");
+        if (VoiceStatus == Voice_Play) {
+            isPlaying = true;
+            isPaused = false;
+            new Thread(playVoiceRunnable).start();
+            MediaPlayerManager.resume();
+            //鏀逛负鏆傚仠鐘舵€
+            setImgMicStatus(Voice_Stop);
         }
     }
 
@@ -406,13 +392,51 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
         imgDelete.setVisibility(View.GONE);
         txtProgress.setVisibility(View.GONE);
         if (VoiceStatus == Voice_Stop) {
-            onStopPlay();
+            onPausePlay();
         }
         reset();
         maxLength = MaxLength;
         initProgress(0);
         setImgMicStatus(Voice_UnRecord);
     }
+
+    private void resetUnRecord() {
+        setImgMicStatus(Voice_UnRecord);
+        initProgress(0);
+        imgDelete.setVisibility(View.GONE);
+        txtProgress.setVisibility(View.GONE);
+        reset();
+    }
+
+    private Runnable mGetVoiceLevelRunnable = new Runnable() {
+
+        public void run() {
+            while (isRecording) {//判断正在录音
+                try {
+                    Thread.sleep(100);
+                    mTime += 0.1f;//录音时间计算
+                    mHandler.sendEmptyMessage(MSG_VOICE_CHANGED);//每0.1秒发送消息
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+    private Runnable playVoiceRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (isPlaying && !isPaused) {
+                try {
+                    Thread.sleep(100);
+                    mPlayTime += 0.1f;//录音时间计算
+                    mHandler.sendEmptyMessage(MSG_VOICE_PLAY);//每0.1秒发送消息
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     private void stopRecord() {
         Log.i(TAG, "stopRecord: ");
@@ -422,6 +446,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     private void reset() {
         Log.i(TAG, "reset: ");
         isRecording = false;
+        isPaused = false;
         mTime = 0;
         isPlaying = false;
     }
@@ -445,7 +470,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     protected void onPause() {
         super.onPause();
         onStopRecording();
-        onStopPlay();
+        onPausePlay();
     }
 
     public FileDownloadListener createListener() {

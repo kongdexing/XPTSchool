@@ -1,6 +1,6 @@
 package com.android.widget.audiorecorder;
 
-import android.media.MediaPlayer;
+import android.media.*;
 
 /**
  * @param
