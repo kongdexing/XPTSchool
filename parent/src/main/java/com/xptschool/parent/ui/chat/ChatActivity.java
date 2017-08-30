@@ -443,10 +443,8 @@ public class ChatActivity extends ChatAppendixActivity {
             }
             chats.add(chat);
         }
-
         adapter.appendData(chats);
         currentOffset = adapter.getItemCount();
-
     }
 
     /**
@@ -517,6 +515,7 @@ public class ChatActivity extends ChatAppendixActivity {
         //判断是否为当前正在聊天老师发来的信息
         if (chat.getTeacherId().equals(teacher.getU_id())) {
             adapter.addData(chat);
+            recycleView.smoothScrollToPosition(0);
         } else {
             super.showMessageNotify(true, chat);
         }

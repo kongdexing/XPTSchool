@@ -74,11 +74,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
         if (listChat.size() == 0) {
             listChat = chats;
         } else {
-//            List<BeanChat> newList = new ArrayList<BeanChat>();
-//            for (Iterator<BeanChat> it = chats.iterator(); it.hasNext(); ) {
-//                newList.add(it.next());
-//            }
-//            listChat.addAll(0, newList);
             listChat.addAll(chats);
         }
         notifyDataSetChanged();
