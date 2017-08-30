@@ -223,7 +223,7 @@ public class HomeWorkActivity extends BaseListActivity {
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
-                        if (swipeRefreshLayout != null) {
+                        if (swipeRefreshLayout != null && resultPage.getPage() == 1) {
                             swipeRefreshLayout.setRefreshing(true);
                         }
                     }
@@ -231,7 +231,7 @@ public class HomeWorkActivity extends BaseListActivity {
                     @Override
                     public void onResponse(VolleyHttpResult httpResult) {
                         super.onResponse(httpResult);
-                        if (swipeRefreshLayout != null) {
+                        if (swipeRefreshLayout != null && resultPage.getPage() == 1) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         switch (httpResult.getStatus()) {
@@ -279,7 +279,7 @@ public class HomeWorkActivity extends BaseListActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         super.onErrorResponse(error);
-                        if (swipeRefreshLayout != null) {
+                        if (swipeRefreshLayout != null && resultPage.getPage() == 1) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                     }

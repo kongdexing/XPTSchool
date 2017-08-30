@@ -172,7 +172,7 @@ public class CheckinActivity extends BaseListActivity {
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
-                        if (swipeRefresh != null) {
+                        if (swipeRefresh != null && resultPage.getPage() == 1) {
                             swipeRefresh.setRefreshing(true);
                         }
                     }
@@ -180,7 +180,7 @@ public class CheckinActivity extends BaseListActivity {
                     @Override
                     public void onResponse(VolleyHttpResult httpResult) {
                         super.onResponse(httpResult);
-                        if (swipeRefresh != null) {
+                        if (swipeRefresh != null && resultPage.getPage() == 1) {
                             swipeRefresh.setRefreshing(false);
                         }
                         switch (httpResult.getStatus()) {
@@ -229,7 +229,7 @@ public class CheckinActivity extends BaseListActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         super.onErrorResponse(error);
-                        if (swipeRefresh != null) {
+                        if (swipeRefresh != null && resultPage.getPage() == 1) {
                             swipeRefresh.setRefreshing(false);
                         }
                     }
