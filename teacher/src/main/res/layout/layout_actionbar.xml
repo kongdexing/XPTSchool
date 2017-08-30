@@ -28,11 +28,12 @@
     <TextView
         android:id="@+id/txtRight"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/dp_15"
         android:clickable="true"
+        android:gravity="center"
+        android:padding="@dimen/dp_15"
         android:text=""
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_16" />
@@ -47,7 +48,7 @@
         android:background="@drawable/btn_topright_bg"
         android:padding="@dimen/dp_5"
         android:text="@string/complete_percent"
-        android:visibility="gone"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_16"
+        android:visibility="gone" />
 
 </RelativeLayout>
