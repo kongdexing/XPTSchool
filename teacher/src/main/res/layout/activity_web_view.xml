@@ -13,10 +13,18 @@
             android:layout_height="match_parent"
             android:background="#dcdcdc">
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/helpLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:progressDrawable="@drawable/progress_style" />
 
                 <ProgressBar
                     android:id="@+id/progressBar1"
@@ -28,11 +36,9 @@
                 <WebView
                     android:id="@+id/web_content"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"/>
+                    android:layout_height="fill_parent" />
 
-                <include
-                    layout="@layout/fragment_progress"></include>
-            </FrameLayout>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -52,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/net_error"/>
+                    android:src="@drawable/net_error" />
 
                 <TextView
                     android:id="@+id/txt"
@@ -63,7 +69,7 @@
                     android:layout_marginTop="20dip"
                     android:text="网络不给力，请稍后重试！"
                     android:textColor="#a18f90"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
 
                 <RelativeLayout
                     android:id="@+id/btn_refresh"
@@ -85,7 +91,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/net_refresh"/>
+                            android:src="@drawable/net_refresh" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -95,7 +101,7 @@
                             android:layout_toRightOf="@id/img"
                             android:text="刷新"
                             android:textColor="#404040"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
                     </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
