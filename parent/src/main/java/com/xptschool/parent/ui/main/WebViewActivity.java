@@ -20,8 +20,6 @@ public class WebViewActivity extends BaseActivity {
 
     @BindView(R.id.web_error)
     View web_error;
-    @BindView(R.id.rl_progress)
-    RelativeLayout rl_progress;
     @BindView(R.id.web_content)
     WebView web_content;
     @BindView(R.id.btn_refresh)

@@ -11,13 +11,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"
             android:background="#dcdcdc">
 
             <FrameLayout
                 android:id="@+id/helpLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/progressBar1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:progressDrawable="@drawable/progress_style" />
 
                 <WebView
                     android:id="@+id/web_content"
