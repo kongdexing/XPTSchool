@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/img_module"
-        android:layout_width="@dimen/dp_30"
-        android:layout_height="@dimen/dp_30"
+        android:layout_width="@dimen/dp_35"
+        android:layout_height="@dimen/dp_35"
         android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
         android:layout_margin="@dimen/dp_5"

@@ -11,7 +11,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"
             android:background="#dcdcdc">
 
             <LinearLayout
@@ -24,7 +23,7 @@
                     android:id="@+id/progressBar1"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="3dp"
+                    android:layout_height="2dp"
                     android:progressDrawable="@drawable/progress_style" />
 
                 <WebView
