@@ -207,7 +207,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 viewHolder.videoView.setVisibility(View.VISIBLE);
                 viewHolder.videoView.setChatInfo(chat);
             }
-            longClickView = viewHolder.videoView.bubView;
+            longClickView = viewHolder.videoView.rlContent;
         }
 
         longClickView.setOnLongClickListener(new MyLongClickListener(viewHolder, chat));

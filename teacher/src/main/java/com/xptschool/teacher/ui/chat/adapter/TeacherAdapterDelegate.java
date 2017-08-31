@@ -210,10 +210,9 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
             } else {
                 viewHolder.error_file.setVisibility(View.GONE);
                 viewHolder.videoView.setVisibility(View.VISIBLE);
-//                viewHolder.bubbleImageView.se
                 viewHolder.videoView.setChatInfo(chat);
             }
-            longClickView = viewHolder.videoView.bubView;
+            longClickView = viewHolder.videoView.rlContent;
         }
         longClickView.setOnLongClickListener(new MyLongClickListener(viewHolder, chat));
     }
