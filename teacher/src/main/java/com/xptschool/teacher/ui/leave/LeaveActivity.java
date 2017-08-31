@@ -31,6 +31,7 @@ import com.xptschool.teacher.http.MyVolleyRequestListener;
 import com.xptschool.teacher.model.BeanClass;
 import com.xptschool.teacher.model.GreenDaoHelper;
 import com.xptschool.teacher.ui.main.BaseListActivity;
+import com.xptschool.teacher.util.ToastUtils;
 import com.xptschool.teacher.view.CalendarView;
 
 import org.json.JSONObject;
@@ -77,7 +78,12 @@ public class LeaveActivity extends BaseListActivity {
             @Override
             public void onRefresh() {
                 resultPage.setPage(1);
-                getLeaveList();
+                if (GreenDaoHelper.getInstance().getAllClass().size() > 0) {
+                    getLeaveList();
+                } else {
+                    swipe_refresh_widget.setRefreshing(false);
+                    ToastUtils.showToast(LeaveActivity.this, R.string.toast_class_empty);
+                }
             }
         });
         recycleView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -103,19 +109,26 @@ public class LeaveActivity extends BaseListActivity {
     }
 
     private void initDate() {
-        spnClass.setItems(GreenDaoHelper.getInstance().getAllClassNameAppend());
-
-        spnClass.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanClass>() {
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getLeaveList();
-            }
-        });
-        spnClass.setOnNothingSelectedListener(spinnerNothingSelectedListener);
         txtDate.setText(CommonUtil.getCurrentDate());
-        getLeaveList();
+
+        List<BeanClass> allClass = GreenDaoHelper.getInstance().getAllClass();
+
+        if (allClass.size() == 0) {
+            spnClass.setText(getString(R.string.toast_class_empty));
+            spnClass.setEnabled(false);
+        } else {
+            spnClass.setItems(allClass);
+            spnClass.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanClass>() {
+                @Override
+                public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
+                    flTransparent.setVisibility(View.GONE);
+                    resultPage.setPage(1);
+                    getLeaveList();
+                }
+            });
+            spnClass.setOnNothingSelectedListener(spinnerNothingSelectedListener);
+            getLeaveList();
+        }
     }
 
     @OnClick({R.id.txtDate, R.id.spnClass})
@@ -150,7 +163,17 @@ public class LeaveActivity extends BaseListActivity {
     }
 
     private void getLeaveList() {
-        BeanClass currentClass = (BeanClass) spnClass.getSelectedItem();
+        BeanClass currentClass = null;
+        try {
+            currentClass = (BeanClass) spnClass.getSelectedItem();
+        } catch (Exception ex) {
+            currentClass = null;
+        }
+
+        if (currentClass == null) {
+            ToastUtils.showToast(this, R.string.toast_class_empty);
+            return;
+        }
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.Leave_QUERY, new VolleyHttpParamsEntity()
                         .addParam("dates", txtDate.getText().toString())

@@ -201,7 +201,7 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
                             } else {
                                 imgDelete.setVisibility(View.VISIBLE);
                                 maxLength = Math.round(mTime);
-                                initProgress(0);
+                                initProgress(maxLength);
                                 txtProgress.setVisibility(View.VISIBLE);
                                 txtProgress.setText(maxLength + "\"");
                                 reset();
