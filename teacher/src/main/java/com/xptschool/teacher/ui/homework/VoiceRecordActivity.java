@@ -469,8 +469,16 @@ public class VoiceRecordActivity extends AlbumActivity implements VoiceListener 
     @Override
     protected void onPause() {
         super.onPause();
+        mHandler.removeCallbacks(mGetVoiceLevelRunnable);
+        mHandler.removeCallbacks(playVoiceRunnable);
+
         onStopRecording();
         onPausePlay();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public FileDownloadListener createListener() {
