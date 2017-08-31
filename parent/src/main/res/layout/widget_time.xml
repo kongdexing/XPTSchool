@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_30"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:background="@drawable/btn_topright_bg"
+                android:background="@drawable/btn_bg_normal"
                 android:text="@string/btn_confirm"
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>

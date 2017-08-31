@@ -81,6 +81,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rlExit:
                 CustomDialog dialog = new CustomDialog(SettingActivity.this);
+                dialog.setTitle(R.string.label_tip);
                 dialog.setMessage(R.string.msg_exit);
                 dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
                     @Override

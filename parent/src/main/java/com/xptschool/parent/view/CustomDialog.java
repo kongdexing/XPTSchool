@@ -48,8 +48,12 @@ public class CustomDialog implements View.OnClickListener {
 
     public void setTitle(String title) {
         if (txtTitle != null) {
-            txtTitle.setVisibility(View.VISIBLE);
-            txtTitle.setText(title);
+            if (title != null && !title.isEmpty()) {
+                txtTitle.setVisibility(View.VISIBLE);
+                txtTitle.setText(title);
+            } else {
+                txtTitle.setVisibility(View.GONE);
+            }
         }
     }
 

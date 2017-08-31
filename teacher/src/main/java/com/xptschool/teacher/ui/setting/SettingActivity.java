@@ -5,14 +5,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tencent.bugly.beta.Beta;
-import com.umeng.message.IUmengCallback;
-import com.umeng.message.PushAgent;
 import com.xptschool.teacher.BuildConfig;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.ExtraKey;
@@ -70,6 +67,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rlExit:
                 CustomDialog dialog = new CustomDialog(SettingActivity.this);
+                dialog.setTitle(R.string.label_tip);
                 dialog.setMessage(R.string.msg_exit);
                 dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
                     @Override

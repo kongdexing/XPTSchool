@@ -81,6 +81,7 @@
 
     <string name="label_teacher">教师：</string>
     <string name="label_teacher_option">教师：%1$s</string>
+    <string name="label_tip">提示</string>
     <string name="label_notice_title">标题：</string>
     <string name="label_content">内容：</string>
     <string name="label_content_option">内容：\n%1$s</string>
@@ -114,6 +115,7 @@
     <string name="hint_contract_name">联系人</string>
     <string name="hint_phone">请输入手机号</string>
     <string name="input_error_phone">手机号格式不正确</string>
+    <string name="label_fence_name">围栏名称</string>
     <string name="input_fence_name">请输入围栏名称</string>
     <string name="hint_old_pwd">请输入旧密码</string>
     <string name="hint_new_pwd1">请输入新密码</string>

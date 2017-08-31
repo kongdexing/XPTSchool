@@ -72,13 +72,14 @@
         <TextView
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_35"
+            android:layout_height="@dimen/dp_30"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/dp_5"
-            android:background="@drawable/btn_topright_bg"
+            android:background="@drawable/btn_bg_normal"
             android:gravity="center"
             android:padding="@dimen/dp_5"
             android:text="@string/btn_confirm"
+            android:textSize="@dimen/sp_14"
             android:textColor="@color/colorWhite" />
     </RelativeLayout>
 

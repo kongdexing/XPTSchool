@@ -97,6 +97,6 @@
         android:padding="@dimen/dp_5"
         android:text="@string/btn_confirm"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_14" />
 
 </LinearLayout>

@@ -97,7 +97,7 @@ public class FenceDrawActivity extends BaseActivity implements BDLocationListene
                 }
 
                 CustomEditDialog dialog = new CustomEditDialog(FenceDrawActivity.this);
-                dialog.setTitle("围栏名称");
+                dialog.setTitle(R.string.label_fence_name);
                 dialog.setHintEdit(R.string.input_fence_name);
                 dialog.setAlertDialogClickListener(new CustomEditDialog.DialogClickListener() {
                     @Override

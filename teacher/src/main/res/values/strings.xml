@@ -72,6 +72,7 @@
     <string name="label_leave_ok">批准</string>
     <string name="label_leave_rebut">驳回</string>
 
+    <string name="label_tip">提示</string>
     <string name="label_teacher">教师：</string>
     <string name="label_teacher_option">教师：%1$s</string>
     <string name="label_notice_title">标题：</string>
