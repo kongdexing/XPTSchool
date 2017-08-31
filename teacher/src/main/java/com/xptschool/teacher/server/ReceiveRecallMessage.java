@@ -59,7 +59,7 @@ public class ReceiveRecallMessage {
                                         chat.setTeacherId(teacher.getU_id());
                                         chat.setParentId(object.getString("sender_id"));
                                         chat.setSendStatus(ChatUtil.STATUS_RECALL);
-                                        chat.setTime(object.getString("modify_time"));
+                                        chat.setTime("20" + object.getString("recvtime"));
                                         GreenDaoHelper.getInstance().insertChat(chat);
                                         //发送广播，通知该聊天消息已撤回
                                         Intent intent = new Intent();
