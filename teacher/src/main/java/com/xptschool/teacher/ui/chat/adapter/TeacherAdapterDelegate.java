@@ -88,7 +88,6 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
         //判断是否为撤回
         if (chat.getSendStatus() == ChatUtil.STATUS_RECALL) {
             viewHolder.llRevert.setVisibility(View.VISIBLE);
-//            viewHolder.txtRevert.setText("");
             return;
         } else {
             viewHolder.llRevert.setVisibility(View.GONE);

@@ -77,7 +77,7 @@ public class SocketService extends Service {
             public void run() {
                 if (!isStop) {
                     receiveMessage();
-                    ReceiveRecallMessage.receiveRecallMessage();
+//                    ReceiveRecallMessage.receiveRecallMessage();
                     Log.i(TAG, "start receiveMessage ");
                 }
             }
