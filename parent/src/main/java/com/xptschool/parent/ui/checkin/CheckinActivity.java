@@ -27,6 +27,7 @@ import com.xptschool.parent.ui.main.BaseListActivity;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,8 +77,7 @@ public class CheckinActivity extends BaseListActivity {
         spnDate.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                flTransparent.setVisibility(View.GONE);
-                getCheckinList();
+                getFirstPageData();
             }
         });
 
@@ -93,9 +93,7 @@ public class CheckinActivity extends BaseListActivity {
         spnStudents.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner materialSpinner, int i, long l, Object o) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getCheckinList();
+                getFirstPageData();
             }
         });
 
@@ -104,9 +102,7 @@ public class CheckinActivity extends BaseListActivity {
 
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getCheckinList();
+                getFirstPageData();
             }
         });
 
@@ -120,8 +116,7 @@ public class CheckinActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getCheckinList();
+                getFirstPageData();
             }
         });
         recyclerView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -134,6 +129,13 @@ public class CheckinActivity extends BaseListActivity {
             }
         });
 
+        getFirstPageData();
+    }
+
+    private void getFirstPageData() {
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanCheckin>());
         getCheckinList();
     }
 

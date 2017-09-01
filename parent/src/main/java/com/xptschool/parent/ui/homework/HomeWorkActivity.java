@@ -77,8 +77,7 @@ public class HomeWorkActivity extends BaseListActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getHomeWorkList();
+                getFirstPageData();
             }
         });
         recyclerView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -110,13 +109,18 @@ public class HomeWorkActivity extends BaseListActivity {
         spnStudents.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner materialSpinner, int i, long l, Object o) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getHomeWorkList();
+                getFirstPageData();
             }
         });
         spnStudents.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
+        getFirstPageData();
+    }
+
+    private void getFirstPageData() {
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanHomeWork>());
         getHomeWorkList();
     }
 
@@ -227,8 +231,7 @@ public class HomeWorkActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
-                    resultPage.setPage(1);
-                    getHomeWorkList();
+                    getFirstPageData();
                 }
             });
 

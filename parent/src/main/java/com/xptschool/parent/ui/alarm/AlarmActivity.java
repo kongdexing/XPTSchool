@@ -34,6 +34,7 @@ import com.xptschool.parent.ui.main.BaseListActivity;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -83,8 +84,7 @@ public class AlarmActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getAlarmList();
+                getFirstPageData();
             }
         });
         recycleView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -104,9 +104,7 @@ public class AlarmActivity extends BaseListActivity {
         spnDate.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getAlarmList();
+                getFirstPageData();
             }
         });
         spnDate.setOnNothingSelectedListener(spinnerNothingSelectedListener);
@@ -123,13 +121,18 @@ public class AlarmActivity extends BaseListActivity {
         spnStudents.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getAlarmList();
+                getFirstPageData();
             }
         });
         spnStudents.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
+        getFirstPageData();
+    }
+
+    private void getFirstPageData(){
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanAlarm>());
         getAlarmList();
     }
 

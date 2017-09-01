@@ -37,7 +37,11 @@ public class AlarmAdapter extends BaseRecycleAdapter {
 
     public void refreshData(List<BeanAlarm> beanAlarms) {
         Log.i(TAG, "refreshData: ");
-        this.beanAlarms = beanAlarms;
+        if (beanAlarms == null) {
+            this.beanAlarms.clear();
+        } else {
+            this.beanAlarms = beanAlarms;
+        }
     }
 
     public void appendData(List<BeanAlarm> beanAlarms) {

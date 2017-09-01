@@ -27,6 +27,7 @@ import com.xptschool.parent.model.BeanStudent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.ui.main.BaseListActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,7 +79,7 @@ public class ScoreActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getScoreList();
+                getFirstPageData();
             }
         });
     }
@@ -88,8 +89,7 @@ public class ScoreActivity extends BaseListActivity {
         spnDate.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                flTransparent.setVisibility(View.GONE);
-                getScoreList();
+                getFirstPageData();
             }
         });
 
@@ -105,14 +105,19 @@ public class ScoreActivity extends BaseListActivity {
         spnStudents.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<Object>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                flTransparent.setVisibility(View.GONE);
-                getScoreList();
+                getFirstPageData();
             }
         });
 
         spnStudents.setOnNothingSelectedListener(spinnerNothingSelectedListener);
         spnDate.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
+        getFirstPageData();
+    }
+
+    private void getFirstPageData(){
+        adapter.initData(new ArrayList<BeanExam>());
+        flTransparent.setVisibility(View.GONE);
         getScoreList();
     }
 

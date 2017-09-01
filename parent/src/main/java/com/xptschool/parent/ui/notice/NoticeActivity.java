@@ -35,6 +35,7 @@ import com.xptschool.parent.view.CalendarOptionView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,8 +79,7 @@ public class NoticeActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getNoticeList();
+                getFirstPageData();
             }
         });
         rclNotices.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -112,15 +112,19 @@ public class NoticeActivity extends BaseListActivity {
         spnStudents.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getNoticeList();
+                getFirstPageData();
             }
         });
 
         spnStudents.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
+        getFirstPageData();
+    }
 
+    private void getFirstPageData(){
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanNotice>());
         getNoticeList();
     }
 
@@ -249,8 +253,7 @@ public class NoticeActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
-                    resultPage.setPage(1);
-                    getNoticeList();
+                    getFirstPageData();
                 }
             });
             datePopup = new PopupWindow(calendarView,
