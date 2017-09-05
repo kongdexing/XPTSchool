@@ -92,8 +92,7 @@ public class HomeWorkActivity extends BaseListActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getHomeWorkList();
+                getFirstPageData();
             }
         });
         recyclerView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -130,8 +129,7 @@ public class HomeWorkActivity extends BaseListActivity {
                 } else {
                     spnCourse.setItems(courses);
                 }
-                resultPage.setPage(1);
-                getHomeWorkList();
+                getFirstPageData();
             }
         });
         spnClass.setOnNothingSelectedListener(spinnerNothingSelectedListener);
@@ -140,9 +138,7 @@ public class HomeWorkActivity extends BaseListActivity {
         spnCourse.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanCourse>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanCourse item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getHomeWorkList();
+                getFirstPageData();
             }
         });
         spnCourse.setOnNothingSelectedListener(spinnerNothingSelectedListener);
@@ -151,6 +147,13 @@ public class HomeWorkActivity extends BaseListActivity {
         endTime = CommonUtil.getCurrentDate();
 
         setTxtDate();
+        getFirstPageData();
+    }
+
+    private void getFirstPageData(){
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanHomeWork>());
         getHomeWorkList();
     }
 
@@ -297,8 +300,7 @@ public class HomeWorkActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
-                    resultPage.setPage(1);
-                    getHomeWorkList();
+                    getFirstPageData();
                 }
             });
             datePopup = new PopupWindow(calendarView,

@@ -34,6 +34,7 @@ import com.xptschool.teacher.view.CalendarOptionView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -84,8 +85,7 @@ public class NoticeActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getNoticeList();
+                getFirstPageData();
             }
         });
         rclNotices.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -112,9 +112,7 @@ public class NoticeActivity extends BaseListActivity {
         spnClass.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanClass>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getNoticeList();
+                getFirstPageData();
             }
         });
 
@@ -123,9 +121,7 @@ public class NoticeActivity extends BaseListActivity {
 
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getNoticeList();
+                getFirstPageData();
             }
         });
 
@@ -136,6 +132,13 @@ public class NoticeActivity extends BaseListActivity {
         endTime = CommonUtil.getCurrentDate();
 
         setTxtDate();
+        getFirstPageData();
+    }
+
+    private void getFirstPageData() {
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanNotice>());
         getNoticeList();
     }
 
@@ -269,8 +272,7 @@ public class NoticeActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
-                    resultPage.setPage(1);
-                    getNoticeList();
+                    getFirstPageData();
                 }
             });
             datePopup = new PopupWindow(calendarView,

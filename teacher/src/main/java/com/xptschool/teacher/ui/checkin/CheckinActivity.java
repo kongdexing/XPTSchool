@@ -31,6 +31,7 @@ import com.xptschool.teacher.view.CalendarView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,7 +69,6 @@ public class CheckinActivity extends BaseListActivity {
     //循序固定，勿乱动
     private static final String[] statuses = {"全部", "进校", "出校"};
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +87,7 @@ public class CheckinActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getCheckinList();
+                getFirstPageData();
             }
         });
         recyclerView.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -116,9 +115,7 @@ public class CheckinActivity extends BaseListActivity {
         spnClass.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanClass>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getCheckinList();
+                getFirstPageData();
             }
         });
 
@@ -127,15 +124,20 @@ public class CheckinActivity extends BaseListActivity {
 
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getCheckinList();
+                getFirstPageData();
             }
         });
 
         spnClass.setOnNothingSelectedListener(spinnerNothingSelectedListener);
         spnType.setOnNothingSelectedListener(spinnerNothingSelectedListener);
 
+        getFirstPageData();
+    }
+
+    private void getFirstPageData() {
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanCheckin>());
         getCheckinList();
     }
 
@@ -250,8 +252,7 @@ public class CheckinActivity extends BaseListActivity {
                         dateStr = date[0];
                     }
                     txtDate.setText(dateStr);
-                    resultPage.setPage(1);
-                    getCheckinList();
+                    getFirstPageData();
                 }
             });
             datePopup = new PopupWindow(calendarView,

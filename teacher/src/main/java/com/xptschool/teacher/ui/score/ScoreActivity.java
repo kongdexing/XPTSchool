@@ -95,7 +95,7 @@ public class ScoreActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getScoreList();
+                getFirstPageData();
             }
         });
     }
@@ -133,7 +133,7 @@ public class ScoreActivity extends BaseListActivity {
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanExam item) {
                 flTransparent.setVisibility(View.GONE);
                 initTitleExam(item);
-                getScoreList();
+                getFirstPageData();
             }
         });
 
@@ -189,6 +189,12 @@ public class ScoreActivity extends BaseListActivity {
         }
     }
 
+    private void getFirstPageData(){
+        mAdapter.loadScore(new ArrayList<BeanScore>());
+        llScoreTitle.removeAllViews();
+        getScoreList();
+    }
+
     @OnClick({R.id.spnDate, R.id.spnClass, R.id.spnExams})
     void viewClick(View view) {
         switch (view.getId()) {
@@ -224,7 +230,7 @@ public class ScoreActivity extends BaseListActivity {
                             if (listExams.size() > 0) {
                                 spnExams.setItems(listExams);
                                 initTitleExam(listExams.get(0));
-                                getScoreList();
+                                getFirstPageData();
                             } else {
                                 spnExams.setText("暂无考试");
                                 initTitleExam(null);

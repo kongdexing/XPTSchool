@@ -38,6 +38,7 @@ import com.xptschool.teacher.view.CalendarView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,8 +93,7 @@ public class AlarmActivity extends BaseListActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getAlarmList(txtDate.getText().toString());
+                getFirstPageData();
             }
         });
 
@@ -126,17 +126,22 @@ public class AlarmActivity extends BaseListActivity {
         spnClass.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanClass>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getAlarmList(txtDate.getText().toString());
+                getFirstPageData();
             }
         });
         spnClass.setOnNothingSelectedListener(spinnerNothingSelectedListener);
+        getFirstPageData();
+    }
+
+    private void getFirstPageData() {
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanAlarm>());
         getAlarmList(txtDate.getText().toString());
     }
 
     @OnClick({R.id.llDate, R.id.spnClass})
-    void homeWorkClick(View view) {
+    void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.llDate:
                 showDatePop();
@@ -245,8 +250,7 @@ public class AlarmActivity extends BaseListActivity {
                         dateStr = date[0];
                     }
                     txtDate.setText(dateStr);
-                    resultPage.setPage(1);
-                    getAlarmList(txtDate.getText().toString());
+                    getFirstPageData();
                 }
             });
             datePopup = new PopupWindow(calendarView,

@@ -30,6 +30,7 @@ import com.xptschool.teacher.view.CalendarOptionView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -75,8 +76,7 @@ public class QuestionActivity extends BaseListActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                resultPage.setPage(1);
-                getQuestionList();
+                getFirstPageData();
             }
         });
         rclQuestions.setLoadMoreListener(new LoadMoreRecyclerView.LoadMoreListener() {
@@ -96,9 +96,7 @@ public class QuestionActivity extends BaseListActivity {
         spnClass.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<BeanClass>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, BeanClass item) {
-                flTransparent.setVisibility(View.GONE);
-                resultPage.setPage(1);
-                getQuestionList();
+                getFirstPageData();
             }
         });
         spnClass.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
@@ -111,6 +109,13 @@ public class QuestionActivity extends BaseListActivity {
         endTime = CommonUtil.getCurrentDate();
 
         setTxtDate();
+        getFirstPageData();
+    }
+
+    private void getFirstPageData() {
+        flTransparent.setVisibility(View.GONE);
+        resultPage.setPage(1);
+        adapter.refreshData(new ArrayList<BeanQuestion>());
         getQuestionList();
     }
 
@@ -140,8 +145,7 @@ public class QuestionActivity extends BaseListActivity {
                     startTime = sDate;
                     endTime = eDate;
                     setTxtDate();
-                    resultPage.setPage(1);
-                    getQuestionList();
+                    getFirstPageData();
                 }
             });
             datePopup = new PopupWindow(calendarView,
