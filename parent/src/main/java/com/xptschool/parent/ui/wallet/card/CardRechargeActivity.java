@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
+import com.bumptech.glide.util.ExceptionCatchingInputStream;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.common.SharedPreferencesUtil;
@@ -71,8 +72,12 @@ public class CardRechargeActivity extends BaseActivity {
                     }
                 }
 
-                if (!money.isEmpty() && Double.parseDouble(money) > BalanceUtil.getParentBalance()) {
-                    edt_money.setText(money.substring(0, money.length() - 1));
+                try {
+                    if (!money.isEmpty() && Double.parseDouble(money) > BalanceUtil.getParentBalance()) {
+                        edt_money.setText(money.substring(0, money.length() - 1));
+                    }
+                } catch (Exception ex) {
+
                 }
                 edt_money.setSelection(edt_money.getText().toString().length());
             }

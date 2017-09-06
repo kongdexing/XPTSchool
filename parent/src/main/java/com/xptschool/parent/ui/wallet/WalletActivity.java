@@ -126,15 +126,19 @@ public class WalletActivity extends BaseActivity {
                             List<BeanLearningModule> learningModules = gson.fromJson(info, new TypeToken<List<BeanLearningModule>>() {
                             }.getType());
                             adapter.reloadModule(learningModules);
-                            if (learningModules.size() == 0) {
-                                txt_no_learning.setVisibility(View.VISIBLE);
-                            } else {
-                                txt_no_learning.setVisibility(View.GONE);
+                            if (txt_no_learning != null) {
+                                if (learningModules.size() == 0) {
+                                    txt_no_learning.setVisibility(View.VISIBLE);
+                                } else {
+                                    txt_no_learning.setVisibility(View.GONE);
+                                }
                             }
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse: error " + ex.getMessage());
                             //错误
-                            txt_no_learning.setVisibility(View.VISIBLE);
+                            if (txt_no_learning != null) {
+                                txt_no_learning.setVisibility(View.VISIBLE);
+                            }
                         }
                         break;
                 }
@@ -143,7 +147,9 @@ public class WalletActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 super.onErrorResponse(volleyError);
-                txt_no_learning.setVisibility(View.VISIBLE);
+                if (txt_no_learning != null) {
+                    txt_no_learning.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
