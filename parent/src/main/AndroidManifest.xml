@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
 
     <!-- GPS -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -331,8 +332,7 @@
 
         <!--start socket 聊天-->
         <service
-            android:name=".server.SocketService"
-            android:process=":xptpush" />
+            android:name=".server.SocketService" />
         <receiver
             android:name=".receiver.ChatNotificationReceiver"
             android:process=":xptpush"></receiver>

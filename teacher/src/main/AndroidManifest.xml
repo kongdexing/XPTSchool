@@ -232,8 +232,7 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".server.SocketService"
-            android:process=":xptpush" />
+            android:name=".server.SocketService" />
         <receiver
             android:name=".receiver.ChatNotificationReceiver"
             android:process=":xptpush"></receiver>

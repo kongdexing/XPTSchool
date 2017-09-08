@@ -243,7 +243,8 @@ public class CallBaseScreen extends BaseActivity {
                 case INCALL:
                     mEngine.getSoundService().stopRingTone();
                     mEngine.getSoundService().stopRingBackTone();
-                    mSession.setSpeakerphoneOn(false);
+//                    mSession.setSpeakerphoneOn(false);
+//                    setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
 
                     new Handler().postDelayed(new Runnable() {
                         @Override

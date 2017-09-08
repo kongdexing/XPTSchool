@@ -117,7 +117,7 @@ public class CallScreen extends CallBaseScreen {
         mSendDeviceInfo = mEngine.getConfigurationService().getBoolean(NgnConfigurationEntry.GENERAL_SEND_DEVICE_INFO, NgnConfigurationEntry.DEFAULT_GENERAL_SEND_DEVICE_INFO);
         mLastRotation = -1;
         mLastOrientation = -1;
-        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+//        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         Log.i(TAG, "onCreate: ");
         loadView();
     }

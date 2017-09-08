@@ -86,8 +86,6 @@ public class CallingView extends LinearLayout {
         boolean bStart = mSession.isSendingVideo();
         Log.d(TAG, "startStopVideo(" + bStart + ")  localFront:" + localFront);
 
-//        mSession.setSendingVideo(bStart);
-
         if (localFront) {
             mViewLocalVideoPreview.removeAllViews();
         } else {

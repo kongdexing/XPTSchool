@@ -80,8 +80,6 @@ public class CallingView extends LinearLayout {
 //            return;
 //        }
 
-//        mSession.setSendingVideo(bStart);
-
         mViewLocalVideoPreview.removeAllViews();
         if (bStart) {
             final View localPreview = mSession.startVideoProducerPreview();
