@@ -90,7 +90,6 @@ public class HomeWorkActivity extends BaseListActivity {
             }
         });
         recyclerView.setAdapter(adapter);
-
     }
 
     private void initDate() {

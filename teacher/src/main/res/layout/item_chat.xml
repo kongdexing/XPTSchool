@@ -22,12 +22,16 @@
             android:id="@+id/txtParent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_5"
             android:layout_marginRight="@dimen/dp_60"
             android:layout_toRightOf="@+id/imgParent"
             android:background="@drawable/chatfrom_bg"
             android:clickable="true"
             android:gravity="left|center_vertical"
+            android:paddingBottom="@dimen/dp_3"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_3"
+            android:paddingTop="@dimen/dp_3"
             android:text="" />
     </RelativeLayout>
 
@@ -73,12 +77,16 @@
             android:id="@+id/txtTeacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_60"
             android:layout_marginRight="@dimen/dp_5"
             android:layout_toLeftOf="@+id/imgTeacher"
             android:background="@drawable/chatto_bg"
             android:clickable="true"
             android:gravity="left|center_vertical"
-            android:maxWidth="@dimen/dp_200"
+            android:paddingBottom="@dimen/dp_3"
+            android:paddingLeft="@dimen/dp_3"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_3"
             android:text="" />
 
         <com.android.widget.view.CircularImageView

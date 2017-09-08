@@ -34,16 +34,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#f5f5f6"
-        android:paddingBottom="@dimen/dp_2"
-        android:paddingTop="@dimen/dp_2">
+        android:background="#f5f5f6">
 
         <EditText
             android:id="@+id/edtContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/dp_5"
+            android:layout_margin="@dimen/dp_2"
             android:layout_toLeftOf="@+id/btnSend"
             android:layout_toRightOf="@+id/imgVoiceOrText"
             android:background="@drawable/chat_input_bg"
@@ -57,7 +55,7 @@
         <Button
             android:id="@+id/btnSend"
             android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_30"
+            android:layout_height="@dimen/dp_35"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/dp_5"
             android:background="@drawable/btn_bg_normal"
