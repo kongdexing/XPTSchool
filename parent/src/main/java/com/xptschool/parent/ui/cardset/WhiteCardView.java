@@ -54,6 +54,7 @@ public class WhiteCardView extends LinearLayout implements View.OnClickListener 
         imgDel1.setOnClickListener(this);
         imgDel2.setOnClickListener(this);
         imgContract.setOnClickListener(this);
+        CommonUtil.setEditTextInhibitInputSpeChat(edtPhoneName);
     }
 
     public void bindData(int index, String phoneNum, ContractClickListener listener) {

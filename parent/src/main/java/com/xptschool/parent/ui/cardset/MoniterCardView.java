@@ -55,6 +55,7 @@ public class MoniterCardView extends LinearLayout implements View.OnClickListene
         imgDel1.setOnClickListener(this);
         imgDel2.setOnClickListener(this);
         imgContract.setOnClickListener(this);
+        CommonUtil.setEditTextInhibitInputSpeChat(edtPhoneName);
     }
 
     public void bindData(String value, ContractClickListener listener) {
@@ -86,10 +87,7 @@ public class MoniterCardView extends LinearLayout implements View.OnClickListene
         String name = edtPhoneName.getText().toString().trim();
         String phone = edtPhone.getText().toString().trim();
 
-        if (name.isEmpty() && phone.isEmpty()) {
-            return "";
-        }
-
+        //监听号码不可为空，可以是手机号或座机
         if (name.isEmpty() && !phone.isEmpty()
                 || !name.isEmpty() && phone.isEmpty()) {
             //其中一个为空
@@ -97,15 +95,10 @@ public class MoniterCardView extends LinearLayout implements View.OnClickListene
             return null;
         }
 
-        if (!CommonUtil.isPhone(phone)) {
-            edtPhone.setError(mContext.getString(R.string.input_error_phone));
-            return null;
-        }
-
-        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-        String DEVICE_ID = tm.getDeviceId();
-        //监听号码md5加密
-        name += "(" + CommonUtil.md5(DEVICE_ID + CommonUtil.getCurrentDateHmsSSS()) + ")";
+//        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+//        String DEVICE_ID = tm.getDeviceId();
+//        //监听号码md5加密
+//        name += "(" + CommonUtil.md5(DEVICE_ID + CommonUtil.getCurrentDateHmsSSS()) + ")";
 
         return name + "," + phone;
     }

@@ -95,8 +95,8 @@
     <string name="label_card_moniter">监听设置</string>
     <string name="label_card_reset">当前输入为空，确定要重置号码？</string>
     <string name="label_card_moniter_reset">确定要重置监听号码？</string>
-
     <string name="label_card_sendsms">设置失败！您可用当前手机发送短信至学生卡进行设置。\r\n是否通过本手机发送设置指令？</string>
+    <string name="toast_card_phone_empty">录入号码为空，请重新输入</string>
 
     <string name="homework_start_end_time">发布时间：%1$s\n完成时间：%2$s</string>
     <string name="toast_get_failed">获取失败</string>

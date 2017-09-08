@@ -28,8 +28,9 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
 
                 <TextView
                     android:id="@+id/txtPhoneName1"
@@ -41,7 +42,7 @@
                     android:visibility="gone" />
 
                 <FrameLayout
-                    android:layout_width="@dimen/dp_120"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/txtPhoneName1">
@@ -54,6 +55,7 @@
                         android:background="@null"
                         android:hint="@string/hint_contract_name"
                         android:lines="1"
+                        android:inputType="textPersonName"
                         android:paddingLeft="@dimen/dp_8"
                         android:textColor="@color/colorBlack"
                         android:textColorHint="@color/transparent_gray"
@@ -71,9 +73,10 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10">
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/txtSOS1"
