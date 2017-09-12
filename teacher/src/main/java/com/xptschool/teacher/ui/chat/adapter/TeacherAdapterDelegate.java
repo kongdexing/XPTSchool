@@ -260,7 +260,6 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                 revertItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ToastUtils.showToast(mContext, "revert " + chat.getMsgId());
                         chatPopup.dismiss();
 
                         //发起http请求

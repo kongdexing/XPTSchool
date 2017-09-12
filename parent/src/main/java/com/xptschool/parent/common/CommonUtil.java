@@ -314,11 +314,6 @@ public class CommonUtil {
     }
 
     public static boolean isIn2Min(String time) {
-        if (true) {
-            //不添加撤回功能
-            return false;
-        }
-
         try {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date oldTime = df.parse(time);
