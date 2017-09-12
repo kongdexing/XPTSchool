@@ -233,6 +233,7 @@
 
         <service
             android:name=".server.SocketService"
+            android:persistent="true"
             android:process=":xptpush"/>
         <receiver
             android:name=".receiver.ChatNotificationReceiver"
