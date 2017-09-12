@@ -398,9 +398,35 @@ public class ChatActivity extends ChatAppendixActivity {
                 break;
             case R.id.llVideo:
                 llAttachment.setVisibility(View.GONE);
-                startVideo(parent);
+//                startVideo(parent);
+                ChatActivityPermissionsDispatcher.canOpenCameraWithCheck(this);
                 break;
         }
+    }
+
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
+    void canOpenCamera() {
+        Log.i(TAG, "canOpenCamera: ");
+        startVideo(parent);
+    }
+
+    @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
+    void onOpenCameraDenied() {
+        Log.i(TAG, "onOpenCameraDenied: ");
+        Toast.makeText(this, R.string.permission_cameravoice_denied, Toast.LENGTH_SHORT).show();
+    }
+
+    @OnShowRationale({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
+    void showRationaleForOpenCamera(PermissionRequest request) {
+        Log.i(TAG, "showRationaleForOpenCamera: ");
+        request.proceed();
+    }
+
+    @OnNeverAskAgain({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
+    void onOpenCameraNeverAskAgain() {
+        Log.i(TAG, "onOpenCameraNeverAskAgain: ");
+        Toast.makeText(this, R.string.permission_cameravoice_never_askagain, Toast.LENGTH_SHORT).show();
+        CommonUtil.goAppDetailSettingIntent(this);
     }
 
     @Override

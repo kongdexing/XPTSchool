@@ -74,7 +74,6 @@ public class HomeWorkAdapter extends BaseRecycleAdapter {
         final ViewHolder mHolder = (ViewHolder) holder;
         final BeanHomeWork work = beanHomeWorks.get(position);
         String course = work.getCrs_name().substring(0, 1);
-        mHolder.txtSubject.setText(course);
         if (course.equals("语")) {
             work.setSubjectBgColor(R.drawable.bg_circle_yuwen);
         } else if (course.equals("数")) {

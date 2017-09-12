@@ -207,6 +207,11 @@ public class NativeService extends NgnNativeService {
             }
             mBroadcastReceiver = null;
         }
+
+        if (null != mEngine) {
+            mEngine.getSipService().unRegister();
+        }
+
         if (mWakeLock != null) {
             if (mWakeLock.isHeld()) {
                 mWakeLock.release();

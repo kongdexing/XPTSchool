@@ -96,7 +96,7 @@ android {
             service_url = "http://school.xinpingtai.com"
         } else { // internal
 //            service_url = "http://school.xinpingtai.com"
-            service_url = "http://192.168.1.195:8011"
+            service_url = "http://192.168.0.126:8011"
         }
 
         buildConfigField "String", "SERVICE_URL", "\"$service_url\""

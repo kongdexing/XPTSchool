@@ -94,12 +94,6 @@ public class MoniterCardView extends LinearLayout implements View.OnClickListene
             Toast.makeText(mContext, R.string.toast_contract_other_empty, Toast.LENGTH_SHORT).show();
             return null;
         }
-
-//        TelephonyManager tm = (TelephonyManager) XPTApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-//        String DEVICE_ID = tm.getDeviceId();
-//        //监听号码md5加密
-//        name += "(" + CommonUtil.md5(DEVICE_ID + CommonUtil.getCurrentDateHmsSSS()) + ")";
-
         return name + "," + phone;
     }
 
