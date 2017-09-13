@@ -135,7 +135,7 @@ public class CallScreen extends CallBaseScreen {
         CallScreenPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    @NeedsPermission({Manifest.permission.CAMERA})
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
     void canOpenCamera() {
         Log.i(TAG, "canOpenCamera: ");
         if (mViewTrying != null) {
@@ -146,22 +146,22 @@ public class CallScreen extends CallBaseScreen {
         }
     }
 
-    @OnPermissionDenied({Manifest.permission.CAMERA})
+    @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
     void onOpenCameraDenied() {
         Log.i(TAG, "onOpenCameraDenied: ");
-        Toast.makeText(this, R.string.permission_camera_denied, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.permission_cameravoice_denied, Toast.LENGTH_SHORT).show();
     }
 
-    @OnShowRationale({Manifest.permission.CAMERA})
+    @OnShowRationale({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
     void showRationaleForOpenCamera(PermissionRequest request) {
         Log.i(TAG, "showRationaleForOpenCamera: ");
         request.proceed();
     }
 
-    @OnNeverAskAgain({Manifest.permission.CAMERA})
+    @OnNeverAskAgain({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO})
     void onOpenCameraNeverAskAgain() {
         Log.i(TAG, "onOpenCameraNeverAskAgain: ");
-        Toast.makeText(this, R.string.permission_camera_never_askagain, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.permission_cameravoice_never_askagain, Toast.LENGTH_SHORT).show();
         CommonUtil.goAppDetailSettingIntent(this);
 //        finish();
     }
