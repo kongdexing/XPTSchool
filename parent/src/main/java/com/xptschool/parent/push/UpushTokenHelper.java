@@ -24,7 +24,7 @@ public class UpushTokenHelper {
      * @param device_token
      */
     public static void uploadDevicesToken(final String device_token, final String push) {
-        Log.i(TAG, "uploadDevicesToken: " + device_token);
+        Log.i(TAG, "uploadDevicesToken: " + device_token + " " + push);
         if (device_token == null || device_token.isEmpty()) {
             return;
         }

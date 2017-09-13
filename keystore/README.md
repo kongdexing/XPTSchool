@@ -1,3 +1,6 @@
+签名查看方法：
+keytool -list -v -keystore mystore.keystore
+
 1.**school.jks**
 
 密钥库类型: JKS
