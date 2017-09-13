@@ -31,8 +31,8 @@ public class HuaWeiPushReceiver extends PushReceiver {
     @Override
     public void onToken(Context context, String token, Bundle extras) {
         String belongId = extras.getString("belongId");
-        Log.i(TAG, "belongId为:" + belongId);
-        Log.i(TAG, "Token为:" + token);
+        Log.i(TAG, "HuaweiApi belongId为:" + belongId);
+        Log.i(TAG, "HuaweiApi Token为:" + token);
 
         UpushTokenHelper.uploadDevicesToken(token, DeviceHelper.P_HUAWEI);
     }
@@ -66,7 +66,7 @@ public class HuaWeiPushReceiver extends PushReceiver {
 
     @Override
     public void onPushState(Context context, boolean pushState) {
-        Log.i("TAG", "Push连接状态为:" + pushState);
+        Log.i(TAG, "Push连接状态为:" + pushState);
 
     }
 }

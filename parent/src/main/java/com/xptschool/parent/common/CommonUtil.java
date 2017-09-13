@@ -239,6 +239,8 @@ public class CommonUtil {
         Gson gson = new Gson();
         BeanParent parent = gson.fromJson(jsonLogin.toString(), BeanParent.class);
         parent.setLoginName(login_name);
+        SharedPreferencesUtil.saveData(XPTApplication.getContext(), SharedPreferencesUtil.KEY_UID, parent.getU_id());
+
         GreenDaoHelper.getInstance().insertParent(parent);
     }
 
