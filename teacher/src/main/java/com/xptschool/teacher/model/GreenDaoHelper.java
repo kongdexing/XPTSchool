@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.xptschool.teacher.XPTApplication;
+import com.xptschool.teacher.common.SharedPreferencesUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +68,7 @@ public class GreenDaoHelper {
      */
     public void insertTeacher(BeanTeacher teacher) {
         currentTeacher = teacher;
+        SharedPreferencesUtil.saveData(XPTApplication.getContext(), SharedPreferencesUtil.KEY_UID, currentTeacher.getU_id());
         if (writeDaoSession != null) {
             writeDaoSession.getBeanTeacherDao().deleteAll();
             writeDaoSession.getBeanTeacherDao().insert(teacher);

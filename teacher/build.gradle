@@ -185,4 +185,6 @@ dependencies {
     //meizu push
     compile 'com.meizu.flyme.internet:push-internal:3.4.0@aar'
 
+    //sharedPreferences 跨进程
+    compile 'net.grandcentrix.tray:tray:0.12.0'
 }

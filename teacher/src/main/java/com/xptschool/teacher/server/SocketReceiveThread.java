@@ -12,6 +12,7 @@ import com.xptschool.teacher.R;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.ActivityTaskHelper;
 import com.xptschool.teacher.common.BroadcastAction;
+import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
@@ -56,8 +57,8 @@ public class SocketReceiveThread implements Runnable, Cloneable {
         OutputStream outputStream = null;
         InputStream mmInStream = null;
         try {
-            BeanTeacher teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
-            if (teacher == null || teacher.getU_id() == null || teacher.getU_id().isEmpty()) {
+            String user_id = (String) SharedPreferencesUtil.getData(XPTApplication.getContext(), SharedPreferencesUtil.KEY_UID, "");
+            if (user_id == null || user_id.isEmpty()) {
                 Log.i(TAG, "receiver run teacher is null ");
                 return;
             }
@@ -71,7 +72,7 @@ public class SocketReceiveThread implements Runnable, Cloneable {
 
             JSONObject object = new JSONObject();
             object.put("tertype", "1"); //1老师端，2家长端
-            object.put("id", teacher.getU_id());
+            object.put("id", user_id);
             Log.i(TAG, "receiver run write :" + object.toString());
             outputStream.write(object.toString().getBytes());
             outputStream.flush();
