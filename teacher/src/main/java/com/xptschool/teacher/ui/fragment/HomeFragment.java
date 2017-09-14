@@ -8,10 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.xptschool.teacher.R;
+import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.adapter.MyTopPagerAdapter;
 import com.xptschool.teacher.model.BeanBanner;
 import com.xptschool.teacher.push.BannerHelper;
@@ -35,6 +38,8 @@ import butterknife.Unbinder;
 
 public class HomeFragment extends BaseFragment {
 
+    @BindView(R.id.rlTipAD)
+    RelativeLayout rlTipAD;
     @BindView(R.id.viewPagerTop)
     AutoScrollViewPager viewPagerTop;
     @BindView(R.id.indicator)
@@ -61,6 +66,21 @@ public class HomeFragment extends BaseFragment {
 
     private void initView() {
         Log.i(TAG, "HomeFragment initView: ");
+
+        int width = XPTApplication.getInstance().getWindowWidth();
+
+        int height = width / 2;
+        Log.i(TAG, "initView: " + width + "  " + height);
+
+        try {
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) rlTipAD.getLayoutParams();
+            lp.width = width;
+            lp.height = height;
+            rlTipAD.setLayoutParams(lp);
+        } catch (Exception ex) {
+            Log.i(TAG, "initView setLayoutParams error: " + ex.getMessage());
+        }
+
         viewPagerTop.setCycle(true);
         topAdapter = new MyTopPagerAdapter(this.getContext());
         viewPagerTop.setAdapter(topAdapter);

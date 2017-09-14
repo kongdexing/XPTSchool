@@ -16,8 +16,9 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rlTipAD"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_230"
+                android:layout_height="wrap_content"
                 android:background="@android:color/background_light">
 
                 <com.xptschool.parent.view.AutoScrollViewPager

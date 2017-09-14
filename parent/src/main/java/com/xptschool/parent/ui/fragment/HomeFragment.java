@@ -8,11 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.CirclePageIndicator;
 import com.xptschool.parent.R;
+import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.adapter.MyTopPagerAdapter;
+import com.xptschool.parent.common.CommonUtil;
 import com.xptschool.parent.model.BeanBanner;
 import com.xptschool.parent.push.BannerHelper;
 import com.xptschool.parent.ui.alarm.AlarmActivity;
@@ -35,6 +39,8 @@ import butterknife.Unbinder;
 
 public class HomeFragment extends BaseFragment {
 
+    @BindView(R.id.rlTipAD)
+    RelativeLayout rlTipAD;
     @BindView(R.id.viewPagerTop)
     AutoScrollViewPager viewPagerTop;
     @BindView(R.id.indicator)
@@ -61,6 +67,19 @@ public class HomeFragment extends BaseFragment {
 
     private void initView() {
         Log.i(TAG, "HomeFragment initView: ");
+        int width = XPTApplication.getInstance().getWindowWidth();
+
+        int height = width / 2;
+        Log.i(TAG, "initView: " + width + "  " + height);
+
+        try {
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) rlTipAD.getLayoutParams();
+            lp.width = width;
+            lp.height = height;
+            rlTipAD.setLayoutParams(lp);
+        } catch (Exception ex) {
+            Log.i(TAG, "initView setLayoutParams error: " + ex.getMessage());
+        }
 
         viewPagerTop.setCycle(true);
         topAdapter = new MyTopPagerAdapter(this.getContext());
@@ -74,10 +93,8 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG, "onPageSelected: banners " + topBanners.size() + "  position: " + position);
                 if (topBanners.size() > position) {
                     BeanBanner banner = topBanners.get(position);
-                    Log.i(TAG, "onPageSelected: banner type " + banner.getType());
                     if (banner != null) {
                         tipTitle.setText(banner.getTitle());
                         BannerHelper.postShowBanner(banner, "1");
