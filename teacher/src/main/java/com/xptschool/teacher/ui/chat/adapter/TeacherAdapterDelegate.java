@@ -32,13 +32,10 @@ import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
 import com.xptschool.teacher.model.GreenDaoHelper;
-import com.xptschool.teacher.server.ServerManager;
 import com.xptschool.teacher.ui.chat.QuickAction.ActionItem;
 import com.xptschool.teacher.ui.chat.QuickAction.ChatOptionView;
 import com.xptschool.teacher.ui.chat.SoundPlayHelper;
-import com.xptschool.teacher.ui.chat.ToSendMessage;
 import com.xptschool.teacher.util.ChatUtil;
-import com.xptschool.teacher.util.ToastUtils;
 
 import java.io.File;
 import java.util.List;
@@ -111,6 +108,7 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
+                        //重新发送
                         listener.onResend(chat, position);
                     }
                 }
@@ -316,15 +314,12 @@ public class TeacherAdapterDelegate extends BaseAdapterDelegate {
 
             int c_width = viewHolder.llContent.getMeasuredWidth();
             int c_height = viewHolder.llContent.getMeasuredHeight();
-            Log.i(TAG, "onLongClick: optionView width=" + v_width + "  height:" + v_height);
-            Log.i(TAG, "onLongClick: content width:" + c_width + " height:" + c_height);
 
             //计算控件在屏幕的位置
             int[] location = new int[2];
             v.getLocationOnScreen(location);
             int x = location[0];
             int y = location[1];
-            Log.i(TAG, "onLongClick: " + "x:" + x + " y:" + y);
             if (y > (c_height + v_height)) {
                 //控件上显示
                 chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y - v_height));

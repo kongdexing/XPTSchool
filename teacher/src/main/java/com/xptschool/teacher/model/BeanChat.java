@@ -214,7 +214,9 @@ public class BeanChat implements Serializable {
             }
             if (allByte != null) {
                 message.setAllData(allByte);
+                //存入发送消息列表中
                 ChatMessageHelper.getInstance().putMessage(message);
+                //开始发送
                 ServerManager.getInstance().sendMessage(message);
             }
         } catch (Exception ex) {
@@ -226,6 +228,7 @@ public class BeanChat implements Serializable {
     public String toString() {
         return "BeanChat{" +
                 "chatId='" + chatId + '\'' +
+                ", msgId='" + msgId + '\'' +
                 ", type='" + type + '\'' +
                 ", size=" + size +
                 ", parentId='" + parentId + '\'' +
