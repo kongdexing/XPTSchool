@@ -5,7 +5,12 @@ import android.util.Log;
 
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.BroadcastAction;
+import com.xptschool.parent.common.CommonUtil;
+import com.xptschool.parent.model.BeanChat;
+import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.model.ToSendMessage;
+import com.xptschool.parent.ui.chat.ChatMessageHelper;
+import com.xptschool.parent.util.ChatUtil;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,7 +24,7 @@ import java.net.URLDecoder;
 
 public class SocketSendThread extends Thread {
 
-    private String TAG = SocketReceiveThread.class.getSimpleName();
+    private String TAG = SocketSendThread.class.getSimpleName();
     private ToSendMessage message;
 
     public SocketSendThread(ToSendMessage msg) {
@@ -73,10 +78,11 @@ public class SocketSendThread extends Thread {
             mSocket.shutdownOutput();
 
             inputStream = mSocket.getInputStream();
+            String chatId = "";
             byte[] buffer = new byte[10];
             while (inputStream.read(buffer) != -1) {
                 try {
-                    String chatId = URLDecoder.decode(new String(buffer), "utf-8").trim();
+                    chatId = URLDecoder.decode(new String(buffer), "utf-8").trim();
                     Log.i(TAG, "receive chatId utf-8: " + chatId.trim());
                     intent.putExtra("chatId", chatId);
                     // Send the obtained bytes to the UI Activity
@@ -86,7 +92,19 @@ public class SocketSendThread extends Thread {
                 }
             }
 
-            //发送完成
+            //发送成功，更改数据
+            ToSendMessage sendMsg = ChatMessageHelper.getInstance().getMessageById(message.getId());
+            if (sendMsg != null) {
+                BeanChat chat = new BeanChat();
+                chat.parseMessageToChat(sendMsg);
+                chat.setHasRead(true);
+                chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
+                chat.setMsgId(chatId);
+                chat.setTime(CommonUtil.getCurrentDateHms());
+                GreenDaoHelper.getInstance().insertChat(chat);
+            }
+
+            //发送完成，发送广播
             intent.setAction(BroadcastAction.MESSAGE_SEND_SUCCESS);
             XPTApplication.getInstance().sendBroadcast(intent);
             Log.i(TAG, "write success");

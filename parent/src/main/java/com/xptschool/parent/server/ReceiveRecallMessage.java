@@ -13,7 +13,6 @@ import com.xptschool.parent.common.BroadcastAction;
 import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.model.BeanChat;
-import com.xptschool.parent.model.BeanParent;
 import com.xptschool.parent.model.GreenDaoHelper;
 import com.xptschool.parent.util.ChatUtil;
 
@@ -62,6 +61,7 @@ public class ReceiveRecallMessage {
                                         chat.setParentId(user_id);
                                         chat.setSendStatus(ChatUtil.STATUS_RECALL);
                                         chat.setTime("20" + object.getString("recvtime"));
+                                        //更新数据
                                         GreenDaoHelper.getInstance().insertChat(chat);
                                         //发送广播，通知该聊天消息已撤回
                                         Intent intent = new Intent();

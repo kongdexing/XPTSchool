@@ -375,7 +375,6 @@ public class ChatActivity extends ChatAppendixActivity {
                 }
                 break;
             case R.id.imgPlus:
-                Log.i(TAG, "viewClick: imgPlus");
                 showAttachment = llAttachment.getVisibility() == View.VISIBLE ? false : true;
                 ChatUtil.hideInputWindow(ChatActivity.this, edtContent);
                 llAttachment.setVisibility(llAttachment.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
@@ -551,19 +550,13 @@ public class ChatActivity extends ChatAppendixActivity {
                 chat.setHasRead(true);
 
                 if (action.equals(BroadcastAction.MESSAGE_SEND_SUCCESS)) {
-                    String chatId = bundle.getString("chatId");
-
+//                    String chatId = bundle.getString("chatId");
+                    chat = GreenDaoHelper.getInstance().getChatByChatId(msgId);
                     if (chat.getSendStatus() == ChatUtil.STATUS_RESENDING) {
                         //重新发送成功，将原信息删除，在列表中重新追加新的一条
                         adapter.removeData(chat);
-                        chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
-                        chat.setMsgId(chatId);
-                        chat.setTime(CommonUtil.getCurrentDateHms());
                         adapter.addData(chat);
                     } else {
-                        chat.setMsgId(chatId);
-                        chat.setTime(CommonUtil.getCurrentDateHms());
-                        chat.setSendStatus(ChatUtil.STATUS_SUCCESS);
                         adapter.updateData(chat);
                     }
                 } else if (action.equals(BroadcastAction.MESSAGE_SEND_FAILED)) {

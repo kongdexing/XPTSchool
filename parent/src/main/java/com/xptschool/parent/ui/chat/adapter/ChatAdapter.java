@@ -128,6 +128,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * 重新发送
+     */
     public class OnItemResendListener {
         void onResend(BeanChat chat, int position) {
             chat.setSendStatus(ChatUtil.STATUS_RESENDING);

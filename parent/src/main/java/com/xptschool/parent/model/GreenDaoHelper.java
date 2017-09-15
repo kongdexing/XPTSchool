@@ -2,7 +2,6 @@ package com.xptschool.parent.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,10 +75,6 @@ public class GreenDaoHelper {
     public void insertStudent(List<BeanStudent> students) {
         if (writeDaoSession != null) {
             writeDaoSession.getBeanStudentDao().deleteAll();
-            for (int i = 0; i < students.size(); i++) {
-                Log.i(TAG, "insertStudent: " + students.get(i).toString());
-            }
-
             writeDaoSession.getBeanStudentDao().insertInTx(students);
         }
     }

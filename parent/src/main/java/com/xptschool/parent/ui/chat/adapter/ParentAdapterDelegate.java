@@ -36,7 +36,6 @@ import com.xptschool.parent.ui.chat.QuickAction.ActionItem;
 import com.xptschool.parent.ui.chat.QuickAction.ChatOptionView;
 import com.xptschool.parent.ui.chat.SoundPlayHelper;
 import com.xptschool.parent.util.ChatUtil;
-import com.xptschool.parent.util.ToastUtils;
 
 import java.io.File;
 import java.util.List;
@@ -110,6 +109,7 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
+                        //重新发送
                         listener.onResend(chat, position);
                     }
                 }
@@ -298,14 +298,6 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
                                         XPTApplication.getInstance().sendBroadcast(recallIntent);
                                     }
                                 });
-
-//                        ToSendMessage message = new ToSendMessage();
-//                        message.setType(ChatUtil.TYPE_REVERT);
-//                        message.setId(chat.getChatId());
-//                        message.setFilename(chat.getMsgId());
-//                        message.setAllData(message.packData(""));
-//                        ServerManager.getInstance().sendMessage(message);
-
                     }
                 });
                 //两分钟之内发送的消息，添加撤回按钮
@@ -321,15 +313,12 @@ public class ParentAdapterDelegate extends BaseAdapterDelegate {
 
             int c_width = viewHolder.llContent.getMeasuredWidth();
             int c_height = viewHolder.llContent.getMeasuredHeight();
-            Log.i(TAG, "onLongClick: optionView width=" + v_width + "  height:" + v_height);
-            Log.i(TAG, "onLongClick: content width:" + c_width + " height:" + c_height);
 
             //计算控件在屏幕的位置
             int[] location = new int[2];
             v.getLocationOnScreen(location);
             int x = location[0];
             int y = location[1];
-            Log.i(TAG, "onLongClick: " + "x:" + x + " y:" + y);
             if (y > (c_height + v_height)) {
                 //控件上显示
                 chatPopup.showAtLocation(viewHolder.llContent, Gravity.NO_GRAVITY, (x - v_width / 2), (y - v_height));
