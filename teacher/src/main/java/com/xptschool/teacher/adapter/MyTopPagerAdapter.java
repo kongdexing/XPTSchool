@@ -2,13 +2,17 @@ package com.xptschool.teacher.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
 import com.xptschool.teacher.model.BeanBanner;
@@ -27,10 +31,19 @@ public class MyTopPagerAdapter extends PagerAdapter {
 
     List<BeanBanner> beanBanners = new ArrayList<>();
     private Context mContext;
+    private DisplayImageOptions options;
 
     public MyTopPagerAdapter(Context context) {
         super();
         mContext = context;
+        options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .showImageForEmptyUri(R.drawable.tip_ad_def)
+                .showImageOnFail(R.drawable.tip_ad_def)
+                .showImageOnLoading(R.drawable.pictures_no)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new SimpleBitmapDisplayer()).build();
     }
 
     public void reloadData(List<BeanBanner> tops) {
@@ -62,7 +75,7 @@ public class MyTopPagerAdapter extends PagerAdapter {
         final BeanBanner banner = beanBanners.get(position);
         if (banner != null) {
             ImageLoader.getInstance().displayImage(banner.getImg(),
-                    new ImageViewAware(view), CommonUtil.getDefaultImageLoaderOption());
+                    new ImageViewAware(view), options);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
