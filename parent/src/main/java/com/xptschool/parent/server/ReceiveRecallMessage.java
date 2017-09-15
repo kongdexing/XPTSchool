@@ -10,6 +10,7 @@ import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.parent.XPTApplication;
 import com.xptschool.parent.common.BroadcastAction;
+import com.xptschool.parent.common.SharedPreferencesUtil;
 import com.xptschool.parent.http.HttpAction;
 import com.xptschool.parent.model.BeanChat;
 import com.xptschool.parent.model.BeanParent;
@@ -29,15 +30,16 @@ public class ReceiveRecallMessage {
     private static String TAG = ReceiveRecallMessage.class.getSimpleName();
 
     public static void receiveRecallMessage() {
-        final BeanParent parent = GreenDaoHelper.getInstance().getCurrentParent();
-        if (parent == null || parent.getU_id() == null) {
+        final String user_id = (String) SharedPreferencesUtil.getData(XPTApplication.getContext(), SharedPreferencesUtil.KEY_UID, "");
+
+        if (user_id == null || user_id.isEmpty()) {
             Log.i(TAG, "receiveRecallMessage parent is null or userId is null ");
             return;
         }
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.MESSAGE_RECALL_SHOW,
                 new VolleyHttpParamsEntity()
-                        .addParam("user_id", parent.getU_id())
+                        .addParam("user_id", user_id)
                         .addParam("user_type", "4"), new VolleyRequestListener() {
                     @Override
                     public void onStart() {
@@ -57,7 +59,7 @@ public class ReceiveRecallMessage {
                                         chat.setChatId(object.getString("chatid"));
                                         chat.setMsgId(object.getString("chatid"));
                                         chat.setTeacherId(object.getString("sender_id"));
-                                        chat.setParentId(parent.getU_id());
+                                        chat.setParentId(user_id);
                                         chat.setSendStatus(ChatUtil.STATUS_RECALL);
                                         chat.setTime("20" + object.getString("recvtime"));
                                         GreenDaoHelper.getInstance().insertChat(chat);

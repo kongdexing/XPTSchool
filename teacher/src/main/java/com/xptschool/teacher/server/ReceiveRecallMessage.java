@@ -10,6 +10,7 @@ import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
 import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.common.BroadcastAction;
+import com.xptschool.teacher.common.SharedPreferencesUtil;
 import com.xptschool.teacher.http.HttpAction;
 import com.xptschool.teacher.model.BeanChat;
 import com.xptschool.teacher.model.BeanTeacher;
@@ -29,15 +30,15 @@ public class ReceiveRecallMessage {
     private static String TAG = ReceiveRecallMessage.class.getSimpleName();
 
     public static void receiveRecallMessage() {
-        final BeanTeacher teacher = GreenDaoHelper.getInstance().getCurrentTeacher();
-        if (teacher == null || teacher.getU_id() == null) {
+        final String user_id = (String) SharedPreferencesUtil.getData(XPTApplication.getContext(), SharedPreferencesUtil.KEY_UID, "");
+        if (user_id == null || user_id.isEmpty()) {
             Log.i(TAG, "receiveRecallMessage teacher is null or userId is null ");
             return;
         }
 
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.MESSAGE_RECALL_SHOW,
                 new VolleyHttpParamsEntity()
-                        .addParam("user_id", teacher.getU_id())
+                        .addParam("user_id", user_id)
                         .addParam("user_type", "3"), new VolleyRequestListener() {
                     @Override
                     public void onStart() {
@@ -56,7 +57,7 @@ public class ReceiveRecallMessage {
                                         BeanChat chat = new BeanChat();
                                         chat.setChatId(object.getString("chatid"));
                                         chat.setMsgId(object.getString("chatid"));
-                                        chat.setTeacherId(teacher.getU_id());
+                                        chat.setTeacherId(user_id);
                                         chat.setParentId(object.getString("sender_id"));
                                         chat.setSendStatus(ChatUtil.STATUS_RECALL);
                                         chat.setTime("20" + object.getString("recvtime"));
