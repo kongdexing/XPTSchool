@@ -92,10 +92,10 @@ public class BaseLoginActivity extends BaseActivity {
     }
 
     protected void onLoginSuccess() {
-        ServerManager.getInstance().startSocketServer(this);
+        ServerManager.getInstance().startSocketServer();
     }
 
     protected void onLoginFailed(String msg) {
-
+        SharedPreferencesUtil.saveData(this, SharedPreferencesUtil.KEY_UID, "");
     }
 }

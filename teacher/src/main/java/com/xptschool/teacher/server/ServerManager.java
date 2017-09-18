@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.xptschool.teacher.XPTApplication;
 import com.xptschool.teacher.imsdroid.ImsSipHelper;
-import com.xptschool.teacher.imsdroid.NativeService;
 import com.xptschool.teacher.imsdroid.NetWorkStatusChangeHelper;
 import com.xptschool.teacher.ui.chat.ToSendMessage;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by dexing on 2017/5/8.
@@ -18,6 +21,7 @@ public class ServerManager {
 
     private static ServerManager mInstance = new ServerManager();
     private SocketService mSocketService;
+    private Timer mTimer;
 
     public static ServerManager getInstance() {
         return mInstance;
@@ -25,12 +29,17 @@ public class ServerManager {
 
     /**
      * 登录成功后，启动socket服务
-     *
-     * @param context
      */
-    public void startSocketServer(Context context) {
-        Intent intent = new Intent(context, SocketService.class);
-        context.startService(intent);
+    public void startSocketServer() {
+        mTimer = new Timer();
+
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(XPTApplication.getContext(), SocketService.class);
+                XPTApplication.getContext().startService(intent);
+            }
+        }, 1000, 2 * 1000);
 
         ImsSipHelper.getInstance().startEngine();
     }
@@ -41,6 +50,9 @@ public class ServerManager {
     public void stopSocketServer(Context context) {
         Log.i("Native", "stopServer: ");
         context.stopService(new Intent(context, SocketService.class));
+        if (mTimer != null) {
+            mTimer.cancel();
+        }
 
         ImsSipHelper.getInstance().stopSipServer();
         NetWorkStatusChangeHelper.getInstance().disableNetWorkChange();
