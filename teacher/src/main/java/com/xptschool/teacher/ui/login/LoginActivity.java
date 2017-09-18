@@ -166,7 +166,7 @@ public class LoginActivity extends BaseLoginActivity implements HuaweiApiClient.
                 if ((!TextUtils.isEmpty(account)) && (!TextUtils.isEmpty(password))) {
                     btnLogin.setEnabled(false);
                     ChatUtil.hideInputWindow(LoginActivity.this, btnLogin);
-                    login(account, password);
+                    login(account, password, null);
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.error_empty_login, Toast.LENGTH_SHORT).show();
                 }

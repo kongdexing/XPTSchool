@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.CommonUtil;
 import com.xptschool.teacher.common.ExtraKey;
@@ -78,7 +79,7 @@ public class WelcomeActivity extends BaseLoginActivity {
             finish();
         } else {
             //login
-            login(userName, password);
+            login(userName, password, new DefaultRetryPolicy(4 * 1000, 0, 1));
         }
     }
 

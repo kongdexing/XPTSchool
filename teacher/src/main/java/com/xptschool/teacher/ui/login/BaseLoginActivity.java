@@ -3,6 +3,7 @@ package com.xptschool.teacher.ui.login;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpParamsEntity;
 import com.android.volley.common.VolleyHttpResult;
@@ -33,12 +34,12 @@ public class BaseLoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
-    public void login(final String account, final String password) {
+    public void login(final String account, final String password, DefaultRetryPolicy retryPolicy) {
         VolleyHttpService.getInstance().sendPostRequest(HttpAction.LOGIN,
                 new VolleyHttpParamsEntity()
                         .addParam("username", account)
                         .addParam("password", password)
-                        .addParam("type", "3"),
+                        .addParam("type", "3"), retryPolicy,
                 new MyVolleyRequestListener() {
                     @Override
                     public void onStart() {
