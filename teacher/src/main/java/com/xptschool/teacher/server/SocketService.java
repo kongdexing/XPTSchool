@@ -42,7 +42,6 @@ public class SocketService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand: ");
         receiveMessage();
         ReceiveRecallMessage.receiveRecallMessage();
         return START_STICKY;
@@ -56,7 +55,7 @@ public class SocketService extends Service {
 
     private void receiveMessage() {
         SocketReceiveThread socketReceiveThread = new SocketReceiveThread();
-        ServerManager.receiverThreadPool.execute(socketReceiveThread);
+        ServerManager.receiverThreadPool.submit(socketReceiveThread);
 //        SocketReceiveThread receiveThread = new SocketReceiveThread();
 //        receiveThread.start();
     }

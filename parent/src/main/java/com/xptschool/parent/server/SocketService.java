@@ -11,6 +11,7 @@ import com.xptschool.parent.model.ToSendMessage;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by dexing on 2017/5/8.
@@ -53,8 +54,9 @@ public class SocketService extends Service {
     }
 
     private void receiveMessage() {
+        Log.i(TAG, "receiveMessage: ");
         SocketReceiveThread socketReceiveThread = new SocketReceiveThread();
-        ServerManager.receiverThreadPool.execute(socketReceiveThread);
+        ServerManager.receiverThreadPool.submit(socketReceiveThread);
     }
 
     public void sendMessage(ToSendMessage message) {

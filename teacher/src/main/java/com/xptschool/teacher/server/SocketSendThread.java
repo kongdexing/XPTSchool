@@ -14,7 +14,9 @@ import com.xptschool.teacher.util.ChatUtil;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URLDecoder;
 
 /**
@@ -44,12 +46,14 @@ public class SocketSendThread extends Thread {
         intent.setAction(BroadcastAction.MESSAGE_SEND_START);
         XPTApplication.getInstance().sendBroadcast(intent);
 
-        Socket mSocket = null;
+        Socket mSocket = new Socket();
         OutputStream outputStream = null;
         InputStream inputStream = null;
 
         try {
-            mSocket = new Socket(SocketService.socketIP, SocketService.socketWritePort);
+            SocketAddress socAddress = new InetSocketAddress(SocketService.socketIP, SocketService.socketWritePort);
+            mSocket.connect(socAddress, 10000);
+
             if (mSocket == null || !mSocket.isConnected()) {
                 Log.i(TAG, "SocketSendThread run: socket is null or unconnected");
                 intent.setAction(BroadcastAction.MESSAGE_SEND_FAILED);
@@ -80,6 +84,7 @@ public class SocketSendThread extends Thread {
 
             inputStream = mSocket.getInputStream();
             String chatId = "";
+            Log.i(TAG, "start read result ");
             byte[] buffer = new byte[10];
             while (inputStream.read(buffer) != -1) {
                 try {
