@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 //apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'org.greenrobot.greendao'
 // 依赖插件脚本
-//apply from: 'tinker-support.gradle'
+apply from: 'tinker-support.gradle'
 
 def MZAppId = project.getProperties().get("MZ_APP_ID") ?: "100999"
 def MZAppKey = project.getProperties().get("MZ_APP_KEY") ?: "80355073480594a99470dcacccd8cf2c"
@@ -26,8 +26,8 @@ android {
         applicationId "com.xptschool.parent"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 10
-        versionName "1.1.1"
+        versionCode 11
+        versionName "1.1.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [API_KEY_BAIDU       : rootProject.appKeyBaiduMap_parent,
