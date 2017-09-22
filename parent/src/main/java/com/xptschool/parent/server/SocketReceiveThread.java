@@ -25,7 +25,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URLDecoder;
 
 /**
@@ -33,7 +35,7 @@ import java.net.URLDecoder;
  * 聊天消息接收线程
  */
 
-public class SocketReceiveThread implements Runnable, Cloneable {
+public class SocketReceiveThread implements Runnable {
 
     private String TAG = "PSocketService";
 
@@ -41,17 +43,10 @@ public class SocketReceiveThread implements Runnable, Cloneable {
         super();
     }
 
-    public SocketReceiveThread cloneReceiveThread() {
-        try {
-            return (SocketReceiveThread) super.clone();
-        } catch (CloneNotSupportedException e) {
-            return null;
-        }
-    }
-
     @Override
     public void run() {
-        Socket mSocket = null;
+        Log.i(TAG, "run: " + this.hashCode());
+        Socket mSocket = new Socket();
         OutputStream outputStream = null;
         InputStream mmInStream = null;
         try {
@@ -60,7 +55,8 @@ public class SocketReceiveThread implements Runnable, Cloneable {
                 Log.i(TAG, "receiver run parent is null ");
                 return;
             }
-            mSocket = new Socket(SocketService.socketIP, SocketService.socketReceiverPort);
+            SocketAddress socAddress = new InetSocketAddress(SocketService.socketIP, SocketService.socketReadPort);
+            mSocket.connect(socAddress, 5000);
             if (!mSocket.isConnected()) {
                 Log.i(TAG, "connectServerWithTCPSocket unconnected");
                 return;

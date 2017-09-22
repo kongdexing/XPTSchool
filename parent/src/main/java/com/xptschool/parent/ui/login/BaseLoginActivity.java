@@ -88,10 +88,10 @@ public class BaseLoginActivity extends BaseActivity {
     }
 
     protected void onLoginSuccess() {
-        ServerManager.getInstance().startService(this);
+        ServerManager.getInstance().startService();
     }
 
     protected void onLoginFailed(String msg) {
-
+        SharedPreferencesUtil.saveData(this, SharedPreferencesUtil.KEY_UID, "");
     }
 }

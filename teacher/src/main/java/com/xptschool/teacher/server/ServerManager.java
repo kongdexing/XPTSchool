@@ -11,6 +11,8 @@ import com.xptschool.teacher.ui.chat.ToSendMessage;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by dexing on 2017/5/8.
@@ -22,6 +24,8 @@ public class ServerManager {
     private static ServerManager mInstance = new ServerManager();
     private SocketService mSocketService;
     private Timer mTimer;
+    public static ExecutorService receiverThreadPool = Executors.newSingleThreadExecutor();
+    public static ExecutorService sendThreadPool = Executors.newFixedThreadPool(5);
 
     public static ServerManager getInstance() {
         return mInstance;

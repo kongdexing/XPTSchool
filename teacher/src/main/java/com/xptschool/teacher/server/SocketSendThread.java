@@ -49,7 +49,7 @@ public class SocketSendThread extends Thread {
         InputStream inputStream = null;
 
         try {
-            mSocket = new Socket(SocketService.socketIP, SocketService.socketPort);
+            mSocket = new Socket(SocketService.socketIP, SocketService.socketWritePort);
             if (mSocket == null || !mSocket.isConnected()) {
                 Log.i(TAG, "SocketSendThread run: socket is null or unconnected");
                 intent.setAction(BroadcastAction.MESSAGE_SEND_FAILED);

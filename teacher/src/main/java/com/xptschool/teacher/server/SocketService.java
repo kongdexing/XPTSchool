@@ -21,13 +21,11 @@ public class SocketService extends Service {
 
     private static String TAG = "TSocketService";
 //    public static String socketIP = "192.168.1.195";
-//    public static int socketPort = 5020;
+//    public static int socketWritePort = 5020;
 
     public static String socketIP = "chat.pcuion.com";
-    public static int socketPort = 50300;
-    public static int socketReceiverPort = 50301;
-    private ExecutorService receiverThreadPool = Executors.newSingleThreadExecutor();
-    private ExecutorService sendThreadPool = Executors.newFixedThreadPool(5);
+    public static int socketWritePort = 50300;
+    public static int socketReadPort = 50301;
 
     public SocketService() {
         super();
@@ -58,7 +56,7 @@ public class SocketService extends Service {
 
     private void receiveMessage() {
         SocketReceiveThread socketReceiveThread = new SocketReceiveThread();
-        receiverThreadPool.execute(socketReceiveThread);
+        ServerManager.receiverThreadPool.execute(socketReceiveThread);
 //        SocketReceiveThread receiveThread = new SocketReceiveThread();
 //        receiveThread.start();
     }
@@ -68,7 +66,7 @@ public class SocketService extends Service {
 //        SocketSendThread sendThread = new SocketSendThread(message);
 //        sendThread.start();
 
-        sendThreadPool.execute(new SocketSendThread(message));
+        ServerManager.sendThreadPool.execute(new SocketSendThread(message));
     }
 
     @Override
