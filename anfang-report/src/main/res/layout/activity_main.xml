@@ -17,66 +17,9 @@
             android:textSize="28sp" />
     </LinearLayout>
 
-    <LinearLayout
+    <com.shuhai.anfang.report.view.AutoScrollViewPager
+        android:id="@+id/autoViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:background="@color/colorPrimaryDark"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ll_left_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/colorAccent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        android:textColor="#58a0c5"
-                        android:text="学生卡发卡总量" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="单位(/张)" />
-
-                </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/txtAllCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="30000"
-                    android:gravity="center"/>
-
-            </LinearLayout>
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/chart1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/ll_left_top" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="3">
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
