@@ -15,6 +15,8 @@ import android.view.WindowManager;
 
 public class BaseActivity extends AppCompatActivity {
 
+    public String TAG = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,7 @@ public class BaseActivity extends AppCompatActivity {
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        TAG = this.getClass().getSimpleName();
     }
 
     @Override

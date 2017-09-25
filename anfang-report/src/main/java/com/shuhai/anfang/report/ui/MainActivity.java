@@ -3,7 +3,13 @@ package com.shuhai.anfang.report.ui;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.common.VolleyHttpResult;
+import com.android.volley.common.VolleyHttpService;
+import com.android.volley.common.VolleyRequestListener;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -12,13 +18,19 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shuhai.anfang.report.R;
+import com.shuhai.anfang.report.http.HttpAction;
+import com.shuhai.anfang.report.module.PieAllStuCard;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
     private PieChart mChart;
+    private TextView txtAllCard;
     private Typeface tf;
 
     @Override
@@ -27,6 +39,7 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
 
+        txtAllCard = (TextView) findViewById(R.id.txtAllCard);
         mChart = (PieChart) findViewById(R.id.chart1);
         mChart.setUsePercentValues(true);
         mChart.getDescription().setEnabled(false);
@@ -53,6 +66,7 @@ public class MainActivity extends BaseActivity {
         mChart.setTransparentCircleRadius(61f);
 
         mChart.setDrawCenterText(true);
+        mChart.setCenterText("学生卡使用统计");
 
         mChart.setRotationAngle(0);
         // enable rotation of the chart by touch
@@ -65,7 +79,8 @@ public class MainActivity extends BaseActivity {
         // add a selection listener
 //        mChart.setOnChartValueSelectedListener(this);
 
-        setData(2, 100);
+        getData();
+//        setData(2, 100);
 
 //        mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
@@ -79,16 +94,49 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void setData(int count, float range) {
+    private void getData() {
+        VolleyHttpService.getInstance().sendGetRequest(HttpAction.STU_CARD_PIE, new VolleyRequestListener() {
+            @Override
+            public void onStart() {
 
-        float mult = range;
+            }
+
+            @Override
+            public void onResponse(VolleyHttpResult volleyHttpResult) {
+                switch (volleyHttpResult.getStatus()) {
+                    case HttpAction.SUCCESS:
+                        Gson gson = new Gson();
+                        PieAllStuCard pieAllStuCard = gson.fromJson(volleyHttpResult.getData().toString(),
+                                new TypeToken<PieAllStuCard>() {
+                                }.getType());
+                        setData(pieAllStuCard);
+                        Log.i(TAG, "onResponse: " + pieAllStuCard.toString());
+                        break;
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    private void setData(PieAllStuCard pieAllStuCard) {
+
+        txtAllCard.setText(pieAllStuCard.getTotal() + "");
+        float mult = 100;
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        entries.add(new PieEntry((float) (Math.random() * mult) + mult / 5, ""));
-        entries.add(new PieEntry((float) (Math.random() * mult) + mult / 5, ""));
+
+        List<PieAllStuCard.StuCardInfo> cardUsed = pieAllStuCard.getInfo();
+        for (int i = 0; i < cardUsed.size(); i++) {
+            entries.add(new PieEntry((float) cardUsed.get(i).getValue() / pieAllStuCard.getTotal(),
+                    cardUsed.get(i).getName() + "\n" + cardUsed.get(i).getValue()));
+        }
 
         PieDataSet dataSet = new PieDataSet(entries, "学生卡总量统计");
 //        dataSet.setSliceSpace(0f);
