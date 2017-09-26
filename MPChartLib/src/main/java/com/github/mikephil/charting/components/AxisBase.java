@@ -110,7 +110,7 @@ public abstract class AxisBase extends ComponentBase {
     /**
      * flag indicating the limit lines layer depth
      */
-    protected boolean mDrawLimitLineBehindData = false;
+    protected boolean mDrawLimitLineBehindData = true;
 
     /**
      * Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
