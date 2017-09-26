@@ -3,12 +3,16 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#9bb5d0</color>
     <color name="colorAccent">#FF4081</color>
-    
+
+    <color name="color_translucent">#00000000</color>
     <color name="color_title">#38aee1</color>
     <color name="color_hole">#166ec5</color>
     <color name="color_unused">#f48244</color>
     <color name="color_used">#83de55</color>
     <color name="color_card_sum">#84df56</color>
+    <color name="color_line">#105571</color>
+    <color name="color_block_line">#2f94be</color>
+    <color name="color_block_bg">#3f021c49</color>
 
     <color name="color_white">#FFFFFF</color>
 

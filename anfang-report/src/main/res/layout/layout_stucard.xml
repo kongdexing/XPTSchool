@@ -11,6 +11,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
+            android:background="@drawable/bg_block_custom"
+            android:layout_margin="20dp"
+            android:padding="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -22,6 +25,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:orientation="horizontal"
                     android:gravity="left">
 
                     <TextView
@@ -29,13 +33,14 @@
                         android:layout_height="wrap_content"
                         android:text="学生卡发卡总量"
                         android:textColor="@color/color_title"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="单位(/张)"
+                        android:text="单位(张)"
+                        android:textSize="12sp"
                         android:textColor="@color/color_white" />
 
                 </LinearLayout>
@@ -47,8 +52,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="30000"
+                    android:layout_marginTop="5dp"
                     android:textColor="@color/color_card_sum"
-                    android:textSize="35sp" />
+                    android:textSize="30sp" />
 
             </LinearLayout>
 
@@ -64,6 +70,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:background="@drawable/bg_block_custom"
+            android:layout_margin="20dp"
+            android:padding="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -75,6 +84,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:gravity="left">
 
                     <TextView
@@ -82,13 +92,14 @@
                         android:layout_height="wrap_content"
                         android:text="每省发卡数量统计"
                         android:textColor="@color/color_title"
-                        android:textSize="24sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="单位(/张)"
+                        android:text="单位(张)"
+                        android:textSize="12sp"
                         android:textColor="@color/color_white" />
 
                 </LinearLayout>

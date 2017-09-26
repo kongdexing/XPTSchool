@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
@@ -377,10 +378,14 @@ public class LegendRenderer extends Renderer {
                             posX += calculatedLabelSizes.get(i).width;
 
                         posX += direction == Legend.LegendDirection.RIGHT_TO_LEFT ? -xEntrySpace : xEntrySpace;
+
                     } else
                         posX += direction == Legend.LegendDirection.RIGHT_TO_LEFT ? -stackSpace : stackSpace;
-                }
 
+                    if (!e.label.isEmpty()) {
+                        posX += 30.0f;
+                    }
+                }
                 break;
             }
 
@@ -522,8 +527,7 @@ public class LegendRenderer extends Renderer {
                 c.drawRect(x, y - half, x + formSize, y + half, mLegendFormPaint);
                 break;
 
-            case LINE:
-            {
+            case LINE: {
                 final float formLineWidth = Utils.convertDpToPixel(
                         Float.isNaN(entry.formLineWidth)
                                 ? legend.getFormLineWidth()
@@ -540,7 +544,7 @@ public class LegendRenderer extends Renderer {
                 mLineFormPath.lineTo(x + formSize, y);
                 c.drawPath(mLineFormPath, mLegendFormPaint);
             }
-                break;
+            break;
         }
 
         c.restoreToCount(restoreCount);

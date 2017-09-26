@@ -28,7 +28,7 @@ public abstract class AxisBase extends ComponentBase {
 
     private float mGridLineWidth = 1f;
 
-    private int mAxisLineColor = Color.GRAY;
+    private int mAxisLineColor = Color.BLUE;
 
     private float mAxisLineWidth = 1f;
 

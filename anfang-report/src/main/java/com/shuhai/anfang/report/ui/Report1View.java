@@ -80,11 +80,11 @@ public class Report1View extends LinearLayout {
 //        mChart.setCenterText(generateCenterSpannableText());
 
         //外部间距
-        mChart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
+        mChart.setExtraOffsets(10.f, 0.f, 10.f, 0.f);
 
         //绘制中心圆
         mChart.setDrawHoleEnabled(true);
-        mChart.setHoleColor(getResources().getColor(R.color.color_hole));
+        mChart.setHoleColor(getResources().getColor(R.color.color_translucent));
 
 //        mChart.setTransparentCircleColor(Color.WHITE);
 //        mChart.setTransparentCircleAlpha(110);
@@ -95,6 +95,7 @@ public class Report1View extends LinearLayout {
 
         mChart.setDrawCenterText(true);
         mChart.setCenterText("学生卡使用统计");
+        mChart.setCenterTextColor(getResources().getColor(R.color.color_white));
 
         mChart.setRotationAngle(0);
         // enable rotation of the chart by touch
@@ -218,10 +219,12 @@ public class Report1View extends LinearLayout {
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(true);
+        l.setTextColor(getResources().getColor(R.color.color_white));
         l.setTypeface(mTfLight);
         l.setYOffset(0f);
-        l.setXOffset(10f);
-        l.setYEntrySpace(0f);
+        l.setXOffset(8f);
+        l.setYEntrySpace(0.0f);
+        l.setXEntrySpace(0.0f);
         l.setTextSize(8f);
 
         XAxis xAxis = chart_bar1.getXAxis();
@@ -230,6 +233,9 @@ public class Report1View extends LinearLayout {
         xAxis.setGranularity(1.0f);  //粒度
         xAxis.setDrawAxisLine(true);
         xAxis.setTextSize(3.0f);
+        xAxis.setTextColor(getResources().getColor(R.color.color_white));
+        xAxis.setAxisLineColor(getResources().getColor(R.color.color_line));
+        xAxis.setAxisLineWidth(1.0f);
         xAxis.setDrawGridLines(true);
         xAxis.setDrawLabels(true);
         xAxis.setCenterAxisLabels(true);
@@ -244,7 +250,10 @@ public class Report1View extends LinearLayout {
         leftAxis.setTypeface(mTfLight);
         leftAxis.setValueFormatter(new LargeValueFormatter());
         leftAxis.setDrawGridLines(false);
-        leftAxis.setSpaceTop(35f);
+        leftAxis.setAxisLineColor(getResources().getColor(R.color.color_line));
+        leftAxis.setTextColor(getResources().getColor(R.color.color_white));
+        leftAxis.setAxisLineWidth(1.0f);
+        leftAxis.setSpaceTop(20f);  //设置最高柱距顶部距离
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         chart_bar1.getAxisRight().setEnabled(false);
@@ -282,9 +291,9 @@ public class Report1View extends LinearLayout {
 
     private void setBarData() {
 
-        float groupSpace = 0.08f;
-        float barSpace = 0.06f; // x2 DataSet
-        float barWidth = 0.4f; // x2 DataSet
+        float groupSpace = 0.4f;
+        float barSpace = 0.00f; // x2 DataSet
+        float barWidth = 0.3f; // x2 DataSet
         // (0.4 + 0.06) * 2 + 0.08 = 1.00 -> interval per "group"
 
         int groupCount = 11 + 1;
@@ -294,29 +303,32 @@ public class Report1View extends LinearLayout {
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
 
-        float randomMultiplier = 100 * 100000f;
+        float randomMultiplier = 100.0f;
 
         for (int i = startYear; i < endYear; i++) {
-            yVals1.add(new BarEntry(i, (float) (Math.random() * randomMultiplier)));
-            yVals2.add(new BarEntry(i, (float) (Math.random() * randomMultiplier)));
+            yVals1.add(new BarEntry(i, (int) (Math.random() * randomMultiplier)));
+            yVals2.add(new BarEntry(i, (int) (Math.random() * randomMultiplier)));
         }
 
         BarDataSet set1, set2;
 
         if (chart_bar1.getData() != null && chart_bar1.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) chart_bar1.getData().getDataSetByIndex(0);
-            set2 = (BarDataSet) chart_bar1.getData().getDataSetByIndex(1);
-            set1.setValues(yVals1);
-            set2.setValues(yVals2);
-            chart_bar1.getData().notifyDataChanged();
-            chart_bar1.notifyDataSetChanged();
-
+            Log.i(TAG, "setBarData:  chartBar is not null");
+//            set1 = (BarDataSet) chart_bar1.getData().getDataSetByIndex(0);
+//            set2 = (BarDataSet) chart_bar1.getData().getDataSetByIndex(1);
+//            set1.setValues(yVals1);
+//            set2.setValues(yVals2);
+//            chart_bar1.getData().notifyDataChanged();
+//            chart_bar1.notifyDataSetChanged();
         } else {
+            Log.i(TAG, "setBarData:  chartBar is null");
             // create 2 DataSets
-            set1 = new BarDataSet(yVals1, "Company A");
-            set1.setColor(Color.rgb(104, 241, 175));
-            set2 = new BarDataSet(yVals2, "Company B");
-            set2.setColor(Color.rgb(164, 228, 251));
+            set1 = new BarDataSet(yVals1, "总数量");
+            set1.setValueTextColor(getResources().getColor(R.color.color_white));
+            set1.setColor(getResources().getColor(R.color.color_used));
+            set2 = new BarDataSet(yVals2, "正在使用数量");
+            set2.setValueTextColor(getResources().getColor(R.color.color_white));
+            set2.setColor(getResources().getColor(R.color.color_unused));
 
             BarData data = new BarData(set1, set2);
             data.setValueFormatter(new LargeValueFormatter());
@@ -331,11 +343,10 @@ public class Report1View extends LinearLayout {
         // restrict the x-axis range
         chart_bar1.getXAxis().setAxisMinimum(startYear);
 
-        // barData.getGroupWith(...) is a helper that calculates the width each group needs based on the provided parameters
+        // chart_bar1.getGroupWith(...) is a helper that calculates the width each group needs based on the provided parameters
 //        chart_bar1.getXAxis().setAxisMaximum(startYear + chart_bar1.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
         chart_bar1.getXAxis().setAxisMaximum(endYear);
         chart_bar1.groupBars(startYear, groupSpace, barSpace);
-
         chart_bar1.invalidate();
 
     }
