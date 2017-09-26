@@ -3,8 +3,8 @@ package com.shuhai.anfang.report.ui;
 import android.os.Bundle;
 
 import com.shuhai.anfang.report.R;
-import com.shuhai.anfang.report.view.AutoScrollViewPager;
-import com.shuhai.anfang.report.view.MyPagerAdapter;
+import com.shuhai.anfang.report.custom.AutoScrollViewPager;
+import com.shuhai.anfang.report.custom.MyPagerAdapter;
 
 public class MainActivity extends BaseActivity {
 

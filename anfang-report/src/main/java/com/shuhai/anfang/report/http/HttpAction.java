@@ -15,6 +15,9 @@ public class HttpAction {
 
     private static String SERVER_URL = "http://school.xinpingtai.com/index.php/Api/";
 
+    //学生卡使用情况饼状图，柱状图
     public static String STU_CARD_PIE = SERVER_URL + "Counts/stuCardInfo";
+    public static String STU_CARD_BAR = SERVER_URL + "Counts/stuCardAreaInfo";
+
 
 }
