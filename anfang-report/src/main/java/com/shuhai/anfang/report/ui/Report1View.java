@@ -80,7 +80,7 @@ public class Report1View extends LinearLayout {
 //        mPieChart.setCenterText(generateCenterSpannableText());
 
         //外部间距
-        mPieChart.setExtraOffsets(10.f, 0.f, 10.f, 0.f);
+        mPieChart.setExtraOffsets(3.f, 0.f, 3.f, 0.f);
 
         //绘制中心圆
         mPieChart.setDrawHoleEnabled(true);
@@ -95,6 +95,7 @@ public class Report1View extends LinearLayout {
 
         mPieChart.setDrawCenterText(true);
         mPieChart.setCenterText("学生卡使用统计");
+        mPieChart.setCenterTextSize(15.0f);
         mPieChart.setCenterTextColor(getResources().getColor(R.color.color_white));
 
         mPieChart.setRotationAngle(0);
@@ -102,24 +103,15 @@ public class Report1View extends LinearLayout {
         mPieChart.setRotationEnabled(true);
         mPieChart.setHighlightPerTapEnabled(true);
 
-        // mPieChart.setUnit(" €");
-        // mPieChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-//        mPieChart.setOnChartValueSelectedListener(this);
-
-        getPieData();
-//        setPieData(2, 100);
-
-//        mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-        // mPieChart.spin(2000, 0, 360);
-
+        //图例
         Legend l = mPieChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
         l.setEnabled(false);
+
+        getPieData();
     }
 
     private void getPieData() {
@@ -153,7 +145,6 @@ public class Report1View extends LinearLayout {
     private void setPieData(PieAllStuCard pieAllStuCard) {
 
         txtAllCard.setText(pieAllStuCard.getTotal() + "");
-        float mult = 100;
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
@@ -288,7 +279,7 @@ public class Report1View extends LinearLayout {
         l.setXOffset(8f);
         l.setYEntrySpace(0.0f);
         l.setXEntrySpace(0.0f);
-        l.setTextSize(8f);
+        l.setTextSize(6f);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -301,7 +292,7 @@ public class Report1View extends LinearLayout {
         xAxis.setDrawGridLines(false);
 
         xAxis.setDrawLabels(true);
-        xAxis.setTextSize(3.0f);
+        xAxis.setTextSize(2.5f);
         xAxis.setAxisLineWidth(1.0f);
         xAxis.setLabelCount(12);
         xAxis.setCenterAxisLabels(true);
@@ -327,14 +318,15 @@ public class Report1View extends LinearLayout {
         leftAxis.setAxisLineColor(getResources().getColor(R.color.color_line));
         leftAxis.setTextColor(getResources().getColor(R.color.color_white));
         leftAxis.setAxisLineWidth(1.0f);
-        leftAxis.setSpaceTop(20f);  //设置最高柱距顶部距离
+        leftAxis.setTextSize(3.0f);
+        leftAxis.setSpaceTop(15f);  //设置最高柱距顶部距离
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
         barChart.getAxisRight().setEnabled(false);
 
-        float groupSpace = 0.4f;
+        float groupSpace = 0.6f;
         float barSpace = 0.00f; // x2 DataSet
-        float barWidth = 0.3f; // x2 DataSet
+        float barWidth = 0.2f; // x2 DataSet
         // (0.4 + 0.06) * 2 + 0.08 = 1.00 -> interval per "group"
 
         int startYear = 0;

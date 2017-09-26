@@ -10,11 +10,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="4.5"
             android:background="@drawable/bg_block_custom"
-            android:layout_margin="20dp"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
                 android:id="@+id/ll_left_top"
@@ -25,23 +27,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="left">
+                    android:gravity="left"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="学生卡发卡总量"
                         android:textColor="@color/color_title"
-                        android:textSize="18sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="单位(张)"
-                        android:textSize="12sp"
-                        android:textColor="@color/color_white" />
+                        android:textColor="@color/color_white"
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 
@@ -50,9 +52,9 @@
                     android:id="@+id/txtAllCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="30000"
-                    android:layout_marginTop="5dp"
                     android:textColor="@color/color_card_sum"
                     android:textSize="30sp" />
 
@@ -69,11 +71,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="3"
             android:background="@drawable/bg_block_custom"
-            android:layout_margin="20dp"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
                 android:id="@+id/ll_right_top"
@@ -92,15 +97,15 @@
                         android:layout_height="wrap_content"
                         android:text="每省发卡数量统计"
                         android:textColor="@color/color_title"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="单位(张)"
-                        android:textSize="12sp"
-                        android:textColor="@color/color_white" />
+                        android:textColor="@color/color_white"
+                        android:textSize="11sp" />
 
                 </LinearLayout>
 
@@ -115,18 +120,21 @@
                     android:id="@+id/chart_bar1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1" />
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/chart_bar2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1" />
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/chart_bar3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1" />
             </LinearLayout>
 
