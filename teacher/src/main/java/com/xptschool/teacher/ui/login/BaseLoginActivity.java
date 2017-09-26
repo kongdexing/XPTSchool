@@ -39,6 +39,7 @@ public class BaseLoginActivity extends BaseActivity {
                 new VolleyHttpParamsEntity()
                         .addParam("username", account)
                         .addParam("password", password)
+                        .addParam("system_model", "1")
                         .addParam("type", "3"), retryPolicy,
                 new MyVolleyRequestListener() {
                     @Override
