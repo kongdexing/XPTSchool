@@ -8,4 +8,37 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="report3_label_table">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_title</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="report3_unit_table">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:textSize">5sp</item>
+        <item name="android:text">@string/label_unit_person</item>
+    </style>
+
+    <style name="report3_label_line_chart">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_title</item>
+        <item name="android:textSize">8sp</item>
+    </style>
+
+    <style name="report3_unit_line_chart">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">3dp</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textSize">4sp</item>
+        <item name="android:text">@string/label_unit_time</item>
+    </style>
+
 </resources>

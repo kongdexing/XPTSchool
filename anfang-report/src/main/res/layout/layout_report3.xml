@@ -27,19 +27,10 @@
                 android:paddingLeft="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_app_teacher"
-                    android:textColor="@color/color_title"
-                    android:textSize="10sp" />
+                    style="@style/report3_label_table"
+                    android:text="@string/label_app_teacher" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/label_unit_person"
-                    android:textColor="@color/color_white"
-                    android:textSize="5sp" />
+                <TextView style="@style/report3_unit_table" />
             </LinearLayout>
 
             <TextView
@@ -67,19 +58,10 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_app_teacher_online"
-                    android:textColor="@color/color_title"
-                    android:textSize="10sp" />
+                    style="@style/report3_label_table"
+                    android:text="@string/label_app_teacher_online" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/label_unit_person"
-                    android:textColor="@color/color_white"
-                    android:textSize="5sp" />
+                <TextView style="@style/report3_unit_table" />
             </LinearLayout>
 
             <TextView
@@ -106,19 +88,10 @@
                 android:paddingLeft="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_app_parent"
-                    android:textColor="@color/color_title"
-                    android:textSize="10sp" />
+                    style="@style/report3_label_table"
+                    android:text="@string/label_app_parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/label_unit_person"
-                    android:textColor="@color/color_white"
-                    android:textSize="5sp" />
+                <TextView style="@style/report3_unit_table" />
             </LinearLayout>
 
             <TextView
@@ -145,19 +118,10 @@
                 android:paddingLeft="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_app_parent_online"
-                    android:textColor="@color/color_title"
-                    android:textSize="10sp" />
+                    style="@style/report3_label_table"
+                    android:text="@string/label_app_parent_online" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/label_unit_person"
-                    android:textColor="@color/color_white"
-                    android:textSize="5sp" />
+                <TextView style="@style/report3_unit_table" />
             </LinearLayout>
 
             <TextView
@@ -184,7 +148,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -196,19 +160,10 @@
                 android:paddingTop="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_stu_consume"
-                    android:textColor="@color/color_title"
-                    android:textSize="12sp" />
+                    style="@style/report3_label_line_chart"
+                    android:text="@string/label_app_t_use_count" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:text="@string/label_unit_piece"
-                    android:textColor="@color/color_white"
-                    android:textSize="6sp" />
+                <TextView style="@style/report3_unit_line_chart" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
@@ -221,8 +176,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -234,23 +189,14 @@
                 android:paddingTop="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_stu_into_school"
-                    android:textColor="@color/color_title"
-                    android:textSize="12sp" />
+                    style="@style/report3_label_line_chart"
+                    android:text="@string/label_app_t_use_function" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/label_unit_piece"
-                    android:textColor="@color/color_white"
-                    android:textSize="6sp" />
+                <TextView style="@style/report3_unit_line_chart" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart2"
+                android:id="@+id/chart3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -258,7 +204,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -270,23 +216,14 @@
                 android:paddingTop="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_stu_leave_school"
-                    android:textColor="@color/color_title"
-                    android:textSize="12sp" />
+                    style="@style/report3_label_line_chart"
+                    android:text="@string/label_chat_time" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="@string/label_unit_piece"
-                    android:textColor="@color/color_white"
-                    android:textSize="6sp" />
+                <TextView style="@style/report3_unit_line_chart" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart3"
+                android:id="@+id/chart5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -297,6 +234,91 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:paddingLeft="5dp"></LinearLayout>
+        android:orientation="vertical"
+        android:paddingLeft="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_block_custom"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/report3_label_line_chart"
+                    android:text="@string/label_app_p_use_count" />
+
+                <TextView style="@style/report3_unit_line_chart" />
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_block_custom"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/report3_label_line_chart"
+                    android:text="@string/label_app_p_use_function" />
+
+                <TextView style="@style/report3_unit_line_chart" />
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_block_custom"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/report3_label_line_chart"
+                    android:text="@string/label_ad_time" />
+
+                <TextView style="@style/report3_unit_line_chart" />
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -3,16 +3,27 @@
 
     <string name="label_stu_allsum">学生卡发卡总数量</string>
     <string name="label_stu_province">每省发卡数量统计</string>
+
+    <!--第二页-->
     <string name="label_stu_consume">当前学生卡正在消费数量</string>
     <string name="label_stu_into_school">当前学生卡正在进校数量</string>
     <string name="label_stu_leave_school">当前学生卡正在出校数量</string>
 
+    <!--第三页-->
     <string name="label_app_teacher">APP老师用户数量</string>
     <string name="label_app_teacher_online">APP老师在线数量</string>
-
     <string name="label_app_parent">APP家长用户数量</string>
     <string name="label_app_parent_online">APP家长在线数量</string>
 
+    <string name="label_app_t_use_count">老师端APP使用次数</string>
+    <string name="label_app_p_use_count">家长端APP使用次数</string>
+    <string name="label_app_t_use_function">老师端使用部分功能的次数</string>
+    <string name="label_app_p_use_function">家长端使用部分功能的次数</string>
+    <string name="label_chat_time">老师和家长沟通次数</string>
+    <string name="label_ad_time">教育/电商/第三方广告点击数量</string>
+
     <string name="label_unit_piece">单位（张）</string>
     <string name="label_unit_person">单位（位）</string>
+    <string name="label_unit_time">单位（次）</string>
+
 </resources>
