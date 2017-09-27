@@ -45,13 +45,11 @@ import java.util.List;
  * No1
  */
 
-public class Report1View extends LinearLayout {
+public class Report1View extends BaseReportView {
 
     private PieChart mPieChart;
     private TextView txtAllCard;
     private BarChart[] listBarCharts = null;
-    private Typeface mTfRegular;
-    private Typeface mTfLight;
     private String TAG = Report1View.class.getSimpleName();
 
     public Report1View(Context context) {
@@ -60,11 +58,7 @@ public class Report1View extends LinearLayout {
 
     public Report1View(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_stucard, this, true);
-
-        mTfRegular = Typeface.createFromAsset(this.getContext().getAssets(), "OpenSans-Regular.ttf");
-        mTfLight = Typeface.createFromAsset(this.getContext().getAssets(), "OpenSans-Light.ttf");
-
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_report1, this, true);
 //        mPieChart.setDragDecelerationFrictionCoef(0.95f);
         initPieView();
         initBarView();
@@ -292,8 +286,8 @@ public class Report1View extends LinearLayout {
         xAxis.setDrawGridLines(false);
 
         xAxis.setDrawLabels(true);
-        xAxis.setTextSize(2.5f);
-        xAxis.setAxisLineWidth(1.0f);
+        xAxis.setTextSize(2.0f);
+        xAxis.setAxisLineWidth(0.3f);
         xAxis.setLabelCount(12);
         xAxis.setCenterAxisLabels(true);
         xAxis.setTextColor(getResources().getColor(R.color.color_white));
@@ -315,9 +309,11 @@ public class Report1View extends LinearLayout {
         leftAxis.setTypeface(mTfLight);
         leftAxis.setValueFormatter(new LargeValueFormatter());
         leftAxis.setDrawGridLines(true);
+//        leftAxis.setGridLineWidth(0.4f);
+
         leftAxis.setAxisLineColor(getResources().getColor(R.color.color_line));
         leftAxis.setTextColor(getResources().getColor(R.color.color_white));
-        leftAxis.setAxisLineWidth(1.0f);
+        leftAxis.setAxisLineWidth(0.5f);
         leftAxis.setTextSize(3.0f);
         leftAxis.setSpaceTop(15f);  //设置最高柱距顶部距离
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
@@ -352,7 +348,7 @@ public class Report1View extends LinearLayout {
         BarData data = new BarData(set1, set2);
         data.setValueFormatter(new LargeValueFormatter());
         data.setValueTypeface(mTfLight);
-
+        data.setValueTextSize(4f);
         barChart.setData(data);
 
         // specify the width each bar should have

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">anfang-report</string>
+
+    <string name="label_stu_allsum">学生卡发卡总数量</string>
+    <string name="label_stu_province">每省发卡数量统计</string>
+    <string name="label_stu_consume">当前学生卡正在消费数量</string>
+    <string name="label_stu_into_school">当前学生卡正在进校数量</string>
+    <string name="label_stu_leave_school">当前学生卡正在出校数量</string>
+
+    <string name="label_unit">单位（张）</string>
 </resources>

@@ -19,5 +19,8 @@ public class HttpAction {
     public static String STU_CARD_PIE = SERVER_URL + "Counts/stuCardInfo";
     public static String STU_CARD_BAR = SERVER_URL + "Counts/stuCardAreaInfo";
 
+    //进出校考勤
+    public static String ATTENDANCE_INFO = SERVER_URL + "Counts/attendanceInfo";
+
 
 }
