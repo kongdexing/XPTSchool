@@ -121,11 +121,11 @@ public class Report2View extends BaseReportView {
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTypeface(mTfLight);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(2f);
+        xAxis.setTextSize(4f);
         xAxis.setLabelCount(24);
         xAxis.setAxisLineWidth(0.5f);
         xAxis.setAxisLineColor(Color.WHITE);
-        xAxis.setTextColor(getResources().getColor(R.color.color_block_line));
+        xAxis.setTextColor(getResources().getColor(R.color.color_x_axis));
         xAxis.setDrawGridLines(false);
 
         int hourCount = 24;
@@ -150,7 +150,7 @@ public class Report2View extends BaseReportView {
         leftAxis.setAxisMaximum((int) maxYVal);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setLabelCount(4);
-        leftAxis.setTextSize(3f);
+        leftAxis.setTextSize(6f);
 //        leftAxis.setGridLineWidth(0.5f);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);

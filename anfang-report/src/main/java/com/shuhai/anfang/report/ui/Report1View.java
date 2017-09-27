@@ -88,7 +88,8 @@ public class Report1View extends BaseReportView {
 
         mPieChart.setDrawCenterText(true);
         mPieChart.setCenterText("学生卡使用统计");
-        mPieChart.setCenterTextSize(15.0f);
+        mPieChart.setCenterTextSize(10.0f);
+        mPieChart.setEntryLabelTextSize(8f);
         mPieChart.setCenterTextColor(getResources().getColor(R.color.color_white));
 
         mPieChart.setRotationAngle(0);
@@ -97,13 +98,7 @@ public class Report1View extends BaseReportView {
         mPieChart.setHighlightPerTapEnabled(true);
 
         //图例
-        Legend l = mPieChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setEnabled(false);
-
+        mPieChart.getLegend().setEnabled(false);
         getPieData();
     }
 
@@ -147,35 +142,29 @@ public class Report1View extends BaseReportView {
         List<PieAllStuCard.StuCardInfo> cardUsed = pieAllStuCard.getInfo();
         for (int i = 0; i < cardUsed.size(); i++) {
             entries.add(new PieEntry((float) cardUsed.get(i).getValue() / pieAllStuCard.getTotal(),
-                    cardUsed.get(i).getName() + "\n" + cardUsed.get(i).getValue()));
+                    cardUsed.get(i).getName() + cardUsed.get(i).getValue()));
         }
 
         PieDataSet dataSet = new PieDataSet(entries, "学生卡总量统计");
-//        dataSet.setSliceSpace(0f);
-//        dataSet.setSelectionShift(0f);
-
-        // add a lot of colors
-
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
         colors.add(getResources().getColor(R.color.color_used));
         colors.add(getResources().getColor(R.color.color_unused));
 
         dataSet.setColors(colors);
-        //dataSet.setSelectionShift(0f);
-
         dataSet.setValueLinePart1OffsetPercentage(70.f);
         dataSet.setValueLinePart1Length(0.3f);
-        dataSet.setValueLinePart2Length(0.5f);
+        dataSet.setValueLinePart2Length(0.8f);
+        dataSet.setValueLineWidth(1f);
         dataSet.setValueLineColor(Color.WHITE);
         //dataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
 
         PieData data = new PieData(dataSet);
         data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(12f);
         data.setValueTextColor(Color.WHITE);
         data.setValueTypeface(mTfRegular);
+        data.setValueTextSize(10f);
         mPieChart.setData(data);
 
         // undo all highlights
@@ -262,6 +251,8 @@ public class Report1View extends BaseReportView {
 
         //图例
         Legend l = barChart.getLegend();
+        l.setForm(Legend.LegendForm.SQUARE);
+        l.setFormSize(5f);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
@@ -272,7 +263,8 @@ public class Report1View extends BaseReportView {
         l.setXOffset(8f);
         l.setYEntrySpace(0.0f);
         l.setXEntrySpace(0.0f);
-        l.setTextSize(6f);
+        l.setFormLineWidth(6f);
+        l.setTextSize(5f);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -285,11 +277,11 @@ public class Report1View extends BaseReportView {
         xAxis.setDrawGridLines(false);
 
         xAxis.setDrawLabels(true);
-        xAxis.setTextSize(2.0f);
+        xAxis.setTextSize(4.0f);
         xAxis.setAxisLineWidth(0.3f);
         xAxis.setLabelCount(12);
         xAxis.setCenterAxisLabels(true);
-        xAxis.setTextColor(getResources().getColor(R.color.color_white));
+        xAxis.setTextColor(getResources().getColor(R.color.color_x_axis));
 
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
@@ -313,7 +305,7 @@ public class Report1View extends BaseReportView {
         leftAxis.setAxisLineColor(getResources().getColor(R.color.color_line));
         leftAxis.setTextColor(getResources().getColor(R.color.color_white));
         leftAxis.setAxisLineWidth(0.3f);
-        leftAxis.setTextSize(3.0f);
+        leftAxis.setTextSize(5.0f);
         leftAxis.setSpaceTop(15f);  //设置最高柱距顶部距离
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
