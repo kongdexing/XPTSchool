@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_stu_allsum"
                     android:textColor="@color/color_title"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/label_unit"
                     android:textColor="@color/color_white"
-                    android:textSize="11sp" />
+                    android:textSize="7sp" />
 
             </LinearLayout>
 
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_stu_province"
                     android:textColor="@color/color_title"
-                    android:textSize="15sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/label_unit"
                     android:textColor="@color/color_white"
-                    android:textSize="11sp" />
+                    android:textSize="7sp" />
 
             </LinearLayout>
 

@@ -50,7 +50,6 @@ public class Report1View extends BaseReportView {
     private PieChart mPieChart;
     private TextView txtAllCard;
     private BarChart[] listBarCharts = null;
-    private String TAG = Report1View.class.getSimpleName();
 
     public Report1View(Context context) {
         this(context, null);
@@ -313,7 +312,7 @@ public class Report1View extends BaseReportView {
 
         leftAxis.setAxisLineColor(getResources().getColor(R.color.color_line));
         leftAxis.setTextColor(getResources().getColor(R.color.color_white));
-        leftAxis.setAxisLineWidth(0.5f);
+        leftAxis.setAxisLineWidth(0.3f);
         leftAxis.setTextSize(3.0f);
         leftAxis.setSpaceTop(15f);  //设置最高柱距顶部距离
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
@@ -346,9 +345,11 @@ public class Report1View extends BaseReportView {
         set2.setColor(getResources().getColor(R.color.color_unused));
 
         BarData data = new BarData(set1, set2);
-        data.setValueFormatter(new LargeValueFormatter());
-        data.setValueTypeface(mTfLight);
-        data.setValueTextSize(4f);
+//        data.setValueFormatter(new LargeValueFormatter());
+//        data.setValueTypeface(mTfLight);
+//        data.setValueTextSize(4f);
+        data.setDrawValues(false);
+
         barChart.setData(data);
 
         // specify the width each bar should have

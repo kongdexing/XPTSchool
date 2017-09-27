@@ -15,6 +15,7 @@ public class BaseReportView extends LinearLayout {
 
     public Typeface mTfRegular;
     public Typeface mTfLight;
+    public String TAG = "";
 
     public BaseReportView(Context context) {
         this(context, null);
@@ -22,6 +23,7 @@ public class BaseReportView extends LinearLayout {
 
     public BaseReportView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        TAG = this.getClass().getSimpleName();
         mTfRegular = Typeface.createFromAsset(this.getContext().getAssets(), "OpenSans-Regular.ttf");
         mTfLight = Typeface.createFromAsset(this.getContext().getAssets(), "OpenSans-Light.ttf");
     }

@@ -46,7 +46,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/label_unit"
                     android:textColor="@color/color_white"
-                    android:textSize="8sp" />
+                    android:textSize="6sp" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
@@ -84,7 +84,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/label_unit"
                     android:textColor="@color/color_white"
-                    android:textSize="8sp" />
+                    android:textSize="6sp" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
@@ -120,7 +120,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="@string/label_unit"
                     android:textColor="@color/color_white"
-                    android:textSize="8sp" />
+                    android:textSize="6sp" />
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
