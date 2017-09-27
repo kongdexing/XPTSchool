@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/label_unit"
+                    android:text="@string/label_unit_piece"
                     android:textColor="@color/color_white"
                     android:textSize="6sp" />
             </LinearLayout>
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/label_unit"
+                    android:text="@string/label_unit_piece"
                     android:textColor="@color/color_white"
                     android:textSize="6sp" />
             </LinearLayout>
@@ -118,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/label_unit"
+                    android:text="@string/label_unit_piece"
                     android:textColor="@color/color_white"
                     android:textSize="6sp" />
             </LinearLayout>

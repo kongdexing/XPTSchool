@@ -7,5 +7,12 @@
     <string name="label_stu_into_school">当前学生卡正在进校数量</string>
     <string name="label_stu_leave_school">当前学生卡正在出校数量</string>
 
-    <string name="label_unit">单位（张）</string>
+    <string name="label_app_teacher">APP老师用户数量</string>
+    <string name="label_app_teacher_online">APP老师在线数量</string>
+
+    <string name="label_app_parent">APP家长用户数量</string>
+    <string name="label_app_parent_online">APP家长在线数量</string>
+
+    <string name="label_unit_piece">单位（张）</string>
+    <string name="label_unit_person">单位（位）</string>
 </resources>

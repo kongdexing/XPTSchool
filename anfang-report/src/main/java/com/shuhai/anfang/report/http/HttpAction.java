@@ -22,5 +22,7 @@ public class HttpAction {
     //进出校考勤
     public static String ATTENDANCE_INFO = SERVER_URL + "Counts/attendanceInfo";
 
+    //用户数量统计
+    public static String USER_COUNT_INFO = SERVER_URL + "Counts/userInfo";
 
 }
