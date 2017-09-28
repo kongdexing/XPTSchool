@@ -170,7 +170,7 @@ public class Report1View extends BaseReportView {
         // undo all highlights
         mPieChart.highlightValues(null);
         mPieChart.invalidate();
-        mPieChart.animateXY(3000, 3000);
+        mPieChart.animateXY(1000, 1000);
     }
 
     private void initBarView() {
@@ -354,6 +354,6 @@ public class Report1View extends BaseReportView {
         barChart.groupBars(startYear, groupSpace, barSpace);
         barChart.invalidate();
         //x y 动画效果
-        barChart.animateXY(3000, 3000);
+        barChart.animateXY(1000, 1000);
     }
 }

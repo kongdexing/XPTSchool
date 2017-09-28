@@ -23,3 +23,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class android.support.** {*;}
+-keep class com.shuhai.anfang.report.**{*;}
+-dontwarn com.shuhai.anfang.report.**
+
+##百度定位
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**

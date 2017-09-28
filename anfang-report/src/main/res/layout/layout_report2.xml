@@ -10,8 +10,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"></LinearLayout>
+        android:layout_weight="3"
+        android:paddingRight="10dp">
 
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/mapview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/bg_block_custom" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

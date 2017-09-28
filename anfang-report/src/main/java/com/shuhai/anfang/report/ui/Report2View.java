@@ -1,36 +1,50 @@
 package com.shuhai.anfang.report.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
+import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.HeatMap;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.model.LatLng;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shuhai.anfang.report.R;
-import com.shuhai.anfang.report.custom.MyFillFormatter;
 import com.shuhai.anfang.report.http.HttpAction;
-import com.shuhai.anfang.report.module.BarProvinceInfo;
 import com.shuhai.anfang.report.module.LineAttendance;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by dexing on 2017/9/25 0025.
@@ -39,7 +53,31 @@ import java.util.List;
 
 public class Report2View extends BaseReportView {
 
+    private MapView mMapView;
+    private BaiduMap mBaiduMap;
+    private HeatMap heatmap;
     private LineChart lineChart1, lineChart2, lineChart3;
+
+    public class SDKReceiver extends BroadcastReceiver {
+
+        public void onReceive(Context context, Intent intent) {
+            String s = intent.getAction();
+//            Log.d(LTAG, "action: " + s);
+//            TextView text = (TextView) findViewById(R.id.text_Info);
+//            text.setTextColor(Color.RED);
+            if (s.equals(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR)) {
+                Toast.makeText(context, "key 验证出错! 错误码 :" + intent.getIntExtra
+                        (SDKInitializer.SDK_BROADTCAST_INTENT_EXTRA_INFO_KEY_ERROR_CODE, 0)
+                        +  " ; 请在 AndroidManifest.xml 文件中检查 key 设置", Toast.LENGTH_SHORT).show();
+            } else if (s.equals(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_OK)) {
+                Toast.makeText(context, "key 验证成功! 功能可以正常使用", Toast.LENGTH_SHORT).show();
+            } else if (s.equals(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR)) {
+                Toast.makeText(context, "网络出错", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private SDKReceiver mReceiver;
 
     public Report2View(Context context) {
         this(context, null);
@@ -48,17 +86,67 @@ public class Report2View extends BaseReportView {
     public Report2View(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_report2, this, true);
-
         initView();
-        getAttendance();
+
+        // 注册 SDK 广播监听者
+        IntentFilter iFilter = new IntentFilter();
+        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_OK);
+        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
+        iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
+        mReceiver = new SDKReceiver();
+        context.registerReceiver(mReceiver, iFilter);
     }
 
     private void initView() {
+        mMapView = (MapView) findViewById(R.id.mapview);
+        mMapView.showZoomControls(false);
+
+        mBaiduMap = mMapView.getMap();
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(5));
+        addHeatMap();
+
         lineChart1 = (LineChart) findViewById(R.id.chart1);
         lineChart2 = (LineChart) findViewById(R.id.chart2);
         lineChart3 = (LineChart) findViewById(R.id.chart3);
+        getAttendance();
+    }
 
+    private void addHeatMap() {
+        final Handler h = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mBaiduMap.addHeatMap(heatmap);
+            }
+        };
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                List<LatLng> data = getLocations();
+                heatmap = new HeatMap.Builder().data(data).build();
+                h.sendEmptyMessage(0);
+            }
+        }.start();
+    }
 
+    private List<LatLng> getLocations() {
+        List<LatLng> list = new ArrayList<LatLng>();
+        InputStream inputStream = getResources().openRawResource(R.raw.locations);
+        String json = new Scanner(inputStream).useDelimiter("\\A").next();
+        JSONArray array;
+        try {
+            array = new JSONArray(json);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = array.getJSONObject(i);
+                double lat = object.getDouble("lat");
+                double lng = object.getDouble("lng");
+                list.add(new LatLng(lat, lng));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     private void getAttendance() {
@@ -95,7 +183,7 @@ public class Report2View extends BaseReportView {
         });
     }
 
-    private void setLineChartData(LineChart mChart, List<int[]> values) {
+    private void setLineChartData(LineChart mChart, List<Integer> values) {
         // no description text
         mChart.getDescription().setEnabled(false);
 
@@ -132,7 +220,7 @@ public class Report2View extends BaseReportView {
         int maxYVal = 0;
         int[] yVals = new int[hourCount];
         for (int i = 0; i < values.size(); i++) {
-            int val = values.get(i)[1];
+            int val = values.get(i);
             if (val > maxYVal) {
                 maxYVal = val;
             }

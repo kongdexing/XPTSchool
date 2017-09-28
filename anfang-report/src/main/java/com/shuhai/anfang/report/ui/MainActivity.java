@@ -17,7 +17,9 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_main);
         autoScrollViewPager = (AutoScrollViewPager) findViewById(R.id.autoViewPager);
-//        autoScrollViewPager.setCycle(true);
+        autoScrollViewPager.setCycle(true);
+        autoScrollViewPager.setOffscreenPageLimit(2);
+
         adapter = new MyPagerAdapter(this);
         autoScrollViewPager.setAdapter(adapter);
 
@@ -27,6 +29,6 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         adapter.loadData();
-//        autoScrollViewPager.startAutoScroll();
+        autoScrollViewPager.startAutoScroll();
     }
 }

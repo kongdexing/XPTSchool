@@ -136,7 +136,7 @@ public class Report3View extends BaseReportView {
         });
     }
 
-    private void setAppUseCountChart(LineChart mChart, List<int[]> IOSUser, List<int[]> AndroidUser) {
+    private void setAppUseCountChart(LineChart mChart, List<Integer> IOSUser, List<Integer> AndroidUser) {
         mChart.getDescription().setEnabled(false);
 
         // enable touch gestures
@@ -196,7 +196,7 @@ public class Report3View extends BaseReportView {
         int maxYVal = 0;
         int[] yVals1 = new int[hourCount];
         for (int i = 0; i < hourCount; i++) {
-            int val = IOSUser.get(i)[1];
+            int val = IOSUser.get(i);
             if (val > maxYVal) {
                 maxYVal = val;
             }
@@ -205,7 +205,7 @@ public class Report3View extends BaseReportView {
 
         int[] yVals2 = new int[hourCount];
         for (int i = 0; i < hourCount; i++) {
-            int val = AndroidUser.get(i)[1];
+            int val = AndroidUser.get(i);
             if (val > maxYVal) {
                 maxYVal = val;
             }

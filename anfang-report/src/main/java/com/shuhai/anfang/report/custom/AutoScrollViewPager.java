@@ -34,7 +34,7 @@ import java.lang.reflect.Field;
  */
 public class AutoScrollViewPager extends ViewPager {
 
-    public static final int DEFAULT_INTERVAL = 4000;
+    public static final int DEFAULT_INTERVAL = 10 * 1000;
 
     public static final int LEFT = 0;
     public static final int RIGHT = 1;

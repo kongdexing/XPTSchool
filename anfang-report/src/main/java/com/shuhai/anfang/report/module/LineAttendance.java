@@ -9,22 +9,22 @@ import java.util.List;
 
 public class LineAttendance {
 
-    private List<int[]> signin;
-    private List<int[]> signout;
+    private List<Integer> signin;
+    private List<Integer> signout;
 
-    public List<int[]> getSignin() {
+    public List<Integer> getSignin() {
         return signin;
     }
 
-    public void setSignin(List<int[]> signin) {
+    public void setSignin(List<Integer> signin) {
         this.signin = signin;
     }
 
-    public List<int[]> getSignout() {
+    public List<Integer> getSignout() {
         return signout;
     }
 
-    public void setSignout(List<int[]> signout) {
+    public void setSignout(List<Integer> signout) {
         this.signout = signout;
     }
 
