@@ -2,6 +2,7 @@ package com.shuhai.anfang.report.ui;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -184,7 +185,7 @@ public class Report3View extends BaseReportView {
                                     getResources().getColor(R.color.color_line_chart),
                                     getResources().getColor(R.color.color_line_chart_3),
                                     getResources().getColor(R.color.color_line_chart_4)};
-                            String[] row2Val = new String[]{"查看位置", "发布作业", "审批", "学生卡设置"};
+                            String[] row2Val = new String[]{"查看位置", "发布作业", "发布审批", "学生卡设置"};
                             List<int[]> chart2Val = new ArrayList<int[]>();
                             chart2Val.add(appModuleCount.getParTrack());
                             chart2Val.add(appModuleCount.getParHomework());
@@ -251,7 +252,7 @@ public class Report3View extends BaseReportView {
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTypeface(mTfLight);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setAxisLineColor(Color.WHITE);
+        leftAxis.setAxisLineColor(getResources().getColor(R.color.color_y_axis));
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setAxisLineWidth(0.5f);
         leftAxis.setAxisMaximum((int) maxYVal);
@@ -260,32 +261,41 @@ public class Report3View extends BaseReportView {
         leftAxis.setTextSize(5f);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
-
         mChart.getAxisRight().setEnabled(false);
 
         setLineData(mChart, y_values, lineColors, circleColors);
-
     }
 
     private void setLineChartLegend(LineChart mChart, int[] colors, String[] values) {
         Legend l = mChart.getLegend();
         l.setForm(Legend.LegendForm.LINE);
         l.setTypeface(mTfLight);
-        l.setFormLineWidth(2f);
-        l.setTextSize(5f);
+        l.setTextSize(4f);
         l.setTextColor(Color.WHITE);
-
+//        l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
+        l.setDrawInside(true);
+        l.setYOffset(0f);
+//        l.setXOffset(8f);
+        l.setYEntrySpace(0.0f);
+
+        if (values.length == 4) {
+            l.setXOffset(57f);
+            l.setXEntrySpace(8.0f);
+        } else {
+            l.setXEntrySpace(10.0f);
+            l.setXOffset(values.length * 12f);
+        }
 
         List<LegendEntry> legendEntries = new ArrayList<>();
         for (int i = 0; i < colors.length; i++) {
             LegendEntry entry1 = new LegendEntry();
             entry1.label = values[i];
             entry1.formColor = colors[i];
-//            entry1.formSize = 10f;
+            entry1.formLineWidth = 1f;
+//            entry1.formLineDashEffect = new DashPathEffect(new float[]{1f, 2f}, 2f);
 
             legendEntries.add(entry1);
         }
@@ -317,6 +327,5 @@ public class Report3View extends BaseReportView {
         mChart.setData(data);
         mChart.animateX(2500);
     }
-
 
 }

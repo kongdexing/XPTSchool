@@ -14,6 +14,7 @@
     <color name="color_block_line">#2f94be</color>
     <color name="color_x_axis">#8dfcff</color>
     <color name="color_block_bg">#3f021c49</color>
+    <color name="color_y_axis">#f2f2f2</color>
 
     <color name="color_line_chart">#e0274a</color>
     <color name="color_line_dot">#da1f3e</color>

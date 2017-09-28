@@ -232,7 +232,7 @@ public class Report2View extends BaseReportView {
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTypeface(mTfLight);
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftAxis.setAxisLineColor(Color.WHITE);
+        leftAxis.setAxisLineColor(getResources().getColor(R.color.color_y_axis));
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setAxisLineWidth(0.5f);
         leftAxis.setAxisMaximum((int) maxYVal);

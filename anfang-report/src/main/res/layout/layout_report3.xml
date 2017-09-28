@@ -148,7 +148,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -170,15 +170,16 @@
                 android:id="@+id/chart1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -200,13 +201,14 @@
                 android:id="@+id/chart3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -228,6 +230,7 @@
                 android:id="@+id/chart5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp" />
         </LinearLayout>
 
@@ -243,7 +246,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -265,6 +268,7 @@
                 android:id="@+id/chart2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp" />
 
         </LinearLayout>
@@ -272,8 +276,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -295,13 +299,14 @@
                 android:id="@+id/chart4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:background="@drawable/bg_block_custom"
             android:orientation="vertical">
@@ -323,6 +328,7 @@
                 android:id="@+id/chart6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp" />
         </LinearLayout>
     </LinearLayout>

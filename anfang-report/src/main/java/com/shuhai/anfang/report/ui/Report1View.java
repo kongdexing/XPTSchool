@@ -302,7 +302,7 @@ public class Report1View extends BaseReportView {
         leftAxis.setDrawGridLines(true);
 //        leftAxis.setGridLineWidth(0.4f);
 
-        leftAxis.setAxisLineColor(getResources().getColor(R.color.color_line));
+        leftAxis.setAxisLineColor(getResources().getColor(R.color.color_y_axis));
         leftAxis.setTextColor(getResources().getColor(R.color.color_white));
         leftAxis.setAxisLineWidth(0.3f);
         leftAxis.setTextSize(5.0f);
