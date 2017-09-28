@@ -242,11 +242,11 @@ public class Report1View extends BaseReportView {
 
     private void setBarData(BarChart barChart, final String[] provinces, int[] allUsed, int[] unUsed) {
         barChart.getDescription().setEnabled(false);
+        barChart.setTouchEnabled(false);
         // scaling can now only be done on x- and y-axis separately
         barChart.setPinchZoom(false);
 
         barChart.setDrawBarShadow(false);
-
         barChart.setDrawGridBackground(false);
 
         //图例

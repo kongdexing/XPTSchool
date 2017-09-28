@@ -217,12 +217,6 @@ public class Report3View extends BaseReportView {
 
         mChart.setDragDecelerationFrictionCoef(0.9f);
 
-        // enable scaling and dragging
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
-        mChart.setDrawGridBackground(false);
-        mChart.setHighlightPerDragEnabled(true);
-
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
 

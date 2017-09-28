@@ -1,9 +1,6 @@
 package com.shuhai.anfang.report.ui;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -12,14 +9,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.HeatMap;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -58,27 +52,6 @@ public class Report2View extends BaseReportView {
     private HeatMap heatmap;
     private LineChart lineChart1, lineChart2, lineChart3;
 
-    public class SDKReceiver extends BroadcastReceiver {
-
-        public void onReceive(Context context, Intent intent) {
-            String s = intent.getAction();
-//            Log.d(LTAG, "action: " + s);
-//            TextView text = (TextView) findViewById(R.id.text_Info);
-//            text.setTextColor(Color.RED);
-            if (s.equals(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR)) {
-                Toast.makeText(context, "key 验证出错! 错误码 :" + intent.getIntExtra
-                        (SDKInitializer.SDK_BROADTCAST_INTENT_EXTRA_INFO_KEY_ERROR_CODE, 0)
-                        +  " ; 请在 AndroidManifest.xml 文件中检查 key 设置", Toast.LENGTH_SHORT).show();
-            } else if (s.equals(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_OK)) {
-                Toast.makeText(context, "key 验证成功! 功能可以正常使用", Toast.LENGTH_SHORT).show();
-            } else if (s.equals(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR)) {
-                Toast.makeText(context, "网络出错", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private SDKReceiver mReceiver;
-
     public Report2View(Context context) {
         this(context, null);
     }
@@ -87,14 +60,6 @@ public class Report2View extends BaseReportView {
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_report2, this, true);
         initView();
-
-        // 注册 SDK 广播监听者
-        IntentFilter iFilter = new IntentFilter();
-        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_OK);
-        iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
-        iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
-        mReceiver = new SDKReceiver();
-        context.registerReceiver(mReceiver, iFilter);
     }
 
     private void initView() {
@@ -186,17 +151,9 @@ public class Report2View extends BaseReportView {
     private void setLineChartData(LineChart mChart, List<Integer> values) {
         // no description text
         mChart.getDescription().setEnabled(false);
-
-        // enable touch gestures
-        mChart.setTouchEnabled(true);
+        mChart.setTouchEnabled(false);
 
         mChart.setDragDecelerationFrictionCoef(0.9f);
-
-        // enable scaling and dragging
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
-        mChart.setDrawGridBackground(false);
-        mChart.setHighlightPerDragEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
@@ -244,7 +201,6 @@ public class Report2View extends BaseReportView {
         leftAxis.setGranularityEnabled(true);
 
         mChart.getAxisRight().setEnabled(false);
-
 
         setData(mChart, hourCount, yVals);
     }
