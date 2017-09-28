@@ -283,7 +283,11 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
     @Override
     public T getEntryForIndex(int index) {
-        return mValues.get(index);
+        try {
+            return mValues.get(index);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override

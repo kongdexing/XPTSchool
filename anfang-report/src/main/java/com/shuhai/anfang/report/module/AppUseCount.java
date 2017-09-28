@@ -9,40 +9,40 @@ import java.util.List;
 
 public class AppUseCount {
 
-    private List<Integer> IOSteacher;
-    private List<Integer> Androidteacher;
-    private List<Integer> IOSparents;
-    private List<Integer> Androidparents;
+    private int[] IOSteacher;
+    private int[] Androidteacher;
+    private int[] IOSparents;
+    private int[] Androidparents;
 
-    public List<Integer> getIOSteacher() {
+    public int[] getIOSteacher() {
         return IOSteacher;
     }
 
-    public void setIOSteacher(List<Integer> IOSteacher) {
+    public void setIOSteacher(int[] IOSteacher) {
         this.IOSteacher = IOSteacher;
     }
 
-    public List<Integer> getAndroidteacher() {
+    public int[] getAndroidteacher() {
         return Androidteacher;
     }
 
-    public void setAndroidteacher(List<Integer> androidteacher) {
+    public void setAndroidteacher(int[] androidteacher) {
         Androidteacher = androidteacher;
     }
 
-    public List<Integer> getIOSparents() {
+    public int[] getIOSparents() {
         return IOSparents;
     }
 
-    public void setIOSparents(List<Integer> IOSparents) {
+    public void setIOSparents(int[] IOSparents) {
         this.IOSparents = IOSparents;
     }
 
-    public List<Integer> getAndroidparents() {
+    public int[] getAndroidparents() {
         return Androidparents;
     }
 
-    public void setAndroidparents(List<Integer> androidparents) {
+    public void setAndroidparents(int[] androidparents) {
         Androidparents = androidparents;
     }
 }

@@ -29,6 +29,6 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         adapter.loadData();
-        autoScrollViewPager.startAutoScroll();
+//        autoScrollViewPager.startAutoScroll();
     }
 }

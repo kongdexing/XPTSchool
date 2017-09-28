@@ -21,6 +21,9 @@
     <color name="color_line_chart_ios">#8de160</color>
     <color name="color_line_dot_ios">#89ed54</color>
 
+    <color name="color_line_chart_3">#e1955e</color>
+    <color name="color_line_chart_4">#1f73da</color>
+
 
     <color name="color_white">#FFFFFF</color>
     <color name="color_red">#ff0000</color>
