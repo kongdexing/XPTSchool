@@ -5,6 +5,8 @@
     <string name="label_stu_province">每省发卡数量统计</string>
 
     <!--第二页-->
+    <string name="label_stu_position">当前学生卡正在定位/报警数</string>
+
     <string name="label_stu_consume">当前学生卡正在消费数量</string>
     <string name="label_stu_into_school">当前学生卡正在进校数量</string>
     <string name="label_stu_leave_school">当前学生卡正在出校数量</string>

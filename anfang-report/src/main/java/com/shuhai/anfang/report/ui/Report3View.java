@@ -2,7 +2,6 @@ package com.shuhai.anfang.report.ui;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -30,6 +29,8 @@ import com.shuhai.anfang.report.http.HttpAction;
 import com.shuhai.anfang.report.module.AppModuleCount;
 import com.shuhai.anfang.report.module.AppUseCount;
 import com.shuhai.anfang.report.module.UserCount;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,10 @@ public class Report3View extends BaseReportView {
         lineChart3 = (LineChart) findViewById(R.id.chart3);
         lineChart4 = (LineChart) findViewById(R.id.chart4);
         getAppModuleCount();
+
+        lineChart5 = (LineChart) findViewById(R.id.chart5);
+        getAppChatCount();
+
     }
 
     private void getUserCount() {
@@ -210,6 +215,44 @@ public class Report3View extends BaseReportView {
         });
     }
 
+    private void getAppChatCount() {
+        VolleyHttpService.getInstance().sendGetRequest(HttpAction.APP_CHAT_INFO, new VolleyRequestListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onResponse(VolleyHttpResult volleyHttpResult) {
+                switch (volleyHttpResult.getStatus()) {
+                    case HttpAction.SUCCESS:
+                        try {
+                            JSONArray array = new JSONArray(volleyHttpResult.getData().toString());
+                            int[] chats = new int[array.length()];
+                            for (int i = 0; i < array.length(); i++) {
+                                chats[i] = (int) array.get(i);
+                            }
+
+                            Log.i(TAG, "getAppChatCount: " + volleyHttpResult.getData().toString());
+
+                            int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart)};
+                            List<int[]> chart2Val = new ArrayList<int[]>();
+                            chart2Val.add(chats);
+                            setLineChartStyle(lineChart5, chart2Val, colors2, colors2);
+                        } catch (Exception ex) {
+                            Log.i(TAG, "getAppChatCount: " + ex.getMessage());
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
     private void setLineChartStyle(LineChart mChart, List<int[]> y_values, int[] lineColors, int[] circleColors) {
         mChart.getDescription().setEnabled(false);
         // enable touch gestures
@@ -219,6 +262,7 @@ public class Report3View extends BaseReportView {
 
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
+        mChart.getLegend().setEnabled(false);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTypeface(mTfLight);
@@ -262,6 +306,7 @@ public class Report3View extends BaseReportView {
 
     private void setLineChartLegend(LineChart mChart, int[] colors, String[] values) {
         Legend l = mChart.getLegend();
+        l.setEnabled(true);
         l.setForm(Legend.LegendForm.LINE);
         l.setTypeface(mTfLight);
         l.setTextSize(4f);
@@ -294,7 +339,6 @@ public class Report3View extends BaseReportView {
             legendEntries.add(entry1);
         }
         l.setCustom(legendEntries);
-        l.setEnabled(true);
     }
 
     private void setLineData(LineChart mChart, List<int[]> yValues, int[] lineColors, int[] circleColors) {

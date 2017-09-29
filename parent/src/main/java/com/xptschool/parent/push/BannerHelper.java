@@ -43,6 +43,7 @@ public class BannerHelper {
 
         String token = CommonUtil.md5(adid + region_id + s_id + "school.xinpingtai.com" + ntime + random_int);
 
+        //type 1展示|2点击
         final String url = HttpAction.SHOW_Banner + "?ntime=" + ntime + "&adid=" + adid + "&region_id=" + region_id
                 + "&sid=" + s_id + "&type=" + statisticsType
                 + "&mac=" + CommonUtil.getDeviceId() + "&mobile=" + phone + "&rand=" + random_int + "&token=" + token;

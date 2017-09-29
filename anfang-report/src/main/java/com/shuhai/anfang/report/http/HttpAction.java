@@ -25,7 +25,10 @@ public class HttpAction {
     //用户数量统计
     public static String USER_COUNT_INFO = SERVER_URL + "Counts/userInfo";
     public static String APP_COUNT_INFO = SERVER_URL + "Counts/getAppCounts";
+    //APP调用功能模块统计
     public static String APP_MODULE_COUNT_INFO = SERVER_URL + "Counts/getAppModuleCounts";
+    //家长-老师聊天次数统计
+    public static String APP_CHAT_INFO = SERVER_URL + "Counts/getChatCounts";
 
 
 }
