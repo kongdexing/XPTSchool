@@ -43,9 +43,7 @@ import java.util.List;
 public class Report3View extends BaseReportView {
 
     private TextView txtTeacherSum, txtTeacherOnline, txtParentSum, txtParentOnline;
-    private LineChart lineChart1, lineChart2;
-    private LineChart lineChart3, lineChart4;
-    private LineChart lineChart5, lineChart6;
+    private LineChart[] lineCharts;
 
     public Report3View(Context context) {
         this(context, null);
@@ -62,20 +60,23 @@ public class Report3View extends BaseReportView {
         txtTeacherOnline = (TextView) findViewById(R.id.txtTeacherOnline);
         txtParentSum = (TextView) findViewById(R.id.txtParentSum);
         txtParentOnline = (TextView) findViewById(R.id.txtParentOnline);
+
+        lineCharts = new LineChart[6];
+        lineCharts[0] = (LineChart) findViewById(R.id.chart1);
+        lineCharts[1] = (LineChart) findViewById(R.id.chart2);
+        lineCharts[2] = (LineChart) findViewById(R.id.chart3);
+        lineCharts[3] = (LineChart) findViewById(R.id.chart4);
+        lineCharts[4] = (LineChart) findViewById(R.id.chart5);
+        lineCharts[5] = (LineChart) findViewById(R.id.chart6);
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
         getUserCount();
-
-        lineChart1 = (LineChart) findViewById(R.id.chart1);
-        lineChart2 = (LineChart) findViewById(R.id.chart2);
         getAppUseCount();
-
-        lineChart3 = (LineChart) findViewById(R.id.chart3);
-        lineChart4 = (LineChart) findViewById(R.id.chart4);
-        lineChart6 = (LineChart) findViewById(R.id.chart6);
         getAppModuleCount();
-
-        lineChart5 = (LineChart) findViewById(R.id.chart5);
         getAppChatCount();
-
     }
 
     private void getUserCount() {
@@ -136,14 +137,14 @@ public class Report3View extends BaseReportView {
                             List<int[]> chart1Val = new ArrayList<int[]>();
                             chart1Val.add(appUseCount.getIOSteacher());
                             chart1Val.add(appUseCount.getAndroidteacher());
-                            setLineChartStyle(lineChart1, chart1Val, colors, colors);
-                            setLineChartLegend(lineChart1, colors, row1Val);
+                            setLineChartStyle(lineCharts[0], chart1Val, colors, colors);
+                            setLineChartLegend(lineCharts[0], colors, row1Val);
 
                             List<int[]> chart2Val = new ArrayList<int[]>();
                             chart2Val.add(appUseCount.getIOSparents());
                             chart2Val.add(appUseCount.getAndroidparents());
-                            setLineChartStyle(lineChart2, chart2Val, colors, colors);
-                            setLineChartLegend(lineChart2, colors, row1Val);
+                            setLineChartStyle(lineCharts[1], chart2Val, colors, colors);
+                            setLineChartLegend(lineCharts[1], colors, row1Val);
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
                         }
@@ -185,8 +186,8 @@ public class Report3View extends BaseReportView {
                             chart1Val.add(appModuleCount.getTeaTrack());
                             chart1Val.add(appModuleCount.getTeaHomework());
                             chart1Val.add(appModuleCount.getTeaLeave());
-                            setLineChartStyle(lineChart3, chart1Val, colors, colors);
-                            setLineChartLegend(lineChart3, colors, row1Val);
+                            setLineChartStyle(lineCharts[2], chart1Val, colors, colors);
+                            setLineChartLegend(lineCharts[2], colors, row1Val);
 
                             int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
                                     getResources().getColor(R.color.color_line_chart),
@@ -198,8 +199,8 @@ public class Report3View extends BaseReportView {
                             chart2Val.add(appModuleCount.getParHomework());
                             chart2Val.add(appModuleCount.getParLeave());
                             chart2Val.add(appModuleCount.getParStuCard());
-                            setLineChartStyle(lineChart4, chart2Val, colors2, colors2);
-                            setLineChartLegend(lineChart4, colors2, row2Val);
+                            setLineChartStyle(lineCharts[3], chart2Val, colors2, colors2);
+                            setLineChartLegend(lineCharts[3], colors2, row2Val);
 
                             int[] colors3 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
                                     getResources().getColor(R.color.color_line_chart)};
@@ -207,8 +208,8 @@ public class Report3View extends BaseReportView {
                             List<int[]> chart3Val = new ArrayList<int[]>();
                             chart3Val.add(appModuleCount.getBannerClick());
                             chart3Val.add(appModuleCount.getBannerView());
-                            setLineChartStyle(lineChart6, chart3Val, colors3, colors3);
-                            setLineChartLegend(lineChart6, colors3, row3Val);
+                            setLineChartStyle(lineCharts[5], chart3Val, colors3, colors3);
+                            setLineChartLegend(lineCharts[5], colors3, row3Val);
 
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
@@ -242,12 +243,10 @@ public class Report3View extends BaseReportView {
                                 chats[i] = (int) array.get(i);
                             }
 
-                            Log.i(TAG, "getAppChatCount: " + volleyHttpResult.getData().toString());
-
                             int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart)};
                             List<int[]> chart2Val = new ArrayList<int[]>();
                             chart2Val.add(chats);
-                            setLineChartStyle(lineChart5, chart2Val, colors2, colors2);
+                            setLineChartStyle(lineCharts[4], chart2Val, colors2, colors2);
                         } catch (Exception ex) {
                             Log.i(TAG, "getAppChatCount: " + ex.getMessage());
                         }
@@ -372,7 +371,18 @@ public class Report3View extends BaseReportView {
         data.setDrawValues(false);
         // set data
         mChart.setData(data);
-        mChart.animateX(2500);
+
+        mChart.animateXY(1000, 1000);
     }
 
+    @Override
+    public void animationReportXY() {
+        super.animationReportXY();
+//        Log.i(TAG, "animationReportXY: report3");
+//        for (int i = 0; i < lineCharts.length; i++) {
+//            LineChart lineChart = lineCharts[i];
+//            if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0)
+//                lineChart.animateXY(1000, 1000);
+//        }
+    }
 }

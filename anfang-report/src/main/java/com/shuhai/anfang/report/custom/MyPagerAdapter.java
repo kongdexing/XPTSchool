@@ -6,9 +6,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shuhai.anfang.report.ui.BaseReportView;
 import com.shuhai.anfang.report.ui.Report1View;
 import com.shuhai.anfang.report.ui.Report2View;
 import com.shuhai.anfang.report.ui.Report3View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dexing on 2017/1/13.
@@ -19,6 +23,7 @@ public class MyPagerAdapter extends PagerAdapter {
 
     private String TAG = MyPagerAdapter.class.getSimpleName();
     private Context mContext;
+    private List<BaseReportView> reportViews = new ArrayList<>();
 
     public MyPagerAdapter(Context context) {
         super();
@@ -28,6 +33,10 @@ public class MyPagerAdapter extends PagerAdapter {
     public void loadData() {
         Log.i(TAG, "loadData: ");
         notifyDataSetChanged();
+    }
+
+    public List<BaseReportView> getReportViews() {
+        return reportViews;
     }
 
     @Override
@@ -42,8 +51,8 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        Log.i(TAG, "instantiateItem: "+position);
-        View reportView = null;
+        Log.i(TAG, "instantiateItem: " + position);
+        BaseReportView reportView = null;
         if (position == 0) {
             reportView = new Report1View(mContext);
             container.addView(reportView);
@@ -53,6 +62,9 @@ public class MyPagerAdapter extends PagerAdapter {
         } else if (position == 2) {
             reportView = new Report3View(mContext);
             container.addView(reportView);
+        }
+        if (!reportViews.contains(reportView)) {
+            reportViews.add(reportView);
         }
         return reportView;
     }

@@ -18,6 +18,7 @@ import com.android.volley.common.VolleyHttpResult;
 import com.android.volley.common.VolleyHttpService;
 import com.android.volley.common.VolleyRequestListener;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -64,6 +65,14 @@ public class Report1View extends BaseReportView {
 //        mPieChart.setDragDecelerationFrictionCoef(0.95f);
         initPieView();
         initBarView();
+        loadData();
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
+        getPieData();
+        getBarData();
     }
 
     private void initPieView() {
@@ -101,7 +110,6 @@ public class Report1View extends BaseReportView {
 
         //图例
         mPieChart.getLegend().setEnabled(false);
-        getPieData();
     }
 
     private void getPieData() {
@@ -181,8 +189,6 @@ public class Report1View extends BaseReportView {
         listBarCharts[0] = (BarChart) findViewById(R.id.chart_bar1);
         listBarCharts[1] = (BarChart) findViewById(R.id.chart_bar2);
         listBarCharts[2] = (BarChart) findViewById(R.id.chart_bar3);
-
-        getBarData();
     }
 
     private void getBarData() {
@@ -356,7 +362,18 @@ public class Report1View extends BaseReportView {
 
         barChart.groupBars(startYear, groupSpace, barSpace);
         barChart.invalidate();
-        //x y 动画效果
+
         barChart.animateXY(1000, 1000);
+    }
+
+    @Override
+    public void animationReportXY() {
+        super.animationReportXY();
+//        Log.i(TAG, "animationReportXY: report1");
+//        for (int i = 0; i < listBarCharts.length; i++) {
+//            BarChart barChart = listBarCharts[i];
+//            if (barChart.getData() != null && barChart.getData().getDataSetCount() > 0)
+//                barChart.animateXY(1000, 1000);
+//        }
     }
 }

@@ -19,6 +19,8 @@ import com.baidu.mapapi.map.HeatMap;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -50,7 +52,7 @@ public class Report2View extends BaseReportView {
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private HeatMap heatmap;
-    private LineChart lineChart1, lineChart2, lineChart3;
+    private LineChart[] lineCharts;
 
     public Report2View(Context context) {
         this(context, null);
@@ -68,11 +70,19 @@ public class Report2View extends BaseReportView {
 
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(5));
-        addHeatMap();
 
-        lineChart1 = (LineChart) findViewById(R.id.chart1);
-        lineChart2 = (LineChart) findViewById(R.id.chart2);
-        lineChart3 = (LineChart) findViewById(R.id.chart3);
+        lineCharts = new LineChart[3];
+        lineCharts[0] = (LineChart) findViewById(R.id.chart1);
+        lineCharts[1] = (LineChart) findViewById(R.id.chart2);
+        lineCharts[2] = (LineChart) findViewById(R.id.chart3);
+
+        loadData();
+    }
+
+    @Override
+    public void loadData() {
+        super.loadData();
+        addHeatMap();
         getAttendance();
     }
 
@@ -130,8 +140,8 @@ public class Report2View extends BaseReportView {
                             LineAttendance lineAttendance = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<LineAttendance>() {
                                     }.getType());
-                            setLineChartData(lineChart2, lineAttendance.getSignin());
-                            setLineChartData(lineChart3, lineAttendance.getSignout());
+                            setLineChartData(lineCharts[1], lineAttendance.getSignin());
+                            setLineChartData(lineCharts[2], lineAttendance.getSignout());
 //                            splitProvinceData(provinceInfo);
                             Log.i(TAG, "onResponse: " + lineAttendance.toString());
                         } catch (Exception ex) {
@@ -157,8 +167,6 @@ public class Report2View extends BaseReportView {
 
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
-
-        mChart.animateX(2500);
 
         // get the legend (only possible after setting data)
         mChart.getLegend().setEnabled(false);
@@ -246,6 +254,18 @@ public class Report2View extends BaseReportView {
             // set data
             mChart.setData(data);
         }
+        mChart.animateXY(1000, 1000);
+//        animationReportXY();
     }
 
+    @Override
+    public void animationReportXY() {
+        super.animationReportXY();
+//        Log.i(TAG, "animationReportXY: report2");
+//        for (int i = 0; i < lineCharts.length; i++) {
+//            LineChart lineChart = lineCharts[i];
+//            if (lineChart.getData() != null && lineChart.getData().getDataSetCount() > 0)
+//                lineChart.animateXY(1000, 1000);
+//        }
+    }
 }

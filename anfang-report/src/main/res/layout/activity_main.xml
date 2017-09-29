@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_main"
-    android:orientation="vertical">
+    android:background="@drawable/bg_main">
 
     <com.shuhai.anfang.report.custom.AutoScrollViewPager
         android:id="@+id/autoViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
         android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginLeft="40dp"/>
+        android:layout_marginTop="100dp" />
 
-</LinearLayout>
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        app:fillColor="@color/color_x_axis"
+        app:strokeColor="@color/colorPrimaryDark" />
+
+</RelativeLayout>

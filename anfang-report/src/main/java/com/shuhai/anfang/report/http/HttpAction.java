@@ -10,6 +10,8 @@ public class HttpAction {
     private HttpAction() {
     }
 
+    public static final String TIMER_RELOAD = "com.shuhai.report.reload";
+
     public static final int SUCCESS = 1;
     public static final int FAILED = 0;
 
