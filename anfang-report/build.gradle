@@ -22,7 +22,7 @@ android {
 
     signingConfigs {
         // your debug keystore
-        debug{
+        debug {
             storeFile file("../keystore/debug.keystore")
         }
     }
@@ -56,9 +56,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'volley', ext: 'aar')
+    compile project(':MPChartLib')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.3.1'
     testCompile 'junit:junit:4.12'
-    compile project(':MPChartLib')
+    compile 'net.grandcentrix.tray:tray:0.12.0'
 }

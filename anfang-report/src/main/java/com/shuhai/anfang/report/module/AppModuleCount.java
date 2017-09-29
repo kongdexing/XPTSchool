@@ -18,6 +18,9 @@ public class AppModuleCount {
     private int[] ParLeave;
     private int[] ParStuCard;
 
+    private int[] BannerClick;
+    private int[] BannerView;
+
     public int[] getTeaTrack() {
         return TeaTrack;
     }
@@ -72,5 +75,21 @@ public class AppModuleCount {
 
     public void setParStuCard(int[] parStuCard) {
         ParStuCard = parStuCard;
+    }
+
+    public int[] getBannerClick() {
+        return BannerClick;
+    }
+
+    public void setBannerClick(int[] bannerClick) {
+        BannerClick = bannerClick;
+    }
+
+    public int[] getBannerView() {
+        return BannerView;
+    }
+
+    public void setBannerView(int[] bannerView) {
+        BannerView = bannerView;
     }
 }

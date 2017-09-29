@@ -1,7 +1,9 @@
 package com.shuhai.anfang.report.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -50,6 +52,7 @@ public class Report1View extends BaseReportView {
     private PieChart mPieChart;
     private TextView txtAllCard;
     private BarChart[] listBarCharts = null;
+    private Context mContext;
 
     public Report1View(Context context) {
         this(context, null);
@@ -65,7 +68,6 @@ public class Report1View extends BaseReportView {
 
     private void initPieView() {
         txtAllCard = (TextView) findViewById(R.id.txtAllCard);
-
         mPieChart = (PieChart) findViewById(R.id.chart1);
         mPieChart.setUsePercentValues(true);
         mPieChart.getDescription().setEnabled(false);
@@ -73,7 +75,7 @@ public class Report1View extends BaseReportView {
 //        mPieChart.setCenterText(generateCenterSpannableText());
 
         //外部间距
-        mPieChart.setExtraOffsets(3.f, 0.f, 3.f, 0.f);
+        mPieChart.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
 
         //绘制中心圆
         mPieChart.setDrawHoleEnabled(true);
@@ -88,7 +90,7 @@ public class Report1View extends BaseReportView {
 
         mPieChart.setDrawCenterText(true);
         mPieChart.setCenterText("学生卡使用统计");
-        mPieChart.setCenterTextSize(10.0f);
+        mPieChart.setCenterTextSize(20.0f);
         mPieChart.setEntryLabelTextSize(8f);
         mPieChart.setCenterTextColor(getResources().getColor(R.color.color_white));
 
@@ -164,8 +166,9 @@ public class Report1View extends BaseReportView {
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextColor(Color.WHITE);
         data.setValueTypeface(mTfRegular);
-        data.setValueTextSize(10f);
+        data.setValueTextSize(20f);
         mPieChart.setData(data);
+        mPieChart.setEntryLabelTextSize(18f);
 
         // undo all highlights
         mPieChart.highlightValues(null);
@@ -264,7 +267,7 @@ public class Report1View extends BaseReportView {
         l.setYEntrySpace(0.0f);
         l.setXEntrySpace(0.0f);
         l.setFormLineWidth(6f);
-        l.setTextSize(5f);
+        l.setTextSize(10f);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -277,8 +280,8 @@ public class Report1View extends BaseReportView {
         xAxis.setDrawGridLines(false);
 
         xAxis.setDrawLabels(true);
-        xAxis.setTextSize(4.0f);
-        xAxis.setAxisLineWidth(0.3f);
+        xAxis.setTextSize(8.0f);
+        xAxis.setAxisLineWidth(1.5f);
         xAxis.setLabelCount(12);
         xAxis.setCenterAxisLabels(true);
         xAxis.setTextColor(getResources().getColor(R.color.color_x_axis));
@@ -300,12 +303,12 @@ public class Report1View extends BaseReportView {
         leftAxis.setTypeface(mTfLight);
         leftAxis.setValueFormatter(new LargeValueFormatter());
         leftAxis.setDrawGridLines(true);
-//        leftAxis.setGridLineWidth(0.4f);
-
+//        leftAxis.setGridDashedLine(new DashPathEffect(new float[]{5f, 3f}, 3f));
+        leftAxis.setLabelCount(4);
         leftAxis.setAxisLineColor(getResources().getColor(R.color.color_y_axis));
         leftAxis.setTextColor(getResources().getColor(R.color.color_white));
-        leftAxis.setAxisLineWidth(0.3f);
-        leftAxis.setTextSize(5.0f);
+        leftAxis.setAxisLineWidth(0.8f);
+        leftAxis.setTextSize(10.0f);
         leftAxis.setSpaceTop(15f);  //设置最高柱距顶部距离
         leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 

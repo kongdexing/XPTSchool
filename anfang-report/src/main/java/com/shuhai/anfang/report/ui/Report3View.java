@@ -70,6 +70,7 @@ public class Report3View extends BaseReportView {
 
         lineChart3 = (LineChart) findViewById(R.id.chart3);
         lineChart4 = (LineChart) findViewById(R.id.chart4);
+        lineChart6 = (LineChart) findViewById(R.id.chart6);
         getAppModuleCount();
 
         lineChart5 = (LineChart) findViewById(R.id.chart5);
@@ -169,6 +170,7 @@ public class Report3View extends BaseReportView {
                 switch (volleyHttpResult.getStatus()) {
                     case HttpAction.SUCCESS:
                         try {
+                            Log.i(TAG, "onResponse: " + volleyHttpResult.getData().toString());
                             Gson gson = new Gson();
                             AppModuleCount appModuleCount = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<AppModuleCount>() {
@@ -177,7 +179,7 @@ public class Report3View extends BaseReportView {
                             int[] colors = new int[]{getResources().getColor(R.color.color_line_chart_ios),
                                     getResources().getColor(R.color.color_line_chart),
                                     getResources().getColor(R.color.color_line_chart_3)};
-                            String[] row1Val = new String[]{"查看位置", "发布作业", "审批"};
+                            String[] row1Val = new String[]{"查看位置", "发布作业", "处理审批"};
 
                             List<int[]> chart1Val = new ArrayList<int[]>();
                             chart1Val.add(appModuleCount.getTeaTrack());
@@ -190,7 +192,7 @@ public class Report3View extends BaseReportView {
                                     getResources().getColor(R.color.color_line_chart),
                                     getResources().getColor(R.color.color_line_chart_3),
                                     getResources().getColor(R.color.color_line_chart_4)};
-                            String[] row2Val = new String[]{"查看位置", "发布作业", "发布审批", "学生卡设置"};
+                            String[] row2Val = new String[]{"查看位置", "查看作业", "发布审批", "学生卡设置"};
                             List<int[]> chart2Val = new ArrayList<int[]>();
                             chart2Val.add(appModuleCount.getParTrack());
                             chart2Val.add(appModuleCount.getParHomework());
@@ -199,8 +201,15 @@ public class Report3View extends BaseReportView {
                             setLineChartStyle(lineChart4, chart2Val, colors2, colors2);
                             setLineChartLegend(lineChart4, colors2, row2Val);
 
-//                            setAppUseCountChart(lineChart1, appUseCount.getIOSteacher(), appUseCount.getAndroidteacher());
-//                            setAppUseCountChart(lineChart2, appUseCount.getIOSparents(), appUseCount.getAndroidparents());
+                            int[] colors3 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                                    getResources().getColor(R.color.color_line_chart)};
+                            String[] row3Val = new String[]{"点击数量", "显示数量"};
+                            List<int[]> chart3Val = new ArrayList<int[]>();
+                            chart3Val.add(appModuleCount.getBannerClick());
+                            chart3Val.add(appModuleCount.getBannerView());
+                            setLineChartStyle(lineChart6, chart3Val, colors3, colors3);
+                            setLineChartLegend(lineChart6, colors3, row3Val);
+
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
                         }
@@ -267,9 +276,9 @@ public class Report3View extends BaseReportView {
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTypeface(mTfLight);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(5.0f);
+        xAxis.setTextSize(8.0f);
         xAxis.setLabelCount(24);
-        xAxis.setAxisLineWidth(0.5f);
+        xAxis.setAxisLineWidth(0.8f);
         xAxis.setAxisLineColor(Color.WHITE);
         xAxis.setTextColor(getResources().getColor(R.color.color_x_axis));
         xAxis.setDrawGridLines(false);
@@ -292,11 +301,11 @@ public class Report3View extends BaseReportView {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setAxisLineColor(getResources().getColor(R.color.color_y_axis));
         leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setAxisLineWidth(0.5f);
+        leftAxis.setAxisLineWidth(0.8f);
         leftAxis.setAxisMaximum((int) maxYVal);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setLabelCount(4);
-        leftAxis.setTextSize(5f);
+        leftAxis.setTextSize(8f);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
         mChart.getAxisRight().setEnabled(false);
@@ -309,7 +318,7 @@ public class Report3View extends BaseReportView {
         l.setEnabled(true);
         l.setForm(Legend.LegendForm.LINE);
         l.setTypeface(mTfLight);
-        l.setTextSize(4f);
+        l.setTextSize(9f);
         l.setTextColor(Color.WHITE);
 //        l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -321,11 +330,11 @@ public class Report3View extends BaseReportView {
         l.setYEntrySpace(0.0f);
 
         if (values.length == 4) {
-            l.setXOffset(57f);
-            l.setXEntrySpace(8.0f);
+            l.setXEntrySpace(30.0f);
+            l.setXOffset(180f);
         } else {
-            l.setXEntrySpace(10.0f);
-            l.setXOffset(values.length * 12f);
+            l.setXEntrySpace(30.0f);
+            l.setXOffset(values.length * 40f);
         }
 
         List<LegendEntry> legendEntries = new ArrayList<>();
@@ -333,7 +342,7 @@ public class Report3View extends BaseReportView {
             LegendEntry entry1 = new LegendEntry();
             entry1.label = values[i];
             entry1.formColor = colors[i];
-            entry1.formLineWidth = 1f;
+            entry1.formLineWidth = 3f;
 //            entry1.formLineDashEffect = new DashPathEffect(new float[]{1f, 2f}, 2f);
 
             legendEntries.add(entry1);
@@ -355,8 +364,8 @@ public class Report3View extends BaseReportView {
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
             set1.setColor(lineColors[j]);
             set1.setCircleColor(circleColors[j]);
-            set1.setLineWidth(0.5f);
-            set1.setCircleRadius(1f);
+            set1.setLineWidth(1f);
+            set1.setCircleRadius(2f);
             set1.setValues(yVals1);
             data.addDataSet(set1);
         }

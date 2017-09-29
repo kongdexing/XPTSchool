@@ -5,15 +5,13 @@
     android:background="@drawable/bg_main"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp">
-
-    </LinearLayout>
-
     <com.shuhai.anfang.report.custom.AutoScrollViewPager
         android:id="@+id/autoViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"/>
 
 </LinearLayout>

@@ -166,7 +166,7 @@ public class Report2View extends BaseReportView {
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTypeface(mTfLight);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(4f);
+        xAxis.setTextSize(8f);
         xAxis.setLabelCount(24);
         xAxis.setAxisLineWidth(0.5f);
         xAxis.setAxisLineColor(Color.WHITE);
@@ -191,11 +191,11 @@ public class Report2View extends BaseReportView {
         leftAxis.setTextColor(ColorTemplate.getHoloBlue());
         leftAxis.setAxisLineColor(getResources().getColor(R.color.color_y_axis));
         leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setAxisLineWidth(0.5f);
+        leftAxis.setAxisLineWidth(0.8f);
         leftAxis.setAxisMaximum((int) maxYVal);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setLabelCount(4);
-        leftAxis.setTextSize(6f);
+        leftAxis.setTextSize(8f);
 //        leftAxis.setGridLineWidth(0.5f);
         leftAxis.setDrawGridLines(true);
         leftAxis.setGranularityEnabled(true);
@@ -228,8 +228,8 @@ public class Report2View extends BaseReportView {
             set1.setAxisDependency(YAxis.AxisDependency.LEFT);
             set1.setColor(getResources().getColor(R.color.color_line_chart));
             set1.setCircleColor(getResources().getColor(R.color.color_line_dot));
-            set1.setLineWidth(0.5f);
-            set1.setCircleRadius(1f);
+            set1.setLineWidth(1.0f);
+            set1.setCircleRadius(2f);
             set1.setFillAlpha(65);
             set1.setValueTextSize(3f);
             set1.setFillColor(ColorTemplate.getHoloBlue());

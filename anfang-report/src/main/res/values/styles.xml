@@ -13,7 +13,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/color_title</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <style name="report3_unit_table">
@@ -21,15 +21,24 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/color_white</item>
         <item name="android:layout_marginLeft">3dp</item>
-        <item name="android:textSize">5sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:text">@string/label_unit_person</item>
+    </style>
+
+    <style name="report3_label_table_val">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_card_sum</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">38sp</item>
     </style>
 
     <style name="report3_label_line_chart">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/color_title</item>
-        <item name="android:textSize">8sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="report3_unit_line_chart">
@@ -37,7 +46,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">3dp</item>
         <item name="android:textColor">@color/color_white</item>
-        <item name="android:textSize">4sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:text">@string/label_unit_time</item>
     </style>
 
