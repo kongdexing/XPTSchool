@@ -44,6 +44,9 @@ public class Report3View extends BaseReportView {
 
     private TextView txtTeacherSum, txtTeacherOnline, txtParentSum, txtParentOnline;
     private LineChart[] lineCharts;
+    int[] colors1 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+            getResources().getColor(R.color.color_line_chart)};
+    String[] row1Val = new String[]{"苹果端", "安卓端"};
 
     public Report3View(Context context) {
         this(context, null);
@@ -68,6 +71,29 @@ public class Report3View extends BaseReportView {
         lineCharts[3] = (LineChart) findViewById(R.id.chart4);
         lineCharts[4] = (LineChart) findViewById(R.id.chart5);
         lineCharts[5] = (LineChart) findViewById(R.id.chart6);
+
+        setLineChartLegend(lineCharts[0], colors1, row1Val);
+        setLineChartLegend(lineCharts[1], colors1, row1Val);
+
+        int[] colors21 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                getResources().getColor(R.color.color_line_chart),
+                getResources().getColor(R.color.color_line_chart_3)};
+        String[] row21Val = new String[]{"查看位置", "发布作业", "处理审批"};
+        setLineChartLegend(lineCharts[2], colors21, row21Val);
+
+        int[] colors22 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                getResources().getColor(R.color.color_line_chart),
+                getResources().getColor(R.color.color_line_chart_3),
+                getResources().getColor(R.color.color_line_chart_4)};
+        String[] row22Val = new String[]{"查看位置", "查看作业", "发布审批", "学生卡设置"};
+        setLineChartLegend(lineCharts[3], colors22, row22Val);
+
+        lineCharts[4].getLegend().setEnabled(false);
+
+        int[] colors3 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                getResources().getColor(R.color.color_line_chart)};
+        String[] row3Val = new String[]{"点击数量", "显示数量"};
+        setLineChartLegend(lineCharts[5], colors3, row3Val);
     }
 
     @Override
@@ -130,21 +156,16 @@ public class Report3View extends BaseReportView {
                                     new TypeToken<AppUseCount>() {
                                     }.getType());
 
-                            int[] colors = new int[]{getResources().getColor(R.color.color_line_chart_ios),
-                                    getResources().getColor(R.color.color_line_chart)};
-                            String[] row1Val = new String[]{"苹果端", "安卓端"};
 
                             List<int[]> chart1Val = new ArrayList<int[]>();
                             chart1Val.add(appUseCount.getIOSteacher());
                             chart1Val.add(appUseCount.getAndroidteacher());
-                            setLineChartStyle(lineCharts[0], chart1Val, colors, colors);
-                            setLineChartLegend(lineCharts[0], colors, row1Val);
+                            setLineChartStyle(lineCharts[0], chart1Val, colors1, colors1);
 
                             List<int[]> chart2Val = new ArrayList<int[]>();
                             chart2Val.add(appUseCount.getIOSparents());
                             chart2Val.add(appUseCount.getAndroidparents());
-                            setLineChartStyle(lineCharts[1], chart2Val, colors, colors);
-                            setLineChartLegend(lineCharts[1], colors, row1Val);
+                            setLineChartStyle(lineCharts[1], chart2Val, colors1, colors1);
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
                         }
@@ -177,30 +198,26 @@ public class Report3View extends BaseReportView {
                                     new TypeToken<AppModuleCount>() {
                                     }.getType());
 
-                            int[] colors = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                            int[] colors21 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
                                     getResources().getColor(R.color.color_line_chart),
                                     getResources().getColor(R.color.color_line_chart_3)};
-                            String[] row1Val = new String[]{"查看位置", "发布作业", "处理审批"};
-
                             List<int[]> chart1Val = new ArrayList<int[]>();
                             chart1Val.add(appModuleCount.getTeaTrack());
                             chart1Val.add(appModuleCount.getTeaHomework());
                             chart1Val.add(appModuleCount.getTeaLeave());
-                            setLineChartStyle(lineCharts[2], chart1Val, colors, colors);
-                            setLineChartLegend(lineCharts[2], colors, row1Val);
+                            setLineChartStyle(lineCharts[2], chart1Val, colors21, colors21);
 
                             int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
                                     getResources().getColor(R.color.color_line_chart),
                                     getResources().getColor(R.color.color_line_chart_3),
                                     getResources().getColor(R.color.color_line_chart_4)};
-                            String[] row2Val = new String[]{"查看位置", "查看作业", "发布审批", "学生卡设置"};
+
                             List<int[]> chart2Val = new ArrayList<int[]>();
                             chart2Val.add(appModuleCount.getParTrack());
                             chart2Val.add(appModuleCount.getParHomework());
                             chart2Val.add(appModuleCount.getParLeave());
                             chart2Val.add(appModuleCount.getParStuCard());
                             setLineChartStyle(lineCharts[3], chart2Val, colors2, colors2);
-                            setLineChartLegend(lineCharts[3], colors2, row2Val);
 
                             int[] colors3 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
                                     getResources().getColor(R.color.color_line_chart)};
@@ -209,8 +226,6 @@ public class Report3View extends BaseReportView {
                             chart3Val.add(appModuleCount.getBannerClick());
                             chart3Val.add(appModuleCount.getBannerView());
                             setLineChartStyle(lineCharts[5], chart3Val, colors3, colors3);
-                            setLineChartLegend(lineCharts[5], colors3, row3Val);
-
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
                         }
@@ -270,7 +285,7 @@ public class Report3View extends BaseReportView {
 
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
-        mChart.getLegend().setEnabled(false);
+//        mChart.getLegend().setEnabled(false);
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTypeface(mTfLight);
@@ -315,26 +330,22 @@ public class Report3View extends BaseReportView {
     private void setLineChartLegend(LineChart mChart, int[] colors, String[] values) {
         Legend l = mChart.getLegend();
         l.setEnabled(true);
+//        if (l.getEntries()[0].label != null && !l.getEntries()[0].label.isEmpty()) {
+//            return;
+//        }
         l.setForm(Legend.LegendForm.LINE);
-        l.setTypeface(mTfLight);
         l.setTextSize(9f);
         l.setTextColor(Color.WHITE);
-//        l.setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(true);
+        l.setTypeface(mTfLight);
         l.setYOffset(0f);
-//        l.setXOffset(8f);
         l.setYEntrySpace(0.0f);
 
-        if (values.length == 4) {
-            l.setXEntrySpace(30.0f);
-            l.setXOffset(180f);
-        } else {
-            l.setXEntrySpace(30.0f);
-            l.setXOffset(values.length * 40f);
-        }
+        l.setXEntrySpace(1.0f);
+        l.setXOffset(values.length * 8f);
 
         List<LegendEntry> legendEntries = new ArrayList<>();
         for (int i = 0; i < colors.length; i++) {
@@ -342,8 +353,6 @@ public class Report3View extends BaseReportView {
             entry1.label = values[i];
             entry1.formColor = colors[i];
             entry1.formLineWidth = 3f;
-//            entry1.formLineDashEffect = new DashPathEffect(new float[]{1f, 2f}, 2f);
-
             legendEntries.add(entry1);
         }
         l.setCustom(legendEntries);
