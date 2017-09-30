@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ZoomControls;
 
 import com.android.volley.VolleyError;
 import com.android.volley.common.VolleyHttpResult;
@@ -18,7 +20,10 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.HeatMap;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -66,7 +71,15 @@ public class Report2View extends BaseReportView {
 
     private void initView() {
         mMapView = (MapView) findViewById(R.id.mapview);
+        // 隐藏缩放控件
         mMapView.showZoomControls(false);
+        //地图上比例尺
+        mMapView.showScaleControl(false);
+        // 隐藏logo
+        View child = mMapView.getChildAt(1);
+        if (child != null && (child instanceof ImageView || child instanceof ZoomControls)) {
+            child.setVisibility(View.INVISIBLE);
+        }
 
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapStatus(MapStatusUpdateFactory.zoomTo(5));
@@ -82,27 +95,83 @@ public class Report2View extends BaseReportView {
     @Override
     public void loadData() {
         super.loadData();
-        addHeatMap();
+        getMapLocation();
         getAttendance();
     }
 
     private void addHeatMap() {
-        final Handler h = new Handler() {
+
+    }
+
+    public void getMapLocation() {
+        VolleyHttpService.getInstance().sendGetRequest(HttpAction.LOCATION_MAP, new VolleyRequestListener() {
             @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                mBaiduMap.addHeatMap(heatmap);
+            public void onStart() {
+
             }
-        };
-        new Thread() {
+
             @Override
-            public void run() {
-                super.run();
-                List<LatLng> data = getLocations();
-                heatmap = new HeatMap.Builder().data(data).build();
-                h.sendEmptyMessage(0);
+            public void onResponse(VolleyHttpResult volleyHttpResult) {
+                switch (volleyHttpResult.getStatus()) {
+                    case HttpAction.SUCCESS:
+                        try {
+                            final List<LatLng> list = new ArrayList<LatLng>();
+                            LatLngBounds.Builder bounds = new LatLngBounds.Builder();
+
+                            JSONArray array1 = new JSONArray(volleyHttpResult.getData().toString());
+                            int length1 = array1.length();
+                            for (int i = 0; i < length1; i++) {
+                                JSONArray array2 = array1.getJSONArray(i);
+                                for (int j = 0; j < array2.length(); j++) {
+                                    double lat = array2.getDouble(1);
+                                    double lng = array2.getDouble(0);
+                                    LatLng latLng = new LatLng(lat, lng);
+
+                                    CoordinateConverter converter = new CoordinateConverter();
+                                    converter.from(CoordinateConverter.CoordType.GPS);
+                                    // sourceLatLng待转换坐标
+                                    converter.coord(latLng);
+                                    LatLng newLatLng = converter.convert();
+                                    list.add(newLatLng);
+                                }
+                            }
+
+                            //中国极点坐标
+                            bounds.include(new LatLng(48.38288, 135.147833));  //东
+                            bounds.include(new LatLng(39.359185, 73.36971));  //西
+                            bounds.include(new LatLng(2.542959, 110.753018));   //南
+                            bounds.include(new LatLng(53.644295, 122.30652));   //北
+
+                            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds.build()));
+
+                            final Handler h = new Handler() {
+                                @Override
+                                public void handleMessage(Message msg) {
+                                    super.handleMessage(msg);
+                                    mBaiduMap.addHeatMap(heatmap);
+                                }
+                            };
+                            new Thread() {
+                                @Override
+                                public void run() {
+                                    super.run();
+//                                    List<LatLng> data = getLocations();
+                                    heatmap = new HeatMap.Builder().data(list).build();
+                                    h.sendEmptyMessage(0);
+                                }
+                            }.start();
+                        } catch (Exception ex) {
+
+                        }
+                        break;
+                }
             }
-        }.start();
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 
     private List<LatLng> getLocations() {
