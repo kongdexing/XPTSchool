@@ -181,4 +181,17 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+    <style name="toolBar">
+        <item name="colorControlNormal">#ffffff</item>
+        <item name="android:homeAsUpIndicator">@mipmap/cha</item>
+        <item name="android:titleTextStyle">@style/titlestyle</item>
+
+    </style>
+
+    <style name="titlestyle">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppWebTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
+
 </resources>

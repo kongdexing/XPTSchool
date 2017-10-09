@@ -138,10 +138,10 @@ public class Report2View extends BaseReportView {
                             }
 
                             //中国极点坐标
-                            bounds.include(new LatLng(48.38288, 135.147833));  //东
-                            bounds.include(new LatLng(39.359185, 73.36971));  //西
-                            bounds.include(new LatLng(2.542959, 110.753018));   //南
-                            bounds.include(new LatLng(53.644295, 122.30652));   //北
+                            bounds.include(new LatLng(45.795102, 126.39072));  //东
+                            bounds.include(new LatLng(37.624178, 80.875808));  //西
+                            bounds.include(new LatLng(16.815549, 112.703131));   //南
+                            bounds.include(new LatLng(48.260178, 126.648282));   //北
 
                             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds.build()));
 
@@ -244,7 +244,6 @@ public class Report2View extends BaseReportView {
                                     }.getType());
                             setLineChartData(lineCharts[1], lineAttendance.getSignin());
                             setLineChartData(lineCharts[2], lineAttendance.getSignout());
-//                            splitProvinceData(provinceInfo);
                             Log.i(TAG, "onResponse: " + lineAttendance.toString());
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());

@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="5dp"
+        android:padding="10dp"
         app:fillColor="@color/color_x_axis"
         app:strokeColor="@color/colorPrimaryDark" />
 
