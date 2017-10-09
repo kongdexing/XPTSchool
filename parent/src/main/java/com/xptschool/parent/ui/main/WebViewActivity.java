@@ -2,6 +2,7 @@ package com.xptschool.parent.ui.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
+import com.xptschool.parent.model.GreenDaoHelper;
 
 import butterknife.BindView;
 
@@ -49,6 +51,11 @@ public class WebViewActivity extends BaseActivity {
     private void loadUrl(String webUrl) {
         if (!webUrl.contains("http://") && !webUrl.contains("https://")) {
             webUrl = "http://" + webUrl;
+        }
+        try {
+            webUrl += "?user_id" + GreenDaoHelper.getInstance().getCurrentParent().getU_id();
+        } catch (Exception ex) {
+            Log.i(TAG, "loadUrl: user_id is null");
         }
         web_error.setVisibility(View.GONE);
         web_content.clearCache(true);
