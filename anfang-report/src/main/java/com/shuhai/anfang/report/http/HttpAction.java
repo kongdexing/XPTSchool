@@ -23,6 +23,9 @@ public class HttpAction {
 
     //获取定位坐标
     public static String LOCATION_MAP = SERVER_URL + "Counts/getTrail";
+    //学生卡消费次数
+    public static String STU_CARD_BILL = SERVER_URL + "Counts/stuCardBillCounts";
+
     //进出校考勤
     public static String ATTENDANCE_INFO = SERVER_URL + "Counts/attendanceInfo";
 

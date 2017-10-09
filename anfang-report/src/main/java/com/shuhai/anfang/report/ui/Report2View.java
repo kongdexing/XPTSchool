@@ -96,6 +96,7 @@ public class Report2View extends BaseReportView {
     public void loadData() {
         super.loadData();
         getMapLocation();
+        getStuCardBill();
         getAttendance();
     }
 
@@ -191,6 +192,38 @@ public class Report2View extends BaseReportView {
             e.printStackTrace();
         }
         return list;
+    }
+
+    private void getStuCardBill() {
+        VolleyHttpService.getInstance().sendGetRequest(HttpAction.STU_CARD_BILL, new VolleyRequestListener() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onResponse(VolleyHttpResult volleyHttpResult) {
+                switch (volleyHttpResult.getStatus()) {
+                    case HttpAction.SUCCESS:
+                        try {
+                            JSONArray array = new JSONArray(volleyHttpResult.getData().toString());
+                            List<Integer> cardBills = new ArrayList<Integer>();
+                            for (int i = 0; i < array.length(); i++) {
+                                cardBills.add(array.getInt(i));
+                            }
+                            setLineChartData(lineCharts[0], cardBills);
+                        } catch (Exception ex) {
+                            Log.i(TAG, "onResponse error: " + ex.getMessage());
+                        }
+                        break;
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
     }
 
     private void getAttendance() {
