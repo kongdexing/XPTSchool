@@ -58,6 +58,9 @@ public class Report2View extends BaseReportView {
     private BaiduMap mBaiduMap;
     private HeatMap heatmap;
     private LineChart[] lineCharts;
+    private List<LatLng> listHotPoints = new ArrayList<LatLng>();  //定位报警点
+    private List<Integer> cardBills = new ArrayList<Integer>();          //学生卡消费
+    private LineAttendance lineAttendance;                      //学生考勤数据
 
     public Report2View(Context context) {
         this(context, null);
@@ -100,10 +103,6 @@ public class Report2View extends BaseReportView {
         getAttendance();
     }
 
-    private void addHeatMap() {
-
-    }
-
     public void getMapLocation() {
         VolleyHttpService.getInstance().sendGetRequest(HttpAction.LOCATION_MAP, new VolleyRequestListener() {
             @Override
@@ -116,11 +115,9 @@ public class Report2View extends BaseReportView {
                 switch (volleyHttpResult.getStatus()) {
                     case HttpAction.SUCCESS:
                         try {
-                            final List<LatLng> list = new ArrayList<LatLng>();
-                            LatLngBounds.Builder bounds = new LatLngBounds.Builder();
-
                             JSONArray array1 = new JSONArray(volleyHttpResult.getData().toString());
                             int length1 = array1.length();
+                            listHotPoints.clear();
                             for (int i = 0; i < length1; i++) {
                                 JSONArray array2 = array1.getJSONArray(i);
                                 for (int j = 0; j < array2.length(); j++) {
@@ -133,65 +130,59 @@ public class Report2View extends BaseReportView {
                                     // sourceLatLng待转换坐标
                                     converter.coord(latLng);
                                     LatLng newLatLng = converter.convert();
-                                    list.add(newLatLng);
+                                    listHotPoints.add(newLatLng);
                                 }
                             }
-
-                            //中国极点坐标
-                            bounds.include(new LatLng(45.795102, 126.39072));  //东
-                            bounds.include(new LatLng(37.624178, 80.875808));  //西
-                            bounds.include(new LatLng(16.815549, 112.703131));   //南
-                            bounds.include(new LatLng(48.260178, 126.648282));   //北
-
-                            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds.build()));
-
-                            final Handler h = new Handler() {
-                                @Override
-                                public void handleMessage(Message msg) {
-                                    super.handleMessage(msg);
-                                    mBaiduMap.addHeatMap(heatmap);
-                                }
-                            };
-                            new Thread() {
-                                @Override
-                                public void run() {
-                                    super.run();
-//                                    List<LatLng> data = getLocations();
-                                    heatmap = new HeatMap.Builder().data(list).build();
-                                    h.sendEmptyMessage(0);
-                                }
-                            }.start();
+                            addHeatMap();
                         } catch (Exception ex) {
-
+                            addHeatMap();
                         }
+                        break;
+                    default:
+                        addHeatMap();
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                addHeatMap();
             }
         });
     }
 
-    private List<LatLng> getLocations() {
-        List<LatLng> list = new ArrayList<LatLng>();
-        InputStream inputStream = getResources().openRawResource(R.raw.locations);
-        String json = new Scanner(inputStream).useDelimiter("\\A").next();
-        JSONArray array;
-        try {
-            array = new JSONArray(json);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                double lat = object.getDouble("lat");
-                double lng = object.getDouble("lng");
-                list.add(new LatLng(lat, lng));
+    private void addHeatMap() {
+        LatLngBounds.Builder bounds = new LatLngBounds.Builder();
+
+        //中国极点坐标
+        bounds.include(new LatLng(45.795102, 126.39072));  //东
+        bounds.include(new LatLng(37.624178, 80.875808));  //西
+        bounds.include(new LatLng(16.815549, 112.703131));   //南
+        bounds.include(new LatLng(48.260178, 126.648282));   //北
+
+        mBaiduMap.clear();
+        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLngBounds(bounds.build()));
+
+        final Handler h = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mBaiduMap.addHeatMap(heatmap);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        };
+
+        if (listHotPoints.size() == 0) {
+            return;
         }
-        return list;
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+//                                    List<LatLng> data = getLocations();
+                heatmap = new HeatMap.Builder().data(listHotPoints).build();
+                h.sendEmptyMessage(0);
+            }
+        }.start();
     }
 
     private void getStuCardBill() {
@@ -206,22 +197,26 @@ public class Report2View extends BaseReportView {
                 switch (volleyHttpResult.getStatus()) {
                     case HttpAction.SUCCESS:
                         try {
+                            cardBills.clear();
                             JSONArray array = new JSONArray(volleyHttpResult.getData().toString());
-                            List<Integer> cardBills = new ArrayList<Integer>();
                             for (int i = 0; i < array.length(); i++) {
                                 cardBills.add(array.getInt(i));
                             }
                             setLineChartData(lineCharts[0], cardBills);
                         } catch (Exception ex) {
+                            setLineChartData(lineCharts[0], cardBills);
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
                         }
+                        break;
+                    default:
+                        setLineChartData(lineCharts[0], cardBills);
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                setLineChartData(lineCharts[0], cardBills);
             }
         });
     }
@@ -239,24 +234,34 @@ public class Report2View extends BaseReportView {
                     case HttpAction.SUCCESS:
                         try {
                             Gson gson = new Gson();
-                            LineAttendance lineAttendance = gson.fromJson(volleyHttpResult.getData().toString(),
+                            lineAttendance = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<LineAttendance>() {
                                     }.getType());
-                            setLineChartData(lineCharts[1], lineAttendance.getSignin());
-                            setLineChartData(lineCharts[2], lineAttendance.getSignout());
+                            drawAttendance();
                             Log.i(TAG, "onResponse: " + lineAttendance.toString());
                         } catch (Exception ex) {
+                            drawAttendance();
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
                         }
+                        break;
+                    default:
+                        drawAttendance();
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                drawAttendance();
             }
         });
+    }
+
+    private void drawAttendance() {
+        if (lineAttendance != null) {
+            setLineChartData(lineCharts[1], lineAttendance.getSignin());
+            setLineChartData(lineCharts[2], lineAttendance.getSignout());
+        }
     }
 
     private void setLineChartData(LineChart mChart, List<Integer> values) {

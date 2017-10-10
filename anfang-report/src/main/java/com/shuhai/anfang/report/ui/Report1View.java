@@ -54,6 +54,8 @@ public class Report1View extends BaseReportView {
     private TextView txtAllCard;
     private BarChart[] listBarCharts = null;
     private Context mContext;
+    private PieAllStuCard pieAllStuCard;
+    private BarProvinceInfo provinceInfo;
 
     public Report1View(Context context) {
         this(context, null);
@@ -123,24 +125,33 @@ public class Report1View extends BaseReportView {
             public void onResponse(VolleyHttpResult volleyHttpResult) {
                 switch (volleyHttpResult.getStatus()) {
                     case HttpAction.SUCCESS:
-                        Gson gson = new Gson();
-                        PieAllStuCard pieAllStuCard = gson.fromJson(volleyHttpResult.getData().toString(),
-                                new TypeToken<PieAllStuCard>() {
-                                }.getType());
+                        try {
+                            Gson gson = new Gson();
+                            pieAllStuCard = gson.fromJson(volleyHttpResult.getData().toString(),
+                                    new TypeToken<PieAllStuCard>() {
+                                    }.getType());
+                            setPieData(pieAllStuCard);
+                        } catch (Exception ex) {
+                            setPieData(pieAllStuCard);
+                        }
+                        break;
+                    default:
                         setPieData(pieAllStuCard);
-                        Log.i(TAG, "onResponse: " + pieAllStuCard.toString());
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                setPieData(pieAllStuCard);
             }
         });
     }
 
     private void setPieData(PieAllStuCard pieAllStuCard) {
+        if (pieAllStuCard == null) {
+            return;
+        }
 
         txtAllCard.setText(pieAllStuCard.getTotal() + "");
 
@@ -204,7 +215,7 @@ public class Report1View extends BaseReportView {
                     case HttpAction.SUCCESS:
                         try {
                             Gson gson = new Gson();
-                            BarProvinceInfo provinceInfo = gson.fromJson(volleyHttpResult.getData().toString(),
+                            provinceInfo = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<BarProvinceInfo>() {
                                     }.getType());
                             splitProvinceData(provinceInfo);
@@ -213,17 +224,24 @@ public class Report1View extends BaseReportView {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
                         }
                         break;
+                    default:
+                        splitProvinceData(provinceInfo);
+                        break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                splitProvinceData(provinceInfo);
             }
         });
     }
 
     private void splitProvinceData(BarProvinceInfo provinceInfo) {
+
+        if (provinceInfo == null) {
+            return;
+        }
 
         int xMaxLength = 11;
         int group = xMaxLength;

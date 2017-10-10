@@ -47,6 +47,10 @@ public class Report3View extends BaseReportView {
     int[] colors1 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
             getResources().getColor(R.color.color_line_chart)};
     String[] row1Val = new String[]{"苹果端", "安卓端"};
+    private UserCount userCount;    //用户数量
+    private AppUseCount appUseCount;    //app使用次数
+    private AppModuleCount appModuleCount;  //app功能使用次数
+    private int[] chats = new int[24];    //聊天统计
 
     public Report3View(Context context) {
         this(context, null);
@@ -118,25 +122,36 @@ public class Report3View extends BaseReportView {
                     case HttpAction.SUCCESS:
                         try {
                             Gson gson = new Gson();
-                            UserCount userCount = gson.fromJson(volleyHttpResult.getData().toString(),
+                            userCount = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<UserCount>() {
                                     }.getType());
-                            txtTeacherSum.setText(userCount.getTeacher() + "");
-                            txtTeacherOnline.setText(userCount.getTeacher_online() + "");
-                            txtParentSum.setText(userCount.getParents() + "");
-                            txtParentOnline.setText(userCount.getParents_online() + "");
+                            setLeftUser(userCount);
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
+                            setLeftUser(userCount);
                         }
+                        break;
+                    default:
+                        setLeftUser(userCount);
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                setLeftUser(userCount);
             }
         });
+    }
+
+    private void setLeftUser(UserCount userCount) {
+        if (userCount == null) {
+            return;
+        }
+        txtTeacherSum.setText(userCount.getTeacher() + "");
+        txtTeacherOnline.setText(userCount.getTeacher_online() + "");
+        txtParentSum.setText(userCount.getParents() + "");
+        txtParentOnline.setText(userCount.getParents_online() + "");
     }
 
     private void getAppUseCount() {
@@ -152,32 +167,41 @@ public class Report3View extends BaseReportView {
                     case HttpAction.SUCCESS:
                         try {
                             Gson gson = new Gson();
-                            AppUseCount appUseCount = gson.fromJson(volleyHttpResult.getData().toString(),
+                            appUseCount = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<AppUseCount>() {
                                     }.getType());
-
-
-                            List<int[]> chart1Val = new ArrayList<int[]>();
-                            chart1Val.add(appUseCount.getIOSteacher());
-                            chart1Val.add(appUseCount.getAndroidteacher());
-                            setLineChartStyle(lineCharts[0], chart1Val, colors1, colors1);
-
-                            List<int[]> chart2Val = new ArrayList<int[]>();
-                            chart2Val.add(appUseCount.getIOSparents());
-                            chart2Val.add(appUseCount.getAndroidparents());
-                            setLineChartStyle(lineCharts[1], chart2Val, colors1, colors1);
+                            drawAppUseCount(appUseCount);
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
+                            drawAppUseCount(appUseCount);
                         }
+                        break;
+                    default:
+                        drawAppUseCount(appUseCount);
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                drawAppUseCount(appUseCount);
             }
         });
+    }
+
+    private void drawAppUseCount(AppUseCount appUseCount) {
+        if (appUseCount == null) {
+            return;
+        }
+        List<int[]> chart1Val = new ArrayList<int[]>();
+        chart1Val.add(appUseCount.getIOSteacher());
+        chart1Val.add(appUseCount.getAndroidteacher());
+        setLineChartStyle(lineCharts[0], chart1Val, colors1, colors1);
+
+        List<int[]> chart2Val = new ArrayList<int[]>();
+        chart2Val.add(appUseCount.getIOSparents());
+        chart2Val.add(appUseCount.getAndroidparents());
+        setLineChartStyle(lineCharts[1], chart2Val, colors1, colors1);
     }
 
     private void getAppModuleCount() {
@@ -194,50 +218,59 @@ public class Report3View extends BaseReportView {
                         try {
                             Log.i(TAG, "onResponse: " + volleyHttpResult.getData().toString());
                             Gson gson = new Gson();
-                            AppModuleCount appModuleCount = gson.fromJson(volleyHttpResult.getData().toString(),
+                            appModuleCount = gson.fromJson(volleyHttpResult.getData().toString(),
                                     new TypeToken<AppModuleCount>() {
                                     }.getType());
-
-                            int[] colors21 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
-                                    getResources().getColor(R.color.color_line_chart),
-                                    getResources().getColor(R.color.color_line_chart_3)};
-                            List<int[]> chart1Val = new ArrayList<int[]>();
-                            chart1Val.add(appModuleCount.getTeaTrack());
-                            chart1Val.add(appModuleCount.getTeaHomework());
-                            chart1Val.add(appModuleCount.getTeaLeave());
-                            setLineChartStyle(lineCharts[2], chart1Val, colors21, colors21);
-
-                            int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
-                                    getResources().getColor(R.color.color_line_chart),
-                                    getResources().getColor(R.color.color_line_chart_3),
-                                    getResources().getColor(R.color.color_line_chart_4)};
-
-                            List<int[]> chart2Val = new ArrayList<int[]>();
-                            chart2Val.add(appModuleCount.getParTrack());
-                            chart2Val.add(appModuleCount.getParHomework());
-                            chart2Val.add(appModuleCount.getParLeave());
-                            chart2Val.add(appModuleCount.getParStuCard());
-                            setLineChartStyle(lineCharts[3], chart2Val, colors2, colors2);
-
-                            int[] colors3 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
-                                    getResources().getColor(R.color.color_line_chart)};
-                            String[] row3Val = new String[]{"点击数量", "显示数量"};
-                            List<int[]> chart3Val = new ArrayList<int[]>();
-                            chart3Val.add(appModuleCount.getBannerClick());
-                            chart3Val.add(appModuleCount.getBannerView());
-                            setLineChartStyle(lineCharts[5], chart3Val, colors3, colors3);
+                            drawAppModuleCount(appModuleCount);
                         } catch (Exception ex) {
                             Log.i(TAG, "onResponse error: " + ex.getMessage());
+                            drawAppModuleCount(appModuleCount);
                         }
+                        break;
+                    default:
+                        drawAppModuleCount(appModuleCount);
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                drawAppModuleCount(appModuleCount);
             }
         });
+    }
+
+    private void drawAppModuleCount(AppModuleCount appModuleCount) {
+        if (appModuleCount == null) {
+            return;
+        }
+        int[] colors21 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                getResources().getColor(R.color.color_line_chart),
+                getResources().getColor(R.color.color_line_chart_3)};
+        List<int[]> chart1Val = new ArrayList<int[]>();
+        chart1Val.add(appModuleCount.getTeaTrack());
+        chart1Val.add(appModuleCount.getTeaHomework());
+        chart1Val.add(appModuleCount.getTeaLeave());
+        setLineChartStyle(lineCharts[2], chart1Val, colors21, colors21);
+
+        int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                getResources().getColor(R.color.color_line_chart),
+                getResources().getColor(R.color.color_line_chart_3),
+                getResources().getColor(R.color.color_line_chart_4)};
+
+        List<int[]> chart2Val = new ArrayList<int[]>();
+        chart2Val.add(appModuleCount.getParTrack());
+        chart2Val.add(appModuleCount.getParHomework());
+        chart2Val.add(appModuleCount.getParLeave());
+        chart2Val.add(appModuleCount.getParStuCard());
+        setLineChartStyle(lineCharts[3], chart2Val, colors2, colors2);
+
+        int[] colors3 = new int[]{getResources().getColor(R.color.color_line_chart_ios),
+                getResources().getColor(R.color.color_line_chart)};
+        List<int[]> chart3Val = new ArrayList<int[]>();
+        chart3Val.add(appModuleCount.getBannerClick());
+        chart3Val.add(appModuleCount.getBannerView());
+        setLineChartStyle(lineCharts[5], chart3Val, colors3, colors3);
     }
 
     private void getAppChatCount() {
@@ -253,27 +286,34 @@ public class Report3View extends BaseReportView {
                     case HttpAction.SUCCESS:
                         try {
                             JSONArray array = new JSONArray(volleyHttpResult.getData().toString());
-                            int[] chats = new int[array.length()];
+                            chats = new int[array.length()];
                             for (int i = 0; i < array.length(); i++) {
                                 chats[i] = (int) array.get(i);
                             }
-
-                            int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart)};
-                            List<int[]> chart2Val = new ArrayList<int[]>();
-                            chart2Val.add(chats);
-                            setLineChartStyle(lineCharts[4], chart2Val, colors2, colors2);
+                            drawChats(chats);
                         } catch (Exception ex) {
                             Log.i(TAG, "getAppChatCount: " + ex.getMessage());
+                            drawChats(chats);
                         }
+                        break;
+                    default:
+                        drawChats(chats);
                         break;
                 }
             }
 
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                drawChats(chats);
             }
         });
+    }
+
+    private void drawChats(int[] chats) {
+        int[] colors2 = new int[]{getResources().getColor(R.color.color_line_chart)};
+        List<int[]> chart2Val = new ArrayList<int[]>();
+        chart2Val.add(chats);
+        setLineChartStyle(lineCharts[4], chart2Val, colors2, colors2);
     }
 
     private void setLineChartStyle(LineChart mChart, List<int[]> y_values, int[] lineColors, int[] circleColors) {
