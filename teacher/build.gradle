@@ -156,7 +156,7 @@ dependencies {
     compile project(':widget')
     compile project(':camera')
     compile project(':android-ngn-stack')
-
+    compile project(':AgentWebLibrary')
     // 多dex配置
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.0.0
 
@@ -187,4 +187,7 @@ dependencies {
 
     //sharedPreferences 跨进程
     compile 'net.grandcentrix.tray:tray:0.12.0'
+
+    //agentweb
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }

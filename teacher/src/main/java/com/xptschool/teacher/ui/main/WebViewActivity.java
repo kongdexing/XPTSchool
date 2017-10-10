@@ -1,130 +1,144 @@
 package com.xptschool.teacher.ui.main;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
+import com.just.library.AgentWeb;
+import com.just.library.ChromeClientCallbackManager;
 import com.xptschool.teacher.R;
 import com.xptschool.teacher.common.ExtraKey;
+import com.xptschool.teacher.model.GreenDaoHelper;
+import com.xptschool.teacher.view.CustomDialog;
 
 import butterknife.BindView;
 
 public class WebViewActivity extends BaseActivity {
 
-    @BindView(R.id.web_error)
-    View web_error;
-    @BindView(R.id.web_content)
-    WebView web_content;
-    @BindView(R.id.btn_refresh)
-    View btn_refresh;
-    @BindView(R.id.progressBar1)
-    ProgressBar progressBar1;
+    private String TAG = WebViewActivity.class.getSimpleName();
+    protected AgentWeb mAgentWeb;
+    @BindView(R.id.container)
+    LinearLayout mLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle == null) {
-            web_error.setVisibility(View.VISIBLE);
-            return;
-        }
-        final String webUrl = bundle.getString(ExtraKey.WEB_URL);
-        btn_refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadUrl(webUrl);
-            }
-        });
-        loadUrl(webUrl);
+        if (getSupportActionBar() != null)
+            // Enable the Up button
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mAgentWeb = AgentWeb.with(this)//
+                .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))//
+                .useDefaultIndicator()//
+                .defaultProgressBarColor()
+                .setReceivedTitleCallback(mCallback)
+                .setWebChromeClient(mWebChromeClient)
+                .setWebViewClient(mWebViewClient)
+                .setSecutityType(AgentWeb.SecurityType.strict)
+                .setWebLayout(new WebLayout(this))
+                .createAgentWeb()//
+                .ready()
+                .go(getUrl());
     }
 
-    private void loadUrl(String webUrl) {
-        if (!webUrl.contains("http://") && !webUrl.contains("https://")) {
-            webUrl = "http://" + webUrl;
+    private WebViewClient mWebViewClient = new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
         }
-        web_error.setVisibility(View.GONE);
-        web_content.clearCache(true);
-        web_content.clearView();
-        web_content.setBackgroundColor(Color.WHITE);
-        WebSettings webSettings = web_content.getSettings();
-        webSettings.setSupportZoom(true);
-        webSettings.setJavaScriptEnabled(true);
-
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-
-        // 开启 DOM storage API 功能
-        webSettings.setDomStorageEnabled(true);
-        // 开启 Application Caches 功能
-        webSettings.setAppCacheEnabled(true);
-
-        web_content.requestFocus();
-        web_content.setWebViewClient(new MyWebClient());
-
-        MyWebChromeClient wn = new MyWebChromeClient();
-        web_content.setWebChromeClient(wn);
-        web_content.loadUrl(webUrl);
-    }
-
-    private class MyWebChromeClient extends WebChromeClient {
 
         @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            if (progressBar1 == null) {
-                return;
-            }
-            progressBar1.setProgress(newProgress);
-            if (newProgress == 100) {
-                progressBar1.setVisibility(View.GONE);
-            }
-            super.onProgressChanged(view, newProgress);
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            //do you  work
+            Log.i("Info", "BaseWebActivity onPageStarted");
         }
+    };
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            //do you work
+//            Log.i("Info","progress:"+newProgress);
+        }
+    };
+
+    public String getUrl() {
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            return "";
+        }
+        String webUrl = bundle.getString(ExtraKey.WEB_URL);
+        try {
+            webUrl += "?user_id=" + GreenDaoHelper.getInstance().getCurrentTeacher().getU_id();
+        } catch (Exception ex) {
+            Log.i(TAG, "loadUrl: user_id is null");
+        }
+        Log.i(TAG, "getUrl: " + webUrl);
+        return webUrl;
     }
 
-    // 设置回退
-    // 覆盖Activity类的onKeyDown(int keyCoder,KeyEvent event)方法
+    private ChromeClientCallbackManager.ReceivedTitleCallback mCallback = new ChromeClientCallbackManager.ReceivedTitleCallback() {
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+//            setTitle(title);
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        CustomDialog dialog = new CustomDialog(WebViewActivity.this);
+        dialog.setTitle(R.string.label_tip);
+        dialog.setMessage("您确定要关闭该页面吗?");
+        dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+            @Override
+            public void onPositiveClick() {
+                WebViewActivity.this.finish();
+            }
+        });
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (web_content == null) {
-            return false;
-        }
 
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && web_content.canGoBack()) {
-            web_content.goBack(); // goBack()表示返回WebView的上一页面
+        if (mAgentWeb.handleKeyEvent(keyCode, event)) {
             return true;
-        } else {
-            finish();
         }
-        return false;
+        return super.onKeyDown(keyCode, event);
     }
 
-    /***
-     * 防止WebView加载内存泄漏
-     */
+    @Override
+    protected void onPause() {
+        mAgentWeb.getWebLifeCycle().onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        mAgentWeb.getWebLifeCycle().onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("Info", "result:" + requestCode + " result:" + resultCode);
+        mAgentWeb.uploadFileResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (web_content != null) {
-            web_content.removeAllViews();
-            web_content.destroy();
-        }
-    }
-
-    private class MyWebClient extends WebViewClient {
-
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-
+        //mAgentWeb.destroy();
+        mAgentWeb.getWebLifeCycle().onDestroy();
     }
 }
