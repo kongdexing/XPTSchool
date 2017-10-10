@@ -98,6 +98,7 @@ public class LearningGridAdapter extends BaseAdapter {
                 } else {
                     Intent intent = new Intent(mContext, WebViewActivity.class);
                     intent.putExtra(ExtraKey.WEB_URL, module.getWeb_url());
+                    intent.putExtra(ExtraKey.WEB_TITLE, module.getTitle());
                     mContext.startActivity(intent);
                 }
             }

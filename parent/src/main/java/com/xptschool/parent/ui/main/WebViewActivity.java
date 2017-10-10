@@ -1,28 +1,22 @@
 package com.xptschool.parent.ui.main;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.just.library.AgentWeb;
 import com.just.library.ChromeClientCallbackManager;
 import com.xptschool.parent.R;
 import com.xptschool.parent.common.ExtraKey;
 import com.xptschool.parent.model.GreenDaoHelper;
+import com.xptschool.parent.view.CustomDialog;
 
 import butterknife.BindView;
 
@@ -32,20 +26,15 @@ public class WebViewActivity extends BaseActivity {
     protected AgentWeb mAgentWeb;
     @BindView(R.id.container)
     LinearLayout mLinearLayout;
-    private AlertDialog mAlertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agentweb);
 
-//        setTitle(title);
-
         if (getSupportActionBar() != null)
             // Enable the Up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        long p = System.currentTimeMillis();
 
         mAgentWeb = AgentWeb.with(this)//
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))//
@@ -59,11 +48,6 @@ public class WebViewActivity extends BaseActivity {
                 .createAgentWeb()//
                 .ready()
                 .go(getUrl());
-
-        //mAgentWeb.getLoader().loadUrl(getUrl());
-
-        long n = System.currentTimeMillis();
-        Log.i("Info", "init used time:" + (n - p));
     }
 
     private WebViewClient mWebViewClient = new WebViewClient() {
@@ -93,6 +77,10 @@ public class WebViewActivity extends BaseActivity {
             return "";
         }
         String webUrl = bundle.getString(ExtraKey.WEB_URL);
+        String title = bundle.getString(ExtraKey.WEB_TITLE);
+        if (title != null && !title.isEmpty()) {
+            setTitle(title);
+        }
         try {
             webUrl += "?user_id" + GreenDaoHelper.getInstance().getCurrentParent().getU_id();
         } catch (Exception ex) {
@@ -108,30 +96,17 @@ public class WebViewActivity extends BaseActivity {
         }
     };
 
-    private void showDialog() {
-
-        if (mAlertDialog == null)
-            mAlertDialog = new AlertDialog.Builder(this)
-                    .setMessage("您确定要关闭该页面吗?")
-                    .setNegativeButton("再逛逛", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (mAlertDialog != null)
-                                mAlertDialog.dismiss();
-                        }
-                    })//
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            if (mAlertDialog != null)
-                                mAlertDialog.dismiss();
-
-                            WebViewActivity.this.finish();
-                        }
-                    }).create();
-        mAlertDialog.show();
-
+    @Override
+    public void onBackPressed() {
+        CustomDialog dialog = new CustomDialog(WebViewActivity.this);
+        dialog.setTitle(R.string.label_tip);
+        dialog.setMessage("您确定要关闭该页面吗?");
+        dialog.setAlertDialogClickListener(new CustomDialog.DialogClickListener() {
+            @Override
+            public void onPositiveClick() {
+                WebViewActivity.this.finish();
+            }
+        });
     }
 
     @Override
@@ -147,7 +122,6 @@ public class WebViewActivity extends BaseActivity {
     protected void onPause() {
         mAgentWeb.getWebLifeCycle().onPause();
         super.onPause();
-
     }
 
     @Override
@@ -158,7 +132,6 @@ public class WebViewActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Log.i("Info", "result:" + requestCode + " result:" + resultCode);
         mAgentWeb.uploadFileResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
