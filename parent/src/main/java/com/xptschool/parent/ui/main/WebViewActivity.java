@@ -82,10 +82,11 @@ public class WebViewActivity extends BaseActivity {
             setTitle(title);
         }
         try {
-            webUrl += "?user_id" + GreenDaoHelper.getInstance().getCurrentParent().getU_id();
+            webUrl += "?user_id=" + GreenDaoHelper.getInstance().getCurrentParent().getU_id();
         } catch (Exception ex) {
             Log.i(TAG, "loadUrl: user_id is null");
         }
+        Log.i(TAG, "getUrl: " + webUrl);
         return webUrl;
     }
 
