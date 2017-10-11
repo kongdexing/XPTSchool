@@ -239,9 +239,9 @@
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback{*;}
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
--keep class com.alipay.sdk.app.PayTask{ public *;}
--keep class com.alipay.sdk.app.AuthTask{ public *;}
+-keep class com.alipay.sdk{ public *;}
 -dontwarn com.alipay.android.userId.mrpc.core.**
+-dontwarn com.alipay.sdk.
 
 ###银联支付
 -keep class com.unionpay.mobile.android.**{*;}
@@ -276,3 +276,7 @@
 -dontwarn com.meizu.nebula.**
 -keep class com.meizu.push.** { *; }
 -dontwarn com.meizu.push.**
+
+#-keepattributes EnclosingMetho
+#-keep class com.alipay.sdk.**{*;}
+#-dontwarn com.alipay.sdk.**

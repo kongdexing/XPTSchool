@@ -263,3 +263,8 @@
 -dontwarn com.meizu.nebula.**
 -keep class com.meizu.push.** { *; }
 -dontwarn com.meizu.push.**
+
+-keepattributes EnclosingMetho
+
+-keep class com.alipay.sdk.**{*;}
+-dontwarn com.alipay.sdk.**
