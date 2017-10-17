@@ -23,6 +23,10 @@ allprojects {
     repositories {
         maven { url "https://jitpack.io" }
         maven { url 'http://developer.huawei.com/repo' }
+        maven {
+            // All of React Native (JS, Android binaries) is installed from npm
+            url "../../node_modules/react-native/android"
+        }
         jcenter()
     }
 }

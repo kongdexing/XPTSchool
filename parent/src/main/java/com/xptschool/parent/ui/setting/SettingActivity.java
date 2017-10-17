@@ -102,9 +102,10 @@ public class SettingActivity extends BaseActivity {
                 });
                 break;
             case R.id.rlHelp:
-                Intent intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra(ExtraKey.WEB_URL, BuildConfig.SERVICE_URL + "/html/app-help/index.html");
-                startActivity(intent);
+                startActivity(new Intent(this, MyReactActivity.class));
+//                Intent intent = new Intent(this, WebViewActivity.class);
+//                intent.putExtra(ExtraKey.WEB_URL, BuildConfig.SERVICE_URL + "/html/app-help/index.html");
+//                startActivity(intent);
                 break;
         }
     }

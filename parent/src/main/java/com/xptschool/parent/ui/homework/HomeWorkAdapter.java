@@ -70,7 +70,7 @@ public class HomeWorkAdapter extends BaseRecycleAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Log.i(TAG, "showData: ");
+        Log.i(TAG, "showData: "+position);
         final ViewHolder mHolder = (ViewHolder) holder;
         final BeanHomeWork work = beanHomeWorks.get(position);
         String course = work.getCrs_name().substring(0, 1);
