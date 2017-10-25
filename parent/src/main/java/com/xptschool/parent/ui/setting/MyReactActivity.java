@@ -1,7 +1,7 @@
 package com.xptschool.parent.ui.setting;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
 import com.facebook.react.ReactInstanceManager;
@@ -10,7 +10,6 @@ import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.xptschool.parent.BuildConfig;
-import com.xptschool.parent.R;
 
 /**
  * Created by dexing on 2017/10/12 0012.
@@ -30,7 +29,7 @@ public class MyReactActivity extends AppCompatActivity implements DefaultHardwar
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
                 .setBundleAssetName("index.android.bundle")
-                .setJSMainModuleName("index.android")
+                .setJSMainModuleName("index")
                 .addPackage(new MainReactPackage())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)

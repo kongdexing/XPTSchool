@@ -183,7 +183,7 @@ dependencies {
 
     compile 'com.huawei.android.hms:push:2.5.2.201'
     //meizu push
-    compile 'com.meizu.flyme.internet:push-internal:3.4.0@aar'
+    compile 'com.meizu.flyme.internet:push-internal:3.4.+@aar'
 
     //sharedPreferences 跨进程
     compile 'net.grandcentrix.tray:tray:0.12.0'

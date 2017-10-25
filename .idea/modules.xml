@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/MPChartLib/MPChartLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/PushSDK/PushSDK.iml" filepath="$PROJECT_DIR$/PushSDK/PushSDK.iml" />
-      <module fileurl="file://$PROJECT_DIR$/XPTSchool.iml" filepath="$PROJECT_DIR$/XPTSchool.iml" />
       <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-ngn-stack/android-ngn-stack.iml" filepath="$PROJECT_DIR$/android-ngn-stack/android-ngn-stack.iml" />
       <module fileurl="file://$PROJECT_DIR$/anfang-report/anfang-report.iml" filepath="$PROJECT_DIR$/anfang-report/anfang-report.iml" />
