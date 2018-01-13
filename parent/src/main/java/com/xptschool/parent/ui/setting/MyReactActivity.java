@@ -6,7 +6,7 @@ import android.view.KeyEvent;
 
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
-import com.facebook.react.common.LifecycleState;
+//import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.xptschool.parent.BuildConfig;
@@ -26,14 +26,14 @@ public class MyReactActivity extends AppCompatActivity implements DefaultHardwar
         super.onCreate(savedInstanceState);
 
         mReactRootView = new ReactRootView(this);
-        mReactInstanceManager = ReactInstanceManager.builder()
-                .setApplication(getApplication())
-                .setBundleAssetName("index.android.bundle")
-                .setJSMainModuleName("index")
-                .addPackage(new MainReactPackage())
-                .setUseDeveloperSupport(BuildConfig.DEBUG)
-                .setInitialLifecycleState(LifecycleState.RESUMED)
-                .build();
+//        mReactInstanceManager = ReactInstanceManager.builder()
+//                .setApplication(getApplication())
+//                .setBundleAssetName("index.android.bundle")
+//                .setJSMainModuleName("index")
+//                .addPackage(new MainReactPackage())
+//                .setUseDeveloperSupport(BuildConfig.DEBUG)
+//                .setInitialLifecycleState(LifecycleState.RESUMED)
+//                .build();
 
         // 注意这里的MyReactNativeApp必须对应“index.android.js”中的
         // “AppRegistry.registerComponent()”的第一个参数
@@ -51,27 +51,27 @@ public class MyReactActivity extends AppCompatActivity implements DefaultHardwar
     protected void onPause() {
         super.onPause();
 
-        if (mReactInstanceManager != null) {
-            mReactInstanceManager.onHostPause(this);
-        }
+//        if (mReactInstanceManager != null) {
+//            mReactInstanceManager.onHostPause(this);
+//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        if (mReactInstanceManager != null) {
-            mReactInstanceManager.onHostResume(this, this);
-        }
+//        if (mReactInstanceManager != null) {
+//            mReactInstanceManager.onHostResume(this, this);
+//        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mReactInstanceManager != null) {
-            mReactInstanceManager.onHostDestroy();
-        }
+//        if (mReactInstanceManager != null) {
+//            mReactInstanceManager.onHostDestroy();
+//        }
     }
 
     @Override
